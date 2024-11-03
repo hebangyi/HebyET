@@ -10,7 +10,7 @@ namespace ET
         
         public void Awake()
         {
-            HashSet<Type> types = CodeTypes.Instance.GetTypes(typeof (ConsoleHandlerAttribute));
+            HashSet<Type> types = CodeTypes.Instance.GetAttributeTypes(typeof (ConsoleHandlerAttribute));
 
             foreach (Type type in types)
             {

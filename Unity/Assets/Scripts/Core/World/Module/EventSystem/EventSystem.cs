@@ -26,7 +26,7 @@ namespace ET
         public void Awake()
         {
             CodeTypes codeTypes = CodeTypes.Instance;
-            foreach (Type type in codeTypes.GetTypes(typeof (EventAttribute)))
+            foreach (Type type in codeTypes.GetAttributeTypes(typeof (EventAttribute)))
             {
                 IEvent obj = Activator.CreateInstance(type) as IEvent;
                 if (obj == null)
@@ -51,7 +51,7 @@ namespace ET
                 }
             }
 
-            foreach (Type type in codeTypes.GetTypes(typeof (InvokeAttribute)))
+            foreach (Type type in codeTypes.GetAttributeTypes(typeof (InvokeAttribute)))
             {
                 object obj = Activator.CreateInstance(type);
                 IInvoke iInvoke = obj as IInvoke;

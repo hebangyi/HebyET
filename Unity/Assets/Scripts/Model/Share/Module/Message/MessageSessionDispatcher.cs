@@ -22,7 +22,7 @@ namespace ET
         
         public void Awake()
         {
-            HashSet<Type> types = CodeTypes.Instance.GetTypes(typeof (MessageSessionHandlerAttribute));
+            HashSet<Type> types = CodeTypes.Instance.GetAttributeTypes(typeof (MessageSessionHandlerAttribute));
 
             foreach (Type type in types)
             {

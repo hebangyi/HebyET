@@ -12,7 +12,7 @@ namespace ET
         {
             this.TypeSystems = new TypeSystems(InstanceQueueIndex.Max);
 
-            foreach (Type type in CodeTypes.Instance.GetTypes(typeof (EntitySystemAttribute)))
+            foreach (Type type in CodeTypes.Instance.GetAttributeTypes(typeof (EntitySystemAttribute)))
             {
                 SystemObject obj = (SystemObject)Activator.CreateInstance(type);
 

@@ -21,7 +21,7 @@ namespace ET
         public void Awake()
         {
             this.TypeSystems = new(LSQueneUpdateIndex.Max);
-            foreach (Type type in CodeTypes.Instance.GetTypes(typeof (LSEntitySystemAttribute)))
+            foreach (Type type in CodeTypes.Instance.GetAttributeTypes(typeof (LSEntitySystemAttribute)))
             {
                 SystemObject obj = (SystemObject)Activator.CreateInstance(type);
 
@@ -39,7 +39,7 @@ namespace ET
                 }
             }
             
-            foreach (var kv in CodeTypes.Instance.GetTypes())
+            foreach (var kv in CodeTypes.Instance.GetAllTypes())
             {
                 Type type = kv.Value;
                 if (typeof(LSEntity).IsAssignableFrom(type))

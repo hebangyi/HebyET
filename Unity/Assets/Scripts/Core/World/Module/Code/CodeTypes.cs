@@ -7,7 +7,7 @@ namespace ET
     public class CodeTypes: Singleton<CodeTypes>, ISingletonAwake<Assembly[]>
     {
         private readonly Dictionary<string, Type> allTypes = new();
-        private readonly UnOrderMultiMapSet<Type, Type> types = new();
+        private readonly UnOrderMultiMapSet<Type, Type> attributeTypes = new();
         
         public void Awake(Assembly[] assemblies)
         {
@@ -26,22 +26,22 @@ namespace ET
 
                 foreach (object o in objects)
                 {
-                    this.types.Add(o.GetType(), type);
+                    this.attributeTypes.Add(o.GetType(), type);
                 }
             }
         }
 
-        public HashSet<Type> GetTypes(Type systemAttributeType)
+        public HashSet<Type> GetAttributeTypes(Type attributeType)
         {
-            if (!this.types.ContainsKey(systemAttributeType))
+            if (!this.attributeTypes.ContainsKey(attributeType))
             {
                 return new HashSet<Type>();
             }
 
-            return this.types[systemAttributeType];
+            return this.attributeTypes[attributeType];
         }
 
-        public Dictionary<string, Type> GetTypes()
+        public Dictionary<string, Type> GetAllTypes()
         {
             return allTypes;
         }
@@ -53,7 +53,7 @@ namespace ET
         
         public void CreateCode()
         {
-            var hashSet = this.GetTypes(typeof (CodeAttribute));
+            var hashSet = this.GetAttributeTypes(typeof (CodeAttribute));
             foreach (Type type in hashSet)
             {
                 object obj = Activator.CreateInstance(type);

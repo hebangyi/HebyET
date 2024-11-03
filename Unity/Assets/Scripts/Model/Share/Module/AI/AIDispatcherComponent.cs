@@ -10,7 +10,7 @@ namespace ET
         
         public void Awake()
         {
-            var types = CodeTypes.Instance.GetTypes(typeof (AIHandlerAttribute));
+            var types = CodeTypes.Instance.GetAttributeTypes(typeof (AIHandlerAttribute));
             foreach (Type type in types)
             {
                 AAIHandler aaiHandler = Activator.CreateInstance(type) as AAIHandler;

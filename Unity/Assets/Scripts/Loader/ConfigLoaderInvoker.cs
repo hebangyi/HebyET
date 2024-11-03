@@ -11,7 +11,7 @@ namespace ET
         public override async ETTask<Dictionary<Type, byte[]>> Handle(ConfigLoader.GetAllConfigBytes args)
         {
             Dictionary<Type, byte[]> output = new Dictionary<Type, byte[]>();
-            HashSet<Type> configTypes = CodeTypes.Instance.GetTypes(typeof (ConfigAttribute));
+            HashSet<Type> configTypes = CodeTypes.Instance.GetAttributeTypes(typeof (ConfigAttribute));
             
             if (Define.IsEditor)
             {

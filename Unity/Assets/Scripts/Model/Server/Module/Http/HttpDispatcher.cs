@@ -10,7 +10,7 @@ namespace ET.Server
         
         public void Awake()
         {
-            HashSet<Type> types = CodeTypes.Instance.GetTypes(typeof (HttpHandlerAttribute));
+            HashSet<Type> types = CodeTypes.Instance.GetAttributeTypes(typeof (HttpHandlerAttribute));
 
             foreach (Type type in types)
             {

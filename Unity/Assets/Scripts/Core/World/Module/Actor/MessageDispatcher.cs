@@ -26,14 +26,14 @@ namespace ET
 
         public void Awake()
         {
-            HashSet<Type> types = CodeTypes.Instance.GetTypes(typeof (MessageHandlerAttribute));
+            HashSet<Type> types = CodeTypes.Instance.GetAttributeTypes(typeof (MessageHandlerAttribute));
             
             foreach (Type type in types)
             {
                 this.Register(type);
             }
             
-            HashSet<Type> types2 = CodeTypes.Instance.GetTypes(typeof (MessageLocationHandlerAttribute));
+            HashSet<Type> types2 = CodeTypes.Instance.GetAttributeTypes(typeof (MessageLocationHandlerAttribute));
             
             foreach (Type type in types2)
             {

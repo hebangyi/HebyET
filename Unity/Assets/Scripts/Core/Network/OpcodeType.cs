@@ -12,7 +12,7 @@ namespace ET
         
         public void Awake()
         {
-            HashSet<Type> types = CodeTypes.Instance.GetTypes(typeof (MessageAttribute));
+            HashSet<Type> types = CodeTypes.Instance.GetAttributeTypes(typeof (MessageAttribute));
             foreach (Type type in types)
             {
                 object[] att = type.GetCustomAttributes(typeof (MessageAttribute), false);
