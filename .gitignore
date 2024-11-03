@@ -1,3 +1,6 @@
+# 工具文件
+Tools/*
+
 #IDE文件
 .vs/
 .idea/
