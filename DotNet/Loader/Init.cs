@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using CommandLine;
+using ET.Server;
 
 namespace ET
 {
@@ -15,24 +16,24 @@ namespace ET
 					Log.Error(e.ExceptionObject.ToString());
 				};
 				
-				
-				
-				// 命令行参数
+				// 服务器命令行参数
 				Parser.Default.ParseArguments<Options>(System.Environment.GetCommandLineArgs())
 						.WithNotParsed(error => throw new Exception($"命令行格式错误! {error}"))
 						.WithParsed((o)=>World.Instance.AddSingleton(o));
-				
+
 				World.Instance.AddSingleton<Logger>().Log = new NLogger(Options.Instance.AppType.ToString(), Options.Instance.Process, 0);
+				// 加载服务器配置
+				World.Instance.AddSingleton<ProcessConfig>();
 				
 				ETTask.ExceptionHandler += Log.Error;
 				World.Instance.AddSingleton<TimeInfo>();
 				World.Instance.AddSingleton<FiberManager>();
-
 				World.Instance.AddSingleton<CodeLoader>();
 			}
 			catch (Exception e)
 			{
 				Log.Error(e);
+				throw;
 			}
 		}
 

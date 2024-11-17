@@ -96,24 +96,7 @@ namespace ET
             StackTrace st = new(1, true);
             GetLog().Trace($"{message.ToStringAndClear()}\n{st.ToString()}");
         }
-        [Conditional("DEBUG")]
-        public static void Warning(ref System.Runtime.CompilerServices.DefaultInterpolatedStringHandler message)
-        {
-            if (Options.Instance.LogLevel > WarningLevel)
-            {
-                return;
-            }
-            GetLog().Warning(ref message);
-        }
-
-        public static void Info(ref System.Runtime.CompilerServices.DefaultInterpolatedStringHandler message)
-        {
-            if (Options.Instance.LogLevel > InfoLevel)
-            {
-                return;
-            }
-            GetLog().Info(ref message);
-        }
+        
         [Conditional("DEBUG")]
         public static void Debug(ref System.Runtime.CompilerServices.DefaultInterpolatedStringHandler message)
         {
@@ -124,6 +107,25 @@ namespace ET
             GetLog().Debug(ref message);
         }
 
+
+        public static void Info(ref System.Runtime.CompilerServices.DefaultInterpolatedStringHandler message)
+        {
+            if (Options.Instance.LogLevel > InfoLevel)
+            {
+                return;
+            }
+            GetLog().Info(ref message);
+        }
+        
+        public static void Warning(ref System.Runtime.CompilerServices.DefaultInterpolatedStringHandler message)
+        {
+            if (Options.Instance.LogLevel > WarningLevel)
+            {
+                return;
+            }
+            GetLog().Warning(ref message);
+        }
+        
         public static void Error(ref System.Runtime.CompilerServices.DefaultInterpolatedStringHandler message)
         {
             GetLog().Error(ref message);

@@ -10,25 +10,12 @@ namespace ET
         public override async ETTask<Dictionary<Type, byte[]>> Handle(ConfigLoader.GetAllConfigBytes args)
         {
             Dictionary<Type, byte[]> output = new Dictionary<Type, byte[]>();
-            List<string> startConfigs = new List<string>()
-            {
-                "StartMachineConfigCategory", 
-                "StartProcessConfigCategory", 
-                "StartSceneConfigCategory", 
-                "StartZoneConfigCategory",
-            };
+            
+            // TODO 以后通过地区读取配置
             HashSet<Type> configTypes = CodeTypes.Instance.GetAttributeTypes(typeof (ConfigAttribute));
             foreach (Type configType in configTypes)
             {
-                string configFilePath;
-                if (startConfigs.Contains(configType.Name))
-                {
-                    configFilePath = $"../Config/Excel/s/{Options.Instance.StartConfig}/{configType.Name}.bytes";    
-                }
-                else
-                {
-                    configFilePath = $"../Config/Excel/s/{configType.Name}.bytes";
-                }
+                string configFilePath = $"../Config/Excel/s/{configType.Name}.bytes";
                 output[configType] = File.ReadAllBytes(configFilePath);
             }
 
