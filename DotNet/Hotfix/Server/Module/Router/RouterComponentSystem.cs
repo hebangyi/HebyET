@@ -11,11 +11,12 @@ namespace ET.Server
     public static partial class RouterComponentSystem
     {
         [EntitySystem]
-        private static void Awake(this RouterComponent self, IPEndPoint outerAddress, string innerIP)
+        private static void Awake(this RouterComponent self)
         {
-            self.OuterUdp = new UdpTransport(outerAddress);
-            self.OuterTcp = new TcpTransport(outerAddress);
-            self.InnerSocket = new UdpTransport(new IPEndPoint(IPAddress.Parse(innerIP), 0));
+            self.Config = ProcessConfig.Instance.GetSceneComponentConfig<RouterComponentConfig>(self.Root());
+            self.OuterUdp = new UdpTransport(NetworkHelper.ToIPEndPoint(self.Config.OuterAddress));
+            self.OuterTcp = new TcpTransport(NetworkHelper.ToIPEndPoint(self.Config.OuterAddress));
+            self.InnerSocket = new UdpTransport(new IPEndPoint(IPAddress.Parse(self.Config.InnerIp), 0));
         }
         
         [EntitySystem]

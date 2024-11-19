@@ -31,6 +31,7 @@ namespace ET.Analyzer
         
         private void Analyze(SyntaxNodeAnalysisContext context)
         {
+            /*
             if (context.Node is not ClassDeclarationSyntax classDeclarationSyntax)
             {
                 return;
@@ -55,6 +56,7 @@ namespace ET.Analyzer
             
             Diagnostic diagnostic = Diagnostic.Create(EntityClassDeclarationAnalyzerrRule.Rule, classDeclarationSyntax.Identifier.GetLocation(), namedTypeSymbol);
             context.ReportDiagnostic(diagnostic);
+            */
         }
     }
 }

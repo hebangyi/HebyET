@@ -1,4 +1,6 @@
-﻿using MongoDB.Bson;
+﻿using System.Net;
+using System.Reflection;
+using MongoDB.Bson;
 
 namespace ET.Server;
 
@@ -38,7 +40,7 @@ public class ProcessConfig : Singleton<ProcessConfig>,ISingletonAwake
     {
         Load();
     }
-
+    
     public void Load()
     {
         var configPath = $"../Config/Process/{Options.Instance.ProcessConfig}";
@@ -109,5 +111,34 @@ public class ProcessConfig : Singleton<ProcessConfig>,ISingletonAwake
                 Log.Error($"没有找到SceneType : [{serverSceneConfig.Name}] 加载配置失败");
             }
         }
+    }
+
+    /// <summary>
+    /// 获得Scene的Component相应的配置
+    /// </summary>
+    /// <param name="scene"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public T GetSceneComponentConfig<T>(Scene scene) where T : class, new()
+    {
+        long sceneId = scene.Id;
+        var sceneConfigs = this.SceneConfigs.GetValueOrDefault(sceneId);
+        if (sceneConfigs == null)
+        {
+            // 使用默认配置
+            return new T();
+        }
+        
+        ComponentConfigOfAttribute attribute = typeof(T).GetCustomAttribute(typeof(ComponentConfigOfAttribute)) as ComponentConfigOfAttribute;
+        if (attribute == null)
+        {
+            Log.Error($"{typeof(T).Name} ComponentConfigOfAttribute Is Null");
+            return new T();
+        }
+        
+        string moduleName = attribute.Key;
+        String str = sceneConfigs.ModulesConfig.GetValueOrDefault(moduleName);
+        T t = MongoHelper.FromJson<T>(str);
+        return t ?? new T();
     }
 }
