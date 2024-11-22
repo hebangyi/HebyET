@@ -10,7 +10,7 @@ namespace ET.Server
         [EntitySystem]
         public static void Awake(this WatcherComponent self)
         {
-            string[] localIP = NetworkHelper.GetAddressIPs();
+            /*string[] localIP = NetworkHelper.GetAddressIPs();
             var processConfigs = StartProcessConfigCategory.Instance.GetAll();
             foreach (StartProcessConfig startProcessConfig in processConfigs.Values)
             {
@@ -20,7 +20,7 @@ namespace ET.Server
                 }
                 System.Diagnostics.Process process = WatcherHelper.StartProcess(startProcessConfig.Id);
                 self.Processes.Add(startProcessConfig.Id, process);
-            }
+            }*/
         }
     }
 }

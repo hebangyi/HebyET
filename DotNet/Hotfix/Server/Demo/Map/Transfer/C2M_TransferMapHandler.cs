@@ -10,19 +10,19 @@ namespace ET.Server
 			await ETTask.CompletedTask;
 
 			string currentMap = unit.Scene().Name;
-			string toMap = null;
-			if (currentMap == "Map1")
-			{
-				toMap = "Map2";
-			}
-			else
-			{
-				toMap = "Map1";
-			}
+			// string toMap = null;
+			// if (currentMap == "Map1")
+			// {
+			// 	toMap = "Map2";
+			// }
+			// else
+			// {
+			// 	toMap = "Map1";
+			// }
 
-			StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(unit.Fiber().Zone, toMap);
-			
-			TransferHelper.TransferAtFrameFinish(unit, startSceneConfig.ActorId, toMap).Coroutine();
+			// StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(unit.Fiber().Zone, toMap);
+			// TransferHelper.TransferAtFrameFinish(unit, startSceneConfig.ActorId, toMap).Coroutine();
+			await ETTask.CompletedTask;
 		}
 	}
 }

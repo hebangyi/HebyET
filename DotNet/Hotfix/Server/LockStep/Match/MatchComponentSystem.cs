@@ -8,7 +8,7 @@ namespace ET.Server
     public static partial class MatchComponentSystem
     {
         public static async ETTask Match(this MatchComponent self, long playerId)
-        {
+        {   /*
             if (self.waitMatchPlayers.Contains(playerId))
             {
                 return;
@@ -43,7 +43,9 @@ namespace ET.Server
             {
                 messageLocationSenderComponent.Get(LocationType.Player).Send(id, match2GNotifyMatchSuccess);
                 // 等待进入房间的确认消息，如果超时要通知所有玩家退出房间，重新匹配
-            }
+            }*/
+
+            await ETTask.CompletedTask;
         }
     }
 
