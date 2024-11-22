@@ -13,5 +13,6 @@ namespace ET
     public class NetComponent: Entity, IAwake<IPEndPoint, NetworkProtocol>, IAwake<AddressFamily, NetworkProtocol>, IDestroy, IUpdate
     {
         public AService AService { get; set; }
+        public bool IsRandomPort = false;
     }
 }

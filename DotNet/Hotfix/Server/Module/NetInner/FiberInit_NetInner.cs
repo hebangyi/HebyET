@@ -11,8 +11,13 @@ namespace ET.Server
             root.AddComponent<MailBoxComponent, MailBoxType>(MailBoxType.UnOrderedMessage);
             root.AddComponent<TimerComponent>();
             root.AddComponent<CoroutineLockComponent>();
+            
+            /*
             StartProcessConfig startProcessConfig = StartProcessConfigCategory.Instance.Get(fiberInit.Fiber.Process);
             root.AddComponent<ProcessOuterSender, IPEndPoint>(startProcessConfig.IPEndPoint);
+            */
+            
+            root.AddComponent<ProcessOuterSender, IPEndPoint>(new IPEndPoint(IPAddress.Any, ProcessConfig.Instance.GlobalConfig.InnerPort));
             root.AddComponent<ProcessInnerSender>();
 
             await ETTask.CompletedTask;

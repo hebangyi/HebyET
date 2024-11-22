@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
 using ET.Client;
 
@@ -19,7 +20,7 @@ namespace ET.Server
         private static async ETTask Start(this BenchmarkClientComponent self)
         {
             NetComponent netClientComponent = self.Root().GetComponent<NetComponent>();
-            using Session session = netClientComponent.Create(StartSceneConfigCategory.Instance.Benchmark.OuterIPPort);
+            using Session session = netClientComponent.Create(NetworkHelper.ToIPEndPoint("127.0.0.1:18080"));
             List<ETTask> list = new List<ETTask>(1000);
 
             async ETTask Call(Session s)

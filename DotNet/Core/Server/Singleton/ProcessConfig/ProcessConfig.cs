@@ -9,7 +9,6 @@ public class GlobalConfig
 {
     public int BigZone = 1;
     public int ProcessId = 1;
-    public string OuterIp = "127.0.0.1";
     public string InnerIp = "127.0.0.1";
     public int InnerPort = 20101;
 }
@@ -21,7 +20,7 @@ public class SingletonConfig
 
 public class SceneConfig
 {
-    public long SceneId;
+    public int SceneId;
     public SceneType SceneType;
     public Dictionary<string, string> ModulesConfig = new Dictionary<string, string>();
 }

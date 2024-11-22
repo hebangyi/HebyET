@@ -26,8 +26,6 @@ namespace ET.Server
     [ComponentConfigOf("RouterComponent")]
     public class RouterComponentConfig
     {
-        public string OuterAddress = "127.0.0.1:30300";
         public int OuterPort = 30300;
-        public string InnerIp = "127.0.0.1";
     }
 }

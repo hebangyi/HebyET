@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿/*using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
 
@@ -134,4 +134,4 @@ namespace ET
             this.Type = EnumHelper.FromString<SceneType>(this.SceneType);
         }
     }
-}
+}*/
