@@ -135,7 +135,8 @@ namespace ET.Server
                 return session;
             }
 
-            IPEndPoint ipEndPoint = StartProcessConfigCategory.Instance.Get((int) channelId).IPEndPoint;
+            // IPEndPoint ipEndPoint = StartProcessConfigCategory.Instance.Get((int) channelId).IPEndPoint;
+            IPEndPoint ipEndPoint = NetworkHelper.ToIPEndPoint("127.0.0.1:10000");
             session = self.CreateInner(channelId, ipEndPoint);
             return session;
         }
@@ -184,9 +185,9 @@ namespace ET.Server
             {
                 throw new Exception($"actor is the same process: {fiber.Process} {actorId.Process}");
             }
-            
-            StartProcessConfig startProcessConfig = StartProcessConfigCategory.Instance.Get(actorId.Process);
-            Session session = self.Get(startProcessConfig.Id);
+            // TODO Heby 使用ETCD获得Inner地址
+            // StartProcessConfig startProcessConfig = StartProcessConfigCategory.Instance.Get(actorId.Process);
+            Session session = self.Get(1);
             actorId.Process = fiber.Process;
             session.Send(actorId, message);
         }

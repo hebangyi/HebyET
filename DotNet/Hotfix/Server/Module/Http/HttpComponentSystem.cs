@@ -35,6 +35,34 @@ namespace ET.Server
         }
         
         [EntitySystem]
+        private static void Awake(this HttpComponent self)
+        {
+            try
+            {
+                self.Config = ProcessConfig.Instance.GetSceneComponentConfig<HttpComponentConfig>(self.Root());
+                self.Listener = new HttpListener();
+
+                foreach (string s in self.Config.Addresses.Split(';'))
+                {
+                    if (s.Trim() == "")
+                    {
+                        continue;
+                    }
+                    self.Listener.Prefixes.Add(s);
+                }
+
+                self.Listener.Start();
+                self.Accept().Coroutine();
+                
+            }
+            catch (HttpListenerException e)
+            {
+                throw new Exception($"请先在cmd中运行: netsh http add urlacl url=http://*:你的address中的端口/ user=Everyone, address: {self.Config.Addresses}", e);
+            }
+        }
+        
+        
+        [EntitySystem]
         private static void Destroy(this HttpComponent self)
         {
             self.Listener.Stop();

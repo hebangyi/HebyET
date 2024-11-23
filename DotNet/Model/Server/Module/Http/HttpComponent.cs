@@ -7,8 +7,15 @@ namespace ET.Server
     /// http请求分发器
     /// </summary>
     [ComponentOf(typeof(Scene))]
-    public class HttpComponent: Entity, IAwake<string>, IDestroy
+    public class HttpComponent: Entity, IAwake ,IAwake<string>, IDestroy
     {
         public HttpListener Listener;
+        public HttpComponentConfig Config;
+    }
+
+    [ComponentConfigOf("HttpComponent")]
+    public class HttpComponentConfig
+    {
+        public string Addresses = "http://*:8080";
     }
 }
