@@ -12,11 +12,20 @@ public class JsonHelper
         
     public static object FromJson(Type type, string json)
     {
+        if (json == null)
+        {
+            return null;
+        }
         return MongoHelper.FromJson(type, json);
     }
         
     public static T FromJson<T>(string json)
     {
+        if (json == null)
+        {
+            return default(T);
+        }
+        
         return MongoHelper.FromJson<T>(json);
     }
 }

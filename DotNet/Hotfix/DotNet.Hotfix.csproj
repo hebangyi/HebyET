@@ -40,7 +40,7 @@
         <ProjectReference Include="..\Model\DotNet.Model.csproj" />
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Server\" />
+      <Folder Include="Server\Global\Etcd\" />
     </ItemGroup>
 
 </Project>

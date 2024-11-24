@@ -140,4 +140,19 @@ public class ProcessConfig : Singleton<ProcessConfig>,ISingletonAwake
         T t = MongoHelper.FromJson<T>(str);
         return t ?? new T();
     }
+
+    public T GetSingletonConfig<T>() where T : class, new()
+    {
+        
+        SingletonConfigOfAttribute attribute = typeof(T).GetCustomAttribute(typeof(SingletonConfigOfAttribute)) as SingletonConfigOfAttribute;
+        if (attribute == null)
+        {
+            Log.Error($"{typeof(T).Name} ComponentConfigOfAttribute Is Null");
+            return new T();
+        }
+        
+        string str = this.SingletonConfig.Configs.GetValueOrDefault(attribute.Key);
+        T t = MongoHelper.FromJson<T>(str);
+        return t ?? new T();
+    }
 }
