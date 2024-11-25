@@ -19,7 +19,7 @@ public static class EtcdHelper
     public static EtcdSceneNodeInfo BuildSelfSceneNode(Scene scene, int outPort = 0)
     {
         int processId = Options.Instance.Process;
-        string innerIp = ProcessConfig.Instance.GlobalConfig.InnerIp;
+        string innerIp = ProcessConfig.Instance.GlobalConfig.Ip;
         int innerPort = ProcessConfig.Instance.GlobalConfig.InnerPort;
 
         EtcdSceneNodeInfo sceneNode = new EtcdSceneNodeInfo();

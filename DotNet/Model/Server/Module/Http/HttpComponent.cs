@@ -16,6 +16,6 @@ namespace ET.Server
     [ComponentConfigOf("HttpComponent")]
     public class HttpComponentConfig
     {
-        public string Addresses = "http://*:8080";
+        public string Addresses = "http://*:8081/";
     }
 }

@@ -9,7 +9,7 @@ public class GlobalConfig
 {
     public int BigZone = 1;
     public int ProcessId = 1;
-    public string InnerIp = "127.0.0.1";
+    public string Ip = "127.0.0.1";
     public int InnerPort = 20101;
 }
 
@@ -100,7 +100,7 @@ public class ProcessConfig : Singleton<ProcessConfig>,ISingletonAwake
                 Dictionary<string, string> moduleConfigs = new Dictionary<string, string>();
                 foreach (var moduleConfigKv in modulesConfigDict)
                 {
-                    moduleConfigs[moduleConfigKv.Key.ToLower()] = moduleConfigKv.Value.ToString();
+                    moduleConfigs[moduleConfigKv.Key] = moduleConfigKv.Value.ToString();
                 }
                 sceneConfig.ModulesConfig = moduleConfigs;
                 this.SceneConfigs[sceneConfig.SceneId] = sceneConfig;
@@ -137,7 +137,12 @@ public class ProcessConfig : Singleton<ProcessConfig>,ISingletonAwake
         
         string moduleName = attribute.Key;
         String str = sceneConfigs.ModulesConfig.GetValueOrDefault(moduleName);
-        T t = MongoHelper.FromJson<T>(str);
+        T t = JsonHelper.FromJson<T>(str);
+        if (t == null)
+        {
+            Log.Warning($"服务 [{scene.SceneType}] 模块 [{moduleName}] 使用默认配置");
+        }
+        
         return t ?? new T();
     }
 
@@ -152,7 +157,13 @@ public class ProcessConfig : Singleton<ProcessConfig>,ISingletonAwake
         }
         
         string str = this.SingletonConfig.Configs.GetValueOrDefault(attribute.Key);
-        T t = MongoHelper.FromJson<T>(str);
+        T t = JsonHelper.FromJson<T>(str);
+        
+        if (t == null)
+        {
+            Log.Warning($"管理配置 [{attribute.Key}] 使用默认配置");
+        }
+        
         return t ?? new T();
     }
 }

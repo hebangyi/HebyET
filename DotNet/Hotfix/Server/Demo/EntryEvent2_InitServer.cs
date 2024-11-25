@@ -21,6 +21,10 @@ namespace ET.Server
                     // 根据配置创建纤程
                     foreach (var sceneConfig in ProcessConfig.Instance.SceneConfigs.Values)
                     {
+                        if (sceneConfig.SceneType == SceneType.Main)
+                        {
+                            continue;
+                        }
                         var sceneId = sceneConfig.SceneId;
                         var sceneType = sceneConfig.SceneType;
                         await FiberManager.Instance.Create(SchedulerType.ThreadPool, sceneId, 0, sceneType, $"{sceneType}-{sceneId}");
