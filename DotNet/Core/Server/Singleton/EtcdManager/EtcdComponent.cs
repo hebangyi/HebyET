@@ -19,7 +19,18 @@ public class EtcdSceneNodeInfo
     public int SceneId;
     public string InnerIp;
     public int InnerPort;
+    public int OuterPort;
     public int Status;
+    
+    public string OutterNetAddress
+    {
+        get { return $"{this.InnerIp}:{this.OuterPort}"; }
+    }
+
+    public string InnerNetAddress
+    {
+        get { return $"{this.InnerIp}:{this.InnerPort}"; }
+    }
 }
 
 [ComponentOf(typeof(Scene))]

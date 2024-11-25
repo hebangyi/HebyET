@@ -13,10 +13,10 @@ namespace ET
         }
 
         [MemoryPackOrder(0)]
-        public List<string> Realms { get; set; } = new();
+        public List<string> Routers { get; set; } = new();
 
         [MemoryPackOrder(1)]
-        public List<string> Routers { get; set; } = new();
+        public List<string> Accounts { get; set; } = new();
 
         public override void Dispose()
         {
@@ -25,8 +25,8 @@ namespace ET
                 return;
             }
 
-            this.Realms.Clear();
             this.Routers.Clear();
+            this.Accounts.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }

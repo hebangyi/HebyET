@@ -8,13 +8,18 @@ namespace ET
 		None = 0,
 		Main = 1, // 主纤程,一个进程一个, 初始化从这里开始
 		NetInner = 1 << 2, // 负责进程间消息通信
-		Realm = 1 << 3,
-		Gate = 1 << 4,
-		Http = 1 << 5,
-		Location = 1 << 6,
-		Map = 1 << 7,
-		Router = 1 << 8,
-		RouterManager = 1 << 9,
+		
+		
+		Entry = 1 << 3,	// 入口服务
+		Account = 1 << 4, // 账号服务
+		
+		
+		Gate = 1 << 5,
+		Http = 1 << 6,
+		Location = 1 << 7,
+		Map = 1 << 8,
+		Router = 1 << 9,
+		
 		Robot = 1 << 10,
 		BenchmarkClient = 1 << 11,
 		BenchmarkServer = 1 << 12,

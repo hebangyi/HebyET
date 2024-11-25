@@ -3,8 +3,8 @@ package ET;
 
 message HttpGetRouterResponse
 {
-	repeated string Realms = 1;
-	repeated string Routers = 2;
+	repeated string Routers = 1;
+	repeated string Accounts = 2;
 }
 
 message RouterSync

@@ -5,24 +5,25 @@ using System.Text;
 
 namespace ET.Server
 {
-    [HttpHandler(SceneType.RouterManager, "/get_router")]
+    [HttpHandler(SceneType.Entry, "/get_router")]
     public class HttpGetRouterHandler : IHttpHandler
     {
         public async ETTask Handle(Scene scene, HttpListenerContext context)
         {
             HttpGetRouterResponse response = HttpGetRouterResponse.Create();
-            // TODO 通过ETCD 获得Router 地址
-            /*
-            foreach (StartSceneConfig startSceneConfig in StartSceneConfigCategory.Instance.Realms)
+            EtcdSceneNodeInfo accountSceneNode = EtcdHelper.GetRandomNode(SceneType.Account);
+            EtcdSceneNodeInfo routerSceneNode = EtcdHelper.GetRandomNode(SceneType.Router);
+
+            if (accountSceneNode != null)
             {
-                // 这里是要用InnerIP，因为云服务器上realm绑定不了OuterIP的,所以realm的内网外网的socket都是监听内网地址
-                response.Realms.Add(startSceneConfig.InnerIPPort.ToString());
+                response.Accounts.Add(accountSceneNode.OutterNetAddress);
             }
-            foreach (StartSceneConfig startSceneConfig in StartSceneConfigCategory.Instance.Routers)
+
+            if (routerSceneNode != null)
             {
-                response.Routers.Add($"{startSceneConfig.StartProcessConfig.OuterIP}:{startSceneConfig.Port}");
+                response.Routers.Add(routerSceneNode.OutterNetAddress);
             }
-            */
+            
             HttpHelper.Response(context, response);
             await ETTask.CompletedTask;
         }
