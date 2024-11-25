@@ -42,4 +42,8 @@
       <ProjectReference Include="..\..\Share\Share.SourceGenerator\Share.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
       <ProjectReference Include="..\ThirdParty\DotNet.ThirdParty.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="dotnet-etcd" Version="7.2.0" />
+    </ItemGroup>
 </Project>

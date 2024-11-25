@@ -24,7 +24,7 @@
         <Optimize>true</Optimize>
     </PropertyGroup>
     <ItemGroup>
-        
+      <PackageReference Include="dotnet-etcd" Version="7.2.0" />
     </ItemGroup> 
     <ItemGroup> 
         <ProjectReference Include="..\..\Share\Analyzer\Share.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />

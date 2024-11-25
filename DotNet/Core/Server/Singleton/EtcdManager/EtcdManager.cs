@@ -1,67 +1,33 @@
-﻿namespace ET.Server;
-using dotnet_etcd;
+﻿using System.Collections.Concurrent;
 
-[SingletonConfigOf("Etcd")]
-public class EtcdManagerConfig
-{
-}
-
-public class EtcdSceneNodeInfo
-{
-    public SceneType SceneType;
-    public int ProcessId;
-    public int SceneId;
-    public string InnerIp;
-    public int InnerPort;
-    public int Status;
-}
+namespace ET.Server;
 
 public class EtcdManager : Singleton<EtcdManager>, ISingletonAwake
 {
-    public EtcdManagerConfig Config;
-    
-    public EtcdClient RegClient;
-    public EtcdClient WatchClient;
-    
+    // 本服注册的SceneNodes
+    public ConcurrentDictionary<string, EtcdSceneNodeInfo> RegSceneNodes = new();
 
-    public Dictionary<SceneType, List<EtcdSceneNodeInfo>> WatchSceneNodes = new();
+    // 本服监听的SceneNodes
+    public ConcurrentDictionary<SceneType, List<EtcdSceneNodeInfo>> WatchSceneNodes = new();
+    public ConcurrentDictionary<long, EtcdSceneNodeInfo> WatchId2SceneNodes = new();
 
-    //Etcd 监听的 ScenePath
+    //监听的 SceneTypes
     public HashSet<SceneType> WatchingSceneTypes = new();
+    //监听的 ScenePath
     public HashSet<string> WatchingScenePaths = new();
 
     public void Awake()
     {
-        this.Config = ProcessConfig.Instance.GetSingletonConfig<EtcdManagerConfig>();
-    }
-
-    /// <summary>
-    /// 开始注册与订阅
-    /// </summary>
-    public void StartRegAndSub()
-    {
         Array watchingSceneTypes = Enum.GetValues(typeof(SceneType));
         foreach (SceneType watchingSceneType in watchingSceneTypes)
         {
-            Instance.WatchingSceneTypes.Add(watchingSceneType);
+            this.WatchingSceneTypes.Add(watchingSceneType);
         }
 
-        foreach (SceneType sceneType in Instance.WatchingSceneTypes)
+        foreach (SceneType sceneType in this.WatchingSceneTypes)
         {
             var path = EtcdHelper.GetSubPatch(sceneType);
-            Instance.WatchingScenePaths.Add(path);
+            this.WatchingScenePaths.Add(path);
         }
-    }
-
-    /// <summary>
-    /// 开始订阅
-    /// </summary>
-    public async ETTask StartSub()
-    {
-        
-        
-        
-        
-        await ETTask.CompletedTask;
     }
 }

@@ -12,6 +12,7 @@ namespace ET.Server
             {
                 case AppType.Server:
                 {
+                    root.AddComponent<EtcdComponent>();
                     if (ProcessConfig.Instance.GlobalConfig.InnerPort != 0)
                     {
                         await FiberManager.Instance.Create(SchedulerType.ThreadPool, ConstFiberId.NetInner, 0, SceneType.NetInner, "NetInner");

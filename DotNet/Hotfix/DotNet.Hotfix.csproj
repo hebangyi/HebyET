@@ -42,5 +42,8 @@
     <ItemGroup>
       <Folder Include="Server\Global\Etcd\" />
     </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="dotnet-etcd" Version="7.2.0" />
+    </ItemGroup>
 
 </Project>
