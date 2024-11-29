@@ -17,6 +17,7 @@ namespace ET.Server
             self.OuterUdp = new UdpTransport(new IPEndPoint(IPAddress.Any, self.Config.OuterPort));
             self.OuterTcp = new TcpTransport(new IPEndPoint(IPAddress.Any, self.Config.OuterPort));
             self.InnerSocket = new UdpTransport(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 0));
+            self.OuterPort = self.Config.OuterPort;
         }
 
         [EntitySystem]

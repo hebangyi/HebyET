@@ -10,7 +10,8 @@ namespace ET.Server
     public class RouterComponent: Entity, IAwake, IDestroy, IUpdate
     {
         public RouterComponentConfig Config;
-        
+
+        public int OuterPort;
         public IKcpTransport OuterUdp;
         public IKcpTransport OuterTcp;
         public IKcpTransport InnerSocket;

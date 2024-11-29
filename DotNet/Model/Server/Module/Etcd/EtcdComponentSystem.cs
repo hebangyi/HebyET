@@ -14,6 +14,7 @@ namespace ET.Server;
 [EntitySystemOf(typeof(EtcdComponent))]
 [FriendOf(typeof(EtcdComponent))]
 [FriendOf(typeof(NetComponent))]
+[FriendOf(typeof(RouterComponent))]
 public static partial class EtcdComponentSystem
 {
     [EntitySystem]
@@ -77,6 +78,17 @@ public static partial class EtcdComponentSystem
                         outPort = netComponent.OutPort;
                     }
 
+                    etcdSceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, outPort);
+                } 
+                else if (scene.SceneType is SceneType.Router)
+                {
+                    var routerComponent = scene.GetComponent<RouterComponent>();
+                    int outPort = 0;
+                    if (routerComponent != null)
+                    {
+                        outPort = routerComponent.OuterPort;
+                    }
+                    
                     etcdSceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, outPort);
                 }
                 else
