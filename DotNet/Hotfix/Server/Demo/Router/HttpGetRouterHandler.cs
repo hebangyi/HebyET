@@ -16,12 +16,12 @@ namespace ET.Server
 
             if (accountSceneNode != null)
             {
-                response.Accounts.Add(accountSceneNode.OutterNetAddress);
+                response.Accounts.Add(accountSceneNode.InnerIpAndOuterPortAddress);
             }
 
             if (routerSceneNode != null)
             {
-                response.Routers.Add(routerSceneNode.OutterNetAddress);
+                response.Routers.Add(routerSceneNode.OuterIpAndOuterPortAddress);
             }
             
             HttpHelper.Response(context, response);

@@ -94,7 +94,14 @@ namespace ET.Server
             try
             {
                 IHttpHandler handler = HttpDispatcher.Instance.Get(self.IScene.SceneType, context.Request.Url.AbsolutePath);
-                await handler.Handle(self.Scene(), context);
+                if (handler == null)
+                {
+                    HttpHelper.Response(context, HttpStatusCode.BadRequest);
+                }
+                else
+                {
+                    await handler.Handle(self.Scene(), context);    
+                }
             }
             catch (Exception e)
             {

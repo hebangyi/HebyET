@@ -13,5 +13,11 @@ namespace ET.Server
             context.Response.ContentLength64 = bytes.Length;
             context.Response.OutputStream.Write(bytes, 0, bytes.Length);
         }
+
+
+        public static void Response(HttpListenerContext context, HttpStatusCode statusCode)
+        {
+            context.Response.StatusCode = (int)statusCode;
+        }
     }
 }

@@ -9,19 +9,25 @@ public class EtcdSceneNodeInfo
     public SceneType SceneType;
     public int ProcessId;
     public int SceneId;
+    public string OuterIp;
     public string InnerIp;
     public int InnerPort;
     public int OuterPort;
     public int Status;
 
-    public string OutterNetAddress
+    public string InnerIpAndOuterPortAddress
     {
         get { return $"{this.InnerIp}:{this.OuterPort}"; }
     }
 
-    public string InnerNetAddress
+    public string InnerIpAndInnerPortAddress
     {
         get { return $"{this.InnerIp}:{this.InnerPort}"; }
+    }
+
+    public string OuterIpAndOuterPortAddress
+    {
+        get { return $"{this.OuterIp}:{this.OuterPort}"; }
     }
 }
 

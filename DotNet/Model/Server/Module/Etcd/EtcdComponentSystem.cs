@@ -89,7 +89,7 @@ public static partial class EtcdComponentSystem
                 // var lease = await client.LeaseGrantAsync(new LeaseGrantRequest { TTL = 90 });
                 // var leaseId = lease.ID;
                 var regPath = ByteString.CopyFromUtf8(EtcdHelper.GetRegPath(scene.SceneType, scene.Id));
-                var regValue = ByteString.CopyFromUtf8(JsonHelper.ToJson(scene));
+                var regValue = ByteString.CopyFromUtf8(JsonHelper.ToJson(etcdSceneNodeInfo));
 
                 RegSceneNodePack regSceneNodePack = new();
                 regSceneNodePack.SceneId = sceneId;

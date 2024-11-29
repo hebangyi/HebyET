@@ -9,7 +9,8 @@ public class GlobalConfig
 {
     public int BigZone = 1;
     public int ProcessId = 1;
-    public string Ip = "127.0.0.1";
+    public string InnerIp = "127.0.0.1";
+    public string OuterIp = "127.0.0.1";
     public int InnerPort = 20101;
 }
 

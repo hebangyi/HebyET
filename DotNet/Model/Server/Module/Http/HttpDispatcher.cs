@@ -42,7 +42,12 @@ namespace ET.Server
 
         public IHttpHandler Get(SceneType sceneType, string path)
         {
-            return this.dispatcher[path][(int)sceneType];
+            var dictionary = this.dispatcher.GetValueOrDefault(path);
+            if (dictionary == null)
+            {
+                return null;
+            }
+            return dictionary.GetValueOrDefault((int)sceneType);
         }
     }
 }
