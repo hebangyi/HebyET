@@ -26,9 +26,12 @@ namespace ET
 				World.Instance.AddSingleton<ProcessConfig>();
 				
 				ETTask.ExceptionHandler += Log.Error;
+
+				World.Instance.AddSingleton<EtcdManager>();
 				World.Instance.AddSingleton<TimeInfo>();
 				World.Instance.AddSingleton<FiberManager>();
 				World.Instance.AddSingleton<CodeLoader>();
+				World.Instance.AddSingleton<ServerManager>();
 			}
 			catch (Exception e)
 			{

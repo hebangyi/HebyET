@@ -28,12 +28,17 @@ public static class EtcdHelper
         sceneNode.SceneId = (int)scene.Id;
         sceneNode.InnerIp = innerIp;
         sceneNode.InnerPort = innerPort;
+        sceneNode.OuterPort = outPort;
         // TODO 根据不同的服务器 数据相关
         sceneNode.Status = 0;
         return sceneNode;
     }
 
-
+    /// <summary>
+    /// 获得ETCD监听中的其中一个点
+    /// </summary>
+    /// <param name="sceneType"></param>
+    /// <returns></returns>
     public static EtcdSceneNodeInfo GetRandomNode(SceneType sceneType)
     {
         List<EtcdSceneNodeInfo> sceneNodes = EtcdManager.Instance.WatchSceneNodes.GetValueOrDefault(sceneType);

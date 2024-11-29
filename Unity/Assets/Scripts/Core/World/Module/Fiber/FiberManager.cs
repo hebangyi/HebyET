@@ -18,7 +18,7 @@ namespace ET
         private readonly IScheduler[] schedulers = new IScheduler[3];
         
         private int idGenerator = 10000000; // 10000000以下为保留的用于StartSceneConfig的fiber id, 1个区配置1000个纤程，可以配置10000个区
-        private ConcurrentDictionary<int, Fiber> fibers = new();
+        public ConcurrentDictionary<int, Fiber> fibers = new();
 
         private MainThreadScheduler mainThreadScheduler;
         

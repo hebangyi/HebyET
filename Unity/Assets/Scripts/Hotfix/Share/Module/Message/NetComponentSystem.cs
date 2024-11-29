@@ -14,6 +14,7 @@ namespace ET
             self.AService.AcceptCallback = self.OnAccept;
             self.AService.ReadCallback = self.OnRead;
             self.AService.ErrorCallback = self.OnError;
+            self.OutPort = address.Port;
         }
         
         [EntitySystem]

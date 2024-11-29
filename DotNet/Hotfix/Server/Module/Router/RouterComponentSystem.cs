@@ -14,8 +14,8 @@ namespace ET.Server
         private static void Awake(this RouterComponent self)
         {
             self.Config = ProcessConfig.Instance.GetSceneComponentConfig<RouterComponentConfig>(self.Root());
-            self.OuterUdp = new UdpTransport(NetworkHelper.ToIPEndPoint("127.0.0.1", self.Config.OuterPort));
-            self.OuterTcp = new TcpTransport(NetworkHelper.ToIPEndPoint("127.0.0.1", self.Config.OuterPort));
+            self.OuterUdp = new UdpTransport(new IPEndPoint(IPAddress.Any, self.Config.OuterPort));
+            self.OuterTcp = new TcpTransport(new IPEndPoint(IPAddress.Any, self.Config.OuterPort));
             self.InnerSocket = new UdpTransport(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 0));
         }
 

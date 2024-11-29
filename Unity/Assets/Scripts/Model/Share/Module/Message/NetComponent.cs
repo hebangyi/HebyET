@@ -14,5 +14,6 @@ namespace ET
     {
         public AService AService { get; set; }
         public bool IsRandomPort = false;
+        public int OutPort;
     }
 }

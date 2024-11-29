@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace ET.Server
@@ -27,8 +28,16 @@ namespace ET.Server
                         }
                         var sceneId = sceneConfig.SceneId;
                         var sceneType = sceneConfig.SceneType;
-                        await FiberManager.Instance.Create(SchedulerType.ThreadPool, sceneId, 0, sceneType, $"{sceneType}-{sceneId}");
+                        var fiberId = await FiberManager.Instance.Create(SchedulerType.ThreadPool, sceneId, 0, sceneType, $"{sceneType}-{sceneId}");
+                        var fiber = FiberManager.Instance.fibers.GetValueOrDefault(fiberId);
+                        if (fiber != null)
+                        {
+                            // TODO 通用组件
+                            // TODO 在自己的纤程中加入组件
+                            fiber.Root.AddComponent<EtcdClientComponent>();
+                        }
                     }
+                    await EventSystem.Instance.PublishAsync(root, new InitServerFinish1());
                     break;
                 }
                 case AppType.Watcher:
