@@ -24,6 +24,10 @@ namespace ET.Server
 			response.GateId = g2RGetLoginKey.GateId;
 			
 			CloseSession(session).Coroutine();*/
+			response.Address = "127.0.0.1";
+			response.Key = 0;
+			response.GateId = 0; 
+			
 			await ETTask.CompletedTask;
 		}
 

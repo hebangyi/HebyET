@@ -1,31 +1,33 @@
 ﻿
 using System;
 
-namespace ET;
-
-public class JsonHelper
+namespace ET
 {
-    public static string ToJson(object o)
+    public class JsonHelper
     {
-        return MongoHelper.ToJson(o);
-    }
-        
-    public static object FromJson(Type type, string json)
-    {
-        if (json == null)
+        public static string ToJson(object o)
         {
-            return null;
-        }
-        return MongoHelper.FromJson(type, json);
-    }
-        
-    public static T FromJson<T>(string json)
-    {
-        if (json == null)
-        {
-            return default(T);
+            return MongoHelper.ToJson(o);
         }
         
-        return MongoHelper.FromJson<T>(json);
+        public static object FromJson(Type type, string json)
+        {
+            if (json == null)
+            {
+                return null;
+            }
+            return MongoHelper.FromJson(type, json);
+        }
+        
+        public static T FromJson<T>(string json)
+        {
+            if (json == null)
+            {
+                return default(T);
+            }
+        
+            return MongoHelper.FromJson<T>(json);
+        }
     }
 }
+
