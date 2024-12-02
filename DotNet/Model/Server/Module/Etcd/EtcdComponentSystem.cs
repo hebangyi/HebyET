@@ -8,6 +8,7 @@ using dotnet_etcd;
 using Grpc.Core;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MongoDB.Bson;
+using Exception = System.Exception;
 
 namespace ET.Server;
 
@@ -79,7 +80,7 @@ public static partial class EtcdComponentSystem
                     }
 
                     etcdSceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, outPort);
-                } 
+                }
                 else if (scene.SceneType is SceneType.Router)
                 {
                     var routerComponent = scene.GetComponent<RouterComponent>();
@@ -88,7 +89,7 @@ public static partial class EtcdComponentSystem
                     {
                         outPort = routerComponent.OuterPort;
                     }
-                    
+
                     etcdSceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, outPort);
                 }
                 else
@@ -108,7 +109,7 @@ public static partial class EtcdComponentSystem
                 regSceneNodePack.RegPath = regPath;
                 regSceneNodePack.RegValue = regValue;
                 regSceneNodePack.SceneNodeInfo = etcdSceneNodeInfo;
-                EtcdManager.Instance.RegSceneNodePacks.Add(regSceneNodePack);
+                EtcdManager.Instance.SceneId2RegSceneNodePacks.Add((int)sceneId, regSceneNodePack);
             }
         }
         else
@@ -122,30 +123,34 @@ public static partial class EtcdComponentSystem
     /// </summary>
     private static async ETTask StartReg(this EtcdComponent self)
     {
-        await self.RegEtcd();
-        // var timerComponent = self.Root().GetComponent<TimerComponent>();
-        // await timerComponent.WaitAsync(60 * 1000);
-        // await self.StartReg();
+        try
+        {
+            await self.RegEtcd();
+        }
+        catch (Exception e)
+        {
+            Log.Error(e);
+            var timerComponent = self.Root().GetComponent<TimerComponent>();
+            await timerComponent.WaitAsync(10 * 1000);
+            self.StartReg().Coroutine();
+        }
     }
 
     public static async ETTask RegEtcd(this EtcdComponent self)
     {
-        EtcdClient client = self.RegClient;
-        foreach (var pack in EtcdManager.Instance.RegSceneNodePacks)
+        foreach (var pack in EtcdManager.Instance.SceneId2RegSceneNodePacks.Values)
         {
             await self.RegEtcdNode(pack);
         }
-        self.Fiber().ThreadSynchronizationContext.Post(() =>
-        {
-            self.StartKeepAliveTimer().Coroutine();    
-        });
-    }
 
+        self.Fiber().ThreadSynchronizationContext.Post(() => { self.StartKeepAliveTimer().Coroutine(); });
+    }
 
     public static async ETTask RegEtcdNode(this EtcdComponent self, RegSceneNodePack pack)
     {
         EtcdClient client = self.RegClient;
-        var lease = await client.LeaseGrantAsync(new LeaseGrantRequest { TTL = self.Config.TTL }, cancellationToken: ServerManager.Instance.CancellationToken.Token);
+        var lease = await client.LeaseGrantAsync(new LeaseGrantRequest { TTL = self.Config.TTL },
+            cancellationToken: ServerManager.Instance.CancellationToken.Token);
         var leaseId = lease.ID;
         var request = new PutRequest();
         request.Lease = leaseId;
@@ -155,68 +160,79 @@ public static partial class EtcdComponentSystem
         pack.LeaseId = leaseId;
     }
 
-
     public static async ETTask StartKeepAliveTimer(this EtcdComponent self)
     {
-        EtcdClient client = self.RegClient;
-        foreach (var pack in EtcdManager.Instance.RegSceneNodePacks)
+        try
         {
-            var leaseId = pack.LeaseId;
-            if (leaseId == 0)
+
+            EtcdClient client = self.RegClient;
+            foreach (var pack in EtcdManager.Instance.SceneId2RegSceneNodePacks.Values)
             {
-                Log.Info($"ETCD 重新注册 {pack.RegPath.ToString()}");
-                await self.RegEtcdNode(pack);
-            }
-            
-            LeaseKeepAliveRequest keepAliveRequest = new LeaseKeepAliveRequest();
-            keepAliveRequest.ID = leaseId;
-            // 开启续约
-            await client.LeaseKeepAlive(keepAliveRequest, (res) =>
-            {
-                // 表明已经失效 需要重新注册 
-                if (res.TTL == 0)
+                var leaseId = pack.LeaseId;
+                if (leaseId == 0)
                 {
-                    Log.Info("ETCD TTL失效 重新注册");
-                    pack.LeaseId = 0;
+                    Log.Info($"ETCD 重新注册 {pack.RegPath.ToString()}");
+                    await self.RegEtcdNode(pack);
                 }
-            }, ServerManager.Instance.CancellationToken.Token);
+
+                LeaseKeepAliveRequest keepAliveRequest = new LeaseKeepAliveRequest();
+                keepAliveRequest.ID = leaseId;
+                // 开启续约
+                await client.LeaseKeepAlive(keepAliveRequest, (res) =>
+                {
+                    // 表明已经失效 需要重新注册 
+                    if (res.TTL == 0)
+                    {
+                        Log.Info("ETCD TTL失效 重新注册");
+                        pack.LeaseId = 0;
+                    }
+                }, ServerManager.Instance.CancellationToken.Token);
+            }
+
+            var timerComponent = self.Root().GetComponent<TimerComponent>();
+            await timerComponent.WaitAsync(self.Config.Interval * 1000);
+            // 不循环 await调用
+            self.Fiber().ThreadSynchronizationContext.Post(() => { self.StartKeepAliveTimer().Coroutine(); });
         }
-        var timerComponent = self.Root().GetComponent<TimerComponent>();
-        await timerComponent.WaitAsync(self.Config.Interval * 1000);
-        // 不循环 await调用
-        self.Fiber().ThreadSynchronizationContext.Post(() =>
+        catch (Exception e)
         {
-            self.StartKeepAliveTimer().Coroutine();    
-        });
+            Log.Error(e);
+            self.StartReg().Coroutine();
+        }
     }
-    
 
     /// <summary>
     /// 开始订阅
     /// </summary>
     private static async ETTask StartWatch(this EtcdComponent self)
     {
-        await self.EtcdWatchClient.WatchRangeAsync(EtcdManager.Instance.WatchingScenePaths.ToArray(), delegate(WatchEvent[] events)
+        try
         {
-            self.Fiber().ThreadSynchronizationContext.Post(() =>
+            await self.EtcdWatchClient.WatchRangeAsync(EtcdManager.Instance.WatchingScenePaths.ToArray(), delegate(WatchEvent[] events)
             {
-                foreach (var data in events)
+                self.Fiber().ThreadSynchronizationContext.Post(() =>
                 {
-                    if (data.Type == Mvccpb.Event.Types.EventType.Put)
+                    foreach (var data in events)
                     {
-                        var node = JsonHelper.FromJson<EtcdSceneNodeInfo>(data.Value);
-                        if (node == null) continue;
-                        self.OnWatchEvent(data.Key, node, true);
+                        if (data.Type == Mvccpb.Event.Types.EventType.Put)
+                        {
+                            var node = JsonHelper.FromJson<EtcdSceneNodeInfo>(data.Value);
+                            if (node == null) continue;
+                            self.OnWatchEvent(data.Key, node, true);
+                        }
+                        else
+                        {
+                            self.OnWatchEvent(data.Key, null, false);
+                        }
                     }
-                    else
-                    {
-                        self.OnWatchEvent(data.Key, null, false);
-                    }
-                }
+                });
             });
-        });
-
-        self.StartWatch().Coroutine();
+        }
+        catch (Exception e)
+        {
+            Log.Error(e);
+            self.StartWatch().Coroutine();
+        }
     }
 
     public static void OnWatchEvent(this EtcdComponent self, string key, EtcdSceneNodeInfo sceneNode, bool isCreate)
@@ -248,6 +264,16 @@ public static partial class EtcdComponentSystem
             list.Add(sceneNode);
             EtcdManager.Instance.WatchId2SceneNodes[sceneId] = sceneNode;
             Log.Info($"ETCD WatchEvent : Create Node :\n {JsonHelper.ToJson(sceneNode)}");
+
+            foreach (var regSceneNodePack in EtcdManager.Instance.SceneId2RegSceneNodePacks.Values)
+            {
+                if (regSceneNodePack.SceneNodeInfo.SceneId == sceneNode.SceneId)
+                {
+                    Log.Info($"ETCD Watch Self Node , SceneId : {sceneId}");
+
+                    // fiber.EntitySystem
+                }
+            }
         }
         else
         {

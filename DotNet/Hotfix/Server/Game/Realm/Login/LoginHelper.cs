@@ -1,6 +1,6 @@
 ﻿namespace ET.Server;
 
-public class LoginHelper
+public static class LoginHelper
 {
     
 }

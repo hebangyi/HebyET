@@ -50,7 +50,7 @@ public class RegSceneNodePack
 public class EtcdManager : Singleton<EtcdManager>, ISingletonAwake
 {
     // 本服注册的Etcd信息
-    public List<RegSceneNodePack> RegSceneNodePacks = new();
+    public Dictionary<int, RegSceneNodePack> SceneId2RegSceneNodePacks = new();
     
     // 本服监听的SceneNodes
     public ConcurrentDictionary<SceneType, List<EtcdSceneNodeInfo>> WatchSceneNodes = new();
