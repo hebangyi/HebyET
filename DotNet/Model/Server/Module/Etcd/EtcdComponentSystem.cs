@@ -164,7 +164,6 @@ public static partial class EtcdComponentSystem
     {
         try
         {
-
             EtcdClient client = self.RegClient;
             foreach (var pack in EtcdManager.Instance.SceneId2RegSceneNodePacks.Values)
             {
@@ -253,7 +252,15 @@ public static partial class EtcdComponentSystem
                 }
             }
 
-            EtcdManager.Instance.WatchId2SceneNodes.Remove(sceneId, out _);
+            if (EtcdManager.Instance.WatchId2SceneNodes.Remove((int)sceneId, out _) && EtcdHelper.IsRegSceneNode((int)sceneId))
+            {
+                var fiber = FiberManager.Instance.Get((int)sceneId);
+                if (fiber != null)
+                {
+                    fiber.ThreadSynchronizationContext.Post(() => { EventSystem.Instance.Publish(fiber.Root, new EtcdRemoveSelfSceneEvent()); });
+                }
+            }
+
             // add
             if (!EtcdManager.Instance.WatchSceneNodes.TryGetValue(sceneType, out list))
             {
@@ -262,16 +269,15 @@ public static partial class EtcdComponentSystem
             }
 
             list.Add(sceneNode);
-            EtcdManager.Instance.WatchId2SceneNodes[sceneId] = sceneNode;
+            EtcdManager.Instance.WatchId2SceneNodes[(int)sceneId] = sceneNode;
             Log.Info($"ETCD WatchEvent : Create Node :\n {JsonHelper.ToJson(sceneNode)}");
-
-            foreach (var regSceneNodePack in EtcdManager.Instance.SceneId2RegSceneNodePacks.Values)
+            
+            if (EtcdHelper.IsRegSceneNode((int)sceneId))
             {
-                if (regSceneNodePack.SceneNodeInfo.SceneId == sceneNode.SceneId)
+                var fiber = FiberManager.Instance.Get((int)sceneId);
+                if (fiber != null)
                 {
-                    Log.Info($"ETCD Watch Self Node , SceneId : {sceneId}");
-
-                    // fiber.EntitySystem
+                    fiber.ThreadSynchronizationContext.Post(() => { EventSystem.Instance.Publish(fiber.Root, new EtcdWatchSelfSceneEvent()); });
                 }
             }
         }
@@ -286,7 +292,14 @@ public static partial class EtcdComponentSystem
                 }
             }
 
-            EtcdManager.Instance.WatchId2SceneNodes.Remove(sceneId, out _);
+            if (EtcdManager.Instance.WatchId2SceneNodes.Remove((int)sceneId, out _) && EtcdHelper.IsRegSceneNode((int)sceneId))
+            {
+                var fiber = FiberManager.Instance.Get((int)sceneId);
+                if (fiber != null)
+                {
+                    fiber.ThreadSynchronizationContext.Post(() => { EventSystem.Instance.Publish(fiber.Root, new EtcdRemoveSelfSceneEvent()); });
+                }
+            }
             Log.Info($"ETCD WatchEvent RemoveNode , SceneType : {sceneType}, Scene sceneId : {sceneId}");
         }
     }

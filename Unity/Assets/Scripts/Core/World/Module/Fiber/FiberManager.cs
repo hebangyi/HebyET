@@ -119,9 +119,8 @@ namespace ET
             });
             await tcs.Task;
         }
-
-        // 不允许外部调用，容易出现多线程问题, 只能通过消息通信，不允许直接获取其它Fiber引用
-        internal Fiber Get(int id)
+        
+        public Fiber Get(int id)
         {
             this.fibers.TryGetValue(id, out Fiber fiber);
             return fiber;

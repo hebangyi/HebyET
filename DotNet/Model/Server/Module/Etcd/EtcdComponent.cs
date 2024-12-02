@@ -22,3 +22,12 @@ public class EtcdComponent : Entity, IAwake
     public EtcdClient RegClient;
     public EtcdClient EtcdWatchClient;
 }
+
+public struct EtcdRemoveSelfSceneEvent
+{
+}
+
+
+public struct EtcdWatchSelfSceneEvent
+{
+}

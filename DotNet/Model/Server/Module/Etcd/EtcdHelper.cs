@@ -57,6 +57,8 @@ public static class EtcdHelper
         return sceneNodes.RandomArray();
     }
     
-    
-    
+    public static bool IsRegSceneNode(int sceneId)
+    {
+        return EtcdManager.Instance.SceneId2RegSceneNodePacks.ContainsKey(sceneId);
+    }
 }

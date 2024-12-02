@@ -54,7 +54,7 @@ public class EtcdManager : Singleton<EtcdManager>, ISingletonAwake
     
     // 本服监听的SceneNodes
     public ConcurrentDictionary<SceneType, List<EtcdSceneNodeInfo>> WatchSceneNodes = new();
-    public ConcurrentDictionary<long, EtcdSceneNodeInfo> WatchId2SceneNodes = new();
+    public ConcurrentDictionary<int, EtcdSceneNodeInfo> WatchId2SceneNodes = new();
 
     //监听的 SceneTypes
     public HashSet<SceneType> WatchingSceneTypes = new();
