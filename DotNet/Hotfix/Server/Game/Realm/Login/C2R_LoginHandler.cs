@@ -9,7 +9,8 @@ namespace ET.Server
 	{
 		protected override async ETTask Run(Session session, C2R_Login request, R2C_Login response)
 		{
-			/*// 随机分配一个Gate
+			/*// 随机分配一个Ga
+			 te
 			StartSceneConfig config = RealmGateAddressHelper.GetGate(session.Zone(), request.Account);
 			Log.Debug($"gate address: {config}");
 			
