@@ -19,7 +19,7 @@ function StartProcess {
 }
 
 $targets = @(
-	[Target]@{ExeFileName='Tool.exe'; RelativePath=".\..\..\..\Bin\"; Params="--AppType Proto2CS"}
+	[Target]@{ExeFileName='Tool.exe'; RelativePath=".\..\..\..\ETTools\"; Params="--AppType Proto2CS"}
     )
 	
 if ($args[0].Equals('wt')) {
