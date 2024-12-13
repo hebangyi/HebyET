@@ -81,7 +81,7 @@ public static partial class EtcdComponentSystem
 
                     etcdSceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, outPort);
                 }
-                else if (scene.SceneType is SceneType.Router)
+                else if (scene.SceneType is SceneType.RouterGate)
                 {
                     var routerComponent = scene.GetComponent<RouterComponent>();
                     int outPort = 0;

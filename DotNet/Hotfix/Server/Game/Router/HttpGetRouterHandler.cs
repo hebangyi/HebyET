@@ -12,7 +12,7 @@ namespace ET.Server
         {
             HttpGetRouterResponse response = HttpGetRouterResponse.Create();
             EtcdSceneNodeInfo accountSceneNode = EtcdHelper.GetRandomNode(SceneType.Account);
-            EtcdSceneNodeInfo routerSceneNode = EtcdHelper.GetRandomNode(SceneType.Router);
+            EtcdSceneNodeInfo routerSceneNode = EtcdHelper.GetRandomNode(SceneType.RouterGate);
 
             if (accountSceneNode != null)
             {

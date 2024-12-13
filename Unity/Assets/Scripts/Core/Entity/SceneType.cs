@@ -18,7 +18,7 @@ namespace ET
 		Http = 1 << 6,
 		Location = 1 << 7,
 		Map = 1 << 8,
-		Router = 1 << 9,
+		RouterGate = 1 << 9,
 		
 		
 		

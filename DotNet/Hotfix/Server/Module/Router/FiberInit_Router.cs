@@ -2,8 +2,8 @@
 
 namespace ET.Server
 {
-    [Invoke((long)SceneType.Router)]
-    public class FiberInit_Router: AInvokeHandler<FiberInit, ETTask>
+    [Invoke((long)SceneType.RouterGate)]
+    public class FiberInit_RouterGate: AInvokeHandler<FiberInit, ETTask>
     {
         public override async ETTask Handle(FiberInit fiberInit)
         {
