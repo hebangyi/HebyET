@@ -1,5 +1,6 @@
 # 工具文件
 Tools/*
+ETTools/*
 
 #IDE文件
 .vs/
