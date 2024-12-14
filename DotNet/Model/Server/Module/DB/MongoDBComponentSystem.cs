@@ -57,36 +57,7 @@ namespace ET.Server
             return await cursor.ToListAsync();
         }
 
-        public static async ETTask<List<T>> Query1<T>(this MongoDBComponent self, Expression<Func<T, bool>> exp)
-                where T : MongoEntity
-        {
-            
-            if (exp is LambdaExpression lambda)
-            {
-                var body = lambda.Body;
-
-                // 检查是否是一个成员访问（例如 d.Id）
-                if (body is MemberExpression member)
-                {
-                    fields.Add(member.Member.Name);
-                }
-                // 处理其他表达式类型（例如复合表达式）
-                else if (body is BinaryExpression binary)
-                {
-                    // 如果是复合表达式，可以递归解析
-                    fields.AddRange(GetFieldsFromExpression(binary.Left));
-                    fields.AddRange(GetFieldsFromExpression(binary.Right));
-                }
-            }
-            
-            ExpressionFilterDefinition<T> filter = new ExpressionFilterDefinition<T>(exp);
-            IBsonSerializerRegistry serializerRegistry = BsonSerializer.SerializerRegistry;
-            IBsonSerializer<T> documentSerializer = serializerRegistry.GetSerializer<T>();
-            string json = filter.Render(documentSerializer, serializerRegistry).ToJson();
-            return null;
-        }
-
-        public static async ETTask<List<T>> QueryJson<T>(this MongoDBComponent self, string json) where T : Entity
+        public static async ETTask<List<T>> QueryJson<T>(this MongoDBComponent self, string json) where T : MongoEntity
         {
             string collectionName = typeof(T).Name;
             FilterDefinition<T> filterDefinition = new JsonFilterDefinition<T>(json);
@@ -98,24 +69,17 @@ namespace ET.Server
 
         #region Insert
 
-        public static async ETTask InsertBatch<T>(this DBComponent self, int zone, IEnumerable<T> list, string collection = null) where T : Entity
+        public static async ETTask InsertBatch<T>(this MongoDBComponent self, int zone, IEnumerable<T> list) where T : MongoEntity
         {
-            if (collection == null)
-            {
-                collection = typeof(T).Name;
-            }
-
-            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.DB, RandomGenerator.RandInt64() % DBComponent.TaskCount))
-            {
-                await self.GetCollection(zone, collection).InsertManyAsync(list);
-            }
+            string collectionName = typeof(T).Name;
+            await self.MongoDatabase.GetCollection<T>(collectionName).InsertManyAsync(list);
         }
 
         #endregion
 
         #region Save
 
-        public static async ETTask Save<T>(this DBComponent self, int zone, T entity, string collection = null) where T : Entity
+        public static async ETTask Save<T>(this MongoDBComponent self, T entity) where T : MongoEntity
         {
             if (entity == null)
             {
@@ -124,38 +88,18 @@ namespace ET.Server
                 return;
             }
 
-            if (collection == null)
-            {
-                collection = entity.GetType().Name;
-            }
-
-            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.DB, entity.Id % DBComponent.TaskCount))
-            {
-                await self.GetCollection(zone, collection).ReplaceOneAsync(d => d.Id == entity.Id, entity, new ReplaceOptions { IsUpsert = true });
-            }
+            var collectionName = entity.GetType().Name;
+            await self.MongoDatabase.GetCollection<T>(collectionName)
+                    .ReplaceOneAsync(d => d.Id == entity.Id, entity, new ReplaceOptions { IsUpsert = true });
         }
 
-        public static async ETTask Save<T>(this DBComponent self, int zone, long taskId, T entity, string collection = null) where T : Entity
+        public static void SaveNotWait<T>(this MongoDBComponent self, T entity)
+                where T : MongoEntity
         {
-            if (entity == null)
-            {
-                Log.Error($"save entity is null: {typeof(T).Name}");
-
-                return;
-            }
-
-            if (collection == null)
-            {
-                collection = entity.GetType().Name;
-            }
-
-            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.DB, taskId % DBComponent.TaskCount))
-            {
-                await self.GetCollection(zone, collection).ReplaceOneAsync(d => d.Id == entity.Id, entity, new ReplaceOptions { IsUpsert = true });
-            }
+            self.Save(entity).Coroutine();
         }
 
-        public static async ETTask Save(this DBComponent self, int zone, long id, List<Entity> entities)
+        public static async ETTask SaveBatch<T>(this MongoDBComponent self, List<T> entities) where T: MongoEntity
         {
             if (entities == null)
             {
@@ -163,79 +107,56 @@ namespace ET.Server
                 return;
             }
 
-            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.DB, id % DBComponent.TaskCount))
+            string collectionName = typeof(T).Name;
+            var bulkOps = new List<WriteModel<Entity>>();
+            foreach (Entity entity in entities)
             {
-                foreach (Entity entity in entities)
+                if (entity == null)
                 {
-                    if (entity == null)
-                    {
-                        continue;
-                    }
-
-                    await self.GetCollection(zone, entity.GetType().Name)
-                            .ReplaceOneAsync(d => d.Id == entity.Id, entity, new ReplaceOptions { IsUpsert = true });
+                    continue;
                 }
-            }
-        }
 
-        public static async ETTask SaveNotWait<T>(this DBComponent self, int zone, T entity, long taskId = 0, string collection = null)
-                where T : Entity
-        {
-            if (taskId == 0)
-            {
-                await self.Save(zone, entity, collection);
-
-                return;
+                var filter = Builders<Entity>.Filter.Eq(p => p.Id, entity.Id);
+                var replace = new ReplaceOneModel<Entity>(filter, entity);
+                bulkOps.Add(replace);
             }
 
-            await self.Save(zone, taskId, entity, collection);
+            var result = await self.MongoDatabase.GetCollection<Entity>(collectionName).BulkWriteAsync(bulkOps);
         }
 
         #endregion
 
-        #region Remove
+        #region Delete
 
-        public static async ETTask<long> Remove<T>(this DBComponent self, int zone, long id, string collection = null) where T : Entity
+        public static async ETTask<long> Delete<T>(this MongoDBComponent self, long id) where T : MongoEntity
         {
-            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.DB, id % DBComponent.TaskCount))
-            {
-                DeleteResult result = await self.GetCollection<T>(zone, collection).DeleteOneAsync(d => d.Id == id);
-
-                return result.DeletedCount;
-            }
+            string collectionName = typeof(T).Name;
+            DeleteResult result = await self.MongoDatabase.GetCollection<T>(collectionName).DeleteOneAsync(d => d.Id == id);
+            return result.DeletedCount;
         }
 
-        public static async ETTask<long> Remove<T>(this DBComponent self, int zone, long taskId, long id, string collection = null) where T : Entity
+        public static async ETTask<long> DeleteByIds<T>(this MongoDBComponent self, params long[] ids) where T: MongoEntity
         {
-            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.DB, taskId % DBComponent.TaskCount))
+            string collectionName = typeof(T).Name;
+            var bulkOps = new List<WriteModel<T>>();
+            
+            foreach (var id in ids)
             {
-                DeleteResult result = await self.GetCollection<T>(zone, collection).DeleteOneAsync(d => d.Id == id);
-
-                return result.DeletedCount;
+                var filter = Builders<T>.Filter.Eq(p => p.Id, id);
+                var delete = new DeleteOneModel<T>(filter);
+                bulkOps.Add(delete);
             }
+            
+            var result = await self.MongoDatabase.GetCollection<T>(collectionName).BulkWriteAsync(bulkOps);
+            return result.DeletedCount;
         }
-
-        public static async ETTask<long> Remove<T>(this DBComponent self, int zone, Expression<Func<T, bool>> filter, string collection = null)
-                where T : Entity
+        
+        public static async ETTask<long> Delete<T>(this MongoDBComponent self, Expression<Func<T, bool>> filter)
+                where T : MongoEntity
         {
-            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.DB, RandomGenerator.RandInt64() % DBComponent.TaskCount))
-            {
-                DeleteResult result = await self.GetCollection<T>(zone, collection).DeleteManyAsync(filter);
-
-                return result.DeletedCount;
-            }
-        }
-
-        public static async ETTask<long> Remove<T>(this DBComponent self, int zone, long taskId, Expression<Func<T, bool>> filter,
-        string collection = null)
-                where T : Entity
-        {
-            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.DB, taskId % DBComponent.TaskCount))
-            {
-                DeleteResult result = await self.GetCollection<T>(zone, collection).DeleteManyAsync(filter);
-
-                return result.DeletedCount;
-            }
+            string collectionName = typeof(T).Name;
+            DeleteResult result = await self.MongoDatabase.GetCollection<T>(collectionName).DeleteManyAsync(filter);
+            return result.DeletedCount;
         }
 
         #endregion

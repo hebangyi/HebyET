@@ -135,13 +135,5 @@ namespace ET
         {
             return Deserialize<T>(Serialize(t));
         }
-
-
-        public static string[] GetFieldsFromExpression(Expression expression)
-        {
-            var fields = new List<String>();
-            return fields;
-        }
-        
     }
 }
