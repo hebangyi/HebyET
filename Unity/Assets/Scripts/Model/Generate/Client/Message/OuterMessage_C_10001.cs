@@ -656,13 +656,13 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.C2R_Login)]
-    [ResponseType(nameof(R2C_Login))]
-    public partial class C2R_Login : MessageObject, ISessionRequest
+    [Message(OuterMessage.C2A_Login)]
+    [ResponseType(nameof(A2C_Login))]
+    public partial class C2A_Login : MessageObject, ISessionRequest
     {
-        public static C2R_Login Create(bool isFromPool = false)
+        public static C2A_Login Create(bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(C2R_Login), isFromPool) as C2R_Login;
+            return ObjectPool.Instance.Fetch(typeof(C2A_Login), isFromPool) as C2A_Login;
         }
 
         [MemoryPackOrder(0)]
@@ -696,12 +696,12 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.R2C_Login)]
-    public partial class R2C_Login : MessageObject, ISessionResponse
+    [Message(OuterMessage.A2C_Login)]
+    public partial class A2C_Login : MessageObject, ISessionResponse
     {
-        public static R2C_Login Create(bool isFromPool = false)
+        public static A2C_Login Create(bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(R2C_Login), isFromPool) as R2C_Login;
+            return ObjectPool.Instance.Fetch(typeof(A2C_Login), isFromPool) as A2C_Login;
         }
 
         [MemoryPackOrder(0)]
@@ -1105,8 +1105,8 @@ namespace ET
         public const ushort G2C_Test = 10020;
         public const ushort C2M_Reload = 10021;
         public const ushort M2C_Reload = 10022;
-        public const ushort C2R_Login = 10023;
-        public const ushort R2C_Login = 10024;
+        public const ushort C2A_Login = 10023;
+        public const ushort A2C_Login = 10024;
         public const ushort C2G_LoginGate = 10025;
         public const ushort G2C_LoginGate = 10026;
         public const ushort G2C_TestHotfixMessage = 10027;

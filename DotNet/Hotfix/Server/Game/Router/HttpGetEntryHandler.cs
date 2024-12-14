@@ -5,8 +5,8 @@ using System.Text;
 
 namespace ET.Server
 {
-    [HttpHandler(SceneType.Entry, "/get_router")]
-    public class HttpGetRouterHandler : IHttpHandler
+    [HttpHandler(SceneType.Entry, "/get_entry")]
+    public class HttpGetEntryHandler : IHttpHandler
     {
         public async ETTask Handle(Scene scene, HttpListenerContext context)
         {

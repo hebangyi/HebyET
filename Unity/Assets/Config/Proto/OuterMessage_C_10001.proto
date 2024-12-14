@@ -142,15 +142,15 @@ message M2C_Reload // ISessionResponse
 	string Message = 3;
 }
 
-// ResponseType R2C_Login
-message C2R_Login // ISessionRequest
+// ResponseType A2C_Login
+message C2A_Login // ISessionRequest
 {
 	int32 RpcId = 1;
 	string  Account = 2;  // 帐号
 	string  Password = 3;  // 密码
 }
 
-message R2C_Login // ISessionResponse
+message A2C_Login // ISessionResponse
 {
 	int32 RpcId = 1;
 	int32 Error = 2;

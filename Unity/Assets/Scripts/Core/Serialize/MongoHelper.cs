@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq.Expressions;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
+using NativeCollection.UnsafeType;
 
 namespace ET
 {
@@ -133,5 +135,13 @@ namespace ET
         {
             return Deserialize<T>(Serialize(t));
         }
+
+
+        public static string[] GetFieldsFromExpression(Expression expression)
+        {
+            var fields = new List<String>();
+            return fields;
+        }
+        
     }
 }

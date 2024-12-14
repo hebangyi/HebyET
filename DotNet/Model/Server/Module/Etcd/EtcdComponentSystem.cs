@@ -70,7 +70,7 @@ public static partial class EtcdComponentSystem
                 }
 
                 EtcdSceneNodeInfo etcdSceneNodeInfo = null;
-                if (scene.SceneType is SceneType.Gate or SceneType.Account)
+                if (scene.SceneType is SceneType.Lobby or SceneType.Account)
                 {
                     var netComponent = scene.GetComponent<NetComponent>();
                     int outPort = 0;
