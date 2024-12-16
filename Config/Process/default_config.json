@@ -1,0 +1,101 @@
+﻿{
+    "Global": {
+        "BigZone": 1,
+        "ProcessId": 1,
+		"OuterIp": "127.0.0.1",
+        "InnerIp": "127.0.0.1",
+        "InnerPort": 20101
+    },
+    "Singleton": {
+        "DBComponent": {
+            "Enable": true,
+            "ZoneDbInfos": [
+                {
+                    "zone": 0,
+                    "DbConnection": "mongodb://localhost:27017/",
+                    "DbName": "Account"
+                },
+                {
+                    "zone": 1,
+                    "DbConnection": "mongodb://localhost:27017/",
+                    "DbName": "Unit"
+                }
+            ]
+        }
+    },
+    "Scenes": {
+		"Main":
+		{
+			"SceneId": -1,
+			"ModulesConfig": {
+				"EtcdComponent": {
+					"EtcdAddress": "http://127.0.0.1:2379"
+				}
+			}
+		},
+        "Account": {
+            "SceneId": 10001,
+            "ModulesConfig": {
+                "NetComponent": {
+                    "OuterPort": 9500
+                }
+            }
+        },
+        "Entry": {
+            "SceneId": 30001,
+            "ModulesConfig": {   
+                "HttpComponent": {
+                    "Addresses": "http://*:18081/"
+                }
+            }
+        },
+        "Router": {
+            "SceneId": 40001,
+            "ModulesConfig": {
+                "RouterGateComponent": {
+                    "OuterPort": 30300
+                }
+            }
+        },
+        "Gate": {
+            "SceneId": 50001,
+            "ModulesConfig": {
+                "NetComponent": {
+                    "OuterPort": 6666
+                }
+            }
+        },
+        "Lobby": {
+            "SceneId": 60001,
+            "ModulesConfig": {
+                "UserDBComponent": {
+                    "DbConnection": "mongodb://localhost:27017/",
+                    "DbName": "user_db",
+                    "UserCollection": "UserItem"
+                }
+            }
+        },
+        "Battle": {
+            "SceneId": 70001,
+            "ModulesConfig": {
+                "UserDBComponent": {
+                    "DbConnection": "mongodb://localhost:27017/",
+                    "DbName": "user_db",
+                    "UserCollection": "UserItem"
+                }
+            }
+        },
+        "DBCache": {
+            "SceneId": 80001,
+            "ModulesConfig": {
+
+            }
+        },
+        "Location": {
+            "SceneId": 90001,
+            "ModulesConfig": {
+
+            }
+        }
+    }
+}
