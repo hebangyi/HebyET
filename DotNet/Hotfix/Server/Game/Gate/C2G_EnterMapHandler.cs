@@ -1,6 +1,6 @@
 ﻿namespace ET.Server
 {
-	[MessageSessionHandler(SceneType.Gate)]
+	[MessageSessionHandler(SceneType.Lobby)]
 	public class C2G_EnterMapHandler : MessageSessionHandler<C2G_EnterMap, G2C_EnterMap>
 	{
 		protected override async ETTask Run(Session session, C2G_EnterMap request, G2C_EnterMap response)

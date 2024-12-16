@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using System.Collections.Generic;
+using MongoDB.Driver;
 
 namespace ET.Server
 {
@@ -15,10 +16,11 @@ namespace ET.Server
     }
 
     [ComponentOf(typeof (Scene))]
-    public class MongoDBComponent : Entity, IAwake, IDestroy
+    public class MongoDBComponent : Entity, IAwake
     {
         public MongoDBComponentConfig Config;
         public MongoClient MongoClient;
         public IMongoDatabase MongoDatabase;
+        public HashSet<string> QueryIndexs = new();
     }
 }

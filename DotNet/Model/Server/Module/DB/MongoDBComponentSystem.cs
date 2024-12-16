@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
@@ -17,11 +19,6 @@ namespace ET.Server
             self.Config = ProcessConfig.Instance.GetSceneComponentConfig<MongoDBComponentConfig>(self.Root());
             self.MongoClient = new MongoClient(self.Config.DbConnection);
             self.MongoDatabase = self.MongoClient.GetDatabase(self.Config.DbName);
-        }
-
-        [EntitySystem]
-        private static void Destroy(this ET.Server.MongoDBComponent self)
-        {
         }
 
         #region Query
@@ -65,6 +62,72 @@ namespace ET.Server
             return await cursor.ToListAsync();
         }
 
+
+        public static async ETTask<List<string>> IndexList(this MongoDBComponent self, string collectionName)
+        {
+            var indexes = await self.MongoDatabase.GetCollection<BsonDocument>(collectionName).Indexes.ListAsync();
+            // 将索引转换为 List<BsonDocument>
+            List<BsonDocument> indexBsonDocumentList = await indexes.ToListAsync();
+            // 输出所有索引的信息
+            List<string> indexList = new List<string>();
+            foreach (var index in indexBsonDocumentList)
+            {
+                indexList.Add(index.ToJson());
+            }
+            return indexList;
+        }
+        
+        public static async ETTask TryCreateCollectionIndex(this MongoDBComponent self, string collectionName, List<string> fields)
+        {
+            try
+            {
+                if (fields == null || fields.Count == 0)
+                {
+                    return;
+                }
+
+                if (fields.Contains("_id"))
+                {
+                    return;
+                }
+
+                StringBuilder sbKey = new StringBuilder();
+                // 1 表示升序 -1 表示降序
+                // TODO 能不能优化字符串
+                List<string> mongoKeys = fields.Select(s => s + "_1").ToList();
+                sbKey = sbKey.AppendJoin('_', mongoKeys);
+                string indexQuery = sbKey.ToString();
+
+                if (self.QueryIndexs.Contains(indexQuery))
+                {
+                    return;
+                }
+
+                // 创建索引
+                var collection = self.MongoDatabase.GetCollection<BsonDocument>(collectionName);
+                IndexKeysDefinition<BsonDocument> indexKeysDef = null;
+                foreach (var x in fields)
+                {
+                    if (indexKeysDef == null)
+                    {
+                        indexKeysDef = Builders<BsonDocument>.IndexKeys.Ascending(x);
+                    }
+                    else
+                    {
+                        indexKeysDef = indexKeysDef.Ascending(x);
+                    }
+                }
+
+                var indexModel = new CreateIndexModel<BsonDocument>(indexKeysDef);
+                await collection.Indexes.CreateOneAsync(indexModel);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return;
+            }
+        }
+
         #endregion
 
         #region Insert
@@ -99,7 +162,7 @@ namespace ET.Server
             self.Save(entity).Coroutine();
         }
 
-        public static async ETTask SaveBatch<T>(this MongoDBComponent self, List<T> entities) where T: MongoEntity
+        public static async ETTask SaveBatch<T>(this MongoDBComponent self, List<T> entities) where T : MongoEntity
         {
             if (entities == null)
             {
@@ -135,22 +198,22 @@ namespace ET.Server
             return result.DeletedCount;
         }
 
-        public static async ETTask<long> DeleteByIds<T>(this MongoDBComponent self, params long[] ids) where T: MongoEntity
+        public static async ETTask<long> DeleteByIds<T>(this MongoDBComponent self, params long[] ids) where T : MongoEntity
         {
             string collectionName = typeof(T).Name;
             var bulkOps = new List<WriteModel<T>>();
-            
+
             foreach (var id in ids)
             {
                 var filter = Builders<T>.Filter.Eq(p => p.Id, id);
                 var delete = new DeleteOneModel<T>(filter);
                 bulkOps.Add(delete);
             }
-            
+
             var result = await self.MongoDatabase.GetCollection<T>(collectionName).BulkWriteAsync(bulkOps);
             return result.DeletedCount;
         }
-        
+
         public static async ETTask<long> Delete<T>(this MongoDBComponent self, Expression<Func<T, bool>> filter)
                 where T : MongoEntity
         {

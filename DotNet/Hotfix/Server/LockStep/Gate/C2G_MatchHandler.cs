@@ -1,6 +1,6 @@
 ﻿namespace ET.Server
 {
-	[MessageSessionHandler(SceneType.Gate)]
+	[MessageSessionHandler(SceneType.Lobby)]
 	public class C2G_MatchHandler : MessageSessionHandler<C2G_Match, G2C_Match>
 	{
 		protected override async ETTask Run(Session session, C2G_Match request, G2C_Match response)

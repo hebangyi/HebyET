@@ -2,7 +2,7 @@
 
 namespace ET.Server
 {
-    [Invoke((long)SceneType.Gate)]
+    [Invoke((long)SceneType.Lobby)]
     public class FiberInit_Gate: AInvokeHandler<FiberInit, ETTask>
     {
         public override async ETTask Handle(FiberInit fiberInit)

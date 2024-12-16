@@ -28,8 +28,7 @@ namespace ET.Server
 			r2GGetLoginKey.Account = request.Account;
 
 			
-			
-			
+			/*
 			G2R_GetLoginKey g2RGetLoginKey = (G2R_GetLoginKey) await session.Fiber().Root.GetComponent<MessageSender>().Call(
 				config.ActorId, r2GGetLoginKey);
 
@@ -40,7 +39,7 @@ namespace ET.Server
 			CloseSession(session).Coroutine();
 			response.Address = "127.0.0.1";
 			response.Key = 0;
-			response.GateId = 0; 
+			response.GateId = 0; */
 			
 			await ETTask.CompletedTask;
 		}

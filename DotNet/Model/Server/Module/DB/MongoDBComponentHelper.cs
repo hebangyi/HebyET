@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
 namespace ET.Server;
-
+[FriendOf(typeof(MongoDBComponent))]
 public static class MongoDBComponentHelper
 {
     public static List<string> GetFieldsFromExpression(Expression expression)
@@ -35,7 +37,7 @@ public static class MongoDBComponentHelper
         return fields;
     }
 
-    static List<string> GetFieldsFromBson<T>(Expression<Func<T, bool>> exp)
+    public static List<string> GetFieldsFromBson<T>(Expression<Func<T, bool>> exp)
     {
         ExpressionFilterDefinition<T> filter = new ExpressionFilterDefinition<T>(exp);
         var fields = new List<string>();
@@ -56,4 +58,5 @@ public static class MongoDBComponentHelper
 
         return fields;
     }
+
 }
