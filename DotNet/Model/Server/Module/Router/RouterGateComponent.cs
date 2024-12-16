@@ -7,9 +7,9 @@ namespace ET.Server
 {
     
     [ComponentOf(typeof(Scene))]
-    public class RouterComponent: Entity, IAwake, IDestroy, IUpdate
+    public class RouterGateComponent: Entity, IAwake, IDestroy, IUpdate
     {
-        public RouterComponentConfig Config;
+        public RouterGateComponentConfig Config;
 
         public int OuterPort;
         public IKcpTransport OuterUdp;
@@ -24,8 +24,8 @@ namespace ET.Server
         public long LastCheckTime = 0;
     }
     
-    [ComponentConfigOf("RouterComponent")]
-    public class RouterComponentConfig
+    [ComponentConfigOf("RouterGateComponent")]
+    public class RouterGateComponentConfig
     {
         public int OuterPort = 30300;
     }

@@ -8,7 +8,7 @@ namespace ET.Server
         Msg,
     }
 
-    [ChildOf(typeof(RouterComponent))]
+    [ChildOf(typeof(RouterGateComponent))]
     public class RouterNode: Entity, IDestroy, IAwake
     {
         public string InnerAddress;

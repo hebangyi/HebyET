@@ -5,15 +5,15 @@ using System.Runtime.InteropServices;
 
 namespace ET.Server
 {
-    [EntitySystemOf(typeof(RouterComponent))]
-    [FriendOf(typeof(RouterComponent))]
+    [EntitySystemOf(typeof(RouterGateComponent))]
+    [FriendOf(typeof(RouterGateComponent))]
     [FriendOf(typeof(RouterNode))]
-    public static partial class RouterComponentSystem
+    public static partial class RouterGateComponentSystem
     {
         [EntitySystem]
-        private static void Awake(this RouterComponent self)
+        private static void Awake(this RouterGateComponent self)
         {
-            self.Config = ProcessConfig.Instance.GetSceneComponentConfig<RouterComponentConfig>(self.Root());
+            self.Config = ProcessConfig.Instance.GetSceneComponentConfig<RouterGateComponentConfig>(self.Root());
             self.OuterUdp = new UdpTransport(new IPEndPoint(IPAddress.Any, self.Config.OuterPort));
             self.OuterTcp = new TcpTransport(new IPEndPoint(IPAddress.Any, self.Config.OuterPort));
             self.InnerSocket = new UdpTransport(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 0));
@@ -21,7 +21,7 @@ namespace ET.Server
         }
 
         [EntitySystem]
-        private static void Destroy(this RouterComponent self)
+        private static void Destroy(this RouterGateComponent self)
         {
             self.OuterUdp.Dispose();
             self.OuterTcp.Dispose();
@@ -30,7 +30,7 @@ namespace ET.Server
         }
 
         [EntitySystem]
-        private static void Update(this RouterComponent self)
+        private static void Update(this RouterGateComponent self)
         {
             self.OuterUdp.Update();
             self.OuterTcp.Update();
@@ -48,14 +48,14 @@ namespace ET.Server
             }
         }
 
-        private static IPEndPoint CloneAddress(this RouterComponent self)
+        private static IPEndPoint CloneAddress(this RouterGateComponent self)
         {
             IPEndPoint ipEndPoint = (IPEndPoint)self.IPEndPoint;
             return new IPEndPoint(ipEndPoint.Address, ipEndPoint.Port);
         }
 
         // 接收tcp消息
-        private static void RecvOuterTcp(this RouterComponent self, long timeNow)
+        private static void RecvOuterTcp(this RouterGateComponent self, long timeNow)
         {
             while (self.OuterTcp != null && self.OuterTcp.Available() > 0)
             {
@@ -72,7 +72,7 @@ namespace ET.Server
         }
 
         // 接收udp消息
-        private static void RecvOuterUdp(this RouterComponent self, long timeNow)
+        private static void RecvOuterUdp(this RouterGateComponent self, long timeNow)
         {
             while (self.OuterUdp != null && self.OuterUdp.Available() > 0)
             {
@@ -88,7 +88,7 @@ namespace ET.Server
             }
         }
 
-        private static void CheckConnectTimeout(this RouterComponent self, long timeNow)
+        private static void CheckConnectTimeout(this RouterGateComponent self, long timeNow)
         {
             int n = self.checkTimeout.Count < 10 ? self.checkTimeout.Count : 10;
             for (int i = 0; i < n; ++i)
@@ -129,7 +129,7 @@ namespace ET.Server
             }
         }
 
-        private static void RecvInner(this RouterComponent self, long timeNow)
+        private static void RecvInner(this RouterGateComponent self, long timeNow)
         {
             while (self.InnerSocket != null && self.InnerSocket.Available() > 0)
             {
@@ -145,7 +145,7 @@ namespace ET.Server
             }
         }
 
-        private static void RecvOuterHandler(this RouterComponent self, int messageLength, long timeNow, IKcpTransport transport)
+        private static void RecvOuterHandler(this RouterGateComponent self, int messageLength, long timeNow, IKcpTransport transport)
         {
             // 长度小于1，不是正常的消息
             if (messageLength < 1)
@@ -452,7 +452,7 @@ namespace ET.Server
             }
         }
 
-        private static void RecvInnerHandler(this RouterComponent self, int messageLength, long timeNow)
+        private static void RecvInnerHandler(this RouterGateComponent self, int messageLength, long timeNow)
         {
             // 长度小于1，不是正常的消息
             if (messageLength < 1)
@@ -602,7 +602,7 @@ namespace ET.Server
             }
         }
 
-        private static RouterNode New(this RouterComponent self, string innerAddress, uint outerConn, uint innerConn, uint connectId,
+        private static RouterNode New(this RouterGateComponent self, string innerAddress, uint outerConn, uint innerConn, uint connectId,
         IPEndPoint syncEndPoint)
         {
             RouterNode routerNode = self.AddChildWithId<RouterNode>(outerConn);
@@ -622,7 +622,7 @@ namespace ET.Server
             return routerNode;
         }
 
-        public static void OnError(this RouterComponent self, long id, int error)
+        public static void OnError(this RouterGateComponent self, long id, int error)
         {
             RouterNode routerNode = self.GetChild<RouterNode>(id);
             if (routerNode == null)
@@ -634,7 +634,7 @@ namespace ET.Server
             self.Remove(id);
         }
 
-        private static void Remove(this RouterComponent self, long id)
+        private static void Remove(this RouterGateComponent self, long id)
         {
             RouterNode routerNode = self.GetChild<RouterNode>(id);
             if (routerNode == null)

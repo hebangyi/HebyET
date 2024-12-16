@@ -15,7 +15,7 @@ namespace ET.Server;
 [EntitySystemOf(typeof(EtcdComponent))]
 [FriendOf(typeof(EtcdComponent))]
 [FriendOf(typeof(NetComponent))]
-[FriendOf(typeof(RouterComponent))]
+[FriendOf(typeof(RouterGateComponent))]
 public static partial class EtcdComponentSystem
 {
     [EntitySystem]
@@ -83,7 +83,7 @@ public static partial class EtcdComponentSystem
                 }
                 else if (scene.SceneType is SceneType.RouterGate)
                 {
-                    var routerComponent = scene.GetComponent<RouterComponent>();
+                    var routerComponent = scene.GetComponent<RouterGateComponent>();
                     int outPort = 0;
                     if (routerComponent != null)
                     {
