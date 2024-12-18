@@ -17,7 +17,9 @@ namespace ET.Server
             root.AddComponent<GateSessionKeyComponent>();
             root.AddComponent<LocationProxyComponent>();
             root.AddComponent<MessageLocationSenderComponent>();
-
+            
+            
+            // 对外暴露端口
             var netComponentConfig = ProcessConfig.Instance.GetSceneComponentConfig<NetComponentConfig>(fiberInit.Fiber.Root);
             var innerPort = new IPEndPoint(IPAddress.Any, netComponentConfig.OuterPort);
             root.AddComponent<NetComponent, IPEndPoint, NetworkProtocol>(innerPort, NetworkProtocol.UDP);

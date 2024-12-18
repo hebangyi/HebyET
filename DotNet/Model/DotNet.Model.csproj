@@ -49,6 +49,8 @@
       <PackageReference Include="dotnet-etcd" Version="7.2.0" />
     </ItemGroup> 
     <ItemGroup>
-      <Folder Include="Server\Demo\Map\" />
+      <Folder Include="Server\Game\Account\" />
+      <Folder Include="Server\Game\Common\" />
+      <Folder Include="Server\Game\Map\" />
     </ItemGroup> 
 </Project>
