@@ -32,7 +32,7 @@ namespace ET.Analyzer
 
              string? t = namedTypeSymbol.BaseType?.BaseType?.ToString();
 
-             if (t=="ET.LSEntity")
+             /*if (t=="ET.LSEntity")
              {
                  foreach (SyntaxReference? declaringSyntaxReference in namedTypeSymbol.DeclaringSyntaxReferences)
                  {
@@ -52,7 +52,7 @@ namespace ET.Analyzer
                      context.ReportDiagnostic(diagnostic);
                  }
                  return;
-             }
+             }*/
 
              var baseType = namedTypeSymbol.BaseType?.ToString();
              if (baseType == Definition.EntityType || baseType == Definition.LSEntityType)

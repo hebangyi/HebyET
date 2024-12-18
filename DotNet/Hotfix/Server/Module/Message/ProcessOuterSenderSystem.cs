@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace ET.Server
@@ -127,16 +128,15 @@ namespace ET.Server
         }
 
         // 内网actor session，channelId是进程号
-        private static Session Get(this ProcessOuterSender self, long channelId)
+        private static Session Get(this ProcessOuterSender self, long channelId, string address)
         {
             Session session = self.GetChild<Session>(channelId);
             if (session != null)
             {
                 return session;
             }
-
-            // IPEndPoint ipEndPoint = StartProcessConfigCategory.Instance.Get((int) channelId).IPEndPoint;
-            IPEndPoint ipEndPoint = NetworkHelper.ToIPEndPoint("127.0.0.1:10000");
+            
+            IPEndPoint ipEndPoint = NetworkHelper.ToIPEndPoint(address);
             session = self.CreateInner(channelId, ipEndPoint);
             return session;
         }
@@ -185,9 +185,15 @@ namespace ET.Server
             {
                 throw new Exception($"actor is the same process: {fiber.Process} {actorId.Process}");
             }
-            // TODO Heby 使用ETCD获得Inner地址
-            // StartProcessConfig startProcessConfig = StartProcessConfigCategory.Instance.Get(actorId.Process);
-            Session session = self.Get(1);
+
+            // 使用ETCD获得Inner地址
+            var sceneNode = EtcdManager.Instance.WatchId2SceneNodes.GetValueOrDefault(actorId.Fiber);
+            if (sceneNode == null)
+            {
+                throw new Exception($"sceneNode is not found in etcd by actor scene id : {actorId.Fiber}");
+            }
+            
+            Session session = self.Get(actorId.Fiber, sceneNode.InnerIpAndInnerPortAddress);
             actorId.Process = fiber.Process;
             session.Send(actorId, message);
         }
