@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package ET;
+
+message SceneNodeInfo
+{
+    int32 SceneType = 1; // SceneType
+    int32 ProcessId = 2;
+    int32 SceneId = 3;
+    string OuterIp = 4;
+    string InnerIp = 5;
+    int32 InnerPort = 6;
+    int32 OuterPort = 7;
+    int32 Status = 8;
+}

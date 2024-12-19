@@ -11,8 +11,8 @@ namespace ET.Server;
 public class EtcdComponentConfig
 {
     public string EtcdAddress = "http://127.0.0.1:2379";
-    public int TTL = 60;                // 注册失效时间
-    public int Interval = 10;           // 心跳周期
+    public int TTL = 60; // 注册失效时间
+    public int Interval = 10; // 心跳周期
 }
 
 [ComponentOf(typeof(Scene))]
@@ -26,7 +26,6 @@ public class EtcdComponent : Entity, IAwake
 public struct EtcdRemoveSelfSceneEvent
 {
 }
-
 
 public struct EtcdWatchSelfSceneEvent
 {

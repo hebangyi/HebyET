@@ -16,15 +16,15 @@ public static class EtcdHelper
         return $"/{m_prefix}/{type}/";
     }
 
-    public static EtcdSceneNodeInfo BuildSelfSceneNode(Scene scene, int outPort = 0)
+    public static SceneNodeInfo BuildSelfSceneNode(Scene scene, int outPort = 0)
     {
         int processId = Options.Instance.Process;
         string innerIp = ProcessConfig.Instance.GlobalConfig.InnerIp;
         string outerIp = ProcessConfig.Instance.GlobalConfig.OuterIp;
         int innerPort = ProcessConfig.Instance.GlobalConfig.InnerPort;
 
-        EtcdSceneNodeInfo sceneNode = new EtcdSceneNodeInfo();
-        sceneNode.SceneType = scene.SceneType;
+        SceneNodeInfo sceneNode = SceneNodeInfo.Create();
+        sceneNode.SceneType = (int)scene.SceneType;
         sceneNode.ProcessId = processId;
         sceneNode.SceneId = (int)scene.Id;
         sceneNode.InnerIp = innerIp;
@@ -41,9 +41,9 @@ public static class EtcdHelper
     /// </summary>
     /// <param name="sceneType"></param>
     /// <returns></returns>
-    public static EtcdSceneNodeInfo GetRandomNode(SceneType sceneType)
+    public static SceneNodeInfo GetRandomNode(SceneType sceneType)
     {
-        List<EtcdSceneNodeInfo> sceneNodes = EtcdManager.Instance.WatchSceneNodes.GetValueOrDefault(sceneType);
+        List<SceneNodeInfo> sceneNodes = EtcdManager.Instance.WatchSceneNodes.GetValueOrDefault(sceneType);
         if (sceneNodes == null || sceneNodes.Count == 0)
         {
             return null;

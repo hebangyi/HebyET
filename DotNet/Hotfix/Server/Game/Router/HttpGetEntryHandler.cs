@@ -11,8 +11,8 @@ namespace ET.Server
         public async ETTask Handle(Scene scene, HttpListenerContext context)
         {
             HttpGetRouterResponse response = HttpGetRouterResponse.Create();
-            EtcdSceneNodeInfo accountSceneNode = EtcdHelper.GetRandomNode(SceneType.Account);
-            EtcdSceneNodeInfo routerSceneNode = EtcdHelper.GetRandomNode(SceneType.RouterGate);
+            SceneNodeInfo accountSceneNode = EtcdHelper.GetRandomNode(SceneType.Account);
+            SceneNodeInfo routerSceneNode = EtcdHelper.GetRandomNode(SceneType.RouterGate);
 
             if (accountSceneNode != null)
             {

@@ -26,23 +26,21 @@ namespace ET
         }
 
         // 添加节点
-        public void Add(T node)
+        public void Add(string key, T node)
         {
             for (int i = 0; i < _replicas; i++)
             {
-                var nodeKey = $"{node}:{i}";
-                int hash = _hashFunction(nodeKey);
+                int hash = _hashFunction(key);
                 _circle[hash] = node;
             }
         }
 
         // 移除节点
-        public void Remove(T node)
+        public void Remove(string key)
         {
             for (int i = 0; i < _replicas; i++)
             {
-                var nodeKey = $"{node}:{i}";
-                int hash = _hashFunction(nodeKey);
+                int hash = _hashFunction(key);
                 _circle.Remove(hash);
             }
         }
@@ -51,7 +49,9 @@ namespace ET
         public T Get(string key)
         {
             if (_circle.Count == 0)
-                throw new InvalidOperationException("No nodes in the hash circle.");
+            {
+                return default;
+            }
 
             int hash = _hashFunction(key);
             if (!_circle.TryGetValue(hash, out var node))

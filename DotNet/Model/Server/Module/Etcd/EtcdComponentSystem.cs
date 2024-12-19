@@ -69,7 +69,7 @@ public static partial class EtcdComponentSystem
                     continue;
                 }
 
-                EtcdSceneNodeInfo etcdSceneNodeInfo = null;
+                SceneNodeInfo sceneNodeInfo = null;
                 if (scene.SceneType is SceneType.Lobby or SceneType.Account)
                 {
                     var netComponent = scene.GetComponent<NetComponent>();
@@ -79,7 +79,7 @@ public static partial class EtcdComponentSystem
                         outPort = netComponent.OutPort;
                     }
 
-                    etcdSceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, outPort);
+                    sceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, outPort);
                 }
                 else if (scene.SceneType is SceneType.RouterGate)
                 {
@@ -90,11 +90,11 @@ public static partial class EtcdComponentSystem
                         outPort = routerComponent.OuterPort;
                     }
 
-                    etcdSceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, outPort);
+                    sceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, outPort);
                 }
                 else
                 {
-                    etcdSceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, 0);
+                    sceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, 0);
                 }
 
                 EtcdClient client = self.RegClient;
@@ -102,13 +102,13 @@ public static partial class EtcdComponentSystem
                 // var lease = await client.LeaseGrantAsync(new LeaseGrantRequest { TTL = 90 });
                 // var leaseId = lease.ID;
                 var regPath = ByteString.CopyFromUtf8(EtcdHelper.GetRegPath(scene.SceneType, scene.Id));
-                var regValue = ByteString.CopyFromUtf8(JsonHelper.ToJson(etcdSceneNodeInfo));
+                var regValue = ByteString.CopyFromUtf8(JsonHelper.ToJson(sceneNodeInfo));
 
                 RegSceneNodePack regSceneNodePack = new();
                 regSceneNodePack.SceneId = sceneId;
                 regSceneNodePack.RegPath = regPath;
                 regSceneNodePack.RegValue = regValue;
-                regSceneNodePack.SceneNodeInfo = etcdSceneNodeInfo;
+                regSceneNodePack.SceneNodeInfo = sceneNodeInfo;
                 EtcdManager.Instance.SceneId2RegSceneNodePacks.Add((int)sceneId, regSceneNodePack);
             }
         }
@@ -215,7 +215,7 @@ public static partial class EtcdComponentSystem
                     {
                         if (data.Type == Mvccpb.Event.Types.EventType.Put)
                         {
-                            var node = JsonHelper.FromJson<EtcdSceneNodeInfo>(data.Value);
+                            var node = JsonHelper.FromJson<SceneNodeInfo>(data.Value);
                             if (node == null) continue;
                             self.OnWatchEvent(data.Key, node, true);
                         }
@@ -234,7 +234,7 @@ public static partial class EtcdComponentSystem
         }
     }
 
-    public static void OnWatchEvent(this EtcdComponent self, string key, EtcdSceneNodeInfo sceneNode, bool isCreate)
+    public static void OnWatchEvent(this EtcdComponent self, string key, SceneNodeInfo sceneNode, bool isCreate)
     {
         string[] pathVal = key.Split("/");
         SceneType sceneType = Enum.Parse<SceneType>(pathVal[^2]);
@@ -245,7 +245,7 @@ public static partial class EtcdComponentSystem
             // remove
             if (EtcdManager.Instance.WatchSceneNodes.TryGetValue(sceneType, out var list))
             {
-                EtcdSceneNodeInfo removeNode = list.Find(x => x.SceneId == sceneId);
+                SceneNodeInfo removeNode = list.Find(x => x.SceneId == sceneId);
                 if (removeNode != null)
                 {
                     list.Remove(removeNode);
@@ -264,6 +264,7 @@ public static partial class EtcdComponentSystem
             // add
             if (!EtcdManager.Instance.WatchSceneNodes.TryGetValue(sceneType, out list))
             {
+                
                 list = new();
                 EtcdManager.Instance.WatchSceneNodes[sceneType] = list;
             }
@@ -285,7 +286,7 @@ public static partial class EtcdComponentSystem
         {
             if (EtcdManager.Instance.WatchSceneNodes.TryGetValue(sceneType, out var list))
             {
-                EtcdSceneNodeInfo removeNode = list.Find(x => x.SceneId == sceneId);
+                SceneNodeInfo removeNode = list.Find(x => x.SceneId == sceneId);
                 if (removeNode != null)
                 {
                     list.Remove(removeNode);

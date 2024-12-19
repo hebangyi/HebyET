@@ -17,21 +17,24 @@ namespace ET
 		Lobby = 1 << 5,
 		Http = 1 << 6,
 		Location = 1 << 7,
-		Map = 1 << 8,
 		RouterGate = 1 << 9,
+		RouterServer = 1 << 10,
+		
+		
+		Map = 1 << 8,
 		
 		
 		
 		// 测试服务器
-		Robot = 1 << 10,
-		BenchmarkClient = 1 << 11,
-		BenchmarkServer = 1 << 12,
-		Match = 1 << 14,
-		Room = 1 << 15,
-		LockStepClient = 1 << 16,
-		LockStepServer = 1 << 17,
-		RoomRoot = 1 << 18,
-		Watcher = 1 << 19,
+		Robot = 1 << 20,
+		BenchmarkClient = 1 << 21,
+		BenchmarkServer = 1 << 22,
+		Match = 1 << 24,
+		Room = 1 << 25,
+		LockStepClient = 1 << 26,
+		LockStepServer = 1 << 27,
+		RoomRoot = 1 << 28,
+		Watcher = 1 << 29,
 
 		// 客户端
 		Demo = 1 << 30,

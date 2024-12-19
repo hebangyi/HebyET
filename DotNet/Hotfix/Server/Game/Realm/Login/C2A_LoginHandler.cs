@@ -28,6 +28,10 @@ namespace ET.Server
 			r2GGetLoginKey.Account = request.Account;
 
 			
+			// 分配的 Lobby服务器
+			
+			
+			
 			/*
 			G2R_GetLoginKey g2RGetLoginKey = (G2R_GetLoginKey) await session.Fiber().Root.GetComponent<MessageSender>().Call(
 				config.ActorId, r2GGetLoginKey);

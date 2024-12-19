@@ -49,7 +49,7 @@
                 }
             }
         },
-        "Router": {
+        "RouterGate": {
             "SceneId": 40001,
             "ModulesConfig": {
                 "RouterGateComponent": {
