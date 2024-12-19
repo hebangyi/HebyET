@@ -24,7 +24,7 @@ namespace ET.Server
 
 			// TODO 后期进入队列 
 			// 1.获取一个可用的大厅服SceneNode
-			EtcdSceneNodeInfo sceneNodeInfo = new ();
+			SceneNodeInfo sceneNodeInfo = new ();
 			
 			// 2.根据请求查询账号DB
 			// TODO

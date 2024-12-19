@@ -17,7 +17,7 @@ namespace ET.Server
             root.AddComponent<GateSessionKeyComponent>();
             root.AddComponent<LocationProxyComponent>();
             root.AddComponent<MessageLocationSenderComponent>();
-            
+            root.AddComponent<LobbyRoleToolComponent>();
             
             // 对外暴露端口
             var netComponentConfig = ProcessConfig.Instance.GetSceneComponentConfig<NetComponentConfig>(fiberInit.Fiber.Root);

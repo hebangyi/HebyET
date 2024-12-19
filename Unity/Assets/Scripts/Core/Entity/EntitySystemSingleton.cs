@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace ET
 {
@@ -7,6 +8,7 @@ namespace ET
     public class EntitySystemSingleton: Singleton<EntitySystemSingleton>, ISingletonAwake
     {
         public TypeSystems TypeSystems { get; private set; }
+        public Dictionary<Type, List<Type>> EntityAutoAddComponents = new ();
         
         public void Awake()
         {
@@ -25,6 +27,31 @@ namespace ET
                     {
                         oneTypeSystems.QueueFlag[index] = true;
                     }
+                }
+            }
+
+            foreach (var autoAddComponentType in CodeTypes.Instance.GetAttributeTypes(typeof(AutoAddComponentAttribute)))
+            {
+                var attribute = autoAddComponentType.GetCustomAttribute(typeof(AutoAddComponentAttribute)) as AutoAddComponentAttribute;
+                if (attribute == null)
+                {
+                    continue;
+                }
+
+                if (attribute.EntityTypes == null)
+                {
+                    continue;
+                }
+                
+                foreach (var entityType in attribute.EntityTypes)
+                {
+                    var components = EntityAutoAddComponents.GetValueOrDefault(entityType);
+                    if (components == null)
+                    {
+                        components = new List<Type>();
+                        EntityAutoAddComponents[entityType] = components;
+                    }
+                    components.Add(entityType);
                 }
             }
         }
@@ -117,9 +144,25 @@ namespace ET
                 }
             }
         }
+
+        public void AutoAddComponent(Entity component)
+        {
+            var autoAddComponents = this.EntityAutoAddComponents.GetValueOrDefault(component.GetType());
+            if (autoAddComponents == null)
+            {
+                return;
+            }
+
+            foreach (var autoAddComponent in autoAddComponents)
+            {
+                component.AddComponent(autoAddComponent);
+            }
+        }
+        
         
         public void Awake(Entity component)
         {
+            AutoAddComponent(component);
             List<SystemObject> iAwakeSystems = this.TypeSystems.GetSystems(component.GetType(), typeof (IAwakeSystem));
             if (iAwakeSystems == null)
             {
@@ -150,7 +193,7 @@ namespace ET
             {
                 return;
             }
-            
+            AutoAddComponent(component);
             List<SystemObject> iAwakeSystems = this.TypeSystems.GetSystems(component.GetType(), typeof (IAwakeSystem<P1>));
             if (iAwakeSystems == null)
             {
@@ -182,6 +225,8 @@ namespace ET
                 return;
             }
             
+            AutoAddComponent(component);
+            
             List<SystemObject> iAwakeSystems = this.TypeSystems.GetSystems(component.GetType(), typeof (IAwakeSystem<P1, P2>));
             if (iAwakeSystems == null)
             {
@@ -212,6 +257,8 @@ namespace ET
             {
                 return;
             }
+            
+            AutoAddComponent(component);
             
             List<SystemObject> iAwakeSystems = this.TypeSystems.GetSystems(component.GetType(), typeof (IAwakeSystem<P1, P2, P3>));
             if (iAwakeSystems == null)

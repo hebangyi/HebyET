@@ -1,7 +1,7 @@
 ﻿namespace ET.Server;
 
 [Event(SceneType.Main)]
-public class InitServerFinish1_Etcd : AEvent<Scene, InitServerFinish1>
+public class  InitServerFinish1_Etcd : AEvent<Scene, InitServerFinish1>
 {
     protected override async ETTask Run(Scene scene, InitServerFinish1 a)
     {

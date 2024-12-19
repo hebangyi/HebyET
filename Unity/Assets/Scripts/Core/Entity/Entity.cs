@@ -735,6 +735,17 @@ namespace ET
             return component;
         }
 
+        public Entity TryAddComponent(Type type, bool isFromPool = false)
+        {
+            var component = this.GetComponent(type);
+            if (component == null)
+            {
+                return AddComponent(type, isFromPool);
+            }
+
+            return component;
+        }
+        
         public Entity AddComponent(Type type, bool isFromPool = false)
         {
             if (this.components != null && this.components.ContainsKey(this.GetLongHashCode(type)))
@@ -819,6 +830,17 @@ namespace ET
             return component as K;
         }
 
+        public K TryAddComponent<K>(bool isFromPool = false) where K : Entity, IAwake, new()
+        {
+            var component = this.GetComponent<K>();
+            if (component == null)
+            {
+                return this.AddComponent<K>(isFromPool);
+            }
+
+            return component;
+        } 
+        
         public K AddComponent<K>(bool isFromPool = false) where K : Entity, IAwake, new()
         {
             return this.AddComponentWithId<K>(this.Id, isFromPool);

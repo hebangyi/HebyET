@@ -117,14 +117,14 @@ namespace ET.Server
                         indexKeysDef = indexKeysDef.Ascending(x);
                     }
                 }
-
+        
                 var indexModel = new CreateIndexModel<BsonDocument>(indexKeysDef);
                 await collection.Indexes.CreateOneAsync(indexModel);
+                self.QueryIndexs.Add(indexQuery);
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
-                return;
             }
         }
 
