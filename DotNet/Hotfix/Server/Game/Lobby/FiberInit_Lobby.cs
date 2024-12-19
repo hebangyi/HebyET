@@ -3,7 +3,7 @@
 namespace ET.Server
 {
     [Invoke((long)SceneType.Lobby)]
-    public class FiberInit_Gate: AInvokeHandler<FiberInit, ETTask>
+    public class FiberInit_Lobby: AInvokeHandler<FiberInit, ETTask>
     {
         public override async ETTask Handle(FiberInit fiberInit)
         {
@@ -17,7 +17,9 @@ namespace ET.Server
             root.AddComponent<GateSessionKeyComponent>();
             root.AddComponent<LocationProxyComponent>();
             root.AddComponent<MessageLocationSenderComponent>();
-
+            
+            
+            // 对外暴露端口
             var netComponentConfig = ProcessConfig.Instance.GetSceneComponentConfig<NetComponentConfig>(fiberInit.Fiber.Root);
             var innerPort = new IPEndPoint(IPAddress.Any, netComponentConfig.OuterPort);
             root.AddComponent<NetComponent, IPEndPoint, NetworkProtocol>(innerPort, NetworkProtocol.UDP);

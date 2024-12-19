@@ -21,20 +21,30 @@ namespace ET.Server
 				response.Error = (int)ret;
 				return;
 			}
+
+			// TODO 后期进入队列 
+			// 1.获取一个可用的大厅服SceneNode
+			EtcdSceneNodeInfo sceneNodeInfo = new ();
 			
-			// TODO 后期进入队列  
-			// 向gate请求一个key,客户端可以拿着这个key连接gate
+			// 2.根据请求查询账号DB
+			// TODO
+			TestAccount account = new TestAccount();
+			// 3.如果没有账号 发送账号 注册到Lobby注册账号
+			ActorId actorId = new ActorId(sceneNodeInfo.ProcessId, sceneNodeInfo.SceneId);
+			// TODO
+			
+			// 4.发送登录请求
 			R2G_GetLoginKey r2GGetLoginKey = R2G_GetLoginKey.Create();
 			r2GGetLoginKey.Account = request.Account;
-
+			G2R_GetLoginKey g2RGetLoginKey = (G2R_GetLoginKey) await session.Fiber().Root.GetComponent<MessageSender>().Call(actorId, r2GGetLoginKey);
+			
 			
 			// 分配的 Lobby服务器
 			
 			
 			
 			/*
-			G2R_GetLoginKey g2RGetLoginKey = (G2R_GetLoginKey) await session.Fiber().Root.GetComponent<MessageSender>().Call(
-				config.ActorId, r2GGetLoginKey);
+			
 
 			response.Address = config.InnerIPPort.ToString();
 			response.Key = g2RGetLoginKey.Key;
