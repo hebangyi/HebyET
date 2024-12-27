@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Options;
 using MongoDB.Driver;
 
 namespace ET.Server
@@ -11,8 +13,17 @@ namespace ET.Server
     }
 
 
-    public class MongoEntity : Entity
+    public interface IMongoEntityInterface
     {
+        byte[] Serialize();
+        void Deserialize(byte[] bytes);
+    }
+
+    public abstract class MongoEntity : Entity,IMongoEntityInterface
+    {
+        //通用数据结构
+        [BsonDictionaryOptions(DictionaryRepresentation.Document)]
+        public Dictionary<string, object> DataCollections = new ();
     }
 
     [ComponentOf(typeof (Scene))]

@@ -18,14 +18,9 @@ public class LobbyRole : Entity
         this.IScene = fiber.Root;
         this.IsRegister = true;
     }
-    
 }
 
 public class LobbyRoleInfo : MongoEntity
 {
-    public long RoleId;
-    public string NickName;
-    //通用数据结构
-    [BsonDictionaryOptions(DictionaryRepresentation.Document)]
-    public Dictionary<string, object> DataCollections = new ();
+
 }

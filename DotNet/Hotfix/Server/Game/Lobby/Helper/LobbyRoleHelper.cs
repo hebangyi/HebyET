@@ -60,12 +60,13 @@ public static class LobbyRoleHelper
     }
 
 
-    public static LobbyRoleInfo AttachRoleData(this LobbyRole lobbyRole)
+    public static LobbyRoleInfo UnAttachRoleData(this LobbyRole lobbyRole)
     {
-        
-        
-        
         LobbyRoleInfo roleInfo = new ();
+        roleInfo.RoleId = roleInfo.RoleId;
+        roleInfo.NickName = roleInfo.NickName;
+        
+        
         
         
         return roleInfo;
