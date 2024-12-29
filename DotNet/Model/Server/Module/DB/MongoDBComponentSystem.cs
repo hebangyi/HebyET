@@ -62,7 +62,6 @@ namespace ET.Server
             return await cursor.ToListAsync();
         }
 
-
         public static async ETTask<List<string>> IndexList(this MongoDBComponent self, string collectionName)
         {
             var indexes = await self.MongoDatabase.GetCollection<BsonDocument>(collectionName).Indexes.ListAsync();
@@ -74,9 +73,10 @@ namespace ET.Server
             {
                 indexList.Add(index.ToJson());
             }
+
             return indexList;
         }
-        
+
         public static async ETTask TryCreateCollectionIndex(this MongoDBComponent self, string collectionName, List<string> fields)
         {
             try
@@ -117,7 +117,7 @@ namespace ET.Server
                         indexKeysDef = indexKeysDef.Ascending(x);
                     }
                 }
-        
+
                 var indexModel = new CreateIndexModel<BsonDocument>(indexKeysDef);
                 await collection.Indexes.CreateOneAsync(indexModel);
                 self.QueryIndexs.Add(indexQuery);
@@ -142,59 +142,80 @@ namespace ET.Server
 
         #region Save
 
-        public static async ETTask Save<T>(this MongoDBComponent self, T entity) where T : MongoEntity
+        public static async ETTask Save(this MongoDBComponent self, MongoEntity entity)
         {
             if (entity == null)
             {
-                Log.Error($"save entity is null: {typeof(T).Name}");
-
+                Log.Error($"save entity is null: {entity.GetType().Name}");
                 return;
             }
 
             var collectionName = entity.GetType().Name;
-            await self.MongoDatabase.GetCollection<T>(collectionName)
+            await self.MongoDatabase.GetCollection<MongoEntity>(collectionName)
                     .ReplaceOneAsync(d => d.Id == entity.Id, entity, new ReplaceOptions { IsUpsert = true });
         }
-
-        public static void SaveNotWait<T>(this MongoDBComponent self, T entity)
-                where T : MongoEntity
+        
+        public static async ETTask SaveBatch(this MongoDBComponent self, string collectionName, List<MongoEntity> entities)
         {
-            self.Save(entity).Coroutine();
-        }
-
-        public static async ETTask SaveBatch<T>(this MongoDBComponent self, List<T> entities) where T : MongoEntity
-        {
-            if (entities == null)
+            if (entities == null || entities.Count == 0)
             {
                 Log.Error($"save entity is null");
                 return;
             }
 
-            string collectionName = typeof(T).Name;
-            var bulkOps = new List<WriteModel<Entity>>();
-            foreach (Entity entity in entities)
+            var bulkOps = new List<WriteModel<MongoEntity>>();
+            foreach (MongoEntity entity in entities)
             {
                 if (entity == null)
                 {
                     continue;
                 }
 
-                var filter = Builders<Entity>.Filter.Eq(p => p.Id, entity.Id);
-                var replace = new ReplaceOneModel<Entity>(filter, entity);
+                var filter = Builders<MongoEntity>.Filter.Eq(p => p.Id, entity.Id);
+                var replace = new ReplaceOneModel<MongoEntity>(filter, entity);
                 bulkOps.Add(replace);
             }
-
-            var result = await self.MongoDatabase.GetCollection<Entity>(collectionName).BulkWriteAsync(bulkOps);
+            await self.MongoDatabase.GetCollection<MongoEntity>(collectionName).BulkWriteAsync(bulkOps);
         }
 
         #endregion
 
         #region Delete
 
+        public static async ETTask<long> Delete(this MongoDBComponent self, string collectionName, long id)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", id);
+            DeleteResult result = await self.MongoDatabase.GetCollection<BsonDocument>(collectionName).DeleteOneAsync(filter);
+            return result.DeletedCount;
+        }
+
         public static async ETTask<long> Delete<T>(this MongoDBComponent self, long id) where T : MongoEntity
         {
             string collectionName = typeof(T).Name;
             DeleteResult result = await self.MongoDatabase.GetCollection<T>(collectionName).DeleteOneAsync(d => d.Id == id);
+            return result.DeletedCount;
+        }
+        
+        public static async ETTask<long> Delete<T>(this MongoDBComponent self, Expression<Func<T, bool>> filter)
+                where T : MongoEntity
+        {
+            string collectionName = typeof(T).Name;
+            DeleteResult result = await self.MongoDatabase.GetCollection<T>(collectionName).DeleteManyAsync(filter);
+            return result.DeletedCount;
+        }
+        
+
+        public static async ETTask<long> DeleteByIds(this MongoDBComponent self, string collectionName, params long[] ids)
+        {
+            var bulkOps = new List<WriteModel<BsonDocument>>();
+            foreach (var id in ids)
+            {
+                var filter = Builders<BsonDocument>.Filter.Eq("_id", id);
+                var delete = new DeleteOneModel<BsonDocument>(filter);
+                bulkOps.Add(delete);
+            }
+
+            var result = await self.MongoDatabase.GetCollection<BsonDocument>(collectionName).BulkWriteAsync(bulkOps);
             return result.DeletedCount;
         }
 
@@ -213,15 +234,6 @@ namespace ET.Server
             var result = await self.MongoDatabase.GetCollection<T>(collectionName).BulkWriteAsync(bulkOps);
             return result.DeletedCount;
         }
-
-        public static async ETTask<long> Delete<T>(this MongoDBComponent self, Expression<Func<T, bool>> filter)
-                where T : MongoEntity
-        {
-            string collectionName = typeof(T).Name;
-            DeleteResult result = await self.MongoDatabase.GetCollection<T>(collectionName).DeleteManyAsync(filter);
-            return result.DeletedCount;
-        }
-
         #endregion
     }
 }
