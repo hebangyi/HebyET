@@ -3,7 +3,7 @@
 namespace ET.Server;
 
 [AttributeUsage(AttributeTargets.Field)]
-public class RoleFieldAttribute(string field) : BaseAttribute
+public class MongoFieldAttribute(string field) : BaseAttribute
 {
     public string Field = field;
 }

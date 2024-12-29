@@ -6,7 +6,7 @@ namespace ET.Server;
 [ComponentOf(typeof(LobbyRole))]
 public class RoleInfoComponent : Entity
 {
-    [RoleField("RoleInfoData")]
+    [MongoField("RoleInfoData")]
     public RoleInfoData roleInfoData;
 }
 

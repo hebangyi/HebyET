@@ -286,15 +286,15 @@ namespace ET
             return timerId;
         }
 
-        public static long NewRepeatedTimer(this TimerComponent self, long time, int type, object args)
+        public static long NewRepeatedTimer(this TimerComponent self, long timeMill, int type, object args)
         {
-            if (time < 100)
+            if (timeMill < 100)
             {
-                Log.Error($"time too small: {time}");
+                Log.Error($"time too small: {timeMill}");
                 return 0;
             }
 
-            return self.NewRepeatedTimerInner(time, type, args);
+            return self.NewRepeatedTimerInner(timeMill, type, args);
         }
     }
 

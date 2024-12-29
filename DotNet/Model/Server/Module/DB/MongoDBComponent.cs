@@ -15,8 +15,8 @@ namespace ET.Server
 
     public interface IMongoEntityInterface
     {
-        byte[] Serialize();
-        void Deserialize(byte[] bytes);
+        // byte[] Serialize();
+        // void Deserialize(byte[] bytes);
     }
 
     public abstract class MongoEntity : Entity,IMongoEntityInterface

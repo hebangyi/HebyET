@@ -9,7 +9,7 @@ namespace ET.Analyzer
      [DiagnosticAnalyzer(LanguageNames.CSharp)]
      public class EntityClassDeclarationAnalyzer: DiagnosticAnalyzer
      {
-         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(EntityClassDeclarationAnalyzerRule.Rule,EntityCannotDeclareGenericTypeRule.Rule);
+         // public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(EntityClassDeclarationAnalyzerRule.Rule,EntityCannotDeclareGenericTypeRule.Rule);
 
          public override void Initialize(AnalysisContext context)
          {
@@ -22,6 +22,8 @@ namespace ET.Analyzer
              context.EnableConcurrentExecution();
              context.RegisterSymbolAction(this.Analyzer, SymbolKind.NamedType);
          }
+
+         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; }
 
          private void Analyzer(SymbolAnalysisContext context)
          {

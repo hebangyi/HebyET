@@ -3,7 +3,7 @@
 namespace ET.Server
 {
     [Invoke((long)SceneType.Account)]
-    public class FiberInit_Realm: AInvokeHandler<FiberInit, ETTask>
+    public class FiberInit_Account: AInvokeHandler<FiberInit, ETTask>
     {
         public override async ETTask Handle(FiberInit fiberInit)
         {
