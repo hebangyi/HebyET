@@ -22,13 +22,24 @@ namespace ET.Server
 				return;
 			}
 
-			// TODO 后期进入队列 
+			// TODO 后期进入队列 并且可以横向扩展
+			var mongoDbComponent = session.Fiber().Root.GetComponent<MongoDBComponent>();
+			var testAccount = await mongoDbComponent.QueryOne<TestAccount>(x => x.Account == request.Account);
+			if (testAccount == null)
+			{
+				testAccount = new TestAccount();
+				testAccount.Account = request.Account;
+				testAccount.roleItem = new RoleItem();
+				
+				
+				await mongoDbComponent.Save(testAccount);
+			}
+			
 			// 1.获取一个可用的大厅服SceneNode
 			SceneNodeInfo sceneNodeInfo = new ();
-			
 			// 2.根据请求查询账号DB
+			
 			// TODO
-			TestAccount account = new TestAccount();
 			// 3.如果没有账号 发送账号 注册到Lobby注册账号
 			ActorId actorId = new ActorId(sceneNodeInfo.ProcessId, sceneNodeInfo.SceneId);
 			// TODO

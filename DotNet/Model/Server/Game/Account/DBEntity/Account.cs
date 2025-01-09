@@ -21,8 +21,9 @@ public class RoleItem
 
 public class AccountBaseInfo : MongoEntity
 {
-    // 角色列表
-    public List<RoleItem> RoleItems = new List<RoleItem>();
+    public RoleItem roleItem;
+    // 角色列表 (一个账号关联多个角色)
+    // public List<RoleItem> RoleItems = new List<RoleItem>();
 }
 
 public class TestAccount : AccountBaseInfo

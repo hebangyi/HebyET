@@ -38,12 +38,12 @@ namespace ET.Server
             return await cursor.ToListAsync();
         }
 
-        public static async ETTask<List<T>> QueryOne<T>(this MongoDBComponent self, Expression<Func<T, bool>> filter)
+        public static async ETTask<T> QueryOne<T>(this MongoDBComponent self, Expression<Func<T, bool>> filter)
                 where T : MongoEntity
         {
             string collectionName = typeof(T).Name;
             IAsyncCursor<T> cursor = await self.MongoDatabase.GetCollection<T>(collectionName).FindAsync(filter);
-            return await cursor.ToListAsync();
+            return await cursor.FirstOrDefaultAsync();
         }
 
         public static async ETTask<List<T>> Query<T>(this MongoDBComponent self, Expression<Func<T, bool>> filter)
