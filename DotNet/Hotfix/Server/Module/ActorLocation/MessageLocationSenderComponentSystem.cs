@@ -43,7 +43,7 @@ namespace ET.Server
         {
             using (ListComponent<long> list = ListComponent<long>.Create())
             {
-                long timeNow = TimeInfo.Instance.ServerNow();
+                long timeNow = TimeInfo.Instance.ServerNowMillTime();
                 foreach ((long key, Entity value) in self.Children)
                 {
                     MessageLocationSender messageLocationMessageSender = (MessageLocationSender) value;
@@ -120,7 +120,7 @@ namespace ET.Server
                     }
                 }
                 
-                messageLocationSender.LastSendOrRecvTime = TimeInfo.Instance.ServerNow();
+                messageLocationSender.LastSendOrRecvTime = TimeInfo.Instance.ServerNowMillTime();
                 root.GetComponent<MessageSender>().Send(messageLocationSender.ActorId, message);
             }
         }
@@ -152,7 +152,7 @@ namespace ET.Server
                 }
             }
 
-            messageLocationSender.LastSendOrRecvTime = TimeInfo.Instance.ServerNow();
+            messageLocationSender.LastSendOrRecvTime = TimeInfo.Instance.ServerNowMillTime();
             return await root.GetComponent<MessageSender>().Call(messageLocationSender.ActorId, request);
         }
 
@@ -196,7 +196,7 @@ namespace ET.Server
         {
             int failTimes = 0;
             long instanceId = messageLocationSender.InstanceId;
-            messageLocationSender.LastSendOrRecvTime = TimeInfo.Instance.ServerNow();
+            messageLocationSender.LastSendOrRecvTime = TimeInfo.Instance.ServerNowMillTime();
             
             Scene root = self.Root();
 

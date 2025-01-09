@@ -13,7 +13,7 @@ namespace ET.Server
         public static async ETTask Add(this LocationProxyComponent self, int type, long key, ActorId actorId)
         {
             Fiber fiber = self.Fiber();
-            Log.Info($"location proxy add {key}, {actorId} {TimeInfo.Instance.ServerNow()}");
+            Log.Info($"location proxy add {key}, {actorId} {TimeInfo.Instance.ServerNowMillTime()}");
             ObjectAddRequest objectAddRequest = ObjectAddRequest.Create();
             objectAddRequest.Type = type;
             objectAddRequest.Key = key;
@@ -24,7 +24,7 @@ namespace ET.Server
         public static async ETTask Lock(this LocationProxyComponent self, int type, long key, ActorId actorId, int time = 60000)
         {
             Fiber fiber = self.Fiber();
-            Log.Info($"location proxy lock {key}, {actorId} {TimeInfo.Instance.ServerNow()}");
+            Log.Info($"location proxy lock {key}, {actorId} {TimeInfo.Instance.ServerNowMillTime()}");
 
             ObjectLockRequest objectLockRequest = ObjectLockRequest.Create();
             objectLockRequest.Type = type;
@@ -37,7 +37,7 @@ namespace ET.Server
         public static async ETTask UnLock(this LocationProxyComponent self, int type, long key, ActorId oldActorId, ActorId newActorId)
         {
             Fiber fiber = self.Fiber();
-            Log.Info($"location proxy unlock {key}, {newActorId} {TimeInfo.Instance.ServerNow()}");
+            Log.Info($"location proxy unlock {key}, {newActorId} {TimeInfo.Instance.ServerNowMillTime()}");
             ObjectUnLockRequest objectUnLockRequest = ObjectUnLockRequest.Create();
             objectUnLockRequest.Type = type;
             objectUnLockRequest.Key = key;
@@ -49,7 +49,7 @@ namespace ET.Server
         public static async ETTask Remove(this LocationProxyComponent self, int type, long key)
         {
             Fiber fiber = self.Fiber();
-            Log.Info($"location proxy remove {key}, {TimeInfo.Instance.ServerNow()}");
+            Log.Info($"location proxy remove {key}, {TimeInfo.Instance.ServerNowMillTime()}");
 
             ObjectRemoveRequest objectRemoveRequest = ObjectRemoveRequest.Create();
             objectRemoveRequest.Type = type;

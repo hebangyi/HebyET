@@ -35,7 +35,7 @@ namespace ET.Server
             self.OuterUdp.Update();
             self.OuterTcp.Update();
             self.InnerSocket.Update();
-            long timeNow = TimeInfo.Instance.ClientNow();
+            long timeNow = TimeInfo.Instance.ClientNowMillTime();
             self.RecvOuterUdp(timeNow);
             self.RecvOuterTcp(timeNow);
             self.RecvInner(timeNow);
@@ -611,7 +611,7 @@ namespace ET.Server
             routerNode.InnerIpEndPoint = NetworkHelper.ToIPEndPoint(innerAddress);
             routerNode.SyncIpEndPoint = syncEndPoint;
             routerNode.InnerAddress = innerAddress;
-            routerNode.LastRecvInnerTime = TimeInfo.Instance.ClientNow();
+            routerNode.LastRecvInnerTime = TimeInfo.Instance.ClientNowMillTime();
 
             self.checkTimeout.Enqueue(outerConn);
 

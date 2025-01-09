@@ -31,13 +31,13 @@ namespace ET
         {
             this.dt1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             this.dt = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            this.FrameTime = this.ClientNow();
+            this.FrameTime = this.ClientNowMillTime();
         }
 
         public void Update()
         {
             // 赋值long型是原子操作，线程安全
-            this.FrameTime = this.ClientNow();
+            this.FrameTime = this.ClientNowMillTime();
         }
         
         /// <summary> 
@@ -49,14 +49,24 @@ namespace ET
         }
         
         // 线程安全
-        public long ClientNow()
+        public long ClientNowMillTime()
         {
             return (DateTime.UtcNow.Ticks - this.dt1970.Ticks) / 10000;
         }
-        
-        public long ServerNow()
+
+        public long ClientNowSec()
         {
-            return ClientNow() + this.ServerMinusClientTime;
+            return this.ClientNowMillTime() / 1000; 
+        }
+        
+        public long ServerNowMillTime()
+        {
+            return this.ClientNowMillTime() + this.ServerMinusClientTime;
+        }
+        
+        public long ServerNowSec()
+        {
+            return this.ServerNowMillTime() / 1000;
         }
         
         public long ClientFrameTime()

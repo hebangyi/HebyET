@@ -9,7 +9,7 @@ namespace ET.Server
         [EntitySystem]
         private static void Awake(this MessageLocationSender self)
         {
-            self.LastSendOrRecvTime = TimeInfo.Instance.ServerNow();
+            self.LastSendOrRecvTime = TimeInfo.Instance.ServerNowMillTime();
             self.ActorId = default;
         }
         
