@@ -31,6 +31,8 @@ namespace ET.Server
 				testAccount.Account = request.Account;
 				testAccount.roleItem = new RoleItem();
 				
+				testAccount.roleItem.RoleId = IdGenerater.Instance.GenerateId();
+				testAccount.roleItem.NickName = testAccount.roleItem.RoleId.ToString();
 				
 				await mongoDbComponent.Save(testAccount);
 			}
