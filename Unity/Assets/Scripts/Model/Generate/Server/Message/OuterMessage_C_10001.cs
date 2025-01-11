@@ -741,13 +741,13 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.C2G_LoginGate)]
-    [ResponseType(nameof(G2C_LoginGate))]
-    public partial class C2G_LoginGate : MessageObject, ISessionRequest
+    [Message(OuterMessage.C2G_LoginLobby)]
+    [ResponseType(nameof(G2C_LoginLobby))]
+    public partial class C2G_LoginLobby : MessageObject, ISessionRequest
     {
-        public static C2G_LoginGate Create(bool isFromPool = false)
+        public static C2G_LoginLobby Create(bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(C2G_LoginGate), isFromPool) as C2G_LoginGate;
+            return ObjectPool.Instance.Fetch(typeof(C2G_LoginLobby), isFromPool) as C2G_LoginLobby;
         }
 
         [MemoryPackOrder(0)]
@@ -757,10 +757,13 @@ namespace ET
         /// 帐号
         /// </summary>
         [MemoryPackOrder(1)]
-        public long Key { get; set; }
+        public long PlayerId { get; set; }
 
+        /// <summary>
+        /// 验签
+        /// </summary>
         [MemoryPackOrder(2)]
-        public long GateId { get; set; }
+        public string sign { get; set; }
 
         public override void Dispose()
         {
@@ -770,20 +773,20 @@ namespace ET
             }
 
             this.RpcId = default;
-            this.Key = default;
-            this.GateId = default;
+            this.PlayerId = default;
+            this.sign = default;
 
             ObjectPool.Instance.Recycle(this);
         }
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.G2C_LoginGate)]
-    public partial class G2C_LoginGate : MessageObject, ISessionResponse
+    [Message(OuterMessage.G2C_LoginLobby)]
+    public partial class G2C_LoginLobby : MessageObject, ISessionResponse
     {
-        public static G2C_LoginGate Create(bool isFromPool = false)
+        public static G2C_LoginLobby Create(bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(G2C_LoginGate), isFromPool) as G2C_LoginGate;
+            return ObjectPool.Instance.Fetch(typeof(G2C_LoginLobby), isFromPool) as G2C_LoginLobby;
         }
 
         [MemoryPackOrder(0)]
@@ -1107,8 +1110,8 @@ namespace ET
         public const ushort M2C_Reload = 10022;
         public const ushort C2A_Login = 10023;
         public const ushort A2C_Login = 10024;
-        public const ushort C2G_LoginGate = 10025;
-        public const ushort G2C_LoginGate = 10026;
+        public const ushort C2G_LoginLobby = 10025;
+        public const ushort G2C_LoginLobby = 10026;
         public const ushort G2C_TestHotfixMessage = 10027;
         public const ushort C2M_TestRobotCase = 10028;
         public const ushort M2C_TestRobotCase = 10029;
