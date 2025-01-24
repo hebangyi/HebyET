@@ -9,7 +9,7 @@ namespace ET.Server;
 [FriendOf(typeof(MongoEntity))]
 public static class MongoEntityHelper
 {
-    public static void AttachData(this Entity entity, MongoEntity mongoEntity)
+    public static void AttachData(Entity entity, MongoEntity mongoEntity)
     {
         var mongoFieldAutoLoadComponent = entity.Fiber().Root.GetComponent<MongoFieldAutoLoadComponent>();
         if (mongoFieldAutoLoadComponent == null)
@@ -47,7 +47,7 @@ public static class MongoEntityHelper
         }
     }
 
-    public static T UnAttachData<T>(this Entity entity) where T : MongoEntity, new()
+    public static T UnAttachData<T>(Entity entity) where T : MongoEntity, new()
     {
         var mongoFieldAutoLoadComponent = entity.Fiber().Root.GetComponent<MongoFieldAutoLoadComponent>();
         if (mongoFieldAutoLoadComponent == null)

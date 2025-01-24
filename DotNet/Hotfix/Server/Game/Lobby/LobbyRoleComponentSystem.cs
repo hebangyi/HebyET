@@ -21,11 +21,12 @@ public static partial class LobbyRoleComponentSystem
     public static void Add(this LobbyRoleComponent self, LobbyRole lobbyRole)
     {
         self.AddChild(lobbyRole);
+        self.OnlineRoles[lobbyRole.RoleId] = lobbyRole;
     }
 
     public static LobbyRole GetById(this LobbyRoleComponent self, long roleId)
     {
-        return self.GetChild<LobbyRole>(roleId);
+        return self.OnlineRoles.GetValueOrDefault(roleId);
     }
 
     public static void Remove(this LobbyRoleComponent self, long roleId)
@@ -33,6 +34,7 @@ public static partial class LobbyRoleComponentSystem
         var lobbyRole = self.GetById(roleId);
         if (lobbyRole != null)
         {
+            self.OnlineRoles.Remove(roleId);
             lobbyRole.Dispose();
         }
     }

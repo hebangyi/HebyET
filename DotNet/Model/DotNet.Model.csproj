@@ -53,6 +53,7 @@
       <Folder Include="Server\Game\Common\Attribute\" />
       <Folder Include="Server\Game\Common\Component\" />
       <Folder Include="Server\Game\Common\Event\" />
+      <Folder Include="Server\Game\Lobby\Event\" />
       <Folder Include="Server\Game\Map\" />
     </ItemGroup> 
 </Project>

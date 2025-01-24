@@ -21,7 +21,7 @@ public class LobbyRole : Entity
     }
 }
 
-public class LobbyRoleInfo : MongoEntity
+public class LobbyRoleEntity : MongoEntity
 {
 
 }

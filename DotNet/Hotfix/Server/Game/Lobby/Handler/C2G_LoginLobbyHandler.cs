@@ -20,11 +20,22 @@ namespace ET.Server
                 lobbyRole = new LobbyRole(session.Root(), request.PlayerId);
                 PlayerSessionComponent playerSessionComponent = lobbyRole.AddComponent<PlayerSessionComponent>();
                 
-                // ?
+                var mongoDbComponent = session.Fiber().Root.GetComponent<MongoDBComponent>();
+                var lobbyRoleEntity = await mongoDbComponent.QueryOne<LobbyRoleEntity>(x => x.Id == request.PlayerId);
+                if (lobbyRoleEntity == null)
+                {
+                    lobbyRoleEntity = new LobbyRoleEntity();
+                }
+                
+                MongoEntityHelper.AttachData(lobbyRole, lobbyRoleEntity);
+                // 查询数据库
                 playerSessionComponent.AddComponent<MailBoxComponent, MailBoxType>(MailBoxType.GateSession);
                 playerSessionComponent.Session = session;
                 session.TryAddComponent<SessionPlayerComponent>().RoleId = request.PlayerId;
                 lobbyRoleComponent.Add(lobbyRole);
+                
+                // 抛出数据初始化事件
+                await EventSystem.Instance.PublishAsync(root, new LobbyRoleDBInitEvent{LobbyRole = lobbyRole});
             }
             else
             {

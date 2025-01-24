@@ -1,11 +1,11 @@
 ﻿namespace ET.Server;
 
 [Event(SceneType.Lobby)]
-public class RoleInfoComponent_LobbyRoleInit : AEvent<Scene, LobbyRoleInitData>
+public class RoleInfoComponent_LobbyRoleInit : AEvent<Scene, LobbyRoleDBInitEvent>
 {
-    protected override async ETTask Run(Scene scene, LobbyRoleInitData args)
+    protected override async ETTask Run(Scene scene, LobbyRoleDBInitEvent args)
     {
-        var lobbyRole = args.lobbyRole;
+        var lobbyRole = args.LobbyRole;
         RoleInfoComponentHelper.InitData(lobbyRole);
         await ETTask.CompletedTask;
     }
