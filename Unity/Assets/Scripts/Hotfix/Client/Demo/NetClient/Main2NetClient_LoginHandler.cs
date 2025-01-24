@@ -37,11 +37,11 @@ namespace ET.Client
             Session gateSession = await netComponent.CreateRouterSession(NetworkHelper.ToIPEndPoint(a2CLogin.Address), account, password);
             gateSession.AddComponent<ClientSessionErrorComponent>();
             root.AddComponent<SessionComponent>().Session = gateSession;
-            C2G_LoginGate c2GLoginGate = C2G_LoginGate.Create();
-            c2GLoginGate.Key = a2CLogin.Key;
-            c2GLoginGate.GateId = a2CLogin.GateId;
-            G2C_LoginGate g2CLoginGate = (G2C_LoginGate)await gateSession.Call(c2GLoginGate);
-
+            C2L_LoginLobby c2GLoginLobby = C2L_LoginLobby.Create();
+            c2GLoginLobby.PlayerId = a2CLogin.Key;
+            // TODO
+            c2GLoginLobby.sign = "";
+            L2C_LoginLobby g2CLoginGate = (L2C_LoginLobby)await gateSession.Call(c2GLoginLobby);
             Log.Debug("登陆gate成功!");
 
             response.PlayerId = g2CLoginGate.PlayerId;

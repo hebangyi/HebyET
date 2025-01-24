@@ -741,13 +741,13 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.C2G_LoginLobby)]
-    [ResponseType(nameof(G2C_LoginLobby))]
-    public partial class C2G_LoginLobby : MessageObject, ISessionRequest
+    [Message(OuterMessage.C2L_LoginLobby)]
+    [ResponseType(nameof(L2C_LoginLobby))]
+    public partial class C2L_LoginLobby : MessageObject, ISessionRequest
     {
-        public static C2G_LoginLobby Create(bool isFromPool = false)
+        public static C2L_LoginLobby Create(bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(C2G_LoginLobby), isFromPool) as C2G_LoginLobby;
+            return ObjectPool.Instance.Fetch(typeof(C2L_LoginLobby), isFromPool) as C2L_LoginLobby;
         }
 
         [MemoryPackOrder(0)]
@@ -781,12 +781,12 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.G2C_LoginLobby)]
-    public partial class G2C_LoginLobby : MessageObject, ISessionResponse
+    [Message(OuterMessage.L2C_LoginLobby)]
+    public partial class L2C_LoginLobby : MessageObject, ISessionResponse
     {
-        public static G2C_LoginLobby Create(bool isFromPool = false)
+        public static L2C_LoginLobby Create(bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(G2C_LoginLobby), isFromPool) as G2C_LoginLobby;
+            return ObjectPool.Instance.Fetch(typeof(L2C_LoginLobby), isFromPool) as L2C_LoginLobby;
         }
 
         [MemoryPackOrder(0)]
@@ -1110,8 +1110,8 @@ namespace ET
         public const ushort M2C_Reload = 10022;
         public const ushort C2A_Login = 10023;
         public const ushort A2C_Login = 10024;
-        public const ushort C2G_LoginLobby = 10025;
-        public const ushort G2C_LoginLobby = 10026;
+        public const ushort C2L_LoginLobby = 10025;
+        public const ushort L2C_LoginLobby = 10026;
         public const ushort G2C_TestHotfixMessage = 10027;
         public const ushort C2M_TestRobotCase = 10028;
         public const ushort M2C_TestRobotCase = 10029;

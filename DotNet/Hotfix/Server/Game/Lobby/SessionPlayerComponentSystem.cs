@@ -1,6 +1,7 @@
 ﻿namespace ET.Server
 {
     [EntitySystemOf(typeof(SessionPlayerComponent))]
+    [FriendOf(typeof(SessionPlayerComponent))]
     public static partial class SessionPlayerComponentSystem
     {
         [EntitySystem]
@@ -12,9 +13,9 @@
                 return;
             }
             // 发送断线消息
-            root.GetComponent<MessageLocationSenderComponent>().Get(LocationType.Unit).Send(self.Player.Id, G2M_SessionDisconnect.Create());
+            root.GetComponent<MessageLocationSenderComponent>().Get(LocationType.Unit).Send(self.RoleId, G2M_SessionDisconnect.Create());
         }
-        
+
         [EntitySystem]
         private static void Awake(this SessionPlayerComponent self)
         {

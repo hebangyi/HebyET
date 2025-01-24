@@ -160,15 +160,15 @@ message A2C_Login // ISessionResponse
 	int64 GateId = 6;
 }
 
-// ResponseType G2C_LoginLobby
-message C2G_LoginLobby // ISessionRequest
+// ResponseType L2C_LoginLobby
+message C2L_LoginLobby // ISessionRequest
 {
 	int32 RpcId = 1;
 	int64 PlayerId = 2;  			// 帐号
 	string sign = 3;				// 验签
 }
 
-message G2C_LoginLobby // ISessionResponse
+message L2C_LoginLobby // ISessionResponse
 {
 	int32 RpcId = 1;
 	int32 Error = 2;

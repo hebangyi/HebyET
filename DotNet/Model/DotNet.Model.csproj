@@ -55,5 +55,6 @@
       <Folder Include="Server\Game\Common\Event\" />
       <Folder Include="Server\Game\Lobby\Event\" />
       <Folder Include="Server\Game\Map\" />
+      <Folder Include="Server\LockStep\Gate\" />
     </ItemGroup> 
 </Project>

@@ -6,9 +6,9 @@ namespace ET.Server
     [MessageSessionHandler(SceneType.Lobby)]
     [FriendOf(typeof(LobbyRole))]
     [FriendOf(typeof(SessionPlayerComponent))]
-    public class C2G_LoginLobbyHandler : MessageSessionHandler<C2G_LoginLobby, G2C_LoginLobby>
+    public class C2G_LoginLobbyHandler : MessageSessionHandler<C2L_LoginLobby, L2C_LoginLobby>
     {
-        protected override async ETTask Run(Session session, C2G_LoginLobby request, G2C_LoginLobby response)
+        protected override async ETTask Run(Session session, C2L_LoginLobby request, L2C_LoginLobby response)
         {
             Scene root = session.Root();
             session.RemoveComponent<SessionAcceptTimeoutComponent>();

@@ -3,6 +3,7 @@
 
 namespace ET.Server
 {
+	/*
 	[MessageHandler(SceneType.Lobby)]
 	public class Match2G_NotifyMatchSuccessHandler : MessageHandler<Player, Match2G_NotifyMatchSuccess>
 	{
@@ -14,4 +15,5 @@ namespace ET.Server
 			await ETTask.CompletedTask;
 		}
 	}
+	*/
 }
