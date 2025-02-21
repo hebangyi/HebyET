@@ -13,6 +13,9 @@ namespace ET.Client
             string password = request.Password;
             // 创建一个ETModel层的Session
             root.RemoveComponent<RouterAddressComponent>();
+            
+            // TODO 更具环境 获取 服务器Http地址
+            
             // 获取路由跟realmDispatcher地址
             RouterAddressComponent routerAddressComponent =
                     root.AddComponent<RouterAddressComponent, string, int>(ConstValue.RouterHttpHost, ConstValue.RouterHttpPort);
@@ -23,15 +26,19 @@ namespace ET.Client
             NetComponent netComponent = root.GetComponent<NetComponent>();
             
             IPEndPoint realmAddress = routerAddressComponent.GetRealmAddress(account);
-
+            
+            // TODO 链接异常处理
             A2C_Login a2CLogin;
             using (Session session = await netComponent.CreateRouterSession(realmAddress, account, password))
             {
-                C2A_Login c2RLogin = C2A_Login.Create();
-                c2RLogin.Account = account;
-                c2RLogin.Password = password;
-                a2CLogin = (A2C_Login)await session.Call(c2RLogin);
+                C2A_Login c2ALogin = C2A_Login.Create();
+                c2ALogin.Account = account;
+                c2ALogin.Password = password;
+                a2CLogin = (A2C_Login)await session.Call(c2ALogin);
             }
+            
+            // TODO 返回值错误处理
+            
 
             // 创建一个gate Session,并且保存到SessionComponent中
             Session gateSession = await netComponent.CreateRouterSession(NetworkHelper.ToIPEndPoint(a2CLogin.Address), account, password);

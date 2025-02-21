@@ -8,6 +8,7 @@ public class GameConstant
     public const int OneHourSecond = 60 * 60;
     public const int OneDaySecond = 24 * 60 * 60;
     public const int OneWeekSecond = 7 * 24 * 60 * 60;
-
-    public const int MongoDBCacheUpdateCount = 200;
+    
+    
+    
 }

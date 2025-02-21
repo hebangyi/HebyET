@@ -8,5 +8,5 @@ public class MongoCacheAgentComponent: Entity, IAwake, IDestroy
 {
     public bool isSaving = false;
     public long CheckTimerId;
-    public Dictionary<long, EntityRef<MongoEntity>> CacheMongoEntities = new();
+    public Dictionary<long, MongoEntity> CacheMongoEntities = new();
 }

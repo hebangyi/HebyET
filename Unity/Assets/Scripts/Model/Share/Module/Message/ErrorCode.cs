@@ -15,6 +15,7 @@ namespace ET
         // 110000 - 200000是抛异常的错误
         ServerInternalErr = 110000,                 // 服务器内部错误 
         ParamErr = 110001,                          // 参数错误
+        ServerNotStartFinished = 110002,            // 服务器没有启动完成
         
         ///////////////////////////// 登录
         ServerIsStarting = 110100,                  // 参数错误

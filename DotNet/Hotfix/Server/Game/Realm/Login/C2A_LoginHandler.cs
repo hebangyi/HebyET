@@ -23,8 +23,12 @@ namespace ET.Server
 			}
 
 			// TODO Lobby 分配节点的信息
-			SceneNodeInfo sceneNodeInfo = SceneNodeInfo.Create();
-			
+			var lobbyNodeInfo = EtcdHelper.GetRandomNode(SceneType.Lobby);
+			if (lobbyNodeInfo == null)
+			{
+				response.Error = (int)ErrorCode.ServerNotStartFinished;
+				return;
+			}
 			
 			// TODO 后期进入队列 并且可以横向扩展
 			var mongoDbComponent = session.Fiber().Root.GetComponent<MongoDBComponent>();
@@ -41,7 +45,7 @@ namespace ET.Server
 				await mongoDbComponent.Save(testAccount);
 			}
 			
-			response.Address = sceneNodeInfo.OuterIpAndOuterPortAddress;
+			response.Address = lobbyNodeInfo.OuterIpAndOuterPortAddress;
 			response.Key = testAccount.roleItem.RoleId;
 			await ETTask.CompletedTask;
 		}

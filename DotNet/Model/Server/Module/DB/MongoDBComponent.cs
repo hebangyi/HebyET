@@ -19,8 +19,9 @@ namespace ET.Server
         // void Deserialize(byte[] bytes);
     }
 
-    public abstract class MongoEntity : Entity,IMongoEntityInterface
+    public abstract class MongoEntity :IMongoEntityInterface
     {
+        public long Id;
         //通用数据结构
         [BsonDictionaryOptions(DictionaryRepresentation.Document)]
         public Dictionary<string, object> DataCollections = new ();

@@ -40,6 +40,7 @@
         <ProjectReference Include="..\Model\DotNet.Model.csproj" />
     </ItemGroup>
     <ItemGroup>
+      <Folder Include="Server\Game\Common\Helper\" />
       <Folder Include="Server\Global\Etcd\" />
       <Folder Include="Server\Module\DB\" />
     </ItemGroup>

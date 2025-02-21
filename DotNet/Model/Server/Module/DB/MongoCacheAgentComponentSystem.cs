@@ -99,7 +99,7 @@ public static partial class MongoCacheAgentComponentSystem
                     while (queue.TryDequeue(out var entity))
                     {
                         batchSaveEntities.Add(entity);
-                        if (batchSaveEntities.Count >= GameConstant.MongoDBCacheUpdateCount)
+                        if (batchSaveEntities.Count >= GameServerConstant.MongoDBCacheUpdateCount)
                         {
                             break;
                         }
