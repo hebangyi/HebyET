@@ -167,15 +167,14 @@ public static partial class EtcdComponentSystem
             EtcdClient client = self.RegClient;
             foreach (var pack in EtcdManager.Instance.SceneId2RegSceneNodePacks.Values)
             {
-                var leaseId = pack.LeaseId;
-                if (leaseId == 0)
+                if (pack.LeaseId == 0)
                 {
                     Log.Info($"ETCD 重新注册 {pack.RegPath.ToString()}");
                     await self.RegEtcdNode(pack);
                 }
 
                 LeaseKeepAliveRequest keepAliveRequest = new LeaseKeepAliveRequest();
-                keepAliveRequest.ID = leaseId;
+                keepAliveRequest.ID = pack.LeaseId;
                 // 开启续约
                 await client.LeaseKeepAlive(keepAliveRequest, (res) =>
                 {

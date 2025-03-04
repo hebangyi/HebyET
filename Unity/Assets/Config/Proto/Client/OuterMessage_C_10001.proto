@@ -155,17 +155,17 @@ message A2C_Login // ISessionResponse
 	int32 RpcId = 1;
 	int32 Error = 2;
 	string Message = 3;
-	string Address = 4;
-	int64 Key = 5;
-	int64 GateId = 6;
+
+	string Address = 4;				// 大厅地址
+	string Token = 5;				// Token
 }
 
 // ResponseType L2C_LoginLobby
 message C2L_LoginLobby // ISessionRequest
 {
 	int32 RpcId = 1;
-	int64 PlayerId = 2;  			// 帐号
-	string sign = 3;				// 验签
+	
+	string Token = 2;				// Token
 }
 
 message L2C_LoginLobby // ISessionResponse

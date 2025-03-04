@@ -12,7 +12,7 @@ namespace ET
 		
 		
 		// 子服务
-		Entry = 1 << 3,	// 入口服务
+		EntryHttpServer = 1 << 3,	// 入口服务
 		Account = 1 << 4, // 账号服务
 		Lobby = 1 << 5,
 		Http = 1 << 6,

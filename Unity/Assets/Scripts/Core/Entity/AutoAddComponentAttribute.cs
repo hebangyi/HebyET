@@ -1,15 +1,16 @@
 ﻿using System;
 
-namespace ET;
-
-/// <summary>
-/// Component 自动挂载
-/// </summary>
-public class AutoAddComponentAttribute : BaseAttribute
+namespace ET
 {
-    public Type[] EntityTypes;
-    public AutoAddComponentAttribute(Type[] entityTypes)
+    /// <summary>
+    /// Component 自动挂载
+    /// </summary>
+    public class AutoAddComponentAttribute : BaseAttribute
     {
-        this.EntityTypes = entityTypes;
+        public Type[] EntityTypes;
+        public AutoAddComponentAttribute(Type[] entityTypes)
+        {
+            this.EntityTypes = entityTypes;
+        }
     }
 }

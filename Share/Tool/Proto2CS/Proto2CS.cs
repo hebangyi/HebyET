@@ -23,7 +23,14 @@ namespace ET
 
     public static partial class InnerProto2CS
     {
-        private const string protoDir = "../Unity/Assets/Config/Proto";
+        private const string clientProtoDir = "../Unity/Assets/Config/Proto/Client";
+        private const string clientOutputTempFilePath = @"../Unity/Assets/Config/Proto/Client/Temp/Client.proto";
+        
+        
+        
+        private const string serverProtoDir = "../Unity/Assets/Config/Proto/Server";
+        
+        
         private const string clientMessagePath = "../Unity/Assets/Scripts/Model/Generate/Client/Message/";
         private const string serverMessagePath = "../Unity/Assets/Scripts/Model/Generate/Server/Message/";
         private const string clientServerMessagePath = "../Unity/Assets/Scripts/Model/Generate/ClientServer/Message/";
@@ -38,8 +45,9 @@ namespace ET
             RemoveAllFilesExceptMeta(serverMessagePath);
             RemoveAllFilesExceptMeta(clientServerMessagePath);
 
-            List<string> list = FileHelper.GetAllFiles(protoDir, "*proto");
-            foreach (string s in list)
+            GenerateClientProto();
+            
+            /*foreach (string s in list)
             {
                 if (!s.EndsWith(".proto"))
                 {
@@ -52,14 +60,34 @@ namespace ET
                 string cs = ss2[1];
                 int startOpcode = int.Parse(ss2[2]);
                 ProtoFile2CS(fileName, protoName, cs, startOpcode);
-            }
+            }*/
 
             RemoveUnusedMetaFiles(clientMessagePath);
             RemoveUnusedMetaFiles(serverMessagePath);
             RemoveUnusedMetaFiles(clientServerMessagePath);
         }
 
-        private static void ProtoFile2CS(string fileName, string protoName, string cs, int startOpcode)
+
+        public static void GenerateClientProto()
+        {
+            List<string> fileList = FileHelper.GetAllFiles(clientProtoDir, "*proto");
+            string allContent = "";
+            foreach (string filePath in fileList)
+            {
+                if (!filePath.EndsWith(".proto"))
+                {
+                    continue;
+                }
+                
+                string content = File.ReadAllText(filePath);
+                allContent += content;
+            }
+            
+            File.WriteAllText(clientOutputTempFilePath, allContent);
+        }
+        
+        
+        private static void ProtoFile2CS(string protoDir,string fileName, string protoName, string cs, int startOpcode)
         {
             msgOpcode.Clear();
 

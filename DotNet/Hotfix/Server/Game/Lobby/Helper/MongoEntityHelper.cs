@@ -1,32 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MongoDB.Bson;
 
 namespace ET.Server;
 
-[FriendOf(typeof(MongoFieldAutoLoadComponent))]
 [FriendOf(typeof(MongoEntity))]
 public static class MongoEntityHelper
 {
     public static void AttachData(Entity entity, MongoEntity mongoEntity)
     {
-        var mongoFieldAutoLoadComponent = entity.Fiber().Root.GetComponent<MongoFieldAutoLoadComponent>();
-        if (mongoFieldAutoLoadComponent == null)
-        {
-            Log.Error("Attach RoleData Not Found LobbyRoleToolComponent");
-            return;
-        }
-
         foreach (var componentKv in entity.Components)
         {
             var componentType = componentKv.Value.GetType();
-            var fieldInfos = mongoFieldAutoLoadComponent.Type2FieldInfos.GetValueOrDefault(componentType);
-            if (fieldInfos == null)
-            {
-                continue;
-            }
-
+            var fieldInfos = componentType.GetFields().Where(field => field.GetCustomAttribute<MongoFieldAttribute>() != null).ToList();
+            
             foreach (var fieldInfo in fieldInfos)
             {
                 var mongoFieldAttribute = fieldInfo.GetCustomAttribute(typeof(MongoFieldAttribute)) as MongoFieldAttribute;
@@ -49,23 +38,13 @@ public static class MongoEntityHelper
 
     public static T UnAttachData<T>(Entity entity) where T : MongoEntity, new()
     {
-        var mongoFieldAutoLoadComponent = entity.Fiber().Root.GetComponent<MongoFieldAutoLoadComponent>();
-        if (mongoFieldAutoLoadComponent == null)
-        {
-            Log.Error("UnAttachRoleData RoleData Not Found LobbyRoleToolComponent");
-            return null;
-        }
-
         T mongoEntity = new();
         foreach (var componentKv in entity.Components)
         {
             var componentIns = componentKv.Value;
             var componentType = componentKv.Value.GetType();
-            var fieldInfos = mongoFieldAutoLoadComponent.Type2FieldInfos.GetValueOrDefault(componentType);
-            if (fieldInfos == null)
-            {
-                continue;
-            }
+            
+            var fieldInfos = componentType.GetFields().Where(field => field.GetCustomAttribute<MongoFieldAttribute>() != null).ToList();
 
             foreach (var fieldInfo in fieldInfos)
             {

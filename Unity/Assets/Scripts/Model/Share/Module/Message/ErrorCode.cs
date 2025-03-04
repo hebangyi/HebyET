@@ -19,7 +19,14 @@ namespace ET
         
         ///////////////////////////// 登录
         ServerIsStarting = 110100,                  // 参数错误
-        AccountLoginErr = 110101                    // 用户名密码错误
+        
+        //// 账号服 
+        AccountLoginErr = 110101,                   // 用户名密码错误
+        
+        //// 逻辑大厅服
+        // 登录
+        LoginTokenErr = 211101,                     // 用户名密码错误
+        
         
         
         // 200001以上不抛异常

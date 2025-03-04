@@ -17,7 +17,6 @@ namespace ET.Server
             root.AddComponent<GateSessionKeyComponent>();
             root.AddComponent<LocationProxyComponent>();
             root.AddComponent<MessageLocationSenderComponent>();
-            root.AddComponent<MongoFieldAutoLoadComponent>();
             root.AddComponent<MongoDBComponent>();
             root.AddComponent<MongoCacheAgentComponent>();
             

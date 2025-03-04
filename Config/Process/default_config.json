@@ -41,7 +41,7 @@
                 }
             }
         },
-        "Entry": {
+        "EntryHttpServer": {
             "SceneId": 30001,
             "ModulesConfig": {   
                 "HttpComponent": {

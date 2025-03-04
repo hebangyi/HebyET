@@ -46,7 +46,10 @@ namespace ET.Server
 			}
 			
 			response.Address = lobbyNodeInfo.OuterIpAndOuterPortAddress;
-			response.Key = testAccount.roleItem.RoleId;
+
+			AccountLoginRSA rsa = new ();
+			rsa.RoleId = testAccount.roleItem.RoleId;
+			response.Token = RSATokenManager.Instance.MakeToken(rsa);
 			await ETTask.CompletedTask;
 		}
 

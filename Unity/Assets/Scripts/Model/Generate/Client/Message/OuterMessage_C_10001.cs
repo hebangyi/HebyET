@@ -713,14 +713,17 @@ namespace ET
         [MemoryPackOrder(2)]
         public string Message { get; set; }
 
+        /// <summary>
+        /// 大厅地址
+        /// </summary>
         [MemoryPackOrder(3)]
         public string Address { get; set; }
 
+        /// <summary>
+        /// Token
+        /// </summary>
         [MemoryPackOrder(4)]
-        public long Key { get; set; }
-
-        [MemoryPackOrder(5)]
-        public long GateId { get; set; }
+        public string Token { get; set; }
 
         public override void Dispose()
         {
@@ -733,8 +736,7 @@ namespace ET
             this.Error = default;
             this.Message = default;
             this.Address = default;
-            this.Key = default;
-            this.GateId = default;
+            this.Token = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -754,16 +756,10 @@ namespace ET
         public int RpcId { get; set; }
 
         /// <summary>
-        /// 帐号
+        /// Token
         /// </summary>
         [MemoryPackOrder(1)]
-        public long PlayerId { get; set; }
-
-        /// <summary>
-        /// 验签
-        /// </summary>
-        [MemoryPackOrder(2)]
-        public string sign { get; set; }
+        public string Token { get; set; }
 
         public override void Dispose()
         {
@@ -773,8 +769,7 @@ namespace ET
             }
 
             this.RpcId = default;
-            this.PlayerId = default;
-            this.sign = default;
+            this.Token = default;
 
             ObjectPool.Instance.Recycle(this);
         }

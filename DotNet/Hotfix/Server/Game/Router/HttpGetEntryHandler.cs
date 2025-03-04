@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ET.Server
 {
-    [HttpHandler(SceneType.Entry, "/get_entry")]
+    [HttpHandler(SceneType.EntryHttpServer, GameConstant.EntryServerServerListUri)]
     public class HttpGetEntryHandler : IHttpHandler
     {
         public async ETTask Handle(Scene scene, HttpListenerContext context)
