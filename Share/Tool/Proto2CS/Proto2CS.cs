@@ -76,6 +76,11 @@ namespace ET
             
             ProtoFile2CS(clientOutputTempFilePath, "ClientMessage", "c", 10001);
             ProtoFile2CS(serverOutputTempFilePath, "ServerMessage", "s", 10001);
+            
+            
+            RemoveUnusedMetaFiles(clientMessagePath);
+            RemoveUnusedMetaFiles(serverMessagePath);
+            RemoveUnusedMetaFiles(clientServerMessagePath);
         }
 
 
