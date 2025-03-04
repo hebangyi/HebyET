@@ -4,7 +4,474 @@ using System.Collections.Generic;
 namespace ET
 {
     [MemoryPackable]
-    [Message(OuterMessage.HttpGetRouterResponse)]
+    [Message(ClientMessage.Main2NetClient_Login)]
+    [ResponseType(nameof(NetClient2Main_Login))]
+    public partial class Main2NetClient_Login : MessageObject, IRequest
+    {
+        public static Main2NetClient_Login Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(Main2NetClient_Login), isFromPool) as Main2NetClient_Login;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int OwnerFiberId { get; set; }
+
+        /// <summary>
+        /// 账号
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public string Account { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        [MemoryPackOrder(3)]
+        public string Password { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.OwnerFiberId = default;
+            this.Account = default;
+            this.Password = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.NetClient2Main_Login)]
+    public partial class NetClient2Main_Login : MessageObject, IResponse
+    {
+        public static NetClient2Main_Login Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(NetClient2Main_Login), isFromPool) as NetClient2Main_Login;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        [MemoryPackOrder(3)]
+        public long PlayerId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+            this.PlayerId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.TestClientData)]
+    public partial class TestClientData : MessageObject
+    {
+        public static TestClientData Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(TestClientData), isFromPool) as TestClientData;
+        }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.C2G_Match)]
+    [ResponseType(nameof(G2C_Match))]
+    public partial class C2G_Match : MessageObject, ISessionRequest
+    {
+        public static C2G_Match Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2G_Match), isFromPool) as C2G_Match;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.G2C_Match)]
+    public partial class G2C_Match : MessageObject, ISessionResponse
+    {
+        public static G2C_Match Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(G2C_Match), isFromPool) as G2C_Match;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    /// <summary>
+    /// 匹配成功，通知客户端切换场景
+    /// </summary>
+    [MemoryPackable]
+    [Message(ClientMessage.Match2G_NotifyMatchSuccess)]
+    public partial class Match2G_NotifyMatchSuccess : MessageObject, IMessage
+    {
+        public static Match2G_NotifyMatchSuccess Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(Match2G_NotifyMatchSuccess), isFromPool) as Match2G_NotifyMatchSuccess;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        /// <summary>
+        /// 房间的ActorId
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public ActorId ActorId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.ActorId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    /// <summary>
+    /// 客户端通知房间切换场景完成
+    /// </summary>
+    [MemoryPackable]
+    [Message(ClientMessage.C2Room_ChangeSceneFinish)]
+    public partial class C2Room_ChangeSceneFinish : MessageObject, IRoomMessage
+    {
+        public static C2Room_ChangeSceneFinish Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2Room_ChangeSceneFinish), isFromPool) as C2Room_ChangeSceneFinish;
+        }
+
+        [MemoryPackOrder(0)]
+        public long PlayerId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.PlayerId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.LockStepUnitInfo)]
+    public partial class LockStepUnitInfo : MessageObject
+    {
+        public static LockStepUnitInfo Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(LockStepUnitInfo), isFromPool) as LockStepUnitInfo;
+        }
+
+        [MemoryPackOrder(0)]
+        public long PlayerId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public TrueSync.TSVector Position { get; set; }
+
+        [MemoryPackOrder(2)]
+        public TrueSync.TSQuaternion Rotation { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.PlayerId = default;
+            this.Position = default;
+            this.Rotation = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    /// <summary>
+    /// 房间通知客户端进入战斗
+    /// </summary>
+    [MemoryPackable]
+    [Message(ClientMessage.Room2C_Start)]
+    public partial class Room2C_Start : MessageObject, IMessage
+    {
+        public static Room2C_Start Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(Room2C_Start), isFromPool) as Room2C_Start;
+        }
+
+        [MemoryPackOrder(0)]
+        public long StartTime { get; set; }
+
+        [MemoryPackOrder(1)]
+        public List<LockStepUnitInfo> UnitInfo { get; set; } = new();
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.StartTime = default;
+            this.UnitInfo.Clear();
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.FrameMessage)]
+    public partial class FrameMessage : MessageObject, IMessage
+    {
+        public static FrameMessage Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(FrameMessage), isFromPool) as FrameMessage;
+        }
+
+        [MemoryPackOrder(0)]
+        public int Frame { get; set; }
+
+        [MemoryPackOrder(1)]
+        public long PlayerId { get; set; }
+
+        [MemoryPackOrder(2)]
+        public LSInput Input { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.Frame = default;
+            this.PlayerId = default;
+            this.Input = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.OneFrameInputs)]
+    public partial class OneFrameInputs : MessageObject, IMessage
+    {
+        public static OneFrameInputs Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(OneFrameInputs), isFromPool) as OneFrameInputs;
+        }
+
+        [MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
+        [MemoryPackOrder(1)]
+        public Dictionary<long, LSInput> Inputs { get; set; } = new();
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.Inputs.Clear();
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.Room2C_AdjustUpdateTime)]
+    public partial class Room2C_AdjustUpdateTime : MessageObject, IMessage
+    {
+        public static Room2C_AdjustUpdateTime Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(Room2C_AdjustUpdateTime), isFromPool) as Room2C_AdjustUpdateTime;
+        }
+
+        [MemoryPackOrder(0)]
+        public int DiffTime { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.DiffTime = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.C2Room_CheckHash)]
+    public partial class C2Room_CheckHash : MessageObject, IRoomMessage
+    {
+        public static C2Room_CheckHash Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2Room_CheckHash), isFromPool) as C2Room_CheckHash;
+        }
+
+        [MemoryPackOrder(0)]
+        public long PlayerId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Frame { get; set; }
+
+        [MemoryPackOrder(2)]
+        public long Hash { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.PlayerId = default;
+            this.Frame = default;
+            this.Hash = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.Room2C_CheckHashFail)]
+    public partial class Room2C_CheckHashFail : MessageObject, IMessage
+    {
+        public static Room2C_CheckHashFail Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(Room2C_CheckHashFail), isFromPool) as Room2C_CheckHashFail;
+        }
+
+        [MemoryPackOrder(0)]
+        public int Frame { get; set; }
+
+        [MemoryPackOrder(1)]
+        public byte[] LSWorldBytes { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.Frame = default;
+            this.LSWorldBytes = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.G2C_Reconnect)]
+    public partial class G2C_Reconnect : MessageObject, IMessage
+    {
+        public static G2C_Reconnect Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(G2C_Reconnect), isFromPool) as G2C_Reconnect;
+        }
+
+        [MemoryPackOrder(0)]
+        public long StartTime { get; set; }
+
+        [MemoryPackOrder(1)]
+        public List<LockStepUnitInfo> UnitInfos { get; set; } = new();
+
+        [MemoryPackOrder(2)]
+        public int Frame { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.StartTime = default;
+            this.UnitInfos.Clear();
+            this.Frame = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.HttpGetRouterResponse)]
     public partial class HttpGetRouterResponse : MessageObject
     {
         public static HttpGetRouterResponse Create(bool isFromPool = false)
@@ -33,7 +500,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.RouterSync)]
+    [Message(ClientMessage.RouterSync)]
     public partial class RouterSync : MessageObject
     {
         public static RouterSync Create(bool isFromPool = false)
@@ -62,7 +529,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.C2M_TestRequest)]
+    [Message(ClientMessage.C2M_TestRequest)]
     [ResponseType(nameof(M2C_TestResponse))]
     public partial class C2M_TestRequest : MessageObject, ILocationRequest
     {
@@ -92,7 +559,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.M2C_TestResponse)]
+    [Message(ClientMessage.M2C_TestResponse)]
     public partial class M2C_TestResponse : MessageObject, IResponse
     {
         public static M2C_TestResponse Create(bool isFromPool = false)
@@ -129,7 +596,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.C2G_EnterMap)]
+    [Message(ClientMessage.C2G_EnterMap)]
     [ResponseType(nameof(G2C_EnterMap))]
     public partial class C2G_EnterMap : MessageObject, ISessionRequest
     {
@@ -155,7 +622,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.G2C_EnterMap)]
+    [Message(ClientMessage.G2C_EnterMap)]
     public partial class G2C_EnterMap : MessageObject, ISessionResponse
     {
         public static G2C_EnterMap Create(bool isFromPool = false)
@@ -195,7 +662,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.MoveInfo)]
+    [Message(ClientMessage.MoveInfo)]
     public partial class MoveInfo : MessageObject
     {
         public static MoveInfo Create(bool isFromPool = false)
@@ -228,7 +695,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.UnitInfo)]
+    [Message(ClientMessage.UnitInfo)]
     public partial class UnitInfo : MessageObject
     {
         public static UnitInfo Create(bool isFromPool = false)
@@ -277,7 +744,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.M2C_CreateUnits)]
+    [Message(ClientMessage.M2C_CreateUnits)]
     public partial class M2C_CreateUnits : MessageObject, IMessage
     {
         public static M2C_CreateUnits Create(bool isFromPool = false)
@@ -302,7 +769,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.M2C_CreateMyUnit)]
+    [Message(ClientMessage.M2C_CreateMyUnit)]
     public partial class M2C_CreateMyUnit : MessageObject, IMessage
     {
         public static M2C_CreateMyUnit Create(bool isFromPool = false)
@@ -327,7 +794,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.M2C_StartSceneChange)]
+    [Message(ClientMessage.M2C_StartSceneChange)]
     public partial class M2C_StartSceneChange : MessageObject, IMessage
     {
         public static M2C_StartSceneChange Create(bool isFromPool = false)
@@ -356,7 +823,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.M2C_RemoveUnits)]
+    [Message(ClientMessage.M2C_RemoveUnits)]
     public partial class M2C_RemoveUnits : MessageObject, IMessage
     {
         public static M2C_RemoveUnits Create(bool isFromPool = false)
@@ -381,7 +848,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.C2M_PathfindingResult)]
+    [Message(ClientMessage.C2M_PathfindingResult)]
     public partial class C2M_PathfindingResult : MessageObject, ILocationMessage
     {
         public static C2M_PathfindingResult Create(bool isFromPool = false)
@@ -410,7 +877,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.C2M_Stop)]
+    [Message(ClientMessage.C2M_Stop)]
     public partial class C2M_Stop : MessageObject, ILocationMessage
     {
         public static C2M_Stop Create(bool isFromPool = false)
@@ -435,7 +902,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.M2C_PathfindingResult)]
+    [Message(ClientMessage.M2C_PathfindingResult)]
     public partial class M2C_PathfindingResult : MessageObject, IMessage
     {
         public static M2C_PathfindingResult Create(bool isFromPool = false)
@@ -468,7 +935,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.M2C_Stop)]
+    [Message(ClientMessage.M2C_Stop)]
     public partial class M2C_Stop : MessageObject, IMessage
     {
         public static M2C_Stop Create(bool isFromPool = false)
@@ -505,7 +972,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.C2G_Ping)]
+    [Message(ClientMessage.C2G_Ping)]
     [ResponseType(nameof(G2C_Ping))]
     public partial class C2G_Ping : MessageObject, ISessionRequest
     {
@@ -531,7 +998,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.G2C_Ping)]
+    [Message(ClientMessage.G2C_Ping)]
     public partial class G2C_Ping : MessageObject, ISessionResponse
     {
         public static G2C_Ping Create(bool isFromPool = false)
@@ -568,7 +1035,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.G2C_Test)]
+    [Message(ClientMessage.G2C_Test)]
     public partial class G2C_Test : MessageObject, ISessionMessage
     {
         public static G2C_Test Create(bool isFromPool = false)
@@ -589,7 +1056,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.C2M_Reload)]
+    [Message(ClientMessage.C2M_Reload)]
     [ResponseType(nameof(M2C_Reload))]
     public partial class C2M_Reload : MessageObject, ISessionRequest
     {
@@ -623,7 +1090,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.M2C_Reload)]
+    [Message(ClientMessage.M2C_Reload)]
     public partial class M2C_Reload : MessageObject, ISessionResponse
     {
         public static M2C_Reload Create(bool isFromPool = false)
@@ -656,7 +1123,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.C2A_Login)]
+    [Message(ClientMessage.C2A_Login)]
     [ResponseType(nameof(A2C_Login))]
     public partial class C2A_Login : MessageObject, ISessionRequest
     {
@@ -696,7 +1163,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.A2C_Login)]
+    [Message(ClientMessage.A2C_Login)]
     public partial class A2C_Login : MessageObject, ISessionResponse
     {
         public static A2C_Login Create(bool isFromPool = false)
@@ -743,7 +1210,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.C2L_LoginLobby)]
+    [Message(ClientMessage.C2L_LoginLobby)]
     [ResponseType(nameof(L2C_LoginLobby))]
     public partial class C2L_LoginLobby : MessageObject, ISessionRequest
     {
@@ -776,7 +1243,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.L2C_LoginLobby)]
+    [Message(ClientMessage.L2C_LoginLobby)]
     public partial class L2C_LoginLobby : MessageObject, ISessionResponse
     {
         public static L2C_LoginLobby Create(bool isFromPool = false)
@@ -813,7 +1280,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.G2C_TestHotfixMessage)]
+    [Message(ClientMessage.G2C_TestHotfixMessage)]
     public partial class G2C_TestHotfixMessage : MessageObject, ISessionMessage
     {
         public static G2C_TestHotfixMessage Create(bool isFromPool = false)
@@ -838,7 +1305,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.C2M_TestRobotCase)]
+    [Message(ClientMessage.C2M_TestRobotCase)]
     [ResponseType(nameof(M2C_TestRobotCase))]
     public partial class C2M_TestRobotCase : MessageObject, ILocationRequest
     {
@@ -868,7 +1335,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.M2C_TestRobotCase)]
+    [Message(ClientMessage.M2C_TestRobotCase)]
     public partial class M2C_TestRobotCase : MessageObject, ILocationResponse
     {
         public static M2C_TestRobotCase Create(bool isFromPool = false)
@@ -905,7 +1372,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.C2M_TestRobotCase2)]
+    [Message(ClientMessage.C2M_TestRobotCase2)]
     public partial class C2M_TestRobotCase2 : MessageObject, ILocationMessage
     {
         public static C2M_TestRobotCase2 Create(bool isFromPool = false)
@@ -934,7 +1401,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.M2C_TestRobotCase2)]
+    [Message(ClientMessage.M2C_TestRobotCase2)]
     public partial class M2C_TestRobotCase2 : MessageObject, ILocationMessage
     {
         public static M2C_TestRobotCase2 Create(bool isFromPool = false)
@@ -963,7 +1430,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.C2M_TransferMap)]
+    [Message(ClientMessage.C2M_TransferMap)]
     [ResponseType(nameof(M2C_TransferMap))]
     public partial class C2M_TransferMap : MessageObject, ILocationRequest
     {
@@ -989,7 +1456,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.M2C_TransferMap)]
+    [Message(ClientMessage.M2C_TransferMap)]
     public partial class M2C_TransferMap : MessageObject, ILocationResponse
     {
         public static M2C_TransferMap Create(bool isFromPool = false)
@@ -1022,7 +1489,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.C2G_Benchmark)]
+    [Message(ClientMessage.C2G_Benchmark)]
     [ResponseType(nameof(G2C_Benchmark))]
     public partial class C2G_Benchmark : MessageObject, ISessionRequest
     {
@@ -1048,7 +1515,7 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(OuterMessage.G2C_Benchmark)]
+    [Message(ClientMessage.G2C_Benchmark)]
     public partial class G2C_Benchmark : MessageObject, ISessionResponse
     {
         public static G2C_Benchmark Create(bool isFromPool = false)
@@ -1080,41 +1547,56 @@ namespace ET
         }
     }
 
-    public static class OuterMessage
+    public static class ClientMessage
     {
-        public const ushort HttpGetRouterResponse = 10002;
-        public const ushort RouterSync = 10003;
-        public const ushort C2M_TestRequest = 10004;
-        public const ushort M2C_TestResponse = 10005;
-        public const ushort C2G_EnterMap = 10006;
-        public const ushort G2C_EnterMap = 10007;
-        public const ushort MoveInfo = 10008;
-        public const ushort UnitInfo = 10009;
-        public const ushort M2C_CreateUnits = 10010;
-        public const ushort M2C_CreateMyUnit = 10011;
-        public const ushort M2C_StartSceneChange = 10012;
-        public const ushort M2C_RemoveUnits = 10013;
-        public const ushort C2M_PathfindingResult = 10014;
-        public const ushort C2M_Stop = 10015;
-        public const ushort M2C_PathfindingResult = 10016;
-        public const ushort M2C_Stop = 10017;
-        public const ushort C2G_Ping = 10018;
-        public const ushort G2C_Ping = 10019;
-        public const ushort G2C_Test = 10020;
-        public const ushort C2M_Reload = 10021;
-        public const ushort M2C_Reload = 10022;
-        public const ushort C2A_Login = 10023;
-        public const ushort A2C_Login = 10024;
-        public const ushort C2L_LoginLobby = 10025;
-        public const ushort L2C_LoginLobby = 10026;
-        public const ushort G2C_TestHotfixMessage = 10027;
-        public const ushort C2M_TestRobotCase = 10028;
-        public const ushort M2C_TestRobotCase = 10029;
-        public const ushort C2M_TestRobotCase2 = 10030;
-        public const ushort M2C_TestRobotCase2 = 10031;
-        public const ushort C2M_TransferMap = 10032;
-        public const ushort M2C_TransferMap = 10033;
-        public const ushort C2G_Benchmark = 10034;
-        public const ushort G2C_Benchmark = 10035;
+        public const ushort Main2NetClient_Login = 10002;
+        public const ushort NetClient2Main_Login = 10003;
+        public const ushort TestClientData = 10004;
+        public const ushort C2G_Match = 10005;
+        public const ushort G2C_Match = 10006;
+        public const ushort Match2G_NotifyMatchSuccess = 10007;
+        public const ushort C2Room_ChangeSceneFinish = 10008;
+        public const ushort LockStepUnitInfo = 10009;
+        public const ushort Room2C_Start = 10010;
+        public const ushort FrameMessage = 10011;
+        public const ushort OneFrameInputs = 10012;
+        public const ushort Room2C_AdjustUpdateTime = 10013;
+        public const ushort C2Room_CheckHash = 10014;
+        public const ushort Room2C_CheckHashFail = 10015;
+        public const ushort G2C_Reconnect = 10016;
+        public const ushort HttpGetRouterResponse = 10017;
+        public const ushort RouterSync = 10018;
+        public const ushort C2M_TestRequest = 10019;
+        public const ushort M2C_TestResponse = 10020;
+        public const ushort C2G_EnterMap = 10021;
+        public const ushort G2C_EnterMap = 10022;
+        public const ushort MoveInfo = 10023;
+        public const ushort UnitInfo = 10024;
+        public const ushort M2C_CreateUnits = 10025;
+        public const ushort M2C_CreateMyUnit = 10026;
+        public const ushort M2C_StartSceneChange = 10027;
+        public const ushort M2C_RemoveUnits = 10028;
+        public const ushort C2M_PathfindingResult = 10029;
+        public const ushort C2M_Stop = 10030;
+        public const ushort M2C_PathfindingResult = 10031;
+        public const ushort M2C_Stop = 10032;
+        public const ushort C2G_Ping = 10033;
+        public const ushort G2C_Ping = 10034;
+        public const ushort G2C_Test = 10035;
+        public const ushort C2M_Reload = 10036;
+        public const ushort M2C_Reload = 10037;
+        public const ushort C2A_Login = 10038;
+        public const ushort A2C_Login = 10039;
+        public const ushort C2L_LoginLobby = 10040;
+        public const ushort L2C_LoginLobby = 10041;
+        public const ushort G2C_TestHotfixMessage = 10042;
+        public const ushort C2M_TestRobotCase = 10043;
+        public const ushort M2C_TestRobotCase = 10044;
+        public const ushort C2M_TestRobotCase2 = 10045;
+        public const ushort M2C_TestRobotCase2 = 10046;
+        public const ushort C2M_TransferMap = 10047;
+        public const ushort M2C_TransferMap = 10048;
+        public const ushort C2G_Benchmark = 10049;
+        public const ushort G2C_Benchmark = 10050;
     }
 }

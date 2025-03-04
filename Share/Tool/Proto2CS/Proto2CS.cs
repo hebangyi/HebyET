@@ -74,8 +74,8 @@ namespace ET
             GenerateServerProto();
             GenerateClientProto();
             
-            ProtoFile2CS(clientOutputTempFilePath, "ClientMessage", "c", 10001);
-            ProtoFile2CS(serverOutputTempFilePath, "ServerMessage", "s", 10001);
+            ProtoFile2CS(clientOutputTempFilePath, "ClientMessage", "C", 10001);
+            ProtoFile2CS(serverOutputTempFilePath, "ServerMessage", "S", 10001);
             
             
             RemoveUnusedMetaFiles(clientMessagePath);
