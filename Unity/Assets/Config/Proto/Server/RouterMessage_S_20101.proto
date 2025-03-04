@@ -1,7 +1,3 @@
-syntax = "proto3";
-
-package ET;
-
 message SceneNodeInfo
 {
     int32 SceneType = 1; // SceneType

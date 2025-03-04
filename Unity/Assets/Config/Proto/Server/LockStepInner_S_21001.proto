@@ -1,6 +1,3 @@
-syntax = "proto3";
-package ET;
-
 /// 请求匹配
 // ResponseType Match2G_Match
 message G2Match_Match // IRequest

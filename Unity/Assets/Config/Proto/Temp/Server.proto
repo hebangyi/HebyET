@@ -1,3 +1,5 @@
+syntax = "proto3";
+package ET;
 // ResponseType ObjectQueryResponse
 message ObjectQueryRequest // IRequest
 {
@@ -171,3 +173,81 @@ message M2M_UnitTransferResponse // IResponse
 	int32 Error = 2;
 	string Message = 3;
 }
+
+/// 请求匹配
+// ResponseType Match2G_Match
+message G2Match_Match // IRequest
+{
+	int32 RpcId = 1;
+	
+	int64 Id = 2;
+}
+
+message Match2G_Match // IResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
+// ResponseType Map2Match_GetRoom
+message Match2Map_GetRoom // IRequest
+{
+	int32 RpcId = 1;
+	repeated int64 PlayerIds = 2;
+}
+
+message Map2Match_GetRoom // IResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+
+	/// 房间的ActorId
+	ActorId ActorId = 4;
+}
+
+// ResponseType Room2G_Reconnect
+message G2Room_Reconnect // IRequest
+{
+	int32 RpcId = 1;
+	int64 PlayerId = 2;
+}
+
+message Room2G_Reconnect // IResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+
+	int64 StartTime = 4;
+	repeated LockStepUnitInfo UnitInfos = 5;
+	int32 Frame = 6;
+}
+
+// ResponseType Room2RoomManager_Init
+message RoomManager2Room_Init // IRequest
+{
+	int32 RpcId = 1;
+	repeated int64 PlayerIds = 2;
+}
+
+message Room2RoomManager_Init // IResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
+message SceneNodeInfo
+{
+    int32 SceneType = 1; // SceneType
+    int32 ProcessId = 2;
+    int32 SceneId = 3;
+    string OuterIp = 4;
+    string InnerIp = 5;
+    int32 InnerPort = 6;
+    int32 OuterPort = 7;
+    int32 Status = 8;
+}
+

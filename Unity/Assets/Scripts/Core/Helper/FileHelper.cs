@@ -6,6 +6,22 @@ namespace ET
 {
 	public static class FileHelper
 	{
+		public static void GetOrCreateDirectory(string filePath)
+		{
+			// 获取文件所在的目录路径
+			string directoryPath = Path.GetDirectoryName(filePath);
+
+			// 检查目录是否存在
+			if (!Directory.Exists(directoryPath))
+			{
+				// 如果目录不存在，则创建该目录
+				if (directoryPath != null)
+				{
+					Directory.CreateDirectory(directoryPath);
+				}
+			}
+		}
+		
 		public static List<string> GetAllFiles(string dir, string searchPattern = "*")
 		{
 			List<string> list = new List<string>();

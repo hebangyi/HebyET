@@ -1,7 +1,3 @@
-syntax = "proto3";
-
-package ET;
-
 // ResponseType NetClient2Main_Login
 message Main2NetClient_Login // IRequest
 {

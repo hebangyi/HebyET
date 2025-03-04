@@ -1,6 +1,3 @@
-syntax = "proto3";
-package ET;
-
 // ResponseType G2C_Match
 message C2G_Match // ISessionRequest
 {

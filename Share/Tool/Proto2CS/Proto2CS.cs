@@ -24,11 +24,12 @@ namespace ET
     public static partial class InnerProto2CS
     {
         private const string clientProtoDir = "../Unity/Assets/Config/Proto/Client";
-        private const string clientOutputTempFilePath = @"../Unity/Assets/Config/Proto/Client/Temp/Client.proto";
+        private const string clientOutputTempFilePath = "../Unity/Assets/Config/Proto/Temp/Client.proto";
         
         
         
         private const string serverProtoDir = "../Unity/Assets/Config/Proto/Server";
+        private const string serverOutputTempFilePath = "../Unity/Assets/Config/Proto/Temp/Server.proto";
         
         
         private const string clientMessagePath = "../Unity/Assets/Scripts/Model/Generate/Client/Message/";
@@ -39,15 +40,10 @@ namespace ET
 
         public static void Proto2CS()
         {
-            msgOpcode.Clear();
-
-            RemoveAllFilesExceptMeta(clientMessagePath);
-            RemoveAllFilesExceptMeta(serverMessagePath);
-            RemoveAllFilesExceptMeta(clientServerMessagePath);
-
-            GenerateClientProto();
-            
-            /*foreach (string s in list)
+            /*
+    
+             
+             foreach (string s in list)
             {
                 if (!s.EndsWith(".proto"))
                 {
@@ -60,18 +56,36 @@ namespace ET
                 string cs = ss2[1];
                 int startOpcode = int.Parse(ss2[2]);
                 ProtoFile2CS(fileName, protoName, cs, startOpcode);
-            }*/
-
+            }
+            
+                        
             RemoveUnusedMetaFiles(clientMessagePath);
             RemoveUnusedMetaFiles(serverMessagePath);
             RemoveUnusedMetaFiles(clientServerMessagePath);
+            */
+            
+            msgOpcode.Clear();
+
+            RemoveAllFilesExceptMeta(clientMessagePath);
+            RemoveAllFilesExceptMeta(serverMessagePath);
+            RemoveAllFilesExceptMeta(clientServerMessagePath);
+            
+            // 生成合成Proto
+            GenerateServerProto();
+            GenerateClientProto();
+            
+            ProtoFile2CS(clientOutputTempFilePath, "ClientMessage", "c", 10001);
+            ProtoFile2CS(serverOutputTempFilePath, "ServerMessage", "s", 10001);
         }
 
 
         public static void GenerateClientProto()
         {
             List<string> fileList = FileHelper.GetAllFiles(clientProtoDir, "*proto");
-            string allContent = "";
+            StringBuilder sb = new ();
+            sb.AppendLine("syntax = \"proto3\";");
+            sb.AppendLine("package ET;");
+            
             foreach (string filePath in fileList)
             {
                 if (!filePath.EndsWith(".proto"))
@@ -80,19 +94,40 @@ namespace ET
                 }
                 
                 string content = File.ReadAllText(filePath);
-                allContent += content;
+                sb.AppendLine(content);
+                sb.AppendLine();
+            }
+            File.WriteAllText(clientOutputTempFilePath, sb.ToString());
+        }
+        
+        public static void GenerateServerProto()
+        {
+            List<string> fileList = FileHelper.GetAllFiles(serverProtoDir, "*proto");
+            StringBuilder sb = new ();
+            sb.AppendLine("syntax = \"proto3\";");
+            sb.AppendLine("package ET;");
+            
+            foreach (string filePath in fileList)
+            {
+                if (!filePath.EndsWith(".proto"))
+                {
+                    continue;
+                }
+                
+                string content = File.ReadAllText(filePath);
+                sb.AppendLine(content);
+                sb.AppendLine();
             }
             
-            File.WriteAllText(clientOutputTempFilePath, allContent);
+            File.WriteAllText(serverOutputTempFilePath, sb.ToString());
         }
         
         
-        private static void ProtoFile2CS(string protoDir,string fileName, string protoName, string cs, int startOpcode)
+        private static void ProtoFile2CS(string filePath, string className, string cs, int startOpcode)
         {
             msgOpcode.Clear();
-
-            string proto = Path.Combine(protoDir, $"{fileName}.proto");
-            string s = File.ReadAllText(proto);
+            
+            string s = File.ReadAllText(filePath);
 
             StringBuilder sb = new();
             sb.Append("using MemoryPack;\n");
@@ -151,7 +186,7 @@ namespace ET
                     msgOpcode.Add(new OpcodeInfo() { Name = msgName, Opcode = ++startOpcode });
 
                     sb.Append($"\t[MemoryPackable]\n");
-                    sb.Append($"\t[Message({protoName}.{msgName})]\n");
+                    sb.Append($"\t[Message({className}.{msgName})]\n");
                     if (!string.IsNullOrEmpty(responseType))
                     {
                         sb.Append($"\t[ResponseType(nameof({responseType}))]\n");
@@ -237,7 +272,7 @@ namespace ET
                 }
             }
 
-            sb.Append("\tpublic static class " + protoName + "\n\t{\n");
+            sb.Append("\tpublic static class " + className + "\n\t{\n");
             foreach (OpcodeInfo info in msgOpcode)
             {
                 sb.Append($"\t\tpublic const ushort {info.Name} = {info.Opcode};\n");
@@ -252,15 +287,15 @@ namespace ET
 
             if (cs.Contains('C'))
             {
-                GenerateCS(result, clientMessagePath, proto);
-                GenerateCS(result, serverMessagePath, proto);
-                GenerateCS(result, clientServerMessagePath, proto);
+                GenerateCS(result, clientMessagePath, className);
+                GenerateCS(result, serverMessagePath, className);
+                GenerateCS(result, clientServerMessagePath, className);
             }
 
             if (cs.Contains('S'))
             {
-                GenerateCS(result, serverMessagePath, proto);
-                GenerateCS(result, clientServerMessagePath, proto);
+                GenerateCS(result, serverMessagePath, className);
+                GenerateCS(result, clientServerMessagePath, className);
             }
         }
 
