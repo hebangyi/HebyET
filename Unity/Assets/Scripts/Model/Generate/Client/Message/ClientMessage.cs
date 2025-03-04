@@ -3,6 +3,172 @@ using System.Collections.Generic;
 
 namespace ET
 {
+    // 客户端服务器通用同步
+    [MemoryPackable]
+    [Message(ClientMessage.SyncDataUnitStruct)]
+    public partial class SyncDataUnitStruct : MessageObject
+    {
+        public static SyncDataUnitStruct Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(SyncDataUnitStruct), isFromPool) as SyncDataUnitStruct;
+        }
+
+        /// <summary>
+        /// 编号
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public uint no { get; set; }
+
+        /// <summary>
+        /// 数据单元
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public List<DataUnit> units { get; set; } = new();
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.no = default;
+            this.units.Clear();
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 数据单元
+    [MemoryPackable]
+    [Message(ClientMessage.DataUnit)]
+    public partial class DataUnit : MessageObject
+    {
+        public static DataUnit Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(DataUnit), isFromPool) as DataUnit;
+        }
+
+        /// <summary>
+        /// 单位uintId
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public int unitId { get; set; }
+
+        /// <summary>
+        /// 单位数据
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public byte[] unitBytes { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.unitId = default;
+            this.unitBytes = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 获得所有的 DataUnit 数据
+    [MemoryPackable]
+    [Message(ClientMessage.C2G_GetAllDataUnits)]
+    public partial class C2G_GetAllDataUnits : MessageObject, ILocationRequest
+    {
+        public static C2G_GetAllDataUnits Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2G_GetAllDataUnits), isFromPool) as C2G_GetAllDataUnits;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.G2_GetAllDataUnits)]
+    public partial class G2_GetAllDataUnits : MessageObject, ILocationResponse
+    {
+        public static G2_GetAllDataUnits Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(G2_GetAllDataUnits), isFromPool) as G2_GetAllDataUnits;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        /// <summary>
+        /// 数据
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public SyncDataUnitStruct unitStructData { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+            this.unitStructData = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.L2C_SyncDirtyDataUnits)]
+    public partial class L2C_SyncDirtyDataUnits : MessageObject, IMessage
+    {
+        public static L2C_SyncDirtyDataUnits Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(L2C_SyncDirtyDataUnits), isFromPool) as L2C_SyncDirtyDataUnits;
+        }
+
+        /// <summary>
+        /// 数据
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public SyncDataUnitStruct unitStructData { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.unitStructData = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
     [MemoryPackable]
     [Message(ClientMessage.Main2NetClient_Login)]
     [ResponseType(nameof(NetClient2Main_Login))]
@@ -1549,54 +1715,59 @@ namespace ET
 
     public static class ClientMessage
     {
-        public const ushort Main2NetClient_Login = 10002;
-        public const ushort NetClient2Main_Login = 10003;
-        public const ushort TestClientData = 10004;
-        public const ushort C2G_Match = 10005;
-        public const ushort G2C_Match = 10006;
-        public const ushort Match2G_NotifyMatchSuccess = 10007;
-        public const ushort C2Room_ChangeSceneFinish = 10008;
-        public const ushort LockStepUnitInfo = 10009;
-        public const ushort Room2C_Start = 10010;
-        public const ushort FrameMessage = 10011;
-        public const ushort OneFrameInputs = 10012;
-        public const ushort Room2C_AdjustUpdateTime = 10013;
-        public const ushort C2Room_CheckHash = 10014;
-        public const ushort Room2C_CheckHashFail = 10015;
-        public const ushort G2C_Reconnect = 10016;
-        public const ushort HttpGetRouterResponse = 10017;
-        public const ushort RouterSync = 10018;
-        public const ushort C2M_TestRequest = 10019;
-        public const ushort M2C_TestResponse = 10020;
-        public const ushort C2G_EnterMap = 10021;
-        public const ushort G2C_EnterMap = 10022;
-        public const ushort MoveInfo = 10023;
-        public const ushort UnitInfo = 10024;
-        public const ushort M2C_CreateUnits = 10025;
-        public const ushort M2C_CreateMyUnit = 10026;
-        public const ushort M2C_StartSceneChange = 10027;
-        public const ushort M2C_RemoveUnits = 10028;
-        public const ushort C2M_PathfindingResult = 10029;
-        public const ushort C2M_Stop = 10030;
-        public const ushort M2C_PathfindingResult = 10031;
-        public const ushort M2C_Stop = 10032;
-        public const ushort C2G_Ping = 10033;
-        public const ushort G2C_Ping = 10034;
-        public const ushort G2C_Test = 10035;
-        public const ushort C2M_Reload = 10036;
-        public const ushort M2C_Reload = 10037;
-        public const ushort C2A_Login = 10038;
-        public const ushort A2C_Login = 10039;
-        public const ushort C2L_LoginLobby = 10040;
-        public const ushort L2C_LoginLobby = 10041;
-        public const ushort G2C_TestHotfixMessage = 10042;
-        public const ushort C2M_TestRobotCase = 10043;
-        public const ushort M2C_TestRobotCase = 10044;
-        public const ushort C2M_TestRobotCase2 = 10045;
-        public const ushort M2C_TestRobotCase2 = 10046;
-        public const ushort C2M_TransferMap = 10047;
-        public const ushort M2C_TransferMap = 10048;
-        public const ushort C2G_Benchmark = 10049;
-        public const ushort G2C_Benchmark = 10050;
+        public const ushort SyncDataUnitStruct = 10002;
+        public const ushort DataUnit = 10003;
+        public const ushort C2G_GetAllDataUnits = 10004;
+        public const ushort G2_GetAllDataUnits = 10005;
+        public const ushort L2C_SyncDirtyDataUnits = 10006;
+        public const ushort Main2NetClient_Login = 10007;
+        public const ushort NetClient2Main_Login = 10008;
+        public const ushort TestClientData = 10009;
+        public const ushort C2G_Match = 10010;
+        public const ushort G2C_Match = 10011;
+        public const ushort Match2G_NotifyMatchSuccess = 10012;
+        public const ushort C2Room_ChangeSceneFinish = 10013;
+        public const ushort LockStepUnitInfo = 10014;
+        public const ushort Room2C_Start = 10015;
+        public const ushort FrameMessage = 10016;
+        public const ushort OneFrameInputs = 10017;
+        public const ushort Room2C_AdjustUpdateTime = 10018;
+        public const ushort C2Room_CheckHash = 10019;
+        public const ushort Room2C_CheckHashFail = 10020;
+        public const ushort G2C_Reconnect = 10021;
+        public const ushort HttpGetRouterResponse = 10022;
+        public const ushort RouterSync = 10023;
+        public const ushort C2M_TestRequest = 10024;
+        public const ushort M2C_TestResponse = 10025;
+        public const ushort C2G_EnterMap = 10026;
+        public const ushort G2C_EnterMap = 10027;
+        public const ushort MoveInfo = 10028;
+        public const ushort UnitInfo = 10029;
+        public const ushort M2C_CreateUnits = 10030;
+        public const ushort M2C_CreateMyUnit = 10031;
+        public const ushort M2C_StartSceneChange = 10032;
+        public const ushort M2C_RemoveUnits = 10033;
+        public const ushort C2M_PathfindingResult = 10034;
+        public const ushort C2M_Stop = 10035;
+        public const ushort M2C_PathfindingResult = 10036;
+        public const ushort M2C_Stop = 10037;
+        public const ushort C2G_Ping = 10038;
+        public const ushort G2C_Ping = 10039;
+        public const ushort G2C_Test = 10040;
+        public const ushort C2M_Reload = 10041;
+        public const ushort M2C_Reload = 10042;
+        public const ushort C2A_Login = 10043;
+        public const ushort A2C_Login = 10044;
+        public const ushort C2L_LoginLobby = 10045;
+        public const ushort L2C_LoginLobby = 10046;
+        public const ushort G2C_TestHotfixMessage = 10047;
+        public const ushort C2M_TestRobotCase = 10048;
+        public const ushort M2C_TestRobotCase = 10049;
+        public const ushort C2M_TestRobotCase2 = 10050;
+        public const ushort M2C_TestRobotCase2 = 10051;
+        public const ushort C2M_TransferMap = 10052;
+        public const ushort M2C_TransferMap = 10053;
+        public const ushort C2G_Benchmark = 10054;
+        public const ushort G2C_Benchmark = 10055;
     }
 }

@@ -39,6 +39,7 @@ namespace ET.Server
                     case AppType.ExcelExporter:
                     {
                         Options.Instance.Console = 1;
+                        Thread.Sleep(1000);
                         ExcelExporter.Export();
                         return 0;
                     }
@@ -46,6 +47,7 @@ namespace ET.Server
                     {
                         Options.Instance.Console = 1;
                         Proto2CS.Export();
+                        Thread.Sleep(1000);
                         return 0;
                     }
                 }
@@ -54,6 +56,8 @@ namespace ET.Server
             {
                 Log.Console(e.ToString());
             }
+            
+            Thread.Sleep(30000);
             return 1;
         }
     }

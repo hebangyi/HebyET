@@ -1,0 +1,35 @@
+// 客户端服务器通用同步
+message SyncDataUnitStruct
+{
+    uint32 no = 1;                  // 编号
+    repeated DataUnit units = 2;    // 数据单元
+}
+
+
+// 数据单元
+message DataUnit
+{
+    int32 unitId = 1;               // 单位uintId
+    bytes unitBytes = 2;            // 单位数据
+}
+
+
+// 获得所有的 DataUnit 数据
+message C2G_GetAllDataUnits // ILocationRequest
+{
+    int32 RpcId = 1;
+}
+
+message G2_GetAllDataUnits // ILocationResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+
+    SyncDataUnitStruct unitStructData = 1;  // 数据
+}
+
+message L2C_SyncDirtyDataUnits // IMessage
+{
+    SyncDataUnitStruct unitStructData = 1;  // 数据
+}

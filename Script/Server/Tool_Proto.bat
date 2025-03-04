@@ -10,5 +10,4 @@ IF %WTERELEV% EQU 0 (
 	PowerShell -ExecutionPolicy unrestricted -File "%~dp0./Run/Tool_Proto.ps1" "cmd" > nul 2>&1
 )
 
-PAUSE
 @echo on
