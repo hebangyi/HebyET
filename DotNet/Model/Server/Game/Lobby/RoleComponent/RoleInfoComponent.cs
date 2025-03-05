@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace ET.Server;
+﻿namespace ET.Server;
 
 [AutoAddComponent([typeof(LobbyRole)])]
 [ComponentOf(typeof(LobbyRole))]
