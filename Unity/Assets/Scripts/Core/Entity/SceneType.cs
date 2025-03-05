@@ -37,7 +37,7 @@ namespace ET
 		Watcher = 1 << 29,
 
 		// 客户端
-		Demo = 1 << 30,
+		Game = 1 << 30,
 		Current = 1L << 31,
 		LockStep = 1L << 32,
 		LockStepView = 1L << 33,
