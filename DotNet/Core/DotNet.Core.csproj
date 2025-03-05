@@ -35,6 +35,12 @@
         <Compile Include="..\..\Unity\Assets\Scripts\Core\**\*.cs">
             <Link>Core\%(RecursiveDir)%(FileName)%(Extension)</Link>
         </Compile>
+        <Compile Update="Server\DataUnit\DataUnitConverter.cs">
+          <Link>Core\DataUnit\DataUnitConverter.cs</Link>
+        </Compile> 
+        <Compile Update="Server\DataUnit\DataUnitConverterAttribute.cs">
+          <Link>Core\DataUnit\DataUnitConverterAttribute.cs</Link>
+        </Compile>
     </ItemGroup>
     
     <ItemGroup>

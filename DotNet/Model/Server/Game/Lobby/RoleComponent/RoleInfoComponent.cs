@@ -10,7 +10,7 @@ public class RoleInfoComponent : Entity
     public RoleInfoData roleInfoData;
 }
 
-
+// 存储数据
 public class RoleInfoData
 {
     public string NickName;

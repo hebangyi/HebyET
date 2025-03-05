@@ -50,11 +50,8 @@
     </ItemGroup> 
     <ItemGroup>
       <Folder Include="Server\Game\Account\" />
-      <Folder Include="Server\Game\Common\Attribute\" />
-      <Folder Include="Server\Game\Common\Component\" />
-      <Folder Include="Server\Game\Common\Event\" />
+      <Folder Include="Server\Game\Common\DataUnit\" />
       <Folder Include="Server\Game\Lobby\Event\" />
-      <Folder Include="Server\Game\Map\" />
       <Folder Include="Server\LockStep\Gate\" />
     </ItemGroup> 
 </Project>

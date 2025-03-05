@@ -39,18 +39,18 @@ namespace ET.Server
                     case AppType.ExcelExporter:
                     {
                         Options.Instance.Console = 1;
-                        Thread.Sleep(1000);
                         ExcelExporter.Export();
-                        return 0;
+                        break;
                     }
                     case AppType.Proto2CS:
                     {
                         Options.Instance.Console = 1;
                         Proto2CS.Export();
-                        Thread.Sleep(1000);
-                        return 0;
+                        break;
                     }
                 }
+                Thread.Sleep(5000);
+                return 0;
             }
             catch (Exception e)
             {
