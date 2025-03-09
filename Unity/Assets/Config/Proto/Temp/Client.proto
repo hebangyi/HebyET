@@ -18,12 +18,12 @@ message DataUnitBytes
 
 // 获得所有的 DataUnit 数据
 // ResponseType G2_GetAllDataUnits
-message C2G_GetAllDataUnits // ILocationRequest
+message C2G_GetAllDataUnits // IClientRequest
 {
     int32 RpcId = 1;
 }
 
-message G2_GetAllDataUnits // ILocationResponse
+message G2_GetAllDataUnits // IClientResponse
 {
 	int32 RpcId = 1;
 	int32 Error = 2;

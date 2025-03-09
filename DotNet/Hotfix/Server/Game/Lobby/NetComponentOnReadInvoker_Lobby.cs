@@ -4,7 +4,7 @@ namespace ET.Server
 {
     [Invoke((long)SceneType.Lobby)]
     [FriendOfAttribute(typeof(ET.Server.SessionPlayerComponent))]
-    public class NetComponentOnReadInvoker_Gate : AInvokeHandler<NetComponentOnRead>
+    public class NetComponentOnReadInvoker_Lobby : AInvokeHandler<NetComponentOnRead>
     {
         public override void Handle(NetComponentOnRead args)
         {
@@ -22,6 +22,12 @@ namespace ET.Server
                 case ISessionMessage:
                     {
                         MessageSessionDispatcher.Instance.Handle(session, message);
+                        break;
+                    }
+                case IClientRequest:
+                    {
+                        var actorId = session.GetComponent<SessionPlayerComponent>().LobbyActorId;
+                        MessageQueue.Instance.Send(actorId, (MessageObject)message);
                         break;
                     }
                 case FrameMessage frameMessage:

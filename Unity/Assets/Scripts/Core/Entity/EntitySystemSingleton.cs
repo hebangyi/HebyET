@@ -51,7 +51,7 @@ namespace ET
                         components = new List<Type>();
                         EntityAutoAddComponents[entityType] = components;
                     }
-                    components.Add(entityType);
+                    components.Add(autoAddComponentType);
                 }
             }
         }

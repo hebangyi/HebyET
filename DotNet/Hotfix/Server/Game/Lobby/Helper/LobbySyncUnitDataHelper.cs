@@ -2,6 +2,7 @@
 
 namespace ET.Server;
 
+[FriendOf(typeof(LobbySyncUnitDataComponent))]
 public static class LobbySyncUnitDataHelper
 {
     public static void AddDirty(this LobbyRole lobbyRole, object data)

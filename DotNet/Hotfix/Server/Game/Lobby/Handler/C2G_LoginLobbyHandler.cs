@@ -22,9 +22,8 @@
             var lobbyRole = lobbyRoleComponent.GetById(roleId);
             if (lobbyRole == null)
             {
-                lobbyRole = new LobbyRole(session.Root(), roleId);
+                lobbyRole = lobbyRoleComponent.Add(roleId);
                 PlayerSessionComponent playerSessionComponent = lobbyRole.AddComponent<PlayerSessionComponent>();
-
                 var mongoDbComponent = session.Fiber().Root.GetComponent<MongoDBComponent>();
                 var lobbyRoleEntity = await mongoDbComponent.QueryOne<LobbyRoleEntity>(x => x.Id == roleId);
                 if (lobbyRoleEntity == null)
@@ -34,11 +33,12 @@
 
                 MongoEntityHelper.AttachData(lobbyRole, lobbyRoleEntity);
                 // 查询数据库
-                playerSessionComponent.AddComponent<MailBoxComponent, MailBoxType>(MailBoxType.GateSession);
+                playerSessionComponent.AddComponent<MailBoxComponent, MailBoxType>(MailBoxType.OrderedMessage);
                 playerSessionComponent.Session = session;
-                session.TryAddComponent<SessionPlayerComponent>().RoleId = roleId;
-                lobbyRoleComponent.Add(lobbyRole);
-
+                var sessionPlayerComponent = session.TryAddComponent<SessionPlayerComponent>();
+                sessionPlayerComponent.RoleId = roleId;
+                sessionPlayerComponent.LobbyActorId = lobbyRole.GetActorId();
+                
                 // 抛出数据初始化事件
                 await EventSystem.Instance.PublishAsync(root, new LobbyRoleDBInitEvent { LobbyRole = lobbyRole });
             }
@@ -58,7 +58,7 @@
         private static void KickOutOldPlayer(LobbyRole lobbyRole)
         {
             var playerSessionComponent = lobbyRole.GetComponent<PlayerSessionComponent>();
-            // TODO 退出 不是重连
+            // TODO 退出 不是重连 session 被清掉
             G2C_Reconnect g2CReconnect = G2C_Reconnect.Create();
             playerSessionComponent.Session.Send(g2CReconnect);
         }

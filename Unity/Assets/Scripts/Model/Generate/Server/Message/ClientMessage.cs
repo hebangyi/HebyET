@@ -80,7 +80,7 @@ namespace ET
     [MemoryPackable]
     [Message(ClientMessage.C2G_GetAllDataUnits)]
     [ResponseType(nameof(G2_GetAllDataUnits))]
-    public partial class C2G_GetAllDataUnits : MessageObject, ILocationRequest
+    public partial class C2G_GetAllDataUnits : MessageObject, IClientRequest
     {
         public static C2G_GetAllDataUnits Create(bool isFromPool = false)
         {
@@ -105,7 +105,7 @@ namespace ET
 
     [MemoryPackable]
     [Message(ClientMessage.G2_GetAllDataUnits)]
-    public partial class G2_GetAllDataUnits : MessageObject, ILocationResponse
+    public partial class G2_GetAllDataUnits : MessageObject, IClientResponse
     {
         public static G2_GetAllDataUnits Create(bool isFromPool = false)
         {

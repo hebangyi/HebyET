@@ -1,8 +1,8 @@
 ﻿namespace ET.Server;
 
-[MessageLocationHandler(SceneType.Lobby)]
+[MessageClientHandler(SceneType.Lobby)]
 [FriendOf(typeof(RoleInfoComponent))]
-public class C2G_GetAllDataUnitsHandler : MessageLocationHandler<LobbyRole, C2G_GetAllDataUnits, G2_GetAllDataUnits>
+public class C2G_GetAllDataUnitsHandler : MessageClientHandler<LobbyRole, C2G_GetAllDataUnits, G2_GetAllDataUnits>
 {
     protected override async ETTask Run(LobbyRole lobbyRole, C2G_GetAllDataUnits request, G2_GetAllDataUnits response)
     {
