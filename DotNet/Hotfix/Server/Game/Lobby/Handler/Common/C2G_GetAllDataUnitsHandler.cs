@@ -4,7 +4,7 @@
 [FriendOf(typeof(RoleInfoComponent))]
 public class C2G_GetAllDataUnitsHandler : MessageClientHandler<LobbyRole, C2G_GetAllDataUnits, G2_GetAllDataUnits>
 {
-    protected override async ETTask Run(LobbyRole lobbyRole, C2G_GetAllDataUnits request, G2_GetAllDataUnits response)
+    protected override void Run(LobbyRole lobbyRole, C2G_GetAllDataUnits request, G2_GetAllDataUnits response)
     {
         var roleInfoComponent = lobbyRole.GetComponent<RoleInfoComponent>();
         var iUnitData = DataUnitManager.Instance.ToUnitData(roleInfoComponent.roleInfoData);
@@ -19,6 +19,5 @@ public class C2G_GetAllDataUnitsHandler : MessageClientHandler<LobbyRole, C2G_Ge
         
         structData.DataUnitBytes.Add(dataUnitBytes);
         response.UnitStructData = structData;
-        await ETTask.CompletedTask;
     }
 }

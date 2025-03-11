@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ET.Server
 {
@@ -26,8 +27,14 @@ namespace ET.Server
                     }
                 case IClientRequest:
                     {
-                        var actorId = session.GetComponent<SessionPlayerComponent>().LobbyActorId;
-                        MessageQueue.Instance.Send(actorId, (MessageObject)message);
+                        LobbyRole entity = root.GetComponent<LobbyRoleComponent>()?.OnlineRoles.GetValueOrDefault(session.GetComponent<SessionPlayerComponent>().RoleId);
+                        if (entity == null)
+                        {
+                            Log.Error($"Role Id {session.GetComponent<SessionPlayerComponent>().RoleId} Not Found Online Role Entity");
+                            break;
+                        }
+                        
+                        MessageClientDisPatcher.Instance.Handle(entity, message);
                         break;
                     }
                 case FrameMessage frameMessage:

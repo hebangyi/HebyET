@@ -4,6 +4,5 @@
 	public class SessionPlayerComponent : Entity, IAwake, IDestroy
 	{
 		public long RoleId;
-		public ActorId LobbyActorId;
 	}
 }
