@@ -19,7 +19,7 @@ public static class RoleInfoComponentHelper
         var roleInfoComponent = lobbyRole.GetComponent<RoleInfoComponent>();
         if (roleInfoComponent.roleInfoData == null)
         {
-            roleInfoComponent.roleInfoData = new RoleInfoData();
+            roleInfoComponent.roleInfoData = new RoleInfoServerData();
         }
     }
 }

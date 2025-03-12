@@ -40,12 +40,6 @@ namespace ET
                 this.Register(type);
             }
             
-            HashSet<Type> types3 = CodeTypes.Instance.GetAttributeTypes(typeof (MessageClientHandlerAttribute));
-            foreach (Type type in types3)
-            {
-                this.Register(type);
-            }
-            
         }
         
         private void Register(Type type)

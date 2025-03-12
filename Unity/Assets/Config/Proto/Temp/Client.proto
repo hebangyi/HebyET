@@ -11,7 +11,7 @@ message SyncDataUnitStruct
 // 数据单元
 message DataUnitBytes
 {
-    int32 UnitId = 1;               // 单位uintId
+    uint32 UnitId = 1;               // 单位uintId
     bytes UnitBytes = 2;            // 单位数据
 }
 

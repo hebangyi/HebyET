@@ -4,6 +4,7 @@ public static class LobbyMessageHelper
 {
     public static void SendToClient(this LobbyRole lobbyRole, IMessage message)
     {
-        lobbyRole.Root().GetComponent<MessageLocationSenderComponent>().Get(LocationType.GateSession).Send(lobbyRole.Id, message);
+        lobbyRole.GetComponent<EntityClientSessionComponent>()?.Session.Send(message);
+        // lobbyRole.Root().GetComponent<MessageLocationSenderComponent>().Get(LocationType.GateSession).Send(lobbyRole.Id, message);
     }
 }

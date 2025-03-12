@@ -54,7 +54,7 @@ namespace ET
         /// 单位uintId
         /// </summary>
         [MemoryPackOrder(0)]
-        public int UnitId { get; set; }
+        public uint UnitId { get; set; }
 
         /// <summary>
         /// 单位数据

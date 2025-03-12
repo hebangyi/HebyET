@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace ET.Server;
 
 [FriendOf(typeof(LobbySyncUnitDataComponent))]
 public static class LobbySyncUnitDataHelper
 {
-    public static void AddDirty(this LobbyRole lobbyRole, object data)
+    public static void AddDirty(this LobbyRole lobbyRole, IServerData serverData)
     {
         var lobbySyncUnitDataComponent = lobbyRole.GetComponent<LobbySyncUnitDataComponent>();
         if (lobbySyncUnitDataComponent == null)
@@ -13,10 +15,71 @@ public static class LobbySyncUnitDataHelper
             return;
         }
 
-        var type = data.GetType();
-        lobbySyncUnitDataComponent.CacheDirtyData[type] = data;
+        var type = serverData.GetType();
+        lobbySyncUnitDataComponent.CacheDirtyData[type] = serverData;
     }
 
+    public static SyncDataUnitStruct GetAllData(LobbyRole lobbyRole)
+    {
+        var lobbySyncUnitDataComponent = lobbyRole.GetComponent<LobbySyncUnitDataComponent>();
+        SyncDataUnitStruct structData = SyncDataUnitStruct.Create();
+        structData.Frame = lobbySyncUnitDataComponent.frame;
+        
+        foreach (var componentKv in lobbyRole.Components)
+        {
+            var componentIns = componentKv.Value;
+            var componentType = componentKv.Value.GetType();
+            var fieldInfos = componentType.GetFields().Where(field => field.GetCustomAttribute<MongoFieldAttribute>() != null).ToList();
+
+            foreach (var fieldInfo in fieldInfos)
+            {
+                if (fieldInfo.GetValue(componentIns) is IServerData serverData)
+                {
+                    var unitBytes = ToDataUnitBytes(serverData);
+                    if (unitBytes != null)
+                    {
+                        structData.DataUnitBytes.Add(unitBytes);    
+                    }
+                }
+            }
+        }
+
+        return structData;
+    }
+
+
+    private static DataUnitBytes ToDataUnitBytes(IServerData serverData)
+    {
+        var serverDataType = serverData.GetType(); 
+        
+        var converter = DataUnitManager.Instance.ServerDataType2Converters.GetValueOrDefault(serverDataType);
+        if (converter == null)
+        {
+            Log.Error($"{serverData.GetType().FullName} 转换 UnitData 失败 无法找到 converter");
+            return null;
+        }
+        
+        var unitData = converter.ToUnitData(serverData);
+        if (unitData == null)
+        {
+            Log.Error($"{serverData.GetType().FullName} 转换 UnitData 失败 转换对象为 Null");
+            return null;
+        }
+
+        DataUnitBytes dataUnitBytes = DataUnitBytes.Create();
+        var unitId = OpcodeType.Instance.GetOpcode(unitData.GetType());
+        if (unitId == 0)
+        {
+            Log.Error($"未定义类型 {unitData.GetType()} 的 unitId");
+        }
+            
+        dataUnitBytes.UnitId = unitId;
+            
+        // TODO 使用对象池
+        dataUnitBytes.UnitBytes = MemoryPackHelper.Serialize(unitData);
+        return dataUnitBytes;
+    } 
+    
     public static void SyncDirtyMessage(this LobbyRole lobbyRole)
     {
         var lobbySyncUnitDataComponent = lobbyRole.GetComponent<LobbySyncUnitDataComponent>();
@@ -37,21 +100,13 @@ public static class LobbySyncUnitDataHelper
 
         foreach (var dirtyDataKv in lobbySyncUnitDataComponent.CacheDirtyData)
         {
-            var dataUnitType = dirtyDataKv.Key;
-            var dataUnit = dirtyDataKv.Value;
-            var iUnitData = DataUnitManager.Instance.ToUnitData(dataUnit);
-            if (iUnitData == null)
-            {
-                Log.Error($"{dirtyDataKv.Key.FullName} 转换 UnitData 失败");
-                continue;
-            }
+            var serverData = dirtyDataKv.Value;
 
-            DataUnitBytes dataUnitBytes = DataUnitBytes.Create();
-            var unitId = OpcodeType.Instance.GetOpcode(dataUnitType);
-            dataUnitBytes.UnitId = unitId;
-            // TODO 使用对象池
-            dataUnitBytes.UnitBytes = MemoryPackHelper.Serialize(iUnitData);
-            structData.DataUnitBytes.Add(dataUnitBytes);
+            var unitBytes = ToDataUnitBytes(serverData);
+            if (unitBytes != null)
+            {
+                structData.DataUnitBytes.Add(unitBytes);    
+            }
         }
 
         lobbyRole.SendToClient(message);
