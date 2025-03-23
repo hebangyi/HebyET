@@ -3,6 +3,8 @@
 public class GameServerConstant
 {
     public const int MongoDBCacheUpdateCount = 200;
+    
+    public static bool GameServerShutDown = false;
 
     // rsa 生效时间
     public const int RSAEffectiveSec = 60; 

@@ -39,7 +39,7 @@ namespace ET
                         case "":
                             break;
                         case "exit":
-                            self.RemoveComponent<ModeContex>();
+                            FiberManager.Instance.AllFiberExit().Coroutine();
                             break;
                         default:
                         {

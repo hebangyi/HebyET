@@ -1,6 +1,6 @@
 ﻿namespace ET.Server;
 
-public struct LobbyRoleDBInitEvent
+public struct LobbyRoleLogin3Event
 {
     public LobbyRole LobbyRole;
 }

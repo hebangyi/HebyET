@@ -17,8 +17,16 @@
         
         public const int RoomUpdate = 301;
 
-        // mongo 缓存定时检查器
+        // 应用层
         public const int MongoCacheCheckerTimer = 1001;
-        
+        public const int GlobalClockTimer = 1002;
+
+
+
+        public const int OneSecondTimer = 2001; // 秒级定时器
+        public const int TenSecondTimer = 2002; // 十秒级定时器
+        public const int OneMinuteTimer = 2003; // 分钟级定时器
+        public const int OneHourTimer = 2004;   // 小时级定时器
+
     }
 }

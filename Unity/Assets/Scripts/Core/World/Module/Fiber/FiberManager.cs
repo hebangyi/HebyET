@@ -103,6 +103,80 @@ namespace ET
             int fiberId = Interlocked.Increment(ref this.idGenerator);
             return await this.Create(schedulerType, fiberId, zone, sceneType, name);
         }
+
+        public void FiberEventById<T>(int fiberId, T args) where T : struct
+        {
+            var fiber = this.fibers.GetValueOrDefault(fiberId);
+            if (fiber == null)
+            {
+                Log.Error($"不能找到纤程 : {fiberId} 无法抛出事件 : {args.GetType().ToString()}");
+                return;
+            }
+            
+            fiber.ThreadSynchronizationContext.Post(() =>
+            {
+                try
+                {
+                    EventSystem.Instance.Publish(fiber.Root, args);
+                }
+                catch (Exception e)
+                {
+                    Log.Error($"{e}");
+                }
+            });
+        }
+        
+        
+        // 广播事件到所有
+        public void BoardFiberEvent<T>(T args) where T: struct
+        {
+            foreach (var fiber in this.fibers.Values)
+            {
+                fiber.ThreadSynchronizationContext.Post(() =>
+                {
+                    try
+                    {
+                        EventSystem.Instance.Publish(fiber.Root, args);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error($"{e}");
+                    }
+                });
+            }
+        }
+
+        public async ETTask AllFiberExit()
+        {
+            await BoardFiberEventAsync(new FiberExit());
+        }
+        
+        // 广播事件 异步
+        public async ETTask BoardFiberEventAsync<T>(T args) where T: struct
+        {
+            using ListComponent<ETTask> list = ListComponent<ETTask>.Create();
+            foreach (var fiber in this.fibers.Values)
+            {
+                ETTask task = ETTask.Create();
+                list.Add(task);
+                fiber.ThreadSynchronizationContext.Post(async () =>
+                {
+                    try
+                    {
+                        await EventSystem.Instance.PublishAsync(fiber.Root, args);
+                        task.SetResult();
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error($"{e}");
+                    }
+                });
+            }
+
+            await ETTaskHelper.WaitAll(list);
+            Log.Info("广播事件完成!");
+        }
+        
         
         public async ETTask Remove(int id)
         {

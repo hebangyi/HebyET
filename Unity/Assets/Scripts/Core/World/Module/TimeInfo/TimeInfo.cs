@@ -54,6 +54,16 @@ namespace ET
             return (DateTime.UtcNow.Ticks - this.dt1970.Ticks) / 10000;
         }
 
+        public long NowMillTime()
+        {
+            return (DateTime.UtcNow.Ticks - this.dt1970.Ticks) / 10000;
+        }
+        
+        public long NowSec()
+        {
+            return NowMillTime() / 1000;
+        }
+        
         public long ClientNowSec()
         {
             return this.ClientNowMillTime() / 1000; 

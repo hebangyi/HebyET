@@ -19,10 +19,10 @@ function StartProcess {
 }
 
 $targets = @(
-	[Target]@{ExeFileName='mongoDb.bat'; RelativePath=".\..\..\..\Tools\MongoDb\bin\"; Params=""}
-	[Target]@{ExeFileName='redis-server.exe'; RelativePath=".\..\..\..\Tools\Redis\"; Params="redis.windows.conf"}
-	[Target]@{ExeFileName='etcd.exe'; RelativePath=".\..\..\..\Tools\etcd\"; Params=""}
-	[Target]@{ExeFileName='etcdkeeper.exe'; RelativePath=".\..\..\..\Tools\etcdkeeper\"; Params="-p 9001"}
+	#[Target]@{ExeFileName='mongoDb.bat'; RelativePath=".\..\..\..\Tools\MongoDb\bin\"; Params=""}
+	#[Target]@{ExeFileName='redis-server.exe'; RelativePath=".\..\..\..\Tools\Redis\"; Params="redis.windows.conf"}
+	#[Target]@{ExeFileName='etcd.exe'; RelativePath=".\..\..\..\Tools\etcd\"; Params=""}
+	#[Target]@{ExeFileName='etcdkeeper.exe'; RelativePath=".\..\..\..\Tools\etcdkeeper\"; Params="-p 9001"}
 	[Target]@{ExeFileName='App.exe'; RelativePath=".\..\..\..\Bin\";}
     )
 	

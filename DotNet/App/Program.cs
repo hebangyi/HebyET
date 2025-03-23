@@ -14,6 +14,16 @@ namespace ET
             //model并没有用到，就不会加载，结果会导致CodeLoader反射调用model失败。
             //客户端服务端不热更不共享的组件可以写到Loader中，比如表现层需要一个组件不需要热更，可以写在Loader中，这样性能更高。如果客户端跟服务端共享的并且不需要热更的
             //的组件可以写在Core中
+            
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+            {
+                Log.Error("未处理异常...");
+                Log.Error(e.ExceptionObject.ToString());
+            };
+            
+            
+            AppDomain.CurrentDomain.ProcessExit += delegate { Log.Info("监听到服务器退出"); };
+            
             Entry.Init();
             
             Init init = new();
@@ -24,6 +34,11 @@ namespace ET
                 Thread.Sleep(1);
                 try
                 {
+                    if (GameServerConstant.GameServerShutDown)
+                    {
+                        break; 
+                    }
+                    
                     init.Update();
                     init.LateUpdate();
                 }
@@ -32,6 +47,14 @@ namespace ET
                     Log.Error(e);
                 }
             }
+            
+            Log.Info("开始执行退出逻辑");
+            
+            
+            
+            
+            Log.Info($"程序退出成功!");
+            Thread.Sleep(5000);
         }
     }
 }
