@@ -3,9 +3,9 @@
 namespace ET.Server;
 
 [Event(SceneType.All)]
-public class GlobalClockComponent_InitGlobalComponentEvent : AEvent<Scene, InitGlobalComponentEvent>
+public class GlobalClockComponent_InitGlobalComponentEvent : AEvent<Scene, InitServerEvent>
 {
-    protected override async ETTask Run(Scene scene, InitGlobalComponentEvent a)
+    protected override async ETTask Run(Scene scene, InitServerEvent a)
     {
         await GlobalClockComponentHelper.InitData(scene);
     }
@@ -13,9 +13,21 @@ public class GlobalClockComponent_InitGlobalComponentEvent : AEvent<Scene, InitG
 
 
 [Event(SceneType.All)]
-public class GlobalClockComponent_InitGlobalComponentFinishEvent : AEvent<Scene, InitGlobalComponentFinishEvent>
+public class GlobalClockComponent_ExitServerEvent : AEvent<Scene, ExitServerEvent>
 {
-    protected override async ETTask Run(Scene scene, InitGlobalComponentFinishEvent a)
+    protected override async ETTask Run(Scene scene, ExitServerEvent a)
+    {
+        GlobalClockComponentHelper.Save(scene);
+        await ETTask.CompletedTask;
+    }
+}
+
+
+
+[Event(SceneType.All)]
+public class GlobalClockComponent_InitGlobalComponentFinishEvent : AEvent<Scene, InitServerFinishEvent>
+{
+    protected override async ETTask Run(Scene scene, InitServerFinishEvent a)
     {
         var globalClockComponent = scene.GetComponent<GlobalClockComponent>();
         if (globalClockComponent == null)

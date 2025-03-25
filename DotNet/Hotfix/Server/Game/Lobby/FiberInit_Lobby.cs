@@ -2,25 +2,6 @@
 
 namespace ET.Server
 {
-    [Event(SceneType.All)]
-    public class FiberExit_InitServer: AEvent<Scene, FiberExit>
-    {
-        protected override async ETTask Run(Scene scene, FiberExit a)
-        {
-            var timerComponent = scene.GetComponent<TimerComponent>();
-            
-            Log.Info("协程开始退出...");
-            if (timerComponent != null)
-            {
-                await timerComponent.WaitAsync(1000);
-            }
-            
-            Log.Info("协程退出完成...");
-            await ETTask.CompletedTask;
-        }
-    }
-
-
     [Invoke((long)SceneType.Lobby)]
     public class FiberInit_Lobby: AInvokeHandler<FiberInit, ETTask>
     {
@@ -40,9 +21,9 @@ namespace ET.Server
             root.AddComponent<MongoCacheAgentComponent>();
             root.AddComponent<GlobalClockComponent>();
             
-            await EventSystem.Instance.PublishAsync(root, new InitGlobalComponentEvent {});
+            await EventSystem.Instance.PublishAsync(root, new InitServerEvent {});
             
-            await EventSystem.Instance.PublishAsync(root, new InitGlobalComponentFinishEvent {});
+            await EventSystem.Instance.PublishAsync(root, new InitServerFinishEvent {});
             
             // 对外暴露端口
             var netComponentConfig = ProcessConfig.Instance.GetSceneComponentConfig<NetComponentConfig>(fiberInit.Fiber.Root);

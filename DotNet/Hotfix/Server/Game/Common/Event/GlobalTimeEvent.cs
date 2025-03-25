@@ -16,6 +16,7 @@ public struct GlobalTimeOneHour
 {
 }
 
+// 注意 LobbyRoleCrossDay 和 GlobalTimeCrossOneDay 不能区分先后顺序
 public struct GlobalTimeCrossOneDay
 {
 }

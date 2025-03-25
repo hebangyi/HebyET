@@ -174,7 +174,6 @@ namespace ET
             }
 
             await ETTaskHelper.WaitAll(list);
-            Log.Info("广播事件完成!");
         }
         
         

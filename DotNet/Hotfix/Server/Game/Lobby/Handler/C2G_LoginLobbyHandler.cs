@@ -23,35 +23,45 @@
             var lobbyRole = lobbyRoleComponent.GetById(roleId);
             if (lobbyRole == null)
             {
-                lobbyRole = lobbyRoleComponent.Add(roleId);
-                EntityClientSessionComponent entityClientSessionComponent = lobbyRole.AddComponent<EntityClientSessionComponent>();
                 var mongoDbComponent = session.Fiber().Root.GetComponent<MongoDBComponent>();
                 var lobbyRoleEntity = await mongoDbComponent.QueryOne<LobbyRoleEntity>(x => x.Id == roleId);
                 bool isNewPlayer = false;
-
                 if (lobbyRoleEntity == null)
                 {
                     lobbyRoleEntity = new LobbyRoleEntity();
                     isNewPlayer = true;
                 }
-
+                
+                lobbyRole = lobbyRoleComponent.Add(roleId);
                 MongoEntityHelper.AttachData(lobbyRole, lobbyRoleEntity);
-                // 查询数据库
-                lobbyRole.AddComponent<MailBoxComponent, MailBoxType>(MailBoxType.OrderedMessage);
-
-                entityClientSessionComponent.Session = session;
-                var sessionPlayerComponent = session.TryAddComponent<SessionPlayerComponent>();
-                sessionPlayerComponent.RoleId = roleId;
 
                 // 抛出数据初始化事件
                 await EventSystem.Instance.PublishAsync(root, new LobbyRoleDBInitEvent { LobbyRole = lobbyRole });
-                
                 
                 if (isNewPlayer)
                 {
                     lobbyRole.GetComponent<RoleInfoComponent>().roleInfoData.NickName = roleId.ToString();
                     await EventSystem.Instance.PublishAsync(root, new LobbyRoleNewPlayerEvent { LobbyRole = lobbyRole });
                 }
+
+                // 登录事件
+                await EventSystem.Instance.PublishAsync(root, new LobbyRoleLogin1Event { LobbyRole = lobbyRole });
+                await EventSystem.Instance.PublishAsync(root, new LobbyRoleLogin2Event { LobbyRole = lobbyRole });
+                await EventSystem.Instance.PublishAsync(root, new LobbyRoleLogin3Event { LobbyRole = lobbyRole });
+                // 登录完成事件
+                await EventSystem.Instance.PublishAsync(root, new LobbyRoleLoginFinishedEvent { LobbyRole = lobbyRole });
+                
+                EntityClientSessionComponent entityClientSessionComponent = lobbyRole.AddComponent<EntityClientSessionComponent>();
+                
+                
+                // 数据自动同步组件
+                lobbyRole.TryAddComponent<LobbySyncUnitDataComponent>();
+                
+                // 绑定网络
+                lobbyRole.AddComponent<MailBoxComponent, MailBoxType>(MailBoxType.OrderedMessage);
+                entityClientSessionComponent.Session = session;
+                var sessionPlayerComponent = session.TryAddComponent<SessionPlayerComponent>();
+                sessionPlayerComponent.RoleId = roleId;
             }
             else
             {
@@ -60,17 +70,6 @@
                 entityClientSessionComponent.Session = session;
                 session.TryAddComponent<SessionPlayerComponent>().RoleId = roleId;
             }
-
-            // 数据自动同步组件
-            lobbyRole.TryAddComponent<LobbySyncUnitDataComponent>();
-
-            // 登录事件
-            await EventSystem.Instance.PublishAsync(root, new LobbyRoleLogin1Event { LobbyRole = lobbyRole });
-            await EventSystem.Instance.PublishAsync(root, new LobbyRoleLogin2Event { LobbyRole = lobbyRole });
-            await EventSystem.Instance.PublishAsync(root, new LobbyRoleLogin3Event { LobbyRole = lobbyRole });
-            
-            // 登录完成事件
-            await EventSystem.Instance.PublishAsync(root, new LobbyRoleLoginFinishedEvent { LobbyRole = lobbyRole });
 
             response.PlayerId = lobbyRole.RoleId;
             await ETTask.CompletedTask;

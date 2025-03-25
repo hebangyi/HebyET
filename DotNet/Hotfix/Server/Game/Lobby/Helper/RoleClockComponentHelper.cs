@@ -11,6 +11,7 @@ public class RoleClockComponent_LobbyRoleInit : AEvent<Scene, LobbyRoleDBInitEve
     }
 }
 
+
 [FriendOf(typeof(RoleClockComponent))]
 public static class RoleClockComponentHelper
 {
@@ -23,17 +24,24 @@ public static class RoleClockComponentHelper
         }
     }
 
-    public static void CheckPlayerClockTime(LobbyRole lobbyRole)
+    public static void CheckPlayerClockTime(LobbyRole lobbyRole, long now)
     {
-        long now = TimeInfo.Instance.ServerNowSec();
-
         var roleCommonComponent = lobbyRole.GetComponent<RoleClockComponent>();
         var roleClockData = roleCommonComponent.RoleClockData;
 
+        if (roleClockData.LastUpdateTime == now)
+        {
+            return;
+        }
+        
+        
         var lastDayUpdateTime = roleClockData.LastDayUpdateTime;
         var lastWeekUpdateTime = roleClockData.LastWeekUpdateTime;
         var lastMonthUpdateTime = roleClockData.LastMonthUpdateTime;
 
+        roleClockData.LastUpdateTime = now;
+        EventSystem.Instance.Publish(lobbyRole.Root(), new LobbyRoleOneSecEvent { LobbyRole = lobbyRole });
+        
         if (TimeHelper.IsCrossDay(lastDayUpdateTime, now))
         {
             EventSystem.Instance.Publish(lobbyRole.Root(), new LobbyRoleCrossDay1Event { LobbyRole = lobbyRole });

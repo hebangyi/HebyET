@@ -32,6 +32,18 @@
         <Compile Include="..\..\Unity\Assets\Scripts\Hotfix\Share\**\*.cs">
             <Link>Share\%(RecursiveDir)%(FileName)%(Extension)</Link> 
         </Compile> 
+        
+        <Compile Update="Server\Module\Console\ConsoleComponentSystem.cs">
+          <Link>Share\Module\Console\ConsoleComponentSystem.cs</Link>
+        </Compile>
+        
+        <Compile Update="Server\Module\Console\ReloadConfigConsoleHandler.cs">
+          <Link>Share\Module\Console\ReloadConfigConsoleHandler.cs</Link>
+        </Compile>
+        
+        <Compile Update="Server\Module\Console\ReloadDllConsoleHandler.cs">
+          <Link>Share\Module\Console\ReloadDllConsoleHandler.cs</Link>
+        </Compile> 
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\Share\Analyzer\Share.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
@@ -40,10 +52,10 @@
         <ProjectReference Include="..\Model\DotNet.Model.csproj" />
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Server\Game\Lobby\DataUnitConverter\" />
+      <Folder Include="..\..\Unity\Assets\Scripts\Hotfix\Share\Module\Console\">
+        <Link>Share\Module\Console</Link>
+      </Folder>
       <Folder Include="Server\Global\Etcd\" />
-      <Folder Include="Server\Module\Console\" />
-      <Folder Include="Server\Module\DB\" />
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="dotnet-etcd" Version="7.2.0" />

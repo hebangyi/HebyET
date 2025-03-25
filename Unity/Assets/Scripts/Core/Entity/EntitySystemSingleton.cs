@@ -118,32 +118,6 @@ namespace ET
             }
         }
         
-        // GetComponentSystem
-        public void GetComponentSys(Entity entity, Type type)
-        {
-            List<SystemObject> iGetSystem = this.TypeSystems.GetSystems(entity.GetType(), typeof (IGetComponentSysSystem));
-            if (iGetSystem == null)
-            {
-                return;
-            }
-
-            foreach (IGetComponentSysSystem getSystem in iGetSystem)
-            {
-                if (getSystem == null)
-                {
-                    continue;
-                }
-
-                try
-                {
-                    getSystem.Run(entity, type);
-                }
-                catch (Exception e)
-                {
-                    Log.Error(e);
-                }
-            }
-        }
 
         public void AutoAddComponent(Entity component)
         {

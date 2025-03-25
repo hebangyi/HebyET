@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ET.Server;
 
 namespace ET
 {
@@ -31,33 +33,22 @@ namespace ET
                         Console.Write($"{modeContex?.Mode ?? ""}> ");
                         return Console.In.ReadLine();
                     }, self.CancellationTokenSource.Token);
-                    
-                    line = line.Trim();
-
-                    switch (line)
+                    var lines = line.Trim().Split(" ");
+                    if (lines.Length <= 0)
                     {
-                        case "":
-                            break;
-                        case "exit":
-                            FiberManager.Instance.AllFiberExit().Coroutine();
-                            break;
-                        default:
-                        {
-                            string[] lines = line.Split(" ");
-                            string mode = modeContex == null? lines[0] : modeContex.Mode;
-
-                            IConsoleHandler iConsoleHandler = ConsoleDispatcher.Instance.Get(mode);
-                            if (modeContex == null)
-                            {
-                                modeContex = self.AddComponent<ModeContex>();
-                                modeContex.Mode = mode;
-                            }
-                            await iConsoleHandler.Run(self.Fiber(), modeContex, line);
-                            break;
-                        }
+                        continue;
                     }
-
-
+                    
+                    var commandStr = lines[0];
+                    if (Enum.TryParse(commandStr, true, out CommandEnum e))
+                    {
+                        string[] args = lines.Skip(1).ToArray();
+                        CommandHelper.Execute(e, args);
+                    }
+                    else
+                    {
+                        Log.Error($"命令解析 CommandEnum 异常 : 命令 {commandStr}");
+                    }
                 }
                 catch (Exception e)
                 {
