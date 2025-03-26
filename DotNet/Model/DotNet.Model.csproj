@@ -49,9 +49,6 @@
       <PackageReference Include="dotnet-etcd" Version="7.2.0" />
     </ItemGroup> 
     <ItemGroup>
-      <Folder Include="..\..\Unity\Assets\Scripts\Model\Client\Game\Lobby\">
-        <Link>Client\Game\Lobby</Link>
-      </Folder>
       <Folder Include="Server\Game\Account\" />
       <Folder Include="Server\Game\Data\" />
       <Folder Include="Server\LockStep\Gate\" />

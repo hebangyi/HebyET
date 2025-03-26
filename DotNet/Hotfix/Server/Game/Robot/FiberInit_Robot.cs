@@ -13,6 +13,7 @@
             root.AddComponent<PlayerComponent>();
             root.AddComponent<CurrentScenesComponent>();
             root.AddComponent<ObjectWait>();
+            root.AddComponent<ClientLobbyDataComponent>();
             
             root.SceneType = SceneType.Game;
 

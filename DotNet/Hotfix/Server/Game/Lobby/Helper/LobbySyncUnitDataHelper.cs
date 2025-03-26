@@ -9,7 +9,11 @@ public class LobbyRoleOneSecEvent_SyncUnitClient: AEvent<Scene, LobbyRoleOneSecE
 {
     protected override async ETTask Run(Scene scene, LobbyRoleOneSecEvent args)
     {
-        Log.Info("player 自动检查 flush 消息");
+        // 发送测试消息
+        var roleInfoComponent = args.LobbyRole.GetComponent<RoleInfoComponent>();
+        roleInfoComponent.roleInfoData.NickName = TimeInfo.Instance.NowSec().ToString();
+        args.LobbyRole.AddDirty(roleInfoComponent.roleInfoData);
+        
         args.LobbyRole.FlushDirtyMessage();
         await ETTask.CompletedTask;
     }
@@ -123,7 +127,7 @@ public static class LobbySyncUnitDataHelper
             return;
         }
 
-        L2C_SyncDirtyDataUnits message = new();
+        L2C_SyncDirtyDataUnits message = L2C_SyncDirtyDataUnits.Create();
         var frame = ++lobbySyncUnitDataComponent.frame;
         SyncDataUnitStruct structData = SyncDataUnitStruct.Create();
         structData.Frame = frame;
@@ -139,6 +143,7 @@ public static class LobbySyncUnitDataHelper
             }
         }
 
+        message.UnitStructData = structData;
         lobbyRole.SendToClient(message);
         lobbySyncUnitDataComponent.CacheDirtyData.Clear();
     }
