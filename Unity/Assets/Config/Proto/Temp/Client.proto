@@ -1,6 +1,6 @@
 syntax = "proto3";
 package ET;
-// ============================= 数据同步 =============================
+// ============================= 数据结构 =============================
 // 客户端服务器通用同步
 message SyncDataUnitStruct
 {
@@ -16,6 +16,9 @@ message DataUnitBytes
 }
 
 
+
+// ============================= 协议 =============================
+//// 数据同步
 // 获得所有的 DataUnit 数据
 // ResponseType G2_GetAllDataUnits
 message C2G_GetAllDataUnits // IClientRequest
@@ -38,12 +41,66 @@ message L2C_SyncDirtyDataUnits // IMessage
 }
 
 
+//// 
+
+
+
 // ============================= 数据 =============================
 //// 玩家 角色信息
 message RoleInfoUnitData // IUnitData
 {
     string NickName = 1;    // 昵称
 }
+
+// ResponseType A2C_Login
+message C2A_Login // ISessionRequest
+{
+	int32 RpcId = 1;
+	string  Account = 2;  // 帐号
+	string  Password = 3;  // 密码
+}
+
+message A2C_Login // ISessionResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+
+	string Address = 4;				// 大厅地址
+	string Token = 5;				// Token
+}
+
+// ResponseType L2C_LoginLobby
+message C2L_LoginLobby // ISessionRequest
+{
+	int32 RpcId = 1;
+	
+	string Token = 2;				// Token
+}
+
+message L2C_LoginLobby // ISessionResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+	int64 PlayerId = 4;
+}
+
+
+// ResponseType G2C_Ping
+message C2G_Ping // ISessionRequest
+{
+	int32 RpcId = 1;
+}
+
+message G2C_Ping // ISessionResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+	int64 Time = 4;
+}
+
 
 // ResponseType NetClient2Main_Login
 message Main2NetClient_Login // IRequest
@@ -61,10 +118,6 @@ message NetClient2Main_Login // IResponse
 	string Message = 3;
 
 	int64 PlayerId = 4;
-}
-
-message TestClientData
-{
 }
 
 // ResponseType G2C_Match
@@ -157,20 +210,6 @@ message RouterSync
 	string Address = 2;
 }
 
-// ResponseType M2C_TestResponse
-message C2M_TestRequest // ILocationRequest
-{
-	int32 RpcId = 1;
-	string request = 2;
-}
-
-message M2C_TestResponse // IResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-	string response = 4;
-}
 
 // ResponseType G2C_EnterMap
 message C2G_EnterMap // ISessionRequest
@@ -252,19 +291,6 @@ message M2C_Stop // IMessage
 	Unity.Mathematics.quaternion Rotation = 4;
 }
 
-// ResponseType G2C_Ping
-message C2G_Ping // ISessionRequest
-{
-	int32 RpcId = 1;
-}
-
-message G2C_Ping // ISessionResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-	int64 Time = 4;
-}
 
 
 message G2C_Test // ISessionMessage
@@ -286,39 +312,7 @@ message M2C_Reload // ISessionResponse
 	string Message = 3;
 }
 
-// ResponseType A2C_Login
-message C2A_Login // ISessionRequest
-{
-	int32 RpcId = 1;
-	string  Account = 2;  // 帐号
-	string  Password = 3;  // 密码
-}
 
-message A2C_Login // ISessionResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-
-	string Address = 4;				// 大厅地址
-	string Token = 5;				// Token
-}
-
-// ResponseType L2C_LoginLobby
-message C2L_LoginLobby // ISessionRequest
-{
-	int32 RpcId = 1;
-	
-	string Token = 2;				// Token
-}
-
-message L2C_LoginLobby // ISessionResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-	int64 PlayerId = 4;
-}
 
 message G2C_TestHotfixMessage // ISessionMessage
 {

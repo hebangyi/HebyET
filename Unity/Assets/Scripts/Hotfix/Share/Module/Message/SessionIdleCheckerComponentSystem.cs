@@ -25,7 +25,7 @@ namespace ET
         [EntitySystem]
         private static void Awake(this SessionIdleCheckerComponent self)
         {
-            self.RepeatedTimer = self.Root().GetComponent<TimerComponent>().NewRepeatedTimer(CheckInteral, TimerInvokeType.SessionIdleChecker, self);
+            self.RepeatedTimer = self.Root().GetComponent<TimerComponent>().NewRepeatedTimer(CheckInterval, TimerInvokeType.SessionIdleChecker, self);
         }
         
         [EntitySystem]
@@ -34,7 +34,7 @@ namespace ET
             self.Root().GetComponent<TimerComponent>()?.Remove(ref self.RepeatedTimer);
         }
 
-        private const int CheckInteral = 2000;
+        private const int CheckInterval = 2000;
 
         private static void Check(this SessionIdleCheckerComponent self)
         {
@@ -52,7 +52,6 @@ namespace ET
 
             Log.Info($"session timeout: {session.Id} {timeNow} {session.LastRecvTime} {session.LastSendTime} {timeNow - session.LastRecvTime} {timeNow - session.LastSendTime}");
             session.Error = ErrorCore.ERR_SessionSendOrRecvTimeout;
-
             session.Dispose();
         }
     }

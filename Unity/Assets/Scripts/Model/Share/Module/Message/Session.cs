@@ -36,7 +36,7 @@ namespace ET
     
     [EntitySystemOf(typeof(Session))]
     [FriendOf(typeof(Session))]
-    public static partial class SessionSystem
+    public static partial class  SessionSystem
     {
         [EntitySystem]
         private static void Awake(this Session self, AService aService)

@@ -594,77 +594,6 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(ServerMessage.R2G_GetLoginKey)]
-    [ResponseType(nameof(G2R_GetLoginKey))]
-    public partial class R2G_GetLoginKey : MessageObject, IRequest
-    {
-        public static R2G_GetLoginKey Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(R2G_GetLoginKey), isFromPool) as R2G_GetLoginKey;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public string Account { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.Account = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ServerMessage.G2R_GetLoginKey)]
-    public partial class G2R_GetLoginKey : MessageObject, IResponse
-    {
-        public static G2R_GetLoginKey Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(G2R_GetLoginKey), isFromPool) as G2R_GetLoginKey;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public int Error { get; set; }
-
-        [MemoryPackOrder(2)]
-        public string Message { get; set; }
-
-        [MemoryPackOrder(3)]
-        public long Key { get; set; }
-
-        [MemoryPackOrder(4)]
-        public long GateId { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-            this.Key = default;
-            this.GateId = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
     [Message(ServerMessage.G2M_SessionDisconnect)]
     public partial class G2M_SessionDisconnect : MessageObject, ILocationMessage
     {
@@ -1146,20 +1075,18 @@ namespace ET
         public const ushort ObjectRemoveResponse = 10016;
         public const ushort ObjectGetRequest = 10017;
         public const ushort ObjectGetResponse = 10018;
-        public const ushort R2G_GetLoginKey = 10019;
-        public const ushort G2R_GetLoginKey = 10020;
-        public const ushort G2M_SessionDisconnect = 10021;
-        public const ushort ObjectQueryResponse = 10022;
-        public const ushort M2M_UnitTransferRequest = 10023;
-        public const ushort M2M_UnitTransferResponse = 10024;
-        public const ushort G2Match_Match = 10025;
-        public const ushort Match2G_Match = 10026;
-        public const ushort Match2Map_GetRoom = 10027;
-        public const ushort Map2Match_GetRoom = 10028;
-        public const ushort G2Room_Reconnect = 10029;
-        public const ushort Room2G_Reconnect = 10030;
-        public const ushort RoomManager2Room_Init = 10031;
-        public const ushort Room2RoomManager_Init = 10032;
-        public const ushort SceneNodeInfo = 10033;
+        public const ushort G2M_SessionDisconnect = 10019;
+        public const ushort ObjectQueryResponse = 10020;
+        public const ushort M2M_UnitTransferRequest = 10021;
+        public const ushort M2M_UnitTransferResponse = 10022;
+        public const ushort G2Match_Match = 10023;
+        public const ushort Match2G_Match = 10024;
+        public const ushort Match2Map_GetRoom = 10025;
+        public const ushort Map2Match_GetRoom = 10026;
+        public const ushort G2Room_Reconnect = 10027;
+        public const ushort Room2G_Reconnect = 10028;
+        public const ushort RoomManager2Room_Init = 10029;
+        public const ushort Room2RoomManager_Init = 10030;
+        public const ushort SceneNodeInfo = 10031;
     }
 }

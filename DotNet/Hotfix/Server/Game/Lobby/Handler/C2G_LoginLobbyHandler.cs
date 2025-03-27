@@ -12,12 +12,14 @@
             if (!ret)
             {
                 response.Error = (int)ErrorCode.LoginTokenErr;
+                
+                // TODO 断开链接
                 return;
             }
 
             var roleId = accountBean.RoleId;
             Scene root = session.Root();
-            session.RemoveComponent<SessionAcceptTimeoutComponent>();
+            session.RemoveComponent<SessionAcceptCheckTimeoutComponent>();
             LobbyRoleComponent lobbyRoleComponent = root.GetComponent<LobbyRoleComponent>();
 
             var lobbyRole = lobbyRoleComponent.GetById(roleId);

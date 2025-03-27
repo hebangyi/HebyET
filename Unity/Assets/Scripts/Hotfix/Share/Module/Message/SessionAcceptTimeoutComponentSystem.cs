@@ -2,14 +2,14 @@
 
 namespace ET
 {
-    [EntitySystemOf(typeof(SessionAcceptTimeoutComponent))]
-    [FriendOf(typeof(SessionAcceptTimeoutComponent))]
-    public static partial class SessionAcceptTimeoutComponentHelper
+    [EntitySystemOf(typeof(SessionAcceptCheckTimeoutComponent))]
+    [FriendOf(typeof(SessionAcceptCheckTimeoutComponent))]
+    public static partial class SessionAcceptCheckTimeoutComponentHelper
     {
         [Invoke(TimerInvokeType.SessionAcceptTimeout)]
-        public class SessionAcceptTimeout: ATimer<SessionAcceptTimeoutComponent>
+        public class SessionAcceptTimeout: ATimer<SessionAcceptCheckTimeoutComponent>
         {
-            protected override void Run(SessionAcceptTimeoutComponent self)
+            protected override void Run(SessionAcceptCheckTimeoutComponent self)
             {
                 try
                 {
@@ -23,13 +23,13 @@ namespace ET
         }
         
         [EntitySystem]
-        private static void Awake(this SessionAcceptTimeoutComponent self)
+        private static void Awake(this SessionAcceptCheckTimeoutComponent self)
         {
             self.Timer = self.Root().GetComponent<TimerComponent>().NewOnceTimer(TimeInfo.Instance.ServerNowMillTime() + 5000, TimerInvokeType.SessionAcceptTimeout, self);
         }
         
         [EntitySystem]
-        private static void Destroy(this SessionAcceptTimeoutComponent self)
+        private static void Destroy(this SessionAcceptCheckTimeoutComponent self)
         {
             self.Root().GetComponent<TimerComponent>()?.Remove(ref self.Timer);
         }
