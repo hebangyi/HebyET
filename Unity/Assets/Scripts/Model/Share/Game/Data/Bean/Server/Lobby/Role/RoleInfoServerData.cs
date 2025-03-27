@@ -2,12 +2,9 @@
 {
     public class RoleInfoServerData : IServerData
     {
-        //------ 客户端同步数据
-        // 昵称
-        public string NickName;
-        
-        //------ 服务器数据
-        
+        public string NickName; // 昵称
+        public long LastLoginTime; // 上一次登录的时间
+        public long LastLoginOutTime; // 上次登出的时间
     }
 }
 

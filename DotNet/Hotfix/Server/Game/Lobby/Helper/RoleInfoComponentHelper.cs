@@ -11,6 +11,30 @@ public class RoleInfoComponent_LobbyRoleInit : AEvent<Scene, LobbyRoleDBInitEven
     }
 }
 
+[Event(SceneType.Lobby)]
+public class RoleInfoComponent_LobbyRoleOnlineEvent : AEvent<Scene, LobbyRoleOnlineEvent>
+{
+    protected override async ETTask Run(Scene scene, LobbyRoleOnlineEvent args)
+    {
+        var lobbyRole = args.LobbyRole;
+        var roleInfoComponent = lobbyRole.GetComponent<RoleInfoComponent>();
+        roleInfoComponent.roleInfoData.LastLoginTime = TimeInfo.Instance.NowSec();
+        await ETTask.CompletedTask;
+    }
+}
+
+[Event(SceneType.Lobby)]
+public class RoleInfoComponent_LobbyRoleOffOnlineEvent : AEvent<Scene, LobbyRoleOffOnlineEvent>
+{
+    protected override async ETTask Run(Scene scene, LobbyRoleOffOnlineEvent args)
+    {
+        var lobbyRole = args.LobbyRole;
+        var roleInfoComponent = lobbyRole.GetComponent<RoleInfoComponent>();
+        roleInfoComponent.roleInfoData.LastLoginOutTime = TimeInfo.Instance.NowSec();
+        await ETTask.CompletedTask;
+    }
+}
+
 [FriendOf(typeof(RoleInfoComponent))]
 public static class RoleInfoComponentHelper
 {

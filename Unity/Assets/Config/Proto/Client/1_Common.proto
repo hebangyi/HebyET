@@ -1,4 +1,4 @@
-// ============================= 数据同步 =============================
+// ============================= 数据结构 =============================
 // 客户端服务器通用同步
 message SyncDataUnitStruct
 {
@@ -14,6 +14,9 @@ message DataUnitBytes
 }
 
 
+
+// ============================= 协议 =============================
+//// 数据同步
 // 获得所有的 DataUnit 数据
 // ResponseType G2_GetAllDataUnits
 message C2G_GetAllDataUnits // IClientRequest
@@ -34,6 +37,10 @@ message L2C_SyncDirtyDataUnits // IMessage
 {
     SyncDataUnitStruct UnitStructData = 1;  // 数据
 }
+
+
+//// 
+
 
 
 // ============================= 数据 =============================

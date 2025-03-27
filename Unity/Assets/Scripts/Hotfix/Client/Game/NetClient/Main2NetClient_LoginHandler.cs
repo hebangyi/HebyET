@@ -52,8 +52,6 @@ namespace ET.Client
             c2GLoginLobby.Token = a2CLogin.Token;
             L2C_LoginLobby g2CLoginGate = (L2C_LoginLobby)await gateSession.Call(c2GLoginLobby);
             response.PlayerId = g2CLoginGate.PlayerId;
-            
-            Log.Error($"{g2CLoginGate.PlayerId}");
         }
     }
 }

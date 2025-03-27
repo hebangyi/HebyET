@@ -41,6 +41,10 @@ namespace ET
             Session session = self.GetParent<Session>();
             long timeNow = TimeInfo.Instance.ClientNowMillTime();
 
+            Log.Info($"RecvTime == {timeNow - session.LastRecvTime}");
+            Log.Info($"SendTime == {timeNow - session.LastSendTime}");
+            
+            
             if (timeNow - session.LastRecvTime < GameConstant.HttpSessionTimeoutTime && timeNow - session.LastSendTime < GameConstant.HttpSessionTimeoutTime)
             {
                 return;

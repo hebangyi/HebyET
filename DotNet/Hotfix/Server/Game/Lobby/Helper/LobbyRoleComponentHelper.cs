@@ -1,5 +1,6 @@
 ﻿namespace ET.Server;
 
+
 // 在线玩家秒级监听处理器
 [Event(SceneType.Lobby)]
 public class GlobalTimeOneSecond_CheckPlayerClockTime: AEvent<Scene, GlobalTimeOneSecond>
@@ -15,4 +16,9 @@ public class GlobalTimeOneSecond_CheckPlayerClockTime: AEvent<Scene, GlobalTimeO
         }
         await ETTask.CompletedTask;
     }
+}
+
+public static class LobbyRoleComponentHelper
+{
+    
 }
