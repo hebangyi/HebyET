@@ -1,8 +1,10 @@
-﻿namespace ET.Server
+﻿using OfficeOpenXml.Export.ToDataTable;
+
+namespace ET.Server
 {
     [MessageSessionHandler(SceneType.Lobby)]
     [FriendOf(typeof(LobbyRole))]
-    [FriendOf(typeof(SessionPlayerComponent))]
+    [FriendOf(typeof(SessionLobbyPlayerComponent))]
     [FriendOf(typeof(RoleInfoComponent))]
     public class C2L_LoginLobbyHandler : MessageSessionHandler<C2L_LoginLobby, L2C_LoginLobby>
     {
@@ -19,7 +21,7 @@
 
             var roleId = accountBean.RoleId;
             Scene root = session.Root();
-            session.RemoveComponent<SessionAcceptCheckTimeoutComponent>();
+            session.RemoveComponent<SessionAcceptLoginCheckTimeoutComponent>();
             LobbyRoleComponent lobbyRoleComponent = root.GetComponent<LobbyRoleComponent>();
 
             var lobbyRole = lobbyRoleComponent.GetById(roleId);
@@ -45,23 +47,11 @@
                     lobbyRole.GetComponent<RoleInfoComponent>().roleInfoData.NickName = roleId.ToString();
                     await EventSystem.Instance.PublishAsync(root, new LobbyRoleNewPlayerEvent { LobbyRole = lobbyRole });
                 }
-                
-                EntityClientSessionComponent entityClientSessionComponent = lobbyRole.AddComponent<EntityClientSessionComponent>();
-                // 数据自动同步组件
-                lobbyRole.TryAddComponent<LobbySyncUnitDataComponent>();
-                
-                // 绑定网络
+                lobbyRole.AddComponent<EntityClientSessionComponent>();
+                lobbyRole.AddComponent<LobbySyncUnitDataComponent>();
+                // 设置网络邮箱与消息处理方式
                 lobbyRole.AddComponent<MailBoxComponent, MailBoxType>(MailBoxType.OrderedMessage);
-                entityClientSessionComponent.Session = session;
-                var sessionPlayerComponent = session.TryAddComponent<SessionPlayerComponent>();
-                sessionPlayerComponent.RoleId = roleId;
-            }
-            else
-            {
-                KickOutOldPlayer(lobbyRole);
-                EntityClientSessionComponent entityClientSessionComponent = lobbyRole.GetComponent<EntityClientSessionComponent>();
-                entityClientSessionComponent.Session = session;
-                session.TryAddComponent<SessionPlayerComponent>().RoleId = roleId;
+                LobbyRoleComponentHelper.BindClientSession(lobbyRole, session);
             }
             
             // 登录事件
@@ -71,16 +61,12 @@
             // 登录完成事件
             await EventSystem.Instance.PublishAsync(root, new LobbyRoleLoginFinishedEvent { LobbyRole = lobbyRole });
 
+            // 绑定Session可以发送消息
+            LobbyRoleComponentHelper.BindClientSession(lobbyRole, session);
+            
             response.PlayerId = lobbyRole.RoleId;
             await ETTask.CompletedTask;
-        }
-
-        private static void KickOutOldPlayer(LobbyRole lobbyRole)
-        {
-            var sessionComponent = lobbyRole.GetComponent<EntityClientSessionComponent>();
-            // TODO 退出 不是重连 session 被清掉
-            G2C_Reconnect g2CReconnect = G2C_Reconnect.Create();
-            sessionComponent.Session.Send(g2CReconnect);
+            
         }
     }
 }

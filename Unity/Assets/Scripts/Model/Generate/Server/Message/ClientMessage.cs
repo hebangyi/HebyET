@@ -176,8 +176,100 @@ namespace ET
     }
 
     /// <summary>
-    /// 
+    /// 网络
     /// </summary>
+    [MemoryPackable]
+    [Message(ClientMessage.C2G_Ping)]
+    [ResponseType(nameof(G2C_Ping))]
+    public partial class C2G_Ping : MessageObject, ISessionRequest
+    {
+        public static C2G_Ping Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2G_Ping), isFromPool) as C2G_Ping;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.G2C_Ping)]
+    public partial class G2C_Ping : MessageObject, ISessionResponse
+    {
+        public static G2C_Ping Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(G2C_Ping), isFromPool) as G2C_Ping;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        [MemoryPackOrder(3)]
+        public long Time { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+            this.Time = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 链接服务器主动断开 (不要重连)
+    [MemoryPackable]
+    [Message(ClientMessage.G2C_SessionDisconnect)]
+    public partial class G2C_SessionDisconnect : MessageObject, IMessage
+    {
+        public static G2C_SessionDisconnect Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(G2C_SessionDisconnect), isFromPool) as G2C_SessionDisconnect;
+        }
+
+        /// <summary>
+        /// 断开原因
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public int Error { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.Error = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
     // ============================= 数据 =============================
     /// <summary>
     /// 玩家 角色信息
@@ -1673,52 +1765,55 @@ namespace ET
         public const ushort C2G_GetAllDataUnits = 10004;
         public const ushort G2_GetAllDataUnits = 10005;
         public const ushort L2C_SyncDirtyDataUnits = 10006;
-        public const ushort RoleInfoUnitData = 10007;
-        public const ushort C2A_Login = 10008;
-        public const ushort A2C_Login = 10009;
-        public const ushort C2L_LoginLobby = 10010;
-        public const ushort L2C_LoginLobby = 10011;
-        public const ushort C2G_Ping = 10012;
-        public const ushort G2C_Ping = 10013;
-        public const ushort Main2NetClient_Login = 10014;
-        public const ushort NetClient2Main_Login = 10015;
-        public const ushort C2G_Match = 10016;
-        public const ushort G2C_Match = 10017;
-        public const ushort Match2G_NotifyMatchSuccess = 10018;
-        public const ushort C2Room_ChangeSceneFinish = 10019;
-        public const ushort LockStepUnitInfo = 10020;
-        public const ushort Room2C_Start = 10021;
-        public const ushort FrameMessage = 10022;
-        public const ushort OneFrameInputs = 10023;
-        public const ushort Room2C_AdjustUpdateTime = 10024;
-        public const ushort C2Room_CheckHash = 10025;
-        public const ushort Room2C_CheckHashFail = 10026;
-        public const ushort G2C_Reconnect = 10027;
-        public const ushort HttpGetRouterResponse = 10028;
-        public const ushort RouterSync = 10029;
-        public const ushort C2G_EnterMap = 10030;
-        public const ushort G2C_EnterMap = 10031;
-        public const ushort MoveInfo = 10032;
-        public const ushort UnitInfo = 10033;
-        public const ushort M2C_CreateUnits = 10034;
-        public const ushort M2C_CreateMyUnit = 10035;
-        public const ushort M2C_StartSceneChange = 10036;
-        public const ushort M2C_RemoveUnits = 10037;
-        public const ushort C2M_PathfindingResult = 10038;
-        public const ushort C2M_Stop = 10039;
-        public const ushort M2C_PathfindingResult = 10040;
-        public const ushort M2C_Stop = 10041;
-        public const ushort G2C_Test = 10042;
-        public const ushort C2M_Reload = 10043;
-        public const ushort M2C_Reload = 10044;
-        public const ushort G2C_TestHotfixMessage = 10045;
-        public const ushort C2M_TestRobotCase = 10046;
-        public const ushort M2C_TestRobotCase = 10047;
-        public const ushort C2M_TestRobotCase2 = 10048;
-        public const ushort M2C_TestRobotCase2 = 10049;
-        public const ushort C2M_TransferMap = 10050;
-        public const ushort M2C_TransferMap = 10051;
-        public const ushort C2G_Benchmark = 10052;
-        public const ushort G2C_Benchmark = 10053;
+        public const ushort C2G_Ping = 10007;
+        public const ushort G2C_Ping = 10008;
+        public const ushort G2C_SessionDisconnect = 10009;
+        public const ushort RoleInfoUnitData = 10010;
+        public const ushort C2A_Login = 10011;
+        public const ushort A2C_Login = 10012;
+        public const ushort C2L_LoginLobby = 10013;
+        public const ushort L2C_LoginLobby = 10014;
+        public const ushort C2G_Ping = 10015;
+        public const ushort G2C_Ping = 10016;
+        public const ushort Main2NetClient_Login = 10017;
+        public const ushort NetClient2Main_Login = 10018;
+        public const ushort C2G_Match = 10019;
+        public const ushort G2C_Match = 10020;
+        public const ushort Match2G_NotifyMatchSuccess = 10021;
+        public const ushort C2Room_ChangeSceneFinish = 10022;
+        public const ushort LockStepUnitInfo = 10023;
+        public const ushort Room2C_Start = 10024;
+        public const ushort FrameMessage = 10025;
+        public const ushort OneFrameInputs = 10026;
+        public const ushort Room2C_AdjustUpdateTime = 10027;
+        public const ushort C2Room_CheckHash = 10028;
+        public const ushort Room2C_CheckHashFail = 10029;
+        public const ushort G2C_Reconnect = 10030;
+        public const ushort HttpGetRouterResponse = 10031;
+        public const ushort RouterSync = 10032;
+        public const ushort C2G_EnterMap = 10033;
+        public const ushort G2C_EnterMap = 10034;
+        public const ushort MoveInfo = 10035;
+        public const ushort UnitInfo = 10036;
+        public const ushort M2C_CreateUnits = 10037;
+        public const ushort M2C_CreateMyUnit = 10038;
+        public const ushort M2C_StartSceneChange = 10039;
+        public const ushort M2C_RemoveUnits = 10040;
+        public const ushort C2M_PathfindingResult = 10041;
+        public const ushort C2M_Stop = 10042;
+        public const ushort M2C_PathfindingResult = 10043;
+        public const ushort M2C_Stop = 10044;
+        public const ushort G2C_Test = 10045;
+        public const ushort C2M_Reload = 10046;
+        public const ushort M2C_Reload = 10047;
+        public const ushort G2C_TestHotfixMessage = 10048;
+        public const ushort C2M_TestRobotCase = 10049;
+        public const ushort M2C_TestRobotCase = 10050;
+        public const ushort C2M_TestRobotCase2 = 10051;
+        public const ushort M2C_TestRobotCase2 = 10052;
+        public const ushort C2M_TransferMap = 10053;
+        public const ushort M2C_TransferMap = 10054;
+        public const ushort C2G_Benchmark = 10055;
+        public const ushort G2C_Benchmark = 10056;
     }
 }

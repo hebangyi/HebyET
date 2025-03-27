@@ -10,6 +10,7 @@ namespace ET.Server
     {
         private EntityRef<Session> session;
 
+        // 当Session 销毁的时候 这个地方获得不了
         public Session Session
         {
             get

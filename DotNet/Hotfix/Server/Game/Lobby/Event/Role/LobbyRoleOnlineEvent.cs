@@ -3,5 +3,6 @@
 // 玩家上线
 public struct LobbyRoleOnlineEvent
 {
-    public LobbyRole LobbyRole;
+    // 玩家ID
+    public long RoleId;
 }

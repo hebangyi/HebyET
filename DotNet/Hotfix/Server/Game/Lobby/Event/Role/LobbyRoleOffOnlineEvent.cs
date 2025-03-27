@@ -3,5 +3,6 @@
 // 玩家下线
 public struct LobbyRoleOffOnlineEvent
 {
-    public LobbyRole LobbyRole;
+    // 玩家ID
+    public long RoleId;
 }

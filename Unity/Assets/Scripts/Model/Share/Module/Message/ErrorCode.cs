@@ -19,6 +19,8 @@ namespace ET
         
         ///////////////////////////// 登录
         ServerIsStarting = 110100,                  // 参数错误
+        OtherPersonLogin = 110101,                  // 其他玩家登录
+        
         
         //// 账号服 
         AccountLoginErr = 110101,                   // 用户名密码错误

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ET.Server
 {
     [Invoke((long)SceneType.Lobby)]
-    [FriendOfAttribute(typeof(ET.Server.SessionPlayerComponent))]
+    [FriendOfAttribute(typeof(ET.Server.SessionLobbyPlayerComponent))]
     public class NetComponentOnReadInvoker_Lobby : AInvokeHandler<NetComponentOnRead>
     {
         public override void Handle(NetComponentOnRead args)
@@ -27,10 +27,10 @@ namespace ET.Server
                     }
                 case IClientRequest:
                     {
-                        LobbyRole entity = root.GetComponent<LobbyRoleComponent>()?.OnlineRoles.GetValueOrDefault(session.GetComponent<SessionPlayerComponent>().RoleId);
+                        LobbyRole entity = root.GetComponent<LobbyRoleComponent>()?.OnlineRoles.GetValueOrDefault(session.GetComponent<SessionLobbyPlayerComponent>().RoleId);
                         if (entity == null)
                         {
-                            Log.Error($"Role Id {session.GetComponent<SessionPlayerComponent>().RoleId} Not Found Online Role Entity");
+                            Log.Error($"Role Id {session.GetComponent<SessionLobbyPlayerComponent>().RoleId} Not Found Online Role Entity");
                             break;
                         }
                         
@@ -61,7 +61,7 @@ namespace ET.Server
                     }
                 case ILocationRequest actorLocationRequest: // gate session收到actor rpc消息，先向actor 发送rpc请求，再将请求结果返回客户端
                     {
-                        long unitId = session.GetComponent<SessionPlayerComponent>().RoleId;
+                        long unitId = session.GetComponent<SessionLobbyPlayerComponent>().RoleId;
                         int rpcId = actorLocationRequest.RpcId; // 这里要保存客户端的rpcId
                         long instanceId = session.InstanceId;
                         IResponse iResponse = await root.GetComponent<MessageLocationSenderComponent>().Get(LocationType.Unit).Call(unitId, actorLocationRequest);

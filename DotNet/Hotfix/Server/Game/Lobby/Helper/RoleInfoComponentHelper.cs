@@ -1,4 +1,6 @@
-﻿namespace ET.Server;
+﻿using System.Collections.Generic;
+
+namespace ET.Server;
 
 [Event(SceneType.Lobby)]
 public class RoleInfoComponent_LobbyRoleInit : AEvent<Scene, LobbyRoleDBInitEvent>
@@ -16,8 +18,14 @@ public class RoleInfoComponent_LobbyRoleOnlineEvent : AEvent<Scene, LobbyRoleOnl
 {
     protected override async ETTask Run(Scene scene, LobbyRoleOnlineEvent args)
     {
-        var lobbyRole = args.LobbyRole;
-        var roleInfoComponent = lobbyRole.GetComponent<RoleInfoComponent>();
+        var roleId = args.RoleId;
+        LobbyRole role = scene.GetComponent<LobbyRoleComponent>().OnlineRoles.GetValueOrDefault(roleId);
+        if (role == null)
+        {
+            return;
+        }
+        
+        var roleInfoComponent = role.GetComponent<RoleInfoComponent>();
         roleInfoComponent.roleInfoData.LastLoginTime = TimeInfo.Instance.NowSec();
         await ETTask.CompletedTask;
     }
@@ -28,8 +36,14 @@ public class RoleInfoComponent_LobbyRoleOffOnlineEvent : AEvent<Scene, LobbyRole
 {
     protected override async ETTask Run(Scene scene, LobbyRoleOffOnlineEvent args)
     {
-        var lobbyRole = args.LobbyRole;
-        var roleInfoComponent = lobbyRole.GetComponent<RoleInfoComponent>();
+        var roleId = args.RoleId;
+        LobbyRole role = scene.GetComponent<LobbyRoleComponent>().OnlineRoles.GetValueOrDefault(roleId);
+        if (role == null)
+        {
+            return;
+        }
+
+        var roleInfoComponent = role.GetComponent<RoleInfoComponent>();
         roleInfoComponent.roleInfoData.LastLoginOutTime = TimeInfo.Instance.NowSec();
         await ETTask.CompletedTask;
     }

@@ -1,7 +1,7 @@
 ﻿namespace ET.Server
 {
 	[ComponentOf(typeof(Session))]
-	public class SessionPlayerComponent : Entity, IAwake, IDestroy
+	public class SessionLobbyPlayerComponent : Entity, IAwake<long>, IDestroy
 	{
 		public long RoleId;
 	}
