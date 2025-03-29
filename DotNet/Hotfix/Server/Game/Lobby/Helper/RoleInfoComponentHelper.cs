@@ -19,7 +19,7 @@ public class RoleInfoComponent_LobbyRoleOnlineEvent : AEvent<Scene, LobbyRoleOnl
     protected override async ETTask Run(Scene scene, LobbyRoleOnlineEvent args)
     {
         var roleId = args.RoleId;
-        LobbyRole role = scene.GetComponent<LobbyRoleComponent>().OnlineRoles.GetValueOrDefault(roleId);
+        LobbyRole role = scene.GetComponent<LobbyRoleComponent>().GetById(roleId);
         if (role == null)
         {
             return;
@@ -37,7 +37,7 @@ public class RoleInfoComponent_LobbyRoleOffOnlineEvent : AEvent<Scene, LobbyRole
     protected override async ETTask Run(Scene scene, LobbyRoleOffOnlineEvent args)
     {
         var roleId = args.RoleId;
-        LobbyRole role = scene.GetComponent<LobbyRoleComponent>().OnlineRoles.GetValueOrDefault(roleId);
+        LobbyRole role = scene.GetComponent<LobbyRoleComponent>().GetById(roleId);
         if (role == null)
         {
             return;
@@ -60,4 +60,5 @@ public static class RoleInfoComponentHelper
             roleInfoComponent.roleInfoData = new RoleInfoServerData();
         }
     }
+    
 }

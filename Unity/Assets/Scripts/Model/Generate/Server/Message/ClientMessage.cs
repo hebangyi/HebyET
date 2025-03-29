@@ -460,69 +460,6 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(ClientMessage.C2G_Ping)]
-    [ResponseType(nameof(G2C_Ping))]
-    public partial class C2G_Ping : MessageObject, ISessionRequest
-    {
-        public static C2G_Ping Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(C2G_Ping), isFromPool) as C2G_Ping;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.G2C_Ping)]
-    public partial class G2C_Ping : MessageObject, ISessionResponse
-    {
-        public static G2C_Ping Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(G2C_Ping), isFromPool) as G2C_Ping;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public int Error { get; set; }
-
-        [MemoryPackOrder(2)]
-        public string Message { get; set; }
-
-        [MemoryPackOrder(3)]
-        public long Time { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-            this.Time = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
     [Message(ClientMessage.Main2NetClient_Login)]
     [ResponseType(nameof(NetClient2Main_Login))]
     public partial class Main2NetClient_Login : MessageObject, IRequest
@@ -1773,47 +1710,45 @@ namespace ET
         public const ushort A2C_Login = 10012;
         public const ushort C2L_LoginLobby = 10013;
         public const ushort L2C_LoginLobby = 10014;
-        public const ushort C2G_Ping = 10015;
-        public const ushort G2C_Ping = 10016;
-        public const ushort Main2NetClient_Login = 10017;
-        public const ushort NetClient2Main_Login = 10018;
-        public const ushort C2G_Match = 10019;
-        public const ushort G2C_Match = 10020;
-        public const ushort Match2G_NotifyMatchSuccess = 10021;
-        public const ushort C2Room_ChangeSceneFinish = 10022;
-        public const ushort LockStepUnitInfo = 10023;
-        public const ushort Room2C_Start = 10024;
-        public const ushort FrameMessage = 10025;
-        public const ushort OneFrameInputs = 10026;
-        public const ushort Room2C_AdjustUpdateTime = 10027;
-        public const ushort C2Room_CheckHash = 10028;
-        public const ushort Room2C_CheckHashFail = 10029;
-        public const ushort G2C_Reconnect = 10030;
-        public const ushort HttpGetRouterResponse = 10031;
-        public const ushort RouterSync = 10032;
-        public const ushort C2G_EnterMap = 10033;
-        public const ushort G2C_EnterMap = 10034;
-        public const ushort MoveInfo = 10035;
-        public const ushort UnitInfo = 10036;
-        public const ushort M2C_CreateUnits = 10037;
-        public const ushort M2C_CreateMyUnit = 10038;
-        public const ushort M2C_StartSceneChange = 10039;
-        public const ushort M2C_RemoveUnits = 10040;
-        public const ushort C2M_PathfindingResult = 10041;
-        public const ushort C2M_Stop = 10042;
-        public const ushort M2C_PathfindingResult = 10043;
-        public const ushort M2C_Stop = 10044;
-        public const ushort G2C_Test = 10045;
-        public const ushort C2M_Reload = 10046;
-        public const ushort M2C_Reload = 10047;
-        public const ushort G2C_TestHotfixMessage = 10048;
-        public const ushort C2M_TestRobotCase = 10049;
-        public const ushort M2C_TestRobotCase = 10050;
-        public const ushort C2M_TestRobotCase2 = 10051;
-        public const ushort M2C_TestRobotCase2 = 10052;
-        public const ushort C2M_TransferMap = 10053;
-        public const ushort M2C_TransferMap = 10054;
-        public const ushort C2G_Benchmark = 10055;
-        public const ushort G2C_Benchmark = 10056;
+        public const ushort Main2NetClient_Login = 10015;
+        public const ushort NetClient2Main_Login = 10016;
+        public const ushort C2G_Match = 10017;
+        public const ushort G2C_Match = 10018;
+        public const ushort Match2G_NotifyMatchSuccess = 10019;
+        public const ushort C2Room_ChangeSceneFinish = 10020;
+        public const ushort LockStepUnitInfo = 10021;
+        public const ushort Room2C_Start = 10022;
+        public const ushort FrameMessage = 10023;
+        public const ushort OneFrameInputs = 10024;
+        public const ushort Room2C_AdjustUpdateTime = 10025;
+        public const ushort C2Room_CheckHash = 10026;
+        public const ushort Room2C_CheckHashFail = 10027;
+        public const ushort G2C_Reconnect = 10028;
+        public const ushort HttpGetRouterResponse = 10029;
+        public const ushort RouterSync = 10030;
+        public const ushort C2G_EnterMap = 10031;
+        public const ushort G2C_EnterMap = 10032;
+        public const ushort MoveInfo = 10033;
+        public const ushort UnitInfo = 10034;
+        public const ushort M2C_CreateUnits = 10035;
+        public const ushort M2C_CreateMyUnit = 10036;
+        public const ushort M2C_StartSceneChange = 10037;
+        public const ushort M2C_RemoveUnits = 10038;
+        public const ushort C2M_PathfindingResult = 10039;
+        public const ushort C2M_Stop = 10040;
+        public const ushort M2C_PathfindingResult = 10041;
+        public const ushort M2C_Stop = 10042;
+        public const ushort G2C_Test = 10043;
+        public const ushort C2M_Reload = 10044;
+        public const ushort M2C_Reload = 10045;
+        public const ushort G2C_TestHotfixMessage = 10046;
+        public const ushort C2M_TestRobotCase = 10047;
+        public const ushort M2C_TestRobotCase = 10048;
+        public const ushort C2M_TestRobotCase2 = 10049;
+        public const ushort M2C_TestRobotCase2 = 10050;
+        public const ushort C2M_TransferMap = 10051;
+        public const ushort M2C_TransferMap = 10052;
+        public const ushort C2G_Benchmark = 10053;
+        public const ushort G2C_Benchmark = 10054;
     }
 }

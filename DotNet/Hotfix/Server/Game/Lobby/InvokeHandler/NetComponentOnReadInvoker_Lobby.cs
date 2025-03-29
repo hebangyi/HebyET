@@ -27,7 +27,7 @@ namespace ET.Server
                     }
                 case IClientRequest:
                     {
-                        LobbyRole entity = root.GetComponent<LobbyRoleComponent>()?.OnlineRoles.GetValueOrDefault(session.GetComponent<SessionLobbyPlayerComponent>().RoleId);
+                        LobbyRole entity = root.GetComponent<LobbyRoleComponent>()?.GetById(session.GetComponent<SessionLobbyPlayerComponent>().RoleId);
                         if (entity == null)
                         {
                             Log.Error($"Role Id {session.GetComponent<SessionLobbyPlayerComponent>().RoleId} Not Found Online Role Entity");
