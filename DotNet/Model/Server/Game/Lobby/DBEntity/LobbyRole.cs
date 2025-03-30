@@ -26,5 +26,5 @@ public enum LobbyRoleStatus
     Online = 1, // 在线
     OffOnline = 2, // 离线
     UnloadingDB = 3, // 正在存储DB
-    UnloadDB = 4, //  已经存储DB
+    UnloadedDB = 4, //  已经存储DB
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MongoDB.Bson;
 
 namespace ET.Server;
@@ -33,7 +34,7 @@ public static partial class MongoAutoSaveComponentSystem
     private static void Awake(this MongoAutoSaveComponent self)
     {
         self.TryAddComponent<MongoDBComponent>();
-        self.CheckTimerId = self.Root().GetComponent<TimerComponent>()
+        self.Root().GetComponent<TimerComponent>()
                 .NewRepeatedTimer(1 * 1000, TimerInvokeType.MongoCacheCheckerTimer, self);
     }
 
@@ -50,12 +51,12 @@ public static partial class MongoAutoSaveComponentSystem
             {
                 return;
             }
-            
+
             if (self.SaveMongoEntities.Count <= 0)
             {
                 return;
             }
-            
+
             Dictionary<Type, Queue<MongoEntity>> type2MongoEntities = new Dictionary<Type, Queue<MongoEntity>>();
             foreach (MongoEntity mongoEntity in self.SaveMongoEntities.Values)
             {
@@ -66,6 +67,7 @@ public static partial class MongoAutoSaveComponentSystem
                     saveEntities = new Queue<MongoEntity>();
                     type2MongoEntities[type] = saveEntities;
                 }
+
                 saveEntities.Enqueue(mongoEntity);
             }
 
@@ -87,12 +89,14 @@ public static partial class MongoAutoSaveComponentSystem
 
                     if (batchSaveEntities.Count > 0)
                     {
-                        await self.Root().GetComponent<MongoDBComponent>().SaveBatch(type.Name , batchSaveEntities);
+                        await self.Root().GetComponent<MongoDBComponent>().SaveBatch(type.Name, batchSaveEntities);
+                        EventSystem.Instance.Publish(self.Root(),
+                            new MongoAutoSaveEvent() { EntityType = type, Ids = batchSaveEntities.Select(x => x.Id).ToList() });
                         Log.Info($"数据落地 : {type.Name} 数量 :{batchSaveEntities.Count}");
                     }
                 }
             }
-            
+
             self.SaveMongoEntities.Clear();
         }
         catch (Exception e)
@@ -103,9 +107,10 @@ public static partial class MongoAutoSaveComponentSystem
         {
             self.isSaving = false;
         }
+
         await ETTask.CompletedTask;
     }
-    
+
     public static async ETTask ServerExit(this MongoAutoSaveComponent self)
     {
         Log.Info("程序退出保存缓存");

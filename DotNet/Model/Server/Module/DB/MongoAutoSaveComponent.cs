@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ET.Server;
 
@@ -7,7 +8,12 @@ namespace ET.Server;
 public class MongoAutoSaveComponent: Entity, IAwake
 {
     public bool isSaving = false;
-    public long CheckTimerId;
     // 保存的 Entity
     public Dictionary<long, MongoEntity> SaveMongoEntities = new();
+}
+
+public struct MongoAutoSaveEvent
+{
+    public Type EntityType;
+    public List<long> Ids;
 }
