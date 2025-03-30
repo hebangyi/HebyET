@@ -13,6 +13,11 @@ public class GlobalTimeOneSecond_CheckPlayerClockTime : AEvent<Scene, GlobalTime
         foreach (var onlineRoleKv in lobbyRoleComponent.OnlineRoles)
         {
             LobbyRole lobbyRole = onlineRoleKv.Value;
+            if (lobbyRole == null)
+            {
+                continue;
+            }
+
             RoleClockComponentHelper.CheckPlayerClockTime(lobbyRole, now);
         }
 
@@ -20,8 +25,59 @@ public class GlobalTimeOneSecond_CheckPlayerClockTime : AEvent<Scene, GlobalTime
     }
 }
 
+[Event(SceneType.Lobby)]
+public class GlobalTimeTenSecond_CheckOnlineUnloadDB : AEvent<Scene, GlobalTimeTenSecond>
+{
+    protected override async ETTask Run(Scene scene, GlobalTimeTenSecond args)
+    {
+        var lobbyRoleComponent = scene.GetComponent<LobbyRoleComponent>();
+        lobbyRoleComponent.CheckOnlineUnloadDB();
+        await ETTask.CompletedTask;
+    }
+}
+
+
 public static class LobbyRoleComponentHelper
 {
+    public static void CheckOnlineUnloadDB(this LobbyRoleComponent self)
+    {
+        foreach (var roleKv in self.OnlineRoles)
+        {
+            LobbyRole role = roleKv.Value;
+            if (role.RoleStatus == LobbyRoleStatus.OffOnline)
+            {
+                var lobbyRoleEntity = MongoEntityHelper.UnAttachData<LobbyRoleEntity>(role);
+                self.Root().GetComponent<MongoAutoSaveComponent>().AddSaveEntity(lobbyRoleEntity);
+                // 正在卸载
+                role.RoleStatus = LobbyRoleStatus.UnloadingDB;
+            }
+        }
+    }
+
+    public static void RemoveUnloadDBEntity(this LobbyRoleComponent self)
+    {
+        List<long> unloadIds = new List<long>();
+        foreach (var roleKv in self.OnlineRoles)
+        {
+            LobbyRole role = roleKv.Value;
+            if (role.RoleStatus == LobbyRoleStatus.UnloadDB)
+            {
+                unloadIds.Add(role.RoleId);
+            }
+        }
+
+        foreach (var unloadId in unloadIds)
+        {
+            if (self.OnlineRoles.Remove(unloadId, out var role))
+            {
+                LobbyRole r = role;
+                r.Dispose();
+            }
+
+            Log.Info($"玩家已经卸载 :{unloadId}");
+        }
+    }
+
     public static LobbyRole Add(this LobbyRoleComponent self, long roleId)
     {
         if (self.GetById(roleId) != null)

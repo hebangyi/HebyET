@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 namespace ET.Server;
 
-[AutoAddComponent([typeof(LobbyRole)])]
 [ComponentOf(typeof(LobbyRole))]
 public class LobbySyncUnitDataComponent : Entity, IDestroy, IAwake
 {

@@ -58,7 +58,8 @@ public static class MongoEntityHelper
                 mongoEntity.DataCollections[mongoFieldAttribute.Field] = fieldVal;
             }
         }
-        
+
+        mongoEntity.Id = entity.Id;
         return mongoEntity;
     }
 }

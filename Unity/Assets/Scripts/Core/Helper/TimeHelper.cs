@@ -42,7 +42,7 @@ namespace ET
             // 获取同一周的周一
             DateTime weekStart1 = dt1.AddDays(-(int)dt1.DayOfWeek + (int)DayOfWeek.Monday);
             DateTime weekStart2 = dt2.AddDays(-(int)dt2.DayOfWeek + (int)DayOfWeek.Monday);
-            return weekStart1.Date == weekStart2.Date;
+            return weekStart1.Date != weekStart2.Date;
         }
 
         /// <summary>

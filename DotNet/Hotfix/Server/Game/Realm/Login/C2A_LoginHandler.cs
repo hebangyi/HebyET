@@ -36,6 +36,7 @@ namespace ET.Server
 			if (testAccount == null)
 			{
 				testAccount = new TestAccount();
+				testAccount.Id = IdGenerater.Instance.GenerateId();
 				testAccount.Account = request.Account;
 				testAccount.roleItem = new RoleItem();
 				

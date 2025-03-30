@@ -4,14 +4,14 @@ using MongoDB.Bson;
 
 namespace ET.Server;
 
-[EntitySystemOf(typeof(MongoCacheAgentComponent))]
-[FriendOf(typeof(MongoCacheAgentComponent))]
-public static partial class MongoCacheAgentComponentSystem
+[EntitySystemOf(typeof(MongoAutoSaveComponent))]
+[FriendOf(typeof(MongoAutoSaveComponent))]
+public static partial class MongoAutoSaveComponentSystem
 {
     [Invoke(TimerInvokeType.MongoCacheCheckerTimer)]
-    public class MongoCacheAgentComponentTimer : ATimer<MongoCacheAgentComponent>
+    public class MongoCacheAgentComponentTimer : ATimer<MongoAutoSaveComponent>
     {
-        protected override void Run(MongoCacheAgentComponent self)
+        protected override void Run(MongoAutoSaveComponent self)
         {
             try
             {
@@ -24,45 +24,25 @@ public static partial class MongoCacheAgentComponentSystem
         }
     }
 
-    private static void CheckTimer(this MongoCacheAgentComponent self)
+    private static void CheckTimer(this MongoAutoSaveComponent self)
     {
         self.saveCacheData().Coroutine();
     }
 
     [EntitySystem]
-    private static void Awake(this MongoCacheAgentComponent self)
+    private static void Awake(this MongoAutoSaveComponent self)
     {
         self.TryAddComponent<MongoDBComponent>();
         self.CheckTimerId = self.Root().GetComponent<TimerComponent>()
-                .NewRepeatedTimer(60 * 1000, TimerInvokeType.MongoCacheCheckerTimer, self);
+                .NewRepeatedTimer(1 * 1000, TimerInvokeType.MongoCacheCheckerTimer, self);
     }
 
-    [EntitySystem]
-    private static void Destroy(this MongoCacheAgentComponent self)
+    public static void AddSaveEntity(this MongoAutoSaveComponent self, MongoEntity mongoEntity)
     {
-        self.Root().GetComponent<TimerComponent>()?.Remove(ref self.CheckTimerId);
+        self.SaveMongoEntities.Add(mongoEntity.Id, mongoEntity);
     }
 
-    public static void AttachCache(this MongoCacheAgentComponent self, MongoEntity mongoEntity)
-    {
-        self.CacheMongoEntities.Add(mongoEntity.Id, mongoEntity);
-    }
-
-    public static void UnAttachCache(this MongoCacheAgentComponent self, long id)
-    {
-        if (!self.CacheMongoEntities.ContainsKey(id))
-        {
-            return;
-        }
-
-        if (self.CacheMongoEntities.Remove(id, out var entity))
-        {
-            self.Fiber().Root.GetComponent<MongoDBComponent>().Save(entity).Coroutine();    
-        }
-    }
-
-
-    private static async ETTask saveCacheData(this MongoCacheAgentComponent self)
+    private static async ETTask saveCacheData(this MongoAutoSaveComponent self)
     {
         try
         {
@@ -71,13 +51,13 @@ public static partial class MongoCacheAgentComponentSystem
                 return;
             }
             
-            if (self.CacheMongoEntities.Count <= 0)
+            if (self.SaveMongoEntities.Count <= 0)
             {
                 return;
             }
             
             Dictionary<Type, Queue<MongoEntity>> type2MongoEntities = new Dictionary<Type, Queue<MongoEntity>>();
-            foreach (MongoEntity mongoEntity in self.CacheMongoEntities.Values)
+            foreach (MongoEntity mongoEntity in self.SaveMongoEntities.Values)
             {
                 var type = mongoEntity.GetType();
                 var saveEntities = type2MongoEntities.GetValueOrDefault(type);
@@ -108,9 +88,12 @@ public static partial class MongoCacheAgentComponentSystem
                     if (batchSaveEntities.Count > 0)
                     {
                         await self.Root().GetComponent<MongoDBComponent>().SaveBatch(type.Name , batchSaveEntities);
+                        Log.Info($"数据落地 : {type.Name} 数量 :{batchSaveEntities.Count}");
                     }
                 }
             }
+            
+            self.SaveMongoEntities.Clear();
         }
         catch (Exception e)
         {
@@ -123,7 +106,7 @@ public static partial class MongoCacheAgentComponentSystem
         await ETTask.CompletedTask;
     }
     
-    public static async ETTask ServerExit(this MongoCacheAgentComponent self)
+    public static async ETTask ServerExit(this MongoAutoSaveComponent self)
     {
         Log.Info("程序退出保存缓存");
         await self.saveCacheData();

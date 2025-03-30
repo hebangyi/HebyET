@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ET.Server;
+﻿namespace ET.Server;
 
 [Event(SceneType.Lobby)]
 public class RoleInfoComponent_LobbyRoleInit : AEvent<Scene, LobbyRoleDBInitEvent>
@@ -27,6 +25,9 @@ public class RoleInfoComponent_LobbyRoleOnlineEvent : AEvent<Scene, LobbyRoleOnl
         
         var roleInfoComponent = role.GetComponent<RoleInfoComponent>();
         roleInfoComponent.roleInfoData.LastLoginTime = TimeInfo.Instance.NowSec();
+        
+        role.RoleStatus = LobbyRoleStatus.Online;
+        Log.Info($"玩家上线 Id : {role.RoleId}");
         await ETTask.CompletedTask;
     }
 }
@@ -45,6 +46,9 @@ public class RoleInfoComponent_LobbyRoleOffOnlineEvent : AEvent<Scene, LobbyRole
 
         var roleInfoComponent = role.GetComponent<RoleInfoComponent>();
         roleInfoComponent.roleInfoData.LastLoginOutTime = TimeInfo.Instance.NowSec();
+        role.RoleStatus = LobbyRoleStatus.OffOnline;
+        role.LoginOutTime = roleInfoComponent.roleInfoData.LastLoginOutTime;
+        Log.Info($"玩家下线 Id : {role.RoleId}");
         await ETTask.CompletedTask;
     }
 }

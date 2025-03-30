@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
 namespace ET.Server
@@ -162,20 +161,30 @@ namespace ET.Server
                 Log.Error($"save entity is null");
                 return;
             }
-
-            var bulkOps = new List<WriteModel<MongoEntity>>();
-            foreach (MongoEntity entity in entities)
+            
+            // 构建批量操作列表
+            var bulkOperations = new List<WriteModel<MongoEntity>>();
+            
+            foreach (var entity in entities)
             {
-                if (entity == null)
+                // 创建基于ID的过滤器
+                var filter = Builders<MongoEntity>.Filter.Eq(u => u.Id, entity.Id);
+                
+                // 创建替换操作模型（upsert）
+                var replaceModel = new ReplaceOneModel<MongoEntity>(
+                    filter: filter,
+                    replacement: entity)
                 {
-                    continue;
-                }
+                    IsUpsert = true
+                };
 
-                var filter = Builders<MongoEntity>.Filter.Eq(p => p.Id, entity.Id);
-                var replace = new ReplaceOneModel<MongoEntity>(filter, entity);
-                bulkOps.Add(replace);
+                bulkOperations.Add(replaceModel);
             }
-            await self.MongoDatabase.GetCollection<MongoEntity>(collectionName).BulkWriteAsync(bulkOps);
+
+            // 执行批量写入
+            var result = await self.MongoDatabase.GetCollection<MongoEntity>(collectionName).BulkWriteAsync(
+                requests: bulkOperations,
+                options: new BulkWriteOptions { IsOrdered = false });
         }
 
         #endregion

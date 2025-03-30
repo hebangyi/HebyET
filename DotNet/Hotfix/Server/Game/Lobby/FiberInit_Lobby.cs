@@ -17,7 +17,7 @@ namespace ET.Server
             root.AddComponent<LocationProxyComponent>();
             root.AddComponent<MessageLocationSenderComponent>();
             root.AddComponent<MongoDBComponent>();
-            root.AddComponent<MongoCacheAgentComponent>();
+            root.AddComponent<MongoAutoSaveComponent>();
             root.AddComponent<GlobalClockComponent>();
             
             await EventSystem.Instance.PublishAsync(root, new InitServerEvent {});

@@ -4,9 +4,10 @@ namespace ET.Server;
 
 
 [ComponentOf(typeof (Scene))]
-public class MongoCacheAgentComponent: Entity, IAwake, IDestroy
+public class MongoAutoSaveComponent: Entity, IAwake
 {
     public bool isSaving = false;
     public long CheckTimerId;
-    public Dictionary<long, MongoEntity> CacheMongoEntities = new();
+    // 保存的 Entity
+    public Dictionary<long, MongoEntity> SaveMongoEntities = new();
 }

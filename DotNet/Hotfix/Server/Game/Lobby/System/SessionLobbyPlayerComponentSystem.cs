@@ -23,6 +23,7 @@
         [EntitySystem]
         private static void Awake(this SessionLobbyPlayerComponent self, long roleId)
         {
+            self.RoleId = roleId;
             Scene root = self.Root();
             EventSystem.Instance.Publish(root, new LobbyRoleOnlineEvent() { RoleId = roleId});
         }
