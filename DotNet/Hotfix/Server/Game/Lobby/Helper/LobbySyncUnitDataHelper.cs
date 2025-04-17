@@ -10,10 +10,6 @@ public class LobbyRoleOneSecEvent_SyncUnitClient: AEvent<Scene, LobbyRoleOneSecE
     protected override async ETTask Run(Scene scene, LobbyRoleOneSecEvent args)
     {
         // 发送测试消息
-        // var roleInfoComponent = args.LobbyRole.GetComponent<RoleInfoComponent>();
-        // roleInfoComponent.roleInfoData.NickName = TimeInfo.Instance.NowSec().ToString();
-        // args.LobbyRole.AddDirty(roleInfoComponent.roleInfoData);
-        
         args.LobbyRole.FlushDirtyMessage();
         await ETTask.CompletedTask;
     }

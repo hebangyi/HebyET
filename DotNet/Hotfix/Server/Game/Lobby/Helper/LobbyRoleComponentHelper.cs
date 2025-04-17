@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ET.Server;
@@ -70,41 +71,55 @@ public static class LobbyRoleComponentHelper
 {
     public static void CheckOffOnlineUnloadDB(this LobbyRoleComponent self)
     {
-        foreach (var roleKv in self.OnlineRoles)
+        try
         {
-            LobbyRole role = roleKv.Value;
-            if (role.RoleStatus == LobbyRoleStatus.OffOnline)
+            foreach (var roleKv in self.OnlineRoles)
             {
-                var lobbyRoleEntity = MongoEntityHelper.UnAttachData<LobbyRoleEntity>(role);
-                self.Root().GetComponent<MongoAutoSaveComponent>().AddSaveEntity(lobbyRoleEntity);
-                // 正在卸载
-                role.RoleStatus = LobbyRoleStatus.UnloadingDB;
+                LobbyRole role = roleKv.Value;
+                if (role.RoleStatus == LobbyRoleStatus.OffOnline)
+                {
+                    var lobbyRoleEntity = MongoEntityHelper.UnAttachData<LobbyRoleEntity>(role);
+                    self.Root().GetComponent<MongoAutoSaveComponent>().AddSaveEntity(lobbyRoleEntity);
+                    // 正在卸载
+                    role.RoleStatus = LobbyRoleStatus.UnloadingDB;
+                }
             }
+        }
+        catch (Exception e)
+        {
+            Log.Error(e);
         }
     }
 
 
     public static void CheckUnloadedDB(this LobbyRoleComponent self)
     {
-        List<long> unloadedIds = new List<long>();
-        foreach (var roleKv in self.OnlineRoles)
+        try
         {
-            LobbyRole role = roleKv.Value;
-            if (role.RoleStatus == LobbyRoleStatus.UnloadedDB)
+            List<long> unloadedIds = new List<long>();
+            foreach (var roleKv in self.OnlineRoles)
             {
-                unloadedIds.Add(role.RoleId);
+                LobbyRole role = roleKv.Value;
+                if (role.RoleStatus == LobbyRoleStatus.UnloadedDB)
+                {
+                    unloadedIds.Add(role.RoleId);
+                }
+            }
+        
+            foreach (var unloadId in unloadedIds)
+            {
+                if (self.OnlineRoles.Remove(unloadId, out var role))
+                {
+                    LobbyRole r = role;
+                    r.Dispose();
+                }
+
+                Log.Info($"玩家已经卸载 : {unloadId}");
             }
         }
-        
-        foreach (var unloadId in unloadedIds)
+        catch (Exception e)
         {
-            if (self.OnlineRoles.Remove(unloadId, out var role))
-            {
-                LobbyRole r = role;
-                r.Dispose();
-            }
-
-            Log.Info($"玩家已经卸载 : {unloadId}");
+            Log.Error(e);
         }
     }
     
