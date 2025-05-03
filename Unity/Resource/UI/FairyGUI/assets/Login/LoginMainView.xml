@@ -10,5 +10,6 @@
       <Button title="登录" selectedTitle="登录"/>
     </component>
     <text id="n3_cirq" name="loginField" xy="993,395" size="445,121" fontSize="50" align="center" autoSize="none" strokeColor="#000000" strokeSize="76" text="" input="true"/>
+    <image id="n4_w5fd" name="n4" src="w5fd2" fileName="image.png" xy="176,60" size="625,330"/>
   </displayList>
 </component>
