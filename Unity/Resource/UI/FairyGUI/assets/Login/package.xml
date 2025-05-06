@@ -5,5 +5,5 @@
     <component id="cirq1" name="LoginBtn.xml" path="/" exported="true"/>
     <image id="w5fd2" name="image.png" path="/" exported="true"/>
   </resources>
-  <publish name="Login"/>
+  <publish name="Login" genCode="true"/>
 </packageDescription>
