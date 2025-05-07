@@ -24,7 +24,7 @@ function genCode(handler) {
     if (settings.packageName)
         namespaceName = settings.packageName + '.' + namespaceName;
     let templateFileName = "ETComponent.template";
-    let codeTemplatePath = "/ETGenCodeUnity/template/Unity";
+    let codeTemplatePath = "/ETCodeGenerate/template/Unity";
     let templatePath = Utils_1.default.FormatStr("{0}{1}", csharp_1.FairyEditor.App.pluginManager.projectPluginFolder, codeTemplatePath);
     //CollectClasses(stripeMemeber, stripeClass, fguiNamespace)
     let classes = handler.CollectClasses(settings.ignoreNoname, settings.ignoreNoname, null);

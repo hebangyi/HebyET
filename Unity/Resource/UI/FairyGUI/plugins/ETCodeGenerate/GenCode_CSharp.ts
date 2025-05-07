@@ -27,7 +27,7 @@ function genCode(handler: FairyEditor.PublishHandler) {
         namespaceName = settings.packageName + '.' + namespaceName;
 
     let templateFileName = "ETComponent.template";
-    let codeTemplatePath = "/ETGenCodeUnity/template/Unity";
+    let codeTemplatePath = "/ETCodeGenerate/template/Unity";
     let templatePath = Utils.FormatStr("{0}{1}", FairyEditor.App.pluginManager.projectPluginFolder, codeTemplatePath);
 
     //CollectClasses(stripeMemeber, stripeClass, fguiNamespace)
@@ -43,7 +43,6 @@ function genCode(handler: FairyEditor.PublishHandler) {
     for (let i: number = 0; i < classCnt; i++) {
         let classInfo = classes.get_Item(i);
         let resUrl = Utils.FormatStr("ui://{0}/{1}", handler.pkg.name, classInfo.resName);
-
         let template = Utils.ReadTemplate(templateFileName, templatePath);
         let classContent = Utils.ReplaceAll(template, "{packageName}", namespaceName);
         classContent = Utils.ReplaceAll(classContent, "{className}", classInfo.className);
