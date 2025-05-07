@@ -3,8 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.genCode = genCode;
 const csharp_1 = require("csharp");
 const CodeWriter_1 = require("./CodeWriter");
+const Utils_1 = require("./Utils");
+const StringBuilder_1 = require("./StringBuilder");
 function genCode(handler) {
-    csharp_1.FairyEditor.App.Alert("start publish...");
     let settings = handler.project.GetSettings("Publish").codeGeneration;
     let codePkgName = handler.ToFilename(handler.pkg.name); //convert chinese to pinyin, remove special chars etc.
     let exportCodePath = handler.exportCodePath + '/' + codePkgName;
@@ -22,47 +23,39 @@ function genCode(handler) {
     }
     if (settings.packageName)
         namespaceName = settings.packageName + '.' + namespaceName;
+    let templateFileName = "ETComponent.template";
+    let codeTemplatePath = "/ETGenCodeUnity/template/Unity";
+    let templatePath = Utils_1.default.FormatStr("{0}{1}", csharp_1.FairyEditor.App.pluginManager.projectPluginFolder, codeTemplatePath);
     //CollectClasses(stripeMemeber, stripeClass, fguiNamespace)
     let classes = handler.CollectClasses(settings.ignoreNoname, settings.ignoreNoname, null);
     handler.SetupCodeFolder(exportCodePath, "cs"); //check if target folder exists, and delete old files
     let getMemberByName = settings.getMemberByName;
     let classCnt = classes.Count;
+    console.log("class count : ", classCnt);
     let writer = new CodeWriter_1.default();
     for (let i = 0; i < classCnt; i++) {
         let classInfo = classes.get_Item(i);
+        let resUrl = Utils_1.default.FormatStr("ui://{0}/{1}", handler.pkg.name, classInfo.resName);
+        let template = Utils_1.default.ReadTemplate(templateFileName, templatePath);
+        let classContent = Utils_1.default.ReplaceAll(template, "{packageName}", namespaceName);
+        classContent = Utils_1.default.ReplaceAll(classContent, "{className}", classInfo.className);
+        classContent = Utils_1.default.ReplaceAll(classContent, "{uiPkgName}", codePkgName);
+        classContent = Utils_1.default.ReplaceAll(classContent, "{uiResName}", classInfo.resName);
+        classContent = Utils_1.default.ReplaceAll(classContent, "{componentName}", classInfo.superClassName);
+        classContent = Utils_1.default.ReplaceAll(classContent, "{uiResURL}", resUrl);
+        let memberVarStr = new StringBuilder_1.default();
+        let memberContent = new StringBuilder_1.default();
+        let memberDispose = new StringBuilder_1.default();
         let members = classInfo.members;
-        writer.reset();
-        writer.writeln('using FairyGUI;');
-        writer.writeln('using FairyGUI.Utils;');
-        writer.writeln();
-        writer.writeln('namespace %s', namespaceName);
-        writer.startBlock();
-        writer.writeln('public partial class %s : %s', classInfo.className, classInfo.superClassName);
-        writer.startBlock();
         let memberCnt = members.Count;
         for (let j = 0; j < memberCnt; j++) {
             let memberInfo = members.get_Item(j);
-            writer.writeln('public %s %s;', memberInfo.type, memberInfo.varName);
-        }
-        writer.writeln('public const string URL = "ui://%s%s";', handler.pkg.id, classInfo.resId);
-        writer.writeln();
-        writer.writeln('public static %s CreateInstance()', classInfo.className);
-        writer.startBlock();
-        writer.writeln('return (%s)UIPackage.CreateObject("%s", "%s");', classInfo.className, handler.pkg.name, classInfo.resName);
-        writer.endBlock();
-        writer.writeln();
-        if (isMonoGame) {
-            writer.writeln("protected override void OnConstruct()");
-            writer.startBlock();
-        }
-        else {
-            writer.writeln('public override void ConstructFromXML(XML xml)');
-            writer.startBlock();
-            writer.writeln('base.ConstructFromXML(xml);');
-            writer.writeln();
-        }
-        for (let j = 0; j < memberCnt; j++) {
-            let memberInfo = members.get_Item(j);
+            let memberInfoType = memberInfo.type;
+            let memberInfoName = memberInfo.varName;
+            memberVarStr.Append("public " + memberInfoType + " " + memberInfoName);
+            memberVarStr.Append("\r\n");
+            writer.reset();
+            //变量赋值
             if (memberInfo.group == 0) {
                 if (getMemberByName)
                     writer.writeln('%s = (%s)GetChild("%s");', memberInfo.varName, memberInfo.type, memberInfo.name);
@@ -81,28 +74,29 @@ function genCode(handler) {
                 else
                     writer.writeln('%s = GetTransitionAt(%s);', memberInfo.varName, memberInfo.index);
             }
+            memberContent.Append(writer.toString());
+            memberContent.Append("\r\n");
+            // 变量清理
+            if (memberInfo.res != null) {
+                memberDispose.Append("\t\t\t");
+                memberDispose.Append(memberInfo.name + "?.Dispose();");
+                memberDispose.Append("\r\n");
+            }
+            memberDispose.Append("\t\t\t");
+            memberDispose.Append(memberInfo.name + " = null;");
+            memberDispose.Append("\r\n");
         }
-        writer.endBlock();
-        writer.endBlock(); //class
-        writer.endBlock(); //namepsace
-        writer.save(exportCodePath + '/' + classInfo.className + '.cs');
+        classContent = Utils_1.default.ReplaceAll(classContent, "{variable}", memberVarStr.ToString());
+        classContent = Utils_1.default.ReplaceAll(classContent, "{content}", memberContent.ToString());
+        classContent = Utils_1.default.ReplaceAll(classContent, "{dispose}", memberDispose.ToString());
+        let savePath = Utils_1.default.FormatStr("{0}/{1}.cs", exportCodePath, classInfo.className);
+        csharp_1.System.IO.File.WriteAllText(savePath, classContent);
     }
-    writer.reset();
-    let binderName = codePkgName + 'Binder';
-    writer.writeln('using FairyGUI;');
-    writer.writeln();
-    writer.writeln('namespace %s', namespaceName);
-    writer.startBlock();
-    writer.writeln('public class %s', binderName);
-    writer.startBlock();
-    writer.writeln('public static void BindAll()');
-    writer.startBlock();
-    for (let i = 0; i < classCnt; i++) {
-        let classInfo = classes.get_Item(i);
-        writer.writeln('UIObjectFactory.SetPackageItemExtension(%s.URL, typeof(%s));', classInfo.className, classInfo.className);
-    }
-    writer.endBlock(); //bindall
-    writer.endBlock(); //class
-    writer.endBlock(); //namespace
-    writer.save(exportCodePath + '/' + binderName + '.cs');
+    let packageTemplate = Utils_1.default.ReadTemplate("ETPackage.template", templatePath);
+    let packageContext = Utils_1.default.ReplaceAll(packageTemplate, "{thisPackageName}", "PKG_" + codePkgName);
+    packageContext = Utils_1.default.ReplaceAll(packageContext, "{namespace}", "ET.Client");
+    packageContext = Utils_1.default.ReplaceAll(packageContext, "{uiPkgName}", codePkgName);
+    packageContext = Utils_1.default.ReplaceAll(packageContext, "{urls}", "");
+    let packageSavePath = Utils_1.default.FormatStr("{0}/FUIPackage.cs", exportCodePath);
+    csharp_1.System.IO.File.WriteAllText(packageSavePath, packageContext);
 }

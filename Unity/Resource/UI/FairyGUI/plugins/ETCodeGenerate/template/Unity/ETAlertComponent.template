@@ -1,0 +1,123 @@
+//"--This is an automatically generated class by FairyGUIPlugin. Please do not modify it."
+
+using FairyGUI;
+using ETModel;
+using ETHotfix;
+
+namespace {packageName}
+{
+    [ObjectSystem]
+    public class {className}AwakeSystem : AwakeSystem<{className}, GObject>
+    {
+        public override void Awake({className} self, GObject go)
+        {
+            self.Awake(go);
+        }
+    }
+	
+	public sealed partial class {className} : FUIView
+	{	
+		public const string UIPackageName = "{uiPkgName}"; 
+		public const string UIResourceName = "{uiResName}";
+		public const string UIResURL = "{uiResURL}";
+		public const string FUIName = "{uiPkgName}_{uiResName}";
+		public event System.Action OnPreDisposeEvent;
+		
+		/// <summary>
+        /// {uiResName}的组件类型(GComponent、GButton、GProcessBar等)，它们都是GObject的子类。
+        /// </summary>
+		public {componentName} self;
+		
+{variable}
+
+		public static string ResName()
+		{			
+			return FUIName;
+		}
+
+		public static {className} GetView()
+        {
+            FUIComponent fuiComponent = Game.Scene.GetComponent<FUIComponent>();
+            string viewName = ResName();
+            {className} view = fuiComponent.GetView<{className}>(viewName);
+            return view;
+        }
+
+		public static {className} ShowView(bool showAnimation = true, object param = null)
+        {
+            GObject gobj = UIPackage.CreateObject(UIPackageName, UIResourceName);
+            FGUIFightView view = ComponentFactory.Create<FGUIFightView, GObject>(gobj);
+
+            FUIComponent fuiComponent = Game.Scene.GetComponent<FUIComponent>();
+            fuiComponent.Add(view, true);
+
+            FUIStackComponent uiStackComponent = Game.Scene.GetComponent<FUIStackComponent>();
+            uiStackComponent.Push(view);
+
+            view.OnOpen(showAnimation, param);
+            return view;
+        }
+					
+		public static T Get<T>(string name) where T : FUI
+        {
+            FUIComponent fuiComponent = Game.Scene.GetComponent<FUIComponent>();
+            string viewName = ResName();
+			return fuiComponent.GetFUI<T>(viewName, name);
+        }
+		
+        public static void AddChild<T>(T fui) where T : FUI
+        {
+			FUIComponent fuiComponent = Game.Scene.GetComponent<FUIComponent>();
+            string viewName = ResName();
+            {className} view = fuiComponent.GetView<{className}>(viewName);
+            view?.Add(fui, true);
+        }
+		
+		public static void RemoveChild(string name)
+        {
+           FUIComponent fuiComponent = Game.Scene.GetComponent<FUIComponent>();
+            string viewName = ResName();
+            {className} view = fuiComponent.GetView<{className}>(viewName);
+            view?.Remove(name);
+        }
+					
+		public void Awake(GObject go)
+		{
+			if(go == null)
+			{
+				return;
+			}
+			
+			SelfGObject = go;	
+			
+			if (string.IsNullOrWhiteSpace(Name))
+            {
+				Name = ResName();
+            }
+			
+			self = ({componentName})go;
+			
+			var com = go.asCom;
+				
+			if(com != null)
+			{	
+{content}
+			}
+		}
+		
+		public override void Dispose()
+		{
+			if(IsDisposed)
+			{
+				return;
+			}
+			
+			OnPreDisposeEvent?.Invoke();
+			OnPreDisposeEvent = null;
+			
+			self = null;
+{dispose}
+			base.Dispose();
+		}
+	}
+}

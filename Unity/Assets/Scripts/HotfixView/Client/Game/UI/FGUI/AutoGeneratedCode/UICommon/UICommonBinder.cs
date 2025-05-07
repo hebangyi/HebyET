@@ -8,6 +8,8 @@ namespace ET.UICommon
     {
         public static void BindAll()
         {
+            UIObjectFactory.SetPackageItemExtension(FGUILoginMainView.URL, typeof(FGUILoginMainView));
+            UIObjectFactory.SetPackageItemExtension(FGUITestMainView.URL, typeof(FGUITestMainView));
         }
     }
 }

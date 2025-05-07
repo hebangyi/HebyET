@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="2160,1080">
+  <displayList>
+    <component id="n1_cirq" name="loginBtn" src="cirq1" fileName="LoginBtn.xml" pkg="yn21ng5j" xy="914,809" size="300,100">
+      <relation target="" sidePair="width-width"/>
+      <Button title="登录" selectedTitle="登录"/>
+    </component>
+  </displayList>
+</component>

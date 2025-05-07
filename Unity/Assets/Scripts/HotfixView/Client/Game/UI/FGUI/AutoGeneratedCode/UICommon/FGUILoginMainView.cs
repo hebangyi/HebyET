@@ -3,17 +3,16 @@
 using FairyGUI;
 using FairyGUI.Utils;
 
-namespace ET.Login
+namespace ET.UICommon
 {
     public partial class FGUILoginMainView : GComponent
     {
         public GButton fgui_loginBtn;
-        public GTextInput fgui_loginField;
-        public const string URL = "ui://yn21ng5jcirq0";
+        public const string URL = "ui://y9rc4gocjrsx5";
 
         public static FGUILoginMainView CreateInstance()
         {
-            return (FGUILoginMainView)UIPackage.CreateObject("Login", "LoginMainView");
+            return (FGUILoginMainView)UIPackage.CreateObject("UICommon", "LoginMainView");
         }
 
         public override void ConstructFromXML(XML xml)
@@ -21,7 +20,6 @@ namespace ET.Login
             base.ConstructFromXML(xml);
 
             fgui_loginBtn = (GButton)GetChild("loginBtn");
-            fgui_loginField = (GTextInput)GetChild("loginField");
         }
     }
 }
