@@ -13,7 +13,7 @@ namespace ET.Client
         
         //// 组件变量
 		public GTextInput fgui_testName;
-		public GButton fgui_loginBtn;
+		public FGUILoginBtn fgui_loginBtn;
 		public GTextInput fgui_loginField;
 		public GComponent fgui_headIcon;
 
