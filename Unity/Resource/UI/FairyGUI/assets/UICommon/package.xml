@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <packageDescription id="y9rc4goc">
-  <resources>
-    <component id="k1qk3" name="TestMainView.xml" path="/" exported="true"/>
-    <component id="jrsx4" name="Button1.xml" path="/"/>
-    <component id="jrsx5" name="LoginMainView.xml" path="/" exported="true"/>
-  </resources>
+  <resources/>
   <publish name="UICommon" genCode="true"/>
 </packageDescription>
