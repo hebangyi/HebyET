@@ -74,7 +74,7 @@ function genComponentSystem(handler) {
     let templateFileName = "ETComponentSystem.template";
     let codeTemplatePath = "/ETCodeGenerate/template/Unity";
     let templatePath = Utils_1.default.FormatStr("{0}{1}", csharp_1.FairyEditor.App.pluginManager.projectPluginFolder, codeTemplatePath);
-    let classes = handler.CollectClasses(settings.ignoreNoname, settings.ignoreNoname, null);
+    let classes = handler.CollectClasses(null, null, null);
     let classCnt = classes.Count;
     let getMemberByName = settings.getMemberByName;
     for (let i = 0; i < classCnt; i++) {

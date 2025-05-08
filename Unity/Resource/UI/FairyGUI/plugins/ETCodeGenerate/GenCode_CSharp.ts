@@ -91,7 +91,7 @@ function genComponentSystem(handler: FairyEditor.PublishHandler) {
     let templateFileName = "ETComponentSystem.template";
     let codeTemplatePath = "/ETCodeGenerate/template/Unity";
     let templatePath = Utils.FormatStr("{0}{1}", FairyEditor.App.pluginManager.projectPluginFolder, codeTemplatePath);
-    let classes = handler.CollectClasses(settings.ignoreNoname, settings.ignoreNoname, null);
+    let classes = handler.CollectClasses(null, null, null);
     let classCnt = classes.Count;
     let getMemberByName = settings.getMemberByName;
 
