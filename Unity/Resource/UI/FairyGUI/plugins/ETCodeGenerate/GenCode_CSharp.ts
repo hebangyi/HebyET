@@ -113,7 +113,6 @@ function genComponentSystem(handler: FairyEditor.PublishHandler) {
         for (let j = 0; j < memberCnt; j++) {
             let memberInfo = members.get_Item(j);
             memberContent.Append("\t\t\t");
-            console.log(Utils.FormatStr('self.{0} = ({1})com.GetChild("{2}");',memberInfo.varName, memberInfo.type, memberInfo.name))
             //变量赋值
             if (memberInfo.group == 0) {
                 if (getMemberByName)
@@ -153,6 +152,19 @@ function genComponentSystem(handler: FairyEditor.PublishHandler) {
         let componentSavePath = Utils.FormatStr("{0}/{1}System.cs", exportCodePath, classInfo.className);
         System.IO.File.WriteAllText(componentSavePath, classContent);
     }
+}
+
+
+function isExportMemberClass(handler: FairyEditor.PublishHandler, className: string) {
+    let classes = handler.CollectClasses(false, false, null);
+    let classCnt = classes.Count;
+    for (let m = 0; m < classCnt; m++) {
+        let classInfo = classes.get_Item(m);
+        if (classInfo.className === className) {
+          return true;
+        }
+    }
+    return false;
 }
 
 export { genCode };
