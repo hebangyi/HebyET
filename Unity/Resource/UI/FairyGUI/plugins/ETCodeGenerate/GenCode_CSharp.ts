@@ -64,28 +64,30 @@ function genCode(handler: FairyEditor.PublishHandler) {
             let memberInfoType = memberInfo.type
             let memberInfoName = memberInfo.varName
 
+            memberVarStr.Append("\t\t");
             memberVarStr.Append("public " + memberInfoType + " " + memberInfoName);
             memberVarStr.Append("\r\n");
 
             writer.reset();
+            writer.writeln("\t\t\t\t");
             //变量赋值
             if (memberInfo.group == 0) {
                 if (getMemberByName)
-                    writer.writeln('%s = (%s)GetChild("%s");', memberInfo.varName, memberInfo.type, memberInfo.name);
+                    writer.writeln('%s = (%s)com.GetChild("%s");', memberInfo.varName, memberInfo.type, memberInfo.name);
                 else
-                    writer.writeln('%s = (%s)GetChildAt(%s);', memberInfo.varName, memberInfo.type, memberInfo.index);
+                    writer.writeln('%s = (%s)com.GetChildAt(%s);', memberInfo.varName, memberInfo.type, memberInfo.index);
             }
             else if (memberInfo.group == 1) {
                 if (getMemberByName)
-                    writer.writeln('%s = GetController("%s");', memberInfo.varName, memberInfo.name);
+                    writer.writeln('%s = com.GetController("%s");', memberInfo.varName, memberInfo.name);
                 else
-                    writer.writeln('%s = GetControllerAt(%s);', memberInfo.varName, memberInfo.index);
+                    writer.writeln('%s = com.GetControllerAt(%s);', memberInfo.varName, memberInfo.index);
             }
             else {
                 if (getMemberByName)
-                    writer.writeln('%s = GetTransition("%s");', memberInfo.varName, memberInfo.name);
+                    writer.writeln('%s = com.GetTransition("%s");', memberInfo.varName, memberInfo.name);
                 else
-                    writer.writeln('%s = GetTransitionAt(%s);', memberInfo.varName, memberInfo.index);
+                    writer.writeln('%s = com.GetTransitionAt(%s);', memberInfo.varName, memberInfo.index);
             }
             memberContent.Append(writer.toString());
             memberContent.Append("\r\n");
@@ -93,12 +95,12 @@ function genCode(handler: FairyEditor.PublishHandler) {
             // 变量清理
             if (memberInfo.res != null) {
                 memberDispose.Append("\t\t\t");
-                memberDispose.Append(memberInfo.name + "?.Dispose();");
+                memberDispose.Append(memberInfo.varName + "?.Dispose();");
                 memberDispose.Append("\r\n");
             }
 
             memberDispose.Append("\t\t\t");
-            memberDispose.Append(memberInfo.name + " = null;");
+            memberDispose.Append(memberInfo.varName + " = null;");
             memberDispose.Append("\r\n");
         }
 

@@ -26,11 +26,11 @@ namespace ET.Login
         /// </summary>
         public GComponent self;
 
-public GButton fgui_loginBtn
-public GTextInput fgui_loginField
 
+		public GButton fgui_loginBtn
 
-{ctrlcontent}
+		public GTextInput fgui_loginField
+
 
         static FGUILoginMainView()
         {

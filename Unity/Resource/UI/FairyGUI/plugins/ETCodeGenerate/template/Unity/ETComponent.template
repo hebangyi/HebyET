@@ -28,8 +28,6 @@ namespace {packageName}
 
 {variable}
 
-{ctrlcontent}
-
         static {className}()
         {
             _subTypeUINameDic[typeof({className})] = (UIPackageName, UIResourceName);
