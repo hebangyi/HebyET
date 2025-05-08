@@ -15,7 +15,7 @@ namespace ET.Client
 		public GTextInput fgui_testName;
 		public GButton fgui_loginBtn;
 		public GTextInput fgui_loginField;
-		public GImage fgui_testImage;
+		public GComponent fgui_headIcon;
 
 
     }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <packageDescription id="y9rc4goc">
-  <resources/>
+  <resources>
+    <component id="pn750" name="UICommonIcon.xml" path="/" exported="true"/>
+  </resources>
   <publish name="UICommon" genCode="true"/>
 </packageDescription>

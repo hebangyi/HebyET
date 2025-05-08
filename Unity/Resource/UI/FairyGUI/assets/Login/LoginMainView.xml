@@ -10,6 +10,6 @@
       <Button title="登录" selectedTitle="登录"/>
     </component>
     <text id="n3_cirq" name="loginField" xy="993,395" size="445,121" fontSize="50" align="center" autoSize="none" strokeColor="#000000" strokeSize="76" text="" input="true"/>
-    <image id="n4_w5fd" name="testImage" src="w5fd2" fileName="image.png" xy="91,57" size="625,330"/>
+    <component id="n5_pn75" name="headIcon" src="pn750" fileName="UICommonIcon.xml" pkg="y9rc4goc" xy="88,64"/>
   </displayList>
 </component>
