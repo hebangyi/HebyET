@@ -2,7 +2,7 @@
 using ETModel;
 using FairyGUI;
 
-namespace ET.ET.Client
+namespace ET.Client
 {
     [ObjectSystem]
     public class FGUILoginMainViewAwakeSystem : AwakeSystem<FGUILoginMainView, GObject>
@@ -13,7 +13,7 @@ namespace ET.ET.Client
         }
     }
 
-    public sealed class FGUILoginMainView : FUI
+    public class FGUILoginMainView: Entity, IAwake<GObject go>, IDestroy
     {
         public const string UIPackageName = "UICommon";
         public const string UIResourceName = "LoginMainView";
@@ -26,12 +26,12 @@ namespace ET.ET.Client
         /// </summary>
         public GComponent self;
 
-		public GButton fgui_loginBtn;l
+		public GButton fgui_loginBtn;
 
 
         static FGUILoginMainView()
         {
-            _subTypeUINameDic[typeof(FGUILoginMainView)] = (UIPackageName, UIResourceName);
+            // _subTypeUINameDic[typeof(FGUILoginMainView)] = (UIPackageName, UIResourceName);
         }
 
         private static GObject CreateGObject()

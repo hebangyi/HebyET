@@ -64,7 +64,7 @@ function genCode(handler: FairyEditor.PublishHandler) {
             let memberInfoName = memberInfo.varName
 
             memberVarStr.Append("\t\t");
-            memberVarStr.Append("public " + memberInfoType + " " + memberInfoName + ";l");
+            memberVarStr.Append("public " + memberInfoType + " " + memberInfoName + ";");
             memberVarStr.Append("\r\n");
 
             memberContent.Append("\t\t\t\t");

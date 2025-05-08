@@ -2,7 +2,7 @@
 using ETModel;
 using FairyGUI;
 
-namespace {packageName}
+namespace ET.Client
 {
     [ObjectSystem]
     public class {className}AwakeSystem : AwakeSystem<{className}, GObject>
@@ -13,7 +13,7 @@ namespace {packageName}
         }
     }
 
-    public sealed class {className} : FUI
+    public class {className}: Entity, IAwake<GObject go>, IDestroy
     {
         public const string UIPackageName = "{uiPkgName}";
         public const string UIResourceName = "{uiResName}";
@@ -30,7 +30,7 @@ namespace {packageName}
 
         static {className}()
         {
-            _subTypeUINameDic[typeof({className})] = (UIPackageName, UIResourceName);
+            // _subTypeUINameDic[typeof({className})] = (UIPackageName, UIResourceName);
         }
 
         private static GObject CreateGObject()
