@@ -36,7 +36,7 @@ function genComponent(handler) {
     let codeTemplatePath = "/ETCodeGenerate/template/Unity";
     let templatePath = Utils_1.default.FormatStr("{0}{1}", csharp_1.FairyEditor.App.pluginManager.projectPluginFolder, codeTemplatePath);
     //CollectClasses(stripeMemeber, stripeClass, fguiNamespace)
-    let classes = handler.CollectClasses(null, null, null);
+    let classes = handler.CollectClasses(null, true, null);
     handler.SetupCodeFolder(exportCodePath, "cs"); //check if target folder exists, and delete old files
     let getMemberByName = settings.getMemberByName;
     let classCnt = classes.Count;
@@ -74,7 +74,7 @@ function genComponentSystem(handler) {
     let templateFileName = "ETComponentSystem.template";
     let codeTemplatePath = "/ETCodeGenerate/template/Unity";
     let templatePath = Utils_1.default.FormatStr("{0}{1}", csharp_1.FairyEditor.App.pluginManager.projectPluginFolder, codeTemplatePath);
-    let classes = handler.CollectClasses(null, null, null);
+    let classes = handler.CollectClasses(null, true, null);
     let classCnt = classes.Count;
     let getMemberByName = settings.getMemberByName;
     for (let i = 0; i < classCnt; i++) {
