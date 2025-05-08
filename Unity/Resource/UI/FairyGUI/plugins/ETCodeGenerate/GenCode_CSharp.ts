@@ -44,7 +44,7 @@ function genComponent(handler: FairyEditor.PublishHandler) {
     
 
     //CollectClasses(stripeMemeber, stripeClass, fguiNamespace)
-    let classes = handler.CollectClasses(settings.ignoreNoname, settings.ignoreNoname, null);
+    let classes = handler.CollectClasses(null, null, null);
     handler.SetupCodeFolder(exportCodePath, "cs"); //check if target folder exists, and delete old files
 
     let getMemberByName = settings.getMemberByName;
