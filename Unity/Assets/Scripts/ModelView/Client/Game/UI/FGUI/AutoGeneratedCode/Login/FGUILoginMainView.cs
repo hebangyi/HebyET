@@ -12,8 +12,10 @@ namespace ET.Client
         public const String FUIName = "Login_LoginMainView";
         
         //// 组件变量
+		public GTextInput fgui_testName;
 		public GButton fgui_loginBtn;
 		public GTextInput fgui_loginField;
+		public GImage fgui_testImage;
 
 
     }

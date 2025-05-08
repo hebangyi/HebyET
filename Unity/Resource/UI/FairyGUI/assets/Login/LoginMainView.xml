@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="2160,1080">
   <displayList>
-    <text id="n0_cirq" name="n0" xy="806,451" pivot="0.5,0.5" anchor="true" size="244,114" fontSize="50" align="center" autoSize="none" text="用户名" input="true">
+    <text id="n0_cirq" name="testName" xy="806,451" pivot="0.5,0.5" anchor="true" size="244,114" fontSize="50" align="center" autoSize="none" text="用户名" input="true">
       <relation target="" sidePair="center-center,middle-middle"/>
       <relation target="n1_cirq" sidePair=""/>
     </text>
@@ -10,6 +10,6 @@
       <Button title="登录" selectedTitle="登录"/>
     </component>
     <text id="n3_cirq" name="loginField" xy="993,395" size="445,121" fontSize="50" align="center" autoSize="none" strokeColor="#000000" strokeSize="76" text="" input="true"/>
-    <image id="n4_w5fd" name="n4" src="w5fd2" fileName="image.png" xy="91,57" size="625,330"/>
+    <image id="n4_w5fd" name="testImage" src="w5fd2" fileName="image.png" xy="91,57" size="625,330"/>
   </displayList>
 </component>
