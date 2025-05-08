@@ -10,8 +10,8 @@ namespace ET.Client
         public const String UIResourceName = "{uiResName}";
         public const String UIResURL = "{uiResURL}";
         public const String FUIName = "{uiPkgName}_{uiResName}";
-        public System.Action<{className}> OnPreDisposeEvent;
-//// 组件变量
+        
+        //// 组件变量
 {variable}
 
     }
