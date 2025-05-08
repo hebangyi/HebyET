@@ -5,7 +5,7 @@ using FairyGUI;
 
 namespace ET.Client
 {
-    [EntitySystemOf(typeof{className})]
+    [EntitySystemOf(typeof({className}))]
     public static class {className}System
     {
         [EntitySystem]
