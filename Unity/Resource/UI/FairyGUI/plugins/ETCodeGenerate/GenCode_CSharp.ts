@@ -37,6 +37,7 @@ function genComponent(handler: FairyEditor.PublishHandler) {
     let codePkgName = handler.ToFilename(handler.pkg.name);
     let settings = (<FairyEditor.GlobalPublishSettings>handler.project.GetSettings("Publish")).codeGeneration;
     let exportCodePath = handler.exportCodePath + '/' + codePkgName;
+    exportCodePath = Utils.ReplaceAll(exportCodePath,"HotfixView","ModelView")
     let templateFileName = "ETComponent.template";
     let codeTemplatePath = "/ETCodeGenerate/template/Unity";
     let templatePath = Utils.FormatStr("{0}{1}", FairyEditor.App.pluginManager.projectPluginFolder, codeTemplatePath);
@@ -86,6 +87,7 @@ function genComponentSystem(handler: FairyEditor.PublishHandler) {
     let codePkgName = handler.ToFilename(handler.pkg.name);
     let settings = (<FairyEditor.GlobalPublishSettings>handler.project.GetSettings("Publish")).codeGeneration;
     let exportCodePath = handler.exportCodePath + '/' + codePkgName;
+
     let templateFileName = "ETComponentSystem.template";
     let codeTemplatePath = "/ETCodeGenerate/template/Unity";
     let templatePath = Utils.FormatStr("{0}{1}", FairyEditor.App.pluginManager.projectPluginFolder, codeTemplatePath);

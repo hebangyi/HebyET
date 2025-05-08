@@ -31,6 +31,7 @@ function genComponent(handler) {
     let codePkgName = handler.ToFilename(handler.pkg.name);
     let settings = handler.project.GetSettings("Publish").codeGeneration;
     let exportCodePath = handler.exportCodePath + '/' + codePkgName;
+    exportCodePath = Utils_1.default.ReplaceAll(exportCodePath, "HotfixView", "ModelView");
     let templateFileName = "ETComponent.template";
     let codeTemplatePath = "/ETCodeGenerate/template/Unity";
     let templatePath = Utils_1.default.FormatStr("{0}{1}", csharp_1.FairyEditor.App.pluginManager.projectPluginFolder, codeTemplatePath);
