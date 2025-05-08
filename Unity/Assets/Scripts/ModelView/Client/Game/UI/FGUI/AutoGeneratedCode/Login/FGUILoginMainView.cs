@@ -10,8 +10,8 @@ namespace ET.Client
         public const String UIResourceName = "LoginMainView";
         public const String UIResURL = "ui://Login/LoginMainView";
         public const String FUIName = "Login_LoginMainView";
-        public System.Action<FGUILoginMainView> OnPreDisposeEvent;
-//// 组件变量
+        
+        //// 组件变量
 		public GButton fgui_loginBtn;
 		public GTextInput fgui_loginField;
 

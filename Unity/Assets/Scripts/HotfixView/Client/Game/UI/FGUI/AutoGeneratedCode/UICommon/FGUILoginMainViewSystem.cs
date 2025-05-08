@@ -1,12 +1,11 @@
 //"--This is an automatically generated class by FairyGUIPlugin. Please do not modify it."
-using ETModel;
 using FairyGUI;
 
 
 namespace ET.Client
 {
     [EntitySystemOf(typeof(FGUILoginMainView))]
-    public static class FGUILoginMainViewSystem
+    public static partial class FGUILoginMainViewSystem
     {
         [EntitySystem]
         private static void Awake(this FGUILoginMainView self, FairyGUI.GObject go)

@@ -10,8 +10,8 @@ namespace ET.Client
         public const String UIResourceName = "TestMainView";
         public const String UIResURL = "ui://UICommon/TestMainView";
         public const String FUIName = "UICommon_TestMainView";
-        public System.Action<FGUITestMainView> OnPreDisposeEvent;
-//// 组件变量
+        
+        //// 组件变量
 		public GButton fgui_Test;
 
 
