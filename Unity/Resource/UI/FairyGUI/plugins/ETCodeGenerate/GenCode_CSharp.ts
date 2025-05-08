@@ -113,6 +113,7 @@ function genComponentSystem(handler: FairyEditor.PublishHandler) {
         for (let j = 0; j < memberCnt; j++) {
             let memberInfo = members.get_Item(j);
             memberContent.Append("\t\t\t");
+            console.log(Utils.FormatStr('self.{0} = ({1})com.GetChild("{2}");',memberInfo.varName, memberInfo.type, memberInfo.name))
             //变量赋值
             if (memberInfo.group == 0) {
                 if (getMemberByName)
