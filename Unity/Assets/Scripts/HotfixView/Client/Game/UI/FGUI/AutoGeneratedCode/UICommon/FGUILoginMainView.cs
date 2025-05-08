@@ -2,7 +2,7 @@
 using ETModel;
 using FairyGUI;
 
-namespace ET.UICommon
+namespace ET.ET.Client
 {
     [ObjectSystem]
     public class FGUILoginMainViewAwakeSystem : AwakeSystem<FGUILoginMainView, GObject>
@@ -26,8 +26,7 @@ namespace ET.UICommon
         /// </summary>
         public GComponent self;
 
-
-		public GButton fgui_loginBtn
+		public GButton fgui_loginBtn;l
 
 
         static FGUILoginMainView()
@@ -117,9 +116,7 @@ namespace ET.UICommon
 
             if (com != null)
             {
-/** This is an automatically generated class by FairyGUI. Please do not modify it. **/
-
-fgui_loginBtn = (GButton)GetChild("loginBtn");
+				fgui_loginBtn = (GButton)com.GetChild("loginBtn");
 
             }
         }
@@ -135,8 +132,8 @@ fgui_loginBtn = (GButton)GetChild("loginBtn");
 
             self.Remove();
             self = null;
-			loginBtn?.Dispose();
-			loginBtn = null;
+			fgui_loginBtn?.Dispose();
+			fgui_loginBtn = null;
 
             base.Dispose();
         }

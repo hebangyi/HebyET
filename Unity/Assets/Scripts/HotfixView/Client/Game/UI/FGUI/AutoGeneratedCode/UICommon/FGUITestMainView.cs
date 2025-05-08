@@ -2,7 +2,7 @@
 using ETModel;
 using FairyGUI;
 
-namespace ET.UICommon
+namespace ET.ET.Client
 {
     [ObjectSystem]
     public class FGUITestMainViewAwakeSystem : AwakeSystem<FGUITestMainView, GObject>
@@ -26,8 +26,7 @@ namespace ET.UICommon
         /// </summary>
         public GComponent self;
 
-
-		public GButton fgui_Test
+		public GButton fgui_Test;l
 
 
         static FGUITestMainView()
@@ -117,9 +116,7 @@ namespace ET.UICommon
 
             if (com != null)
             {
-/** This is an automatically generated class by FairyGUI. Please do not modify it. **/
-
-fgui_Test = (GButton)GetChild("Test");
+				fgui_Test = (GButton)com.GetChild("Test");
 
             }
         }
@@ -135,8 +132,8 @@ fgui_Test = (GButton)GetChild("Test");
 
             self.Remove();
             self = null;
-			Test?.Dispose();
-			Test = null;
+			fgui_Test?.Dispose();
+			fgui_Test = null;
 
             base.Dispose();
         }

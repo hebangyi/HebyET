@@ -8,7 +8,7 @@ function genCode(handler: FairyEditor.PublishHandler) {
     let settings = (<FairyEditor.GlobalPublishSettings>handler.project.GetSettings("Publish")).codeGeneration;
     let codePkgName = handler.ToFilename(handler.pkg.name); //convert chinese to pinyin, remove special chars etc.
     let exportCodePath = handler.exportCodePath + '/' + codePkgName;
-    let namespaceName = codePkgName;
+    let namespaceName = "ET.Client";
     let isMonoGame = handler.project.type == FairyEditor.ProjectType.MonoGame;
 
     //不是字母和数字
@@ -39,7 +39,6 @@ function genCode(handler: FairyEditor.PublishHandler) {
     let classCnt = classes.Count;
     console.log("class count : ", classCnt)
 
-    let writer = new CodeWriter();
     for (let i: number = 0; i < classCnt; i++) {
         let classInfo = classes.get_Item(i);
         let resUrl = Utils.FormatStr("ui://{0}/{1}", handler.pkg.name, classInfo.resName);
@@ -65,31 +64,29 @@ function genCode(handler: FairyEditor.PublishHandler) {
             let memberInfoName = memberInfo.varName
 
             memberVarStr.Append("\t\t");
-            memberVarStr.Append("public " + memberInfoType + " " + memberInfoName);
+            memberVarStr.Append("public " + memberInfoType + " " + memberInfoName + ";l");
             memberVarStr.Append("\r\n");
 
-            writer.reset();
-            writer.writeln("\t\t\t\t");
+            memberContent.Append("\t\t\t\t");
             //变量赋值
             if (memberInfo.group == 0) {
                 if (getMemberByName)
-                    writer.writeln('%s = (%s)com.GetChild("%s");', memberInfo.varName, memberInfo.type, memberInfo.name);
+                    memberContent.Append(Utils.FormatStr('{0} = ({1})com.GetChild("{2}");',memberInfo.varName, memberInfo.type, memberInfo.name))
                 else
-                    writer.writeln('%s = (%s)com.GetChildAt(%s);', memberInfo.varName, memberInfo.type, memberInfo.index);
+                    memberContent.Append(Utils.FormatStr('{0} = ({1})com.GetChildAt({2});',memberInfo.varName, memberInfo.type, memberInfo.index.toString()))
             }
             else if (memberInfo.group == 1) {
                 if (getMemberByName)
-                    writer.writeln('%s = com.GetController("%s");', memberInfo.varName, memberInfo.name);
+                    memberContent.Append(Utils.FormatStr('{0} = com.GetController("{1}");',memberInfo.varName, memberInfo.name))
                 else
-                    writer.writeln('%s = com.GetControllerAt(%s);', memberInfo.varName, memberInfo.index);
+                    memberContent.Append(Utils.FormatStr('{0} = com.GetControllerAt({1});',memberInfo.varName, memberInfo.index.toString()))
             }
             else {
                 if (getMemberByName)
-                    writer.writeln('%s = com.GetTransition("%s");', memberInfo.varName, memberInfo.name);
+                    memberContent.Append(Utils.FormatStr('{0} = com.GetTransition("{1}");',memberInfo.varName, memberInfo.name))
                 else
-                    writer.writeln('%s = com.GetTransitionAt(%s);', memberInfo.varName, memberInfo.index);
+                    memberContent.Append(Utils.FormatStr('{0} = com.GetTransitionAt({1});',memberInfo.varName, memberInfo.index.toString()))
             }
-            memberContent.Append(writer.toString());
             memberContent.Append("\r\n");
 
             // 变量清理
