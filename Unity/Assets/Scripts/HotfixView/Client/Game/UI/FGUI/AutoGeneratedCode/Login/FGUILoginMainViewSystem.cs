@@ -1,12 +1,11 @@
 //"--This is an automatically generated class by FairyGUIPlugin. Please do not modify it."
-using ETModel;
 using FairyGUI;
 
 
 namespace ET.Client
 {
-    [EntitySystemOf(typeofFGUILoginMainView)]
-    public static class FGUILoginMainViewSystem
+    [EntitySystemOf(typeof(FGUILoginMainView))]
+    public static partial class FGUILoginMainViewSystem
     {
         [EntitySystem]
         public static void Awake(this FGUILoginMainView self, FairyGUI.GObject go)
@@ -32,15 +31,15 @@ namespace ET.Client
 
         }
 		
-		public static GObject CreateGObject(this FGUILoginMainView self)
-		{
-			return UIPackage.CreateObject(self.UIPackageName, self.UIResourceName);
-		} 
+		// public static GObject CreateGObject(this FGUILoginMainView self)
+		// {
+		// 	return UIPackage.CreateObject(self.UIPackageName, self.UIResourceName);
+		// } 
 
-        public static void CreateGObjectAsync(this FGUILoginMainView self, UIPackage.CreateObjectCallback result)
-		{
-			UIPackage.CreateObjectAsync(self.UIPackageName, self.UIResourceName, result);
-		}
+        // public static void CreateGObjectAsync(this FGUILoginMainView self, UIPackage.CreateObjectCallback result)
+		// {
+		// 	UIPackage.CreateObjectAsync(self.UIPackageName, self.UIResourceName, result);
+		// }
     }
 }
 
