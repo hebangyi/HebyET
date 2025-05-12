@@ -155,16 +155,23 @@ function genComponentSystem(handler: FairyEditor.PublishHandler) {
 }
 
 
-function isExportMemberClass(handler: FairyEditor.PublishHandler, className: string) {
+enum ExportClassType
+{
+    Normal = 0,
+    ExportMemeber = 1,
+}
+
+function isMemberClassType(handler: FairyEditor.PublishHandler, className: string) : ExportClassType
+{
     let classes = handler.CollectClasses(false, false, null);
     let classCnt = classes.Count;
     for (let m = 0; m < classCnt; m++) {
         let classInfo = classes.get_Item(m);
         if (classInfo.className === className) {
-          return true;
+          return ExportClassType.ExportMemeber;
         }
     }
-    return false;
+    return ExportClassType.Normal;
 }
 
 export { genCode };
