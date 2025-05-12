@@ -5,10 +5,14 @@ using FairyGUI;
 namespace ET.Client
 {
 	[ChildOf]
-    public class {className}: FGUI, IAwake<GObject>, IDestroy
+    public class FGUILoginBtn1: FGUI, IAwake<GObject>, IDestroy
     {   
         //// 组件变量
-{variable}
+		public Controller fgui_button;
+		public GGraph fgui_n0;
+		public GGraph fgui_n1;
+		public GGraph fgui_n2;
+
 
     }
 }

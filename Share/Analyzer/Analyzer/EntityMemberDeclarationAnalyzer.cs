@@ -23,25 +23,25 @@ namespace ET.Analyzer
             }
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.EnableConcurrentExecution();
-            context.RegisterCompilationStartAction((analysisContext =>
+            /*context.RegisterCompilationStartAction((analysisContext =>
             {
                 if (AnalyzerHelper.IsAssemblyNeedAnalyze(analysisContext.Compilation.AssemblyName,AnalyzeAssembly.AllModel))
                 {
                     analysisContext.RegisterSemanticModelAction((this.AnalyzeSemanticModel));
                 }
-            } ));
+            } ));*/
         }
         
         private void AnalyzeSemanticModel(SemanticModelAnalysisContext analysisContext)
         {
-            foreach (var classDeclarationSyntax in analysisContext.SemanticModel.SyntaxTree.GetRoot().DescendantNodes<ClassDeclarationSyntax>())
+            /*foreach (var classDeclarationSyntax in analysisContext.SemanticModel.SyntaxTree.GetRoot().DescendantNodes<ClassDeclarationSyntax>())
             {
                 var classTypeSymbol = analysisContext.SemanticModel.GetDeclaredSymbol(classDeclarationSyntax);
                 if (classTypeSymbol!=null)
                 {
                     Analyzer(analysisContext, classTypeSymbol);
                 }
-            }
+            }*/
         }
 
         private void Analyzer(SemanticModelAnalysisContext context, INamedTypeSymbol namedTypeSymbol)

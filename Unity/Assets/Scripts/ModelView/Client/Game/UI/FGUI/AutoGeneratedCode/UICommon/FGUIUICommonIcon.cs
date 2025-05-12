@@ -4,13 +4,9 @@ using FairyGUI;
 
 namespace ET.Client
 {
-    public class FGUIUICommonIcon: Entity, IAwake<GObject>, IDestroy
-    {
-        public const String UIPackageName = "UICommon";
-        public const String UIResourceName = "UICommonIcon";
-        public const String UIResURL = "ui://UICommon/UICommonIcon";
-        public const String FUIName = "UICommon_UICommonIcon";
-        
+	[ChildOf]
+    public class FGUIUICommonIcon: FGUI, IAwake<GObject>, IDestroy
+    {   
         //// 组件变量
 		public GImage fgui_n0;
 

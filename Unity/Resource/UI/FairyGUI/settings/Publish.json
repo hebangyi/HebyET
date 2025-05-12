@@ -13,7 +13,7 @@
     "classNamePrefix": "FGUI",
     "memberNamePrefix": "fgui_",
     "packageName": "ET",
-    "ignoreNoname": true,
+    "ignoreNoname": false,
     "getMemberByName": true,
     "codeType": ""
   },

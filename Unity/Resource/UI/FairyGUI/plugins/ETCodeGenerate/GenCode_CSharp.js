@@ -39,6 +39,7 @@ function genComponent(handler) {
     let classes = handler.CollectClasses(false, false, null);
     handler.SetupCodeFolder(exportCodePath, "cs"); //check if target folder exists, and delete old files
     let getMemberByName = settings.getMemberByName;
+    // System.IO.File.Delete(exportCodePath)
     let classCnt = classes.Count;
     for (let i = 0; i < classCnt; i++) {
         let classInfo = classes.get_Item(i);
@@ -54,7 +55,8 @@ function genComponent(handler) {
         let memberCnt = members.Count;
         for (let j = 0; j < memberCnt; j++) {
             let memberInfo = members.get_Item(j);
-            let memberInfoType = memberInfo.type;
+            let [typeEnum, typeName] = ClassExportDefine(settings, memberInfo);
+            let memberInfoType = typeName;
             let memberInfoName = memberInfo.varName;
             memberVarStr.Append("\t\t");
             memberVarStr.Append("public " + memberInfoType + " " + memberInfoName + ";");
@@ -77,6 +79,7 @@ function genComponentSystem(handler) {
     let classes = handler.CollectClasses(false, false, null);
     let classCnt = classes.Count;
     let getMemberByName = settings.getMemberByName;
+    // System.IO.File.Delete(exportCodePath)
     for (let i = 0; i < classCnt; i++) {
         let classInfo = classes.get_Item(i);
         let resUrl = Utils_1.default.FormatStr("ui://{0}/{1}", handler.pkg.name, classInfo.resName);
@@ -92,14 +95,26 @@ function genComponentSystem(handler) {
         let memberCnt = members.Count;
         for (let j = 0; j < memberCnt; j++) {
             let memberInfo = members.get_Item(j);
+            let [typeEnum, typeName] = ClassExportDefine(settings, memberInfo);
             memberContent.Append("\t\t\t");
-            console.log(Utils_1.default.FormatStr('self.{0} = ({1})com.GetChild("{2}");', memberInfo.varName, memberInfo.type, memberInfo.name));
             //变量赋值
             if (memberInfo.group == 0) {
-                if (getMemberByName)
-                    memberContent.Append(Utils_1.default.FormatStr('self.{0} = ({1})com.GetChild("{2}");', memberInfo.varName, memberInfo.type, memberInfo.name));
-                else
-                    memberContent.Append(Utils_1.default.FormatStr('self.{0} = ({1})com.GetChildAt({2});', memberInfo.varName, memberInfo.type, memberInfo.index.toString()));
+                if (getMemberByName) {
+                    if (typeEnum == ExportClassType.Normal) {
+                        memberContent.Append(Utils_1.default.FormatStr('self.{0} = ({1})com.GetChild("{2}");', memberInfo.varName, memberInfo.type, memberInfo.name));
+                    }
+                    else {
+                        memberContent.Append(Utils_1.default.FormatStr('self.{0} = self.AddChild<{1},GObject>(com.GetChild("{2}"));', memberInfo.varName, typeName, memberInfo.name));
+                    }
+                }
+                else {
+                    if (typeEnum == ExportClassType.Normal) {
+                        memberContent.Append(Utils_1.default.FormatStr('self.{0} = ({1})com.GetChildAt({2});', memberInfo.varName, memberInfo.type, memberInfo.index.toString()));
+                    }
+                    else {
+                        memberContent.Append(Utils_1.default.FormatStr('self.{0} = self.AddChild<{1},GObject>(com.GetChildAt("{2}"));', memberInfo.varName, typeName, memberInfo.name));
+                    }
+                }
             }
             else if (memberInfo.group == 1) {
                 if (getMemberByName)
@@ -129,4 +144,15 @@ function genComponentSystem(handler) {
         let componentSavePath = Utils_1.default.FormatStr("{0}/{1}System.cs", exportCodePath, classInfo.className);
         csharp_1.System.IO.File.WriteAllText(componentSavePath, classContent);
     }
+}
+var ExportClassType;
+(function (ExportClassType) {
+    ExportClassType[ExportClassType["Normal"] = 0] = "Normal";
+    ExportClassType[ExportClassType["SelfDefineClass"] = 1] = "SelfDefineClass";
+})(ExportClassType || (ExportClassType = {}));
+function ClassExportDefine(setting, memberInfo) {
+    if (memberInfo.res != null && memberInfo.res.name != null) {
+        return [ExportClassType.SelfDefineClass, setting.classNamePrefix + memberInfo.res.name];
+    }
+    return [ExportClassType.Normal, memberInfo.type];
 }

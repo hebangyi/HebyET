@@ -2,7 +2,7 @@
 <packageDescription id="yn21ng5j">
   <resources>
     <component id="cirq0" name="LoginMainView.xml" path="/" exported="true"/>
-    <component id="cirq1" name="LoginBtn.xml" path="/" exported="true"/>
+    <component id="cirq1" name="LoginBtn1.xml" path="/" exported="true"/>
     <image id="w5fd2" name="Image.png" path="/" exported="true"/>
     <component id="kkop3" name="Button1.xml" path="/"/>
   </resources>

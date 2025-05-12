@@ -12,9 +12,9 @@ namespace ET.Client
         {
             var com = go.asCom;
 			self.fgui_testName = (GTextInput)com.GetChild("testName");
-			self.fgui_loginBtn = (GButton)com.GetChild("loginBtn");
+			self.fgui_loginBtn = self.AddChild<FGUILoginBtn1,GObject>(com.GetChild("loginBtn"));
 			self.fgui_loginField = (GTextInput)com.GetChild("loginField");
-			self.fgui_headIcon = (GComponent)com.GetChild("headIcon");
+			self.fgui_headIcon = self.AddChild<FGUIUICommonIcon,GObject>(com.GetChild("headIcon"));
 
         }
         
