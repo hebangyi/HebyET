@@ -12,6 +12,7 @@ namespace ET.Client
             GlobalComponent globalComponent = root.AddComponent<GlobalComponent>();
             root.AddComponent<UIGlobalComponent>();
             root.AddComponent<UIComponent>();
+            root.AddComponent<FGUIComponent>();
             root.AddComponent<ResourcesLoaderComponent>();
             root.AddComponent<PlayerComponent>();
             root.AddComponent<CurrentScenesComponent>();
