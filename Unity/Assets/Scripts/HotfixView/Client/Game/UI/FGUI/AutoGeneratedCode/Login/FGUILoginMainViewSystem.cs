@@ -10,11 +10,16 @@ namespace ET.Client
         [EntitySystem]
         public static void Awake(this FGUILoginMainView self, FairyGUI.GObject go)
         {
+			self.UIPackageName = "Login";
+	        self.UIResourceName = "LoginMainView";
+	        self.UIResURL = "ui://Login/LoginMainView";
+	        self.FUIName = "FGUILoginMainView";
             var com = go.asCom;
 			self.fgui_testName = (GTextInput)com.GetChild("testName");
 			self.fgui_loginBtn = self.AddChild<FGUILoginBtn1,GObject>(com.GetChild("loginBtn"));
 			self.fgui_loginField = (GTextInput)com.GetChild("loginField");
 			self.fgui_headIcon = self.AddChild<FGUIUICommonIcon,GObject>(com.GetChild("headIcon"));
+
         }
         
         

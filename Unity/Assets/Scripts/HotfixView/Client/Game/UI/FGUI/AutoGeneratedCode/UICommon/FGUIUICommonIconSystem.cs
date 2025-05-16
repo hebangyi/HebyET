@@ -10,6 +10,10 @@ namespace ET.Client
         [EntitySystem]
         public static void Awake(this FGUIUICommonIcon self, FairyGUI.GObject go)
         {
+			self.UIPackageName = "UICommon";
+	        self.UIResourceName = "UICommonIcon";
+	        self.UIResURL = "ui://UICommon/UICommonIcon";
+	        self.FUIName = "FGUIUICommonIcon";
             var com = go.asCom;
 			self.fgui_n0 = (GImage)com.GetChild("n0");
 

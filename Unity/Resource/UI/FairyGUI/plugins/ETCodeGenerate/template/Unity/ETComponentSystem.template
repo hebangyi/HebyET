@@ -10,6 +10,10 @@ namespace ET.Client
         [EntitySystem]
         public static void Awake(this {className} self, FairyGUI.GObject go)
         {
+			self.UIPackageName = "{uiPkgName}";
+	        self.UIResourceName = "{uiResName}";
+	        self.UIResURL = "{uiResURL}";
+	        self.FUIName = "{className}";
             var com = go.asCom;
 {content}
         }

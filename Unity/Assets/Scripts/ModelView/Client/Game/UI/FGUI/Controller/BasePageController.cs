@@ -35,7 +35,7 @@ namespace ET.Client
     }
 
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public class FGUIViewControllerAttribute : Attribute
+    public class FGUIViewControllerAttribute : BaseAttribute
     {
         public ViewType ViewType { get; }
         
