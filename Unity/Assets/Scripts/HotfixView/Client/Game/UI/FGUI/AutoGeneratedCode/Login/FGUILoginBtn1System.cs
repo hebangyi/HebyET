@@ -32,16 +32,6 @@ namespace ET.Client
 			self.fgui_n2 = null;
 
         }
-		
-		// public static GObject CreateGObject(this FGUILoginBtn1 self)
-		// {
-		// 	return UIPackage.CreateObject(self.UIPackageName, self.UIResourceName);
-		// } 
-
-        // public static void CreateGObjectAsync(this FGUILoginBtn1 self, UIPackage.CreateObjectCallback result)
-		// {
-		// 	UIPackage.CreateObjectAsync(self.UIPackageName, self.UIResourceName, result);
-		// }
     }
 }
 

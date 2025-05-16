@@ -26,16 +26,6 @@ namespace ET.Client
 			self.fgui_n0 = null;
 
         }
-		
-		// public static GObject CreateGObject(this FGUIUICommonIcon self)
-		// {
-		// 	return UIPackage.CreateObject(self.UIPackageName, self.UIResourceName);
-		// } 
-
-        // public static void CreateGObjectAsync(this FGUIUICommonIcon self, UIPackage.CreateObjectCallback result)
-		// {
-		// 	UIPackage.CreateObjectAsync(self.UIPackageName, self.UIResourceName, result);
-		// }
     }
 }
 

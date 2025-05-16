@@ -24,16 +24,6 @@ namespace ET.Client
         {
 {dispose}
         }
-		
-		// public static GObject CreateGObject(this {className} self)
-		// {
-		// 	return UIPackage.CreateObject(self.UIPackageName, self.UIResourceName);
-		// } 
-
-        // public static void CreateGObjectAsync(this {className} self, UIPackage.CreateObjectCallback result)
-		// {
-		// 	UIPackage.CreateObjectAsync(self.UIPackageName, self.UIResourceName, result);
-		// }
     }
 }
 

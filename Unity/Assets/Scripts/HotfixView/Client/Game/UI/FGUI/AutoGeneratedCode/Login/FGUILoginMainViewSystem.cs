@@ -34,16 +34,6 @@ namespace ET.Client
 			self.fgui_headIcon = null;
 
         }
-		
-		// public static GObject CreateGObject(this FGUILoginMainView self)
-		// {
-		// 	return UIPackage.CreateObject(self.UIPackageName, self.UIResourceName);
-		// } 
-
-        // public static void CreateGObjectAsync(this FGUILoginMainView self, UIPackage.CreateObjectCallback result)
-		// {
-		// 	UIPackage.CreateObjectAsync(self.UIPackageName, self.UIResourceName, result);
-		// }
     }
 }
 
