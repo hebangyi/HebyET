@@ -22,6 +22,8 @@
 
         public const string EnableMethodAttribute = "ET.EnableMethodAttribute";
         
+        public const string IgnoreAnalyzerAttribute = "ET.IgnoreAnalyzerAttribute";
+        
         public const string FriendOfAttribute = "ET.FriendOfAttribute";
         
         public const string UniqueIdAttribute = "ET.UniqueIdAttribute";

@@ -139,6 +139,10 @@ namespace ET
             await handle.Task;
             T t = (T)handle.AssetObject;
             handle.Release();
+            if (t == null)
+            {
+                Log.Error($"加载资源失败 资源地址 : {location}");    
+            }
             return t;
         }
 

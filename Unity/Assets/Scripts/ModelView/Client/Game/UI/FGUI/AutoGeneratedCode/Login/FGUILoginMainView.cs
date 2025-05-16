@@ -12,7 +12,5 @@ namespace ET.Client
 		public FGUILoginBtn1 fgui_loginBtn;
 		public GTextInput fgui_loginField;
 		public FGUIUICommonIcon fgui_headIcon;
-
-
     }
 }

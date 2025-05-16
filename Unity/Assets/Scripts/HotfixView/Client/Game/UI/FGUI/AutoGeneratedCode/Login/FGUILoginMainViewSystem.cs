@@ -15,7 +15,6 @@ namespace ET.Client
 			self.fgui_loginBtn = self.AddChild<FGUILoginBtn1,GObject>(com.GetChild("loginBtn"));
 			self.fgui_loginField = (GTextInput)com.GetChild("loginField");
 			self.fgui_headIcon = self.AddChild<FGUIUICommonIcon,GObject>(com.GetChild("headIcon"));
-
         }
         
         
