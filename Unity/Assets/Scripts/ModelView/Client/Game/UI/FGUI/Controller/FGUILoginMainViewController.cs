@@ -1,9 +1,19 @@
 ﻿namespace ET.Client
 {
-    [FGUIViewController(ViewType.LoginPage)]
-    public class FGUILoginMainViewController : BasePageController<FGUILoginMainView>
+    [ComponentOf]
+    [EnableMethod]
+    public class FGUILoginMainViewController : Entity,IAwake
     {
-        // 1.导入 package 资源
+        public FGUILoginMainView View { get => this.GetComponent<FGUILoginMainView>(); }
+
+        public void RegisterUIEvent()
+        {
         
+        }
+
+        public void ShowWindow(ShowWindowData showWindowData = null)
+        {
+        
+        }
     }
 }

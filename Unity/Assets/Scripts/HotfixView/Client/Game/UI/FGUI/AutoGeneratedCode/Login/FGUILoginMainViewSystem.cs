@@ -14,6 +14,7 @@ namespace ET.Client
 	        self.UIResourceName = "LoginMainView";
 	        self.UIResURL = "ui://Login/LoginMainView";
 	        self.FUIName = "FGUILoginMainView";
+			self.GObject = go;
             var com = go.asCom;
 			self.fgui_testName = (GTextInput)com.GetChild("testName");
 			self.fgui_loginBtn = self.AddChild<FGUILoginBtn1,GObject>(com.GetChild("loginBtn"));

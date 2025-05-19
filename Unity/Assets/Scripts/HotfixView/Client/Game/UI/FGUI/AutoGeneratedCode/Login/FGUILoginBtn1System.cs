@@ -14,6 +14,7 @@ namespace ET.Client
 	        self.UIResourceName = "LoginBtn1";
 	        self.UIResURL = "ui://Login/LoginBtn1";
 	        self.FUIName = "FGUILoginBtn1";
+			self.GObject = go;
             var com = go.asCom;
 			self.fgui_button = com.GetController("button");
 			self.fgui_n0 = (GGraph)com.GetChild("n0");

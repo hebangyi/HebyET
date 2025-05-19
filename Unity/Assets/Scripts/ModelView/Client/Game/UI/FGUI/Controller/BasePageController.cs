@@ -1,11 +1,12 @@
-﻿using System;
+﻿/*
+using System;
 
 namespace ET.Client
 {
     public abstract class BasePageController
     {
         public bool isOpen = false;
-        protected abstract ETTask ViewOpen(params object[] param);
+        protected abstract ETTask ViewOpen(object[] args);
     }
 
 
@@ -14,9 +15,9 @@ namespace ET.Client
         protected View _view;
         protected object[] args;
         
-        protected override async ETTask ViewOpen(params object[] args)
+        protected override async ETTask ViewOpen(object[] args1)
         {
-            this.args = args;
+            this.args = args1;
             this.OnPreViewOpen();
             this.OnViewOpen();
             await ETTask.CompletedTask;
@@ -37,12 +38,13 @@ namespace ET.Client
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public class FGUIViewControllerAttribute : BaseAttribute
     {
-        public ViewType ViewType { get; }
+        public WindowID WindowId { get; }
         
-        public FGUIViewControllerAttribute(ViewType type)
+        public FGUIViewControllerAttribute(WindowID id)
         {
-            this.ViewType = type;
+            this.WindowId = id;
         }
     }
 }
+*/
 

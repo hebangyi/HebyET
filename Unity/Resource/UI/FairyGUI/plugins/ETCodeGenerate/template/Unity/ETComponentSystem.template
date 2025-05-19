@@ -14,6 +14,7 @@ namespace ET.Client
 	        self.UIResourceName = "{uiResName}";
 	        self.UIResURL = "{uiResURL}";
 	        self.FUIName = "{className}";
+			self.GObject = go;
             var com = go.asCom;
 {content}
         }

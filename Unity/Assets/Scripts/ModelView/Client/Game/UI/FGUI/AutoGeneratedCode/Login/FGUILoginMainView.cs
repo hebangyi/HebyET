@@ -6,7 +6,7 @@ namespace ET.Client
 {
 	[ChildOf]
 	[FGUITag(PackageName:"Login", ResourceName:"LoginMainView")]
-    public class FGUILoginMainView: FGUI, IAwake<GObject>, IDestroy
+    public class FGUILoginMainView: FGUI,  IDestroy
     {   
         //// 组件变量
 		public GTextInput fgui_testName;

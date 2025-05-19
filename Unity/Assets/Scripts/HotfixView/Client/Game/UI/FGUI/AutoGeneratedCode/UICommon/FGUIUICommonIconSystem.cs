@@ -14,6 +14,7 @@ namespace ET.Client
 	        self.UIResourceName = "UICommonIcon";
 	        self.UIResURL = "ui://UICommon/UICommonIcon";
 	        self.FUIName = "FGUIUICommonIcon";
+			self.GObject = go;
             var com = go.asCom;
 			self.fgui_n0 = (GImage)com.GetChild("n0");
 

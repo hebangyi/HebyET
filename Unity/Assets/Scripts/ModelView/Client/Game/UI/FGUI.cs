@@ -1,20 +1,21 @@
 ﻿using System;
+using FairyGUI;
 
 namespace ET.Client
 {
-    public class FGUI: Entity
+    public class FGUI : Entity, IAwake<GObject>
     {
         public String UIPackageName = "";
         public String UIResourceName = "";
         public String UIResURL = "";
         public String FUIName = "";
+        public GObject GObject;
     }
 
-
-    public class FGUITagAttribute: BaseAttribute
+    public class FGUITagAttribute : BaseAttribute
     {
-        public String PackageName {get;}
-        public String ResourceName {get;}
+        public String PackageName { get; }
+        public String ResourceName { get; }
 
         public FGUITagAttribute(String PackageName, String ResourceName)
         {
@@ -23,4 +24,3 @@ namespace ET.Client
         }
     }
 }
-

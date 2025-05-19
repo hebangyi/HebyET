@@ -1,19 +1,23 @@
-﻿namespace ET.Client
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using FairyGUI;
+
+namespace ET.Client
 {
     [ComponentOf]
     public class FGUIComponent : Entity, IAwake
     {
+        public static FGUIComponent Instance;
+
+        public Dictionary<int, UIBaseWindow> AllWindowsDict = new ();
+        public Dictionary<int, UIBaseWindow> VisibleWindowsDic = new ();
+
+        public Dictionary<UIWindowType, FGUILayer> AllWindowTypes = new ();
     }
 
-    [ComponentOf]
-    [EnableMethod]
-    public class FGUIViewBinder<T> : Entity where T : FGUI
+    public class ShowWindowData
     {
-        public T FGUI;
-        
-        protected async ETTask AddPackAsync()
-        {
-            // FGUIPackageComponent.Instance.AddPackageSync()
-        }
+        public object[] args;
     }
 }

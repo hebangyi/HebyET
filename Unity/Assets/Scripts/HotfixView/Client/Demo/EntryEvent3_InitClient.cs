@@ -13,6 +13,7 @@ namespace ET.Client
             root.AddComponent<UIGlobalComponent>();
             root.AddComponent<UIComponent>();
             root.AddComponent<FGUIComponent>();
+            root.AddComponent<FGUIEventComponent>();
             root.AddComponent<ResourcesLoaderComponent>();
             root.AddComponent<PlayerComponent>();
             root.AddComponent<CurrentScenesComponent>();
