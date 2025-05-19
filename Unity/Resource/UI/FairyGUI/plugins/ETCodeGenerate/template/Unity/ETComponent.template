@@ -4,7 +4,7 @@ using FairyGUI;
 
 namespace ET.Client
 {
-	[ChildOf]
+	[ComponentOf]
 	[FGUITag(PackageName:"{uiPkgName}", ResourceName:"{uiResName}")]
     public class {className}: FGUI, IAwake<GObject>, IDestroy
     {   

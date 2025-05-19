@@ -4,9 +4,9 @@ using FairyGUI;
 
 namespace ET.Client
 {
-	[ChildOf]
+	[ComponentOf]
 	[FGUITag(PackageName:"Login", ResourceName:"LoginMainView")]
-    public class FGUILoginMainView: FGUI,  IDestroy
+    public class FGUILoginMainView: FGUI, IAwake<GObject>, IDestroy
     {   
         //// 组件变量
 		public GTextInput fgui_testName;
