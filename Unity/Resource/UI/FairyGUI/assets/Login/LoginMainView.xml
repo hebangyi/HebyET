@@ -5,11 +5,11 @@
       <relation target="" sidePair="center-center,middle-middle"/>
       <relation target="n1_cirq" sidePair=""/>
     </text>
-    <component id="n1_cirq" name="loginBtn" src="cirq1" fileName="LoginBtn.xml" xy="914,809" size="300,100">
+    <component id="n1_cirq" name="loginBtn" src="cirq1" fileName="LoginBtn1.xml" xy="914,809" size="300,100">
       <relation target="" sidePair="width-width"/>
       <Button title="登录" selectedTitle="登录"/>
     </component>
     <text id="n3_cirq" name="loginField" xy="993,395" size="445,121" fontSize="50" align="center" autoSize="none" strokeColor="#000000" strokeSize="76" text="" input="true"/>
-    <component id="n5_pn75" name="headIcon" src="pn750" fileName="UICommonIcon.xml" pkg="y9rc4goc" xy="88,64"/>
+    <component id="n6_nlx2" name="n6" src="pn750" fileName="UICommonIcon.xml" xy="44,37" pkg="y9rc4goc"/>
   </displayList>
 </component>

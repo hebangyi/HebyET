@@ -9,7 +9,7 @@ namespace ET.Client
     public class FGUIUICommonIcon: FGUI, IAwake<GObject>, IDestroy
     {   
         //// 组件变量
-		public GImage fgui_n0;
+		public GTextField fgui_n1;
 
 
     }

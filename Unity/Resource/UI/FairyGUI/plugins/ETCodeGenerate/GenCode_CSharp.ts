@@ -95,7 +95,7 @@ function genComponentSystem(handler: FairyEditor.PublishHandler) {
     let classes = handler.CollectClasses(false, false, null);
     let classCnt = classes.Count;
     let getMemberByName = settings.getMemberByName;
-
+    handler.SetupCodeFolder(exportCodePath, "cs");  //check if target folder exists, and delete old files
     // System.IO.File.Delete(exportCodePath)
 
     for (let i: number = 0; i < classCnt; i++) {
@@ -191,6 +191,8 @@ function ClassExportDefine(setting: FairyEditor.GlobalPublishSettings.CodeGenera
 {
     if(memberInfo.res != null && memberInfo.res.name != null)
     {
+        console.log("=================")
+        console.log(memberInfo.res.name)
         return [ExportClassType.SelfDefineClass, setting.classNamePrefix + memberInfo.res.name]
     }
     

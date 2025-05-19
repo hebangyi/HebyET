@@ -12,7 +12,7 @@ namespace ET.Client
 		public GTextInput fgui_testName;
 		public FGUILoginBtn1 fgui_loginBtn;
 		public GTextInput fgui_loginField;
-		public FGUIUICommonIcon fgui_headIcon;
+		public FGUIUICommonIcon fgui_n6;
 
 
     }

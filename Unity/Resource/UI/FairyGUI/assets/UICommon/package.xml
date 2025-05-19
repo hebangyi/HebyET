@@ -2,6 +2,7 @@
 <packageDescription id="y9rc4goc">
   <resources>
     <component id="pn750" name="UICommonIcon.xml" path="/" exported="true"/>
+    <image id="w5fd2" name="Image.png" path="/Test/" exported="true"/>
   </resources>
   <publish name="UICommon" genCode="true"/>
 </packageDescription>

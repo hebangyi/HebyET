@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="200,200">
   <displayList>
-    <image id="n0_pn75" name="n0" src="w5fd2" fileName="Image.png" pkg="yn21ng5j" xy="8,12" size="182,179"/>
+    <text id="n1_l33v" name="n1" xy="22,38" size="67,19" fontSize="12" text="asdfasdfas"/>
   </displayList>
 </component>

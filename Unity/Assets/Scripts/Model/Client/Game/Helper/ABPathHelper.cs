@@ -9,6 +9,13 @@
         {
             return $"{ROOT_PATH}/FGUI/{fileName}.bytes";
         }
+        
+
+
+        public static string GetFGUIPicPath(string fileName)
+        {
+            return $"{ROOT_PATH}/FGUI/{fileName}";
+        }
     }
 }
 

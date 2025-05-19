@@ -16,7 +16,7 @@ namespace ET.Client
 	        self.FUIName = "FGUIUICommonIcon";
 			self.GObject = go;
             var com = go.asCom;
-			self.fgui_n0 = (GImage)com.GetChild("n0");
+			self.fgui_n1 = (GTextField)com.GetChild("n1");
 
         }
         
@@ -24,7 +24,7 @@ namespace ET.Client
         [EntitySystem]
         public static void Destroy(this FGUIUICommonIcon self)
         {
-			self.fgui_n0 = null;
+			self.fgui_n1 = null;
 
         }
     }

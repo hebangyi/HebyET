@@ -3,8 +3,7 @@
   <resources>
     <component id="cirq0" name="LoginMainView.xml" path="/" exported="true"/>
     <component id="cirq1" name="LoginBtn1.xml" path="/" exported="true"/>
-    <image id="w5fd2" name="Image.png" path="/" exported="true"/>
-    <component id="kkop3" name="Button1.xml" path="/"/>
+    <component id="kkop3" name="Button1.xml" path="/" exported="true"/>
   </resources>
   <publish name="Login" genCode="true"/>
 </packageDescription>

@@ -79,6 +79,7 @@ function genComponentSystem(handler) {
     let classes = handler.CollectClasses(false, false, null);
     let classCnt = classes.Count;
     let getMemberByName = settings.getMemberByName;
+    handler.SetupCodeFolder(exportCodePath, "cs"); //check if target folder exists, and delete old files
     // System.IO.File.Delete(exportCodePath)
     for (let i = 0; i < classCnt; i++) {
         let classInfo = classes.get_Item(i);
@@ -152,6 +153,8 @@ var ExportClassType;
 })(ExportClassType || (ExportClassType = {}));
 function ClassExportDefine(setting, memberInfo) {
     if (memberInfo.res != null && memberInfo.res.name != null) {
+        console.log("=================");
+        console.log(memberInfo.res.name);
         return [ExportClassType.SelfDefineClass, setting.classNamePrefix + memberInfo.res.name];
     }
     return [ExportClassType.Normal, memberInfo.type];

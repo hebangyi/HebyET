@@ -47,6 +47,31 @@ namespace ET.Client
 
         private static void LoadPackageInternal(this FGUIPackageComponent self, string name, string extension, Type type, PackageItem item)
         {
+            if (type == typeof(Texture))
+            {
+                string path = ABPathHelper.GetFGUIPicPath($"{item.owner.name}/{name}{extension}");
+                LoadPicture(item, path).Coroutine();
+            }
+            /*else if (type == typeof(AudioClip))
+            {
+                //目前不再使用这种音效播放方式
+                return;
+                string path = ABPathHelper.GetFGUIAudioPathWithoutEx($"{item.owner.name}/{item.name}{extension}");
+
+                AudioClip audioClip = resourcesComponent.LoadFuiAudioClip(path);
+                if (audioClip == null)
+                {
+                    return;
+                }
+
+                item.owner.SetItemAsset(item, audioClip, DestroyMethod.Custom);
+            }*/
+        }
+
+        public static async ETTask LoadPicture(PackageItem item, string path)
+        {
+            var texture = await ResourcesComponent.Instance.LoadAssetAsync<Texture>(path);
+            item.owner.SetItemAsset(item, texture, DestroyMethod.Custom);
         }
     }
 }
