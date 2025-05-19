@@ -7,8 +7,7 @@
 		{
 			// await UIHelper.Create(root, UIType.UILSLogin, UILayer.Mid);
 			// 使用 FairyGUI 创建UI
-			var fguiComponent = root.GetComponent<FGUIComponent>();
-			
+			// var fguiComponent = root.GetComponent<FGUIComponent>();
 		}
 	}
 }

@@ -11,12 +11,14 @@ namespace ET.Client
         [EntitySystem]
         private static void Awake(this ResourcesLoaderComponent self)
         {
+            self.Instance = self;
             self.package = YooAssets.GetPackage("DefaultPackage");
         }
 
         [EntitySystem]
         private static void Awake(this ResourcesLoaderComponent self, string packageName)
         {
+            self.Instance = self;
             self.package = YooAssets.GetPackage(packageName);
         }
 
@@ -112,6 +114,7 @@ namespace ET.Client
     [ComponentOf]
     public class ResourcesLoaderComponent : Entity, IAwake, IAwake<string>, IDestroy
     {
+        public ResourcesLoaderComponent Instance;
         public ResourcePackage package;
         public Dictionary<string, HandleBase> handlers = new();
     }

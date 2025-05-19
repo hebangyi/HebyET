@@ -13,9 +13,9 @@ namespace ET.Client
         [EntitySystem]
         private static void Awake(this FGUIPackageComponent self)
         {
+            FGUIPackageComponent.Instance = self;
             self.PermanentPackages.Clear();
             self.LoadedPackages.Clear();
-            FGUIPackageComponent.Instance = self;
         }
 
         public static async ETTask TryAddPackageAsync(this FGUIPackageComponent self, string package)
