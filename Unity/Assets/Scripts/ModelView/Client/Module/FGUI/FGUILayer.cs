@@ -4,6 +4,8 @@ using FairyGUI;
 
 namespace ET.Client
 {
+    [EnableMethod]
+    [ChildOf]
     public class FGUILayer : Entity, IAwake<GObject>
     {
         public GObject GObject;
