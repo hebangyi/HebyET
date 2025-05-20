@@ -5,7 +5,7 @@ using FairyGUI;
 namespace ET.Client
 {
 	[ComponentOf]
-	[FGUITag(PackageName:"UICommon", ResourceName:"UICommonIcon")]
+	[FGUITag(PackageName:FGUIPackage.PKG_UICommon, ResourceName:FGUIResName.RES_UICommon_UICommonIcon)]
     public class FGUIUICommonIcon: FGUI, IAwake<GObject>, IDestroy
     {   
         //// 组件变量

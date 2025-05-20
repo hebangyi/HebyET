@@ -16,10 +16,9 @@ namespace ET.Client
 	        self.FUIName = "FGUILoginMainView";
 			self.GObject = go;
             var com = go.asCom;
+			self.fgui_n8 = (GGraph)com.GetChild("n8");
 			self.fgui_testName = (GTextInput)com.GetChild("testName");
-			self.fgui_loginBtn = self.AddChild<FGUILoginBtn1,GObject>(com.GetChild("loginBtn"));
-			self.fgui_loginField = (GTextInput)com.GetChild("loginField");
-			self.fgui_n6 = self.AddChild<FGUIUICommonIcon,GObject>(com.GetChild("n6"));
+			self.fgui_n7 = (GTextInput)com.GetChild("n7");
 
         }
         
@@ -27,12 +26,9 @@ namespace ET.Client
         [EntitySystem]
         public static void Destroy(this FGUILoginMainView self)
         {
+			self.fgui_n8 = null;
 			self.fgui_testName = null;
-			self.fgui_loginBtn?.Dispose();
-			self.fgui_loginBtn = null;
-			self.fgui_loginField = null;
-			self.fgui_n6?.Dispose();
-			self.fgui_n6 = null;
+			self.fgui_n7 = null;
 
         }
     }
