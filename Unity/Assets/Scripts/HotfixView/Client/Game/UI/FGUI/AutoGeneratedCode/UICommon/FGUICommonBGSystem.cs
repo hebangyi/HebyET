@@ -16,8 +16,7 @@ namespace ET.Client
 	        self.FUIName = "FGUICommonBG";
 			self.GObject = go;
             var com = go.asCom;
-			self.fgui_n0 = (GGraph)com.GetChild("n0");
-			self.fgui_n1 = (GLoader)com.GetChild("n1");
+			self.fgui_bg_img = (GLoader)com.GetChild("bg_img");
 
         }
         
@@ -25,8 +24,7 @@ namespace ET.Client
         [EntitySystem]
         public static void Destroy(this FGUICommonBG self)
         {
-			self.fgui_n0 = null;
-			self.fgui_n1 = null;
+			self.fgui_bg_img = null;
 
         }
     }

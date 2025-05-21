@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="2160,1080">
+<component size="1920,1080">
   <displayList>
-    <text id="n0_cirq" name="testName" xy="806,451" pivot="0.5,0.5" anchor="true" size="244,114" fontSize="50" align="center" autoSize="none" text="用户名" input="true">
+    <component id="n8_uexr" name="bg" src="uexr2" fileName="CommonBG.xml" pkg="y9rc4goc" xy="0,0">
+      <relation target="" sidePair="width-width,height-height"/>
+    </component>
+    <text id="n0_cirq" name="user_name_titime" xy="686,451" pivot="0.5,0.5" anchor="true" size="244,114" fontSize="50" color="#ffffff" align="center" autoSize="none" text="用户名" input="true">
       <relation target="" sidePair="center-center,middle-middle"/>
       <relation target="n1_cirq" sidePair=""/>
     </text>
-    <component id="n1_cirq" name="loginBtn" src="cirq1" fileName="LoginBtn1.xml" xy="914,809" size="300,100">
-      <relation target="" sidePair="width-width"/>
+    <component id="n1_cirq" name="loginBtn" src="cirq1" fileName="LoginBtn1.xml" xy="696,805" size="524,100">
+      <relation target="" sidePair="center-center,middle-middle"/>
       <Button title="登录" selectedTitle="登录"/>
     </component>
-    <text id="n3_cirq" name="loginField" xy="993,395" size="445,121" fontSize="50" align="center" autoSize="none" strokeColor="#000000" strokeSize="76" text="" input="true"/>
-    <component id="n6_nlx2" name="n6" src="pn750" fileName="UICommonIcon.xml" xy="44,37" pkg="y9rc4goc"/>
+    <text id="n3_cirq" name="loginField" xy="993,395" size="445,121" fontSize="50" color="#ffffff" align="center" autoSize="none" strokeColor="#000000" strokeSize="76" text="" input="true"/>
   </displayList>
 </component>
