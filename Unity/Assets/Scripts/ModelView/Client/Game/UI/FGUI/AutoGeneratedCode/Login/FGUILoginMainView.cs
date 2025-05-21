@@ -9,10 +9,11 @@ namespace ET.Client
     public class FGUILoginMainView: FGUI, IAwake<GObject>, IDestroy
     {   
         //// 组件变量
-		public GTextInput fgui_testName;
-		public FGUILoginBtn1 fgui_loginBtn;
+		public FGUICommonBG fgui_bg;
+		public GTextInput fgui_user_name_titime;
 		public GTextInput fgui_loginField;
-		public FGUICommonBG fgui_n8;
+		public FGUILoginBtn1 fgui_loginBtn;
+		public GGroup fgui_login_field_group;
 
 
     }

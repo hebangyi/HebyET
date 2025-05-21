@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1920,1080" extention="Label">
   <displayList>
-    <loader id="n1_uexr" name="bg_img" xy="0,0" size="1920,1080" url="ui://ddpc5eotuexr1" fill="scaleNoBorder" useResize="true">
-      <relation target="" sidePair="width-width,height-height"/>
+    <loader id="n1_uexr" name="bg_img" xy="0,0" size="1920,1080" url="ui://ddpc5eotuexr1" fill="scaleNoBorder">
+      <relation target="" sidePair=""/>
     </loader>
   </displayList>
 </component>

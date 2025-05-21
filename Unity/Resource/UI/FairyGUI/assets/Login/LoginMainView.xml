@@ -2,16 +2,19 @@
 <component size="1920,1080">
   <displayList>
     <component id="n8_uexr" name="bg" src="uexr2" fileName="CommonBG.xml" pkg="y9rc4goc" xy="0,0">
-      <relation target="" sidePair="width-width,height-height"/>
+      <relation target="" sidePair="center-center,middle-middle"/>
     </component>
-    <text id="n0_cirq" name="user_name_titime" xy="686,451" pivot="0.5,0.5" anchor="true" size="244,114" fontSize="50" color="#ffffff" align="center" autoSize="none" text="用户名" input="true">
+    <text id="n0_cirq" name="user_name_titime" xy="645,437" pivot="0.5,0.5" anchor="true" size="244,114" group="n9_joti" fontSize="50" color="#ffffff" align="center" autoSize="none" text="用户名" input="true">
       <relation target="" sidePair="center-center,middle-middle"/>
       <relation target="n1_cirq" sidePair=""/>
     </text>
-    <component id="n1_cirq" name="loginBtn" src="cirq1" fileName="LoginBtn1.xml" xy="696,805" size="524,100">
+    <text id="n3_cirq" name="loginField" xy="828,381" size="569,121" group="n9_joti" fontSize="50" color="#ffffff" autoSize="none" strokeColor="#000000" strokeSize="76" text="" input="true"/>
+    <component id="n1_cirq" name="loginBtn" src="cirq1" fileName="LoginBtn1.xml" xy="655,791" size="524,100" group="n9_joti">
       <relation target="" sidePair="center-center,middle-middle"/>
       <Button title="登录" selectedTitle="登录"/>
     </component>
-    <text id="n3_cirq" name="loginField" xy="993,395" size="445,121" fontSize="50" color="#ffffff" align="center" autoSize="none" strokeColor="#000000" strokeSize="76" text="" input="true"/>
+    <group id="n9_joti" name="login_field_group" xy="523,380" size="874,511" advanced="true">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </group>
   </displayList>
 </component>
