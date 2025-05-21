@@ -3,7 +3,8 @@
     public enum WindowID
     {
         None = 0,
-        LoginMainView = 1,
+        CommonBG = 1,
+        LoginMainView = 2,
     }
     
     
