@@ -13,7 +13,7 @@ namespace ET.Client
 
         public void OnInitComponent(UIBaseWindow uiBaseWindow)
         {
-            uiBaseWindow.AddComponent<FGUILoginMainViewController>().AddComponent<FGUICommonBG, GObject>(uiBaseWindow.GObject);
+            uiBaseWindow.AddComponent<DlgFGUILoginMainView>().AddComponent<FGUICommonBG, GObject>(uiBaseWindow.GObject);
         }
 
         public void OnRegisterUIEvent(UIBaseWindow uiBaseWindow)

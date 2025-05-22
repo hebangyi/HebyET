@@ -118,7 +118,7 @@ namespace ET
                 this ProcessInnerSender self,
                 ActorId actorId,
                 IRequest request,
-                bool needException = true
+                bool needException = false
         )
         {
             int rpcId = self.GetRpcId();

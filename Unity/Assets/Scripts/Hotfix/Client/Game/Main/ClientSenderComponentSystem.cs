@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using CommandLine;
 
 namespace ET.Client
 {
@@ -36,7 +37,7 @@ namespace ET.Client
             self.Dispose();
         }
 
-        public static async ETTask<long> LoginAsync(this ClientSenderComponent self, string account, string password)
+        public static async ETTask<(int,long)> LoginAsync(this ClientSenderComponent self, string account, string password)
         {
             self.fiberId = await FiberManager.Instance.Create(SchedulerType.ThreadPool, 0, SceneType.NetClient, "");
             self.netClientActorId = new ActorId(self.Fiber().Process, self.fiberId);
@@ -46,8 +47,7 @@ namespace ET.Client
             main2NetClientLogin.Account = account;
             main2NetClientLogin.Password = password;
             NetClient2Main_Login response = await self.Root().GetComponent<ProcessInnerSender>().Call(self.netClientActorId, main2NetClientLogin) as NetClient2Main_Login;
-            
-            return response.PlayerId;
+            return (response.Error, response.PlayerId);
         }
 
         public static void Send(this ClientSenderComponent self, IMessage message)
@@ -57,7 +57,7 @@ namespace ET.Client
             self.Root().GetComponent<ProcessInnerSender>().Send(self.netClientActorId, a2NetClientMessage);
         }
 
-        public static async ETTask<IResponse> Call(this ClientSenderComponent self, IRequest request, bool needException = true)
+        public static async ETTask<IResponse> Call(this ClientSenderComponent self, IRequest request, bool needException = false)
         {
             A2NetClient_Request a2NetClientRequest = A2NetClient_Request.Create();
             a2NetClientRequest.MessageObject = request;

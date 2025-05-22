@@ -12,17 +12,17 @@ namespace ET.Client
 
         public void OnInitComponent(UIBaseWindow uiBaseWindow)
         {
-            uiBaseWindow.AddComponent<FGUILoginMainViewController>().AddComponent<FGUILoginMainView, GObject>(uiBaseWindow.GObject);
+            uiBaseWindow.AddComponent<DlgFGUILoginMainView>().AddComponent<FGUILoginMainView, GObject>(uiBaseWindow.GObject);
         }
 
         public void OnRegisterUIEvent(UIBaseWindow uiBaseWindow)
         {
-            uiBaseWindow.GetComponent<FGUILoginMainViewController>().RegisterUIEvent();
+            uiBaseWindow.GetComponent<DlgFGUILoginMainView>().RegisterUIEvent();
         }
 
         public void OnShowWindow(UIBaseWindow uiBaseWindow, ShowWindowData showWindowData = null)
         {
-            uiBaseWindow.GetComponent<FGUILoginMainViewController>().ShowWindow(showWindowData);
+            uiBaseWindow.GetComponent<DlgFGUILoginMainView>().ShowWindow(showWindowData);
         }
 
         public void OnHideWindow(UIBaseWindow uiBaseWindow)
