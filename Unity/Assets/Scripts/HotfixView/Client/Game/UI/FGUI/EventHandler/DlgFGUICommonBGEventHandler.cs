@@ -4,7 +4,7 @@ namespace ET.Client
 {
     
     [FGUIEvent(WindowID.CommonBG, typeof(FGUICommonBG))]
-    public class FGUICommonBGEventHandler: IFGUIEventHandler
+    public class DlgFGUICommonBGEventHandler: IFGUIEventHandler
     {
         public void OnInitWindowCoreData(UIBaseWindow uiBaseWindow)
         {

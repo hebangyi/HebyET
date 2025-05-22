@@ -3,8 +3,9 @@
     public enum WindowID
     {
         None = 0,
-        CommonBG = 1,
-        LoginMainView = 2,
+        CommonBG = 1,       // 测试背景
+        LoginMainView = 2,  // 登录界面
+        LoadingUIView = 3,  // 加载界面
     }
     
     
