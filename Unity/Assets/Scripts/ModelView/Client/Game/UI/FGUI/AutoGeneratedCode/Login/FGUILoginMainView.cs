@@ -5,7 +5,7 @@ using FairyGUI;
 namespace ET.Client
 {
 	[ComponentOf]
-	[FGUITag(PackageName:"Login", ResourceName:"LoginMainView")]
+	[FGUITag(FGUIPackage.PKG_Login, FGUIResName.RES_Login_LoginMainView)]
     public class FGUILoginMainView: FGUI, IAwake<GObject>, IDestroy
     {   
         //// 组件变量
@@ -14,7 +14,6 @@ namespace ET.Client
 		public GTextInput fgui_loginField;
 		public FGUILoginBtn1 fgui_loginBtn;
 		public GGroup fgui_login_field_group;
-
 
     }
 }

@@ -5,12 +5,11 @@ using FairyGUI;
 namespace ET.Client
 {
 	[ComponentOf]
-	[FGUITag(PackageName:"UICommon", ResourceName:"CommonBG")]
+	[FGUITag(FGUIPackage.PKG_UICommon, FGUIResName.RES_UICommon_CommonBG)]
     public class FGUICommonBG: FGUI, IAwake<GObject>, IDestroy
     {   
         //// 组件变量
 		public GLoader fgui_bg_img;
-
 
     }
 }

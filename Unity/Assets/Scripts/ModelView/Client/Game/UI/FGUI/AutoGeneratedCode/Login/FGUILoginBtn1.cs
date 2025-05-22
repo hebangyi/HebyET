@@ -5,7 +5,7 @@ using FairyGUI;
 namespace ET.Client
 {
 	[ComponentOf]
-	[FGUITag(PackageName:"Login", ResourceName:"LoginBtn1")]
+	[FGUITag(FGUIPackage.PKG_Login, FGUIResName.RES_Login_LoginBtn1)]
     public class FGUILoginBtn1: FGUI, IAwake<GObject>, IDestroy
     {   
         //// 组件变量
@@ -13,7 +13,6 @@ namespace ET.Client
 		public GGraph fgui_n0;
 		public GGraph fgui_n1;
 		public GGraph fgui_n2;
-
 
     }
 }

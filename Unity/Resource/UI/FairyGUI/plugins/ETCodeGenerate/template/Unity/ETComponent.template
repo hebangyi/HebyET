@@ -5,11 +5,10 @@ using FairyGUI;
 namespace ET.Client
 {
 	[ComponentOf]
-	[FGUITag(PackageName:"{uiPkgName}", ResourceName:"{uiResName}")]
+	[FGUITag(FGUIPackage.PKG_{uiPkgName}, FGUIResName.RES_{uiPkgName}_{uiResName})]
     public class {className}: FGUI, IAwake<GObject>, IDestroy
     {   
         //// 组件变量
 {variable}
-
     }
 }

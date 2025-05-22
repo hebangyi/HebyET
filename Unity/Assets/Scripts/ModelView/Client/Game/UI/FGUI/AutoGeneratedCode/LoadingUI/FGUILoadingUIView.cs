@@ -5,12 +5,11 @@ using FairyGUI;
 namespace ET.Client
 {
 	[ComponentOf]
-	[FGUITag(PackageName:"LoadingUI", ResourceName:"LoadingUIView")]
+	[FGUITag(FGUIPackage.PKG_LoadingUI, FGUIResName.RES_LoadingUI_LoadingUIView)]
     public class FGUILoadingUIView: FGUI, IAwake<GObject>, IDestroy
     {   
         //// 组件变量
 		public GLoader fgui_n1;
-
 
     }
 }

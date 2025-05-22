@@ -14,6 +14,8 @@ namespace ET.Client
 	public static partial class FGUIResName
 	{
 		public const string RES_Login_LoginMainView = "LoginMainView";
+		public const string RES_Login_LoginBtn1 = "LoginBtn1";
+		public const string RES_Login_Button1 = "Button1";
 
 	}
 }

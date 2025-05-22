@@ -20,6 +20,7 @@ function genCode(handler: FairyEditor.PublishHandler) {
         return;
     }
 
+    genPackage(handler);
     genComponent(handler);
     genComponentSystem(handler);
 
@@ -33,6 +34,41 @@ function genCode(handler: FairyEditor.PublishHandler) {
     // System.IO.File.WriteAllText(packageSavePath, packageContext);
 }
 
+function genPackage(handler: FairyEditor.PublishHandler){
+    let codePkgName = handler.ToFilename(handler.pkg.name);
+    let settings = (<FairyEditor.GlobalPublishSettings>handler.project.GetSettings("Publish")).codeGeneration;
+    let exportCodePath = handler.exportCodePath + '/' + codePkgName;
+    exportCodePath = Utils.ReplaceAll(exportCodePath,"HotfixView","ModelView")
+    let templateFileName = "ETPackage.template";
+    let codeTemplatePath = "/ETCodeGenerate/template/Unity";
+    let templatePath = Utils.FormatStr("{0}{1}", FairyEditor.App.pluginManager.projectPluginFolder, codeTemplatePath);
+    let template = Utils.ReadTemplate(templateFileName, templatePath);
+
+    let classes = handler.CollectClasses(false, false, null);
+    handler.SetupCodeFolder(exportCodePath, "cs"); //check if target folder exists, and delete old files
+
+    let packageContent = new StringBuilder();
+    let resContent = new StringBuilder();
+
+    packageContent.Append("\t\t");
+    packageContent.Append(Utils.FormatStr('public const string PKG_{0} = "{1}";', codePkgName, codePkgName));
+
+    let classCnt = classes.Count;
+    for (let i: number = 0; i < classCnt; i++) {
+        let classInfo = classes.get_Item(i);
+        resContent.Append("\t\t");
+        resContent.Append(Utils.FormatStr('public const string RES_{0}_{1} = "{2}";', codePkgName, classInfo.resName, classInfo.resName));
+        resContent.Append("\r\n");
+    }
+
+
+    let classContent = Utils.ReplaceAll(template, "{package_variable}", packageContent.ToString());
+    classContent = Utils.ReplaceAll(classContent, "{res_variable}", resContent.ToString());
+
+    let componentSavePath = Utils.FormatStr("{0}/{1}.cs", exportCodePath, "FGUIPackage");
+    System.IO.File.WriteAllText(componentSavePath, classContent);
+}
+
 function genComponent(handler: FairyEditor.PublishHandler) {
     let codePkgName = handler.ToFilename(handler.pkg.name);
     let settings = (<FairyEditor.GlobalPublishSettings>handler.project.GetSettings("Publish")).codeGeneration;
@@ -41,7 +77,7 @@ function genComponent(handler: FairyEditor.PublishHandler) {
     let templateFileName = "ETComponent.template";
     let codeTemplatePath = "/ETCodeGenerate/template/Unity";
     let templatePath = Utils.FormatStr("{0}{1}", FairyEditor.App.pluginManager.projectPluginFolder, codeTemplatePath);
-    
+    let template = Utils.ReadTemplate(templateFileName, templatePath);
 
     //CollectClasses(stripeMemeber, stripeClass, fguiNamespace)
     let classes = handler.CollectClasses(false, false, null);
@@ -54,7 +90,7 @@ function genComponent(handler: FairyEditor.PublishHandler) {
     for (let i: number = 0; i < classCnt; i++) {
         let classInfo = classes.get_Item(i);
         let resUrl = Utils.FormatStr("ui://{0}/{1}", handler.pkg.name, classInfo.resName);
-        let template = Utils.ReadTemplate(templateFileName, templatePath);
+
         let classContent = Utils.ReplaceAll(template, "{className}", classInfo.className);
         classContent = Utils.ReplaceAll(classContent, "{uiPkgName}", codePkgName);
         classContent = Utils.ReplaceAll(classContent, "{uiResName}", classInfo.resName);
@@ -96,12 +132,12 @@ function genComponentSystem(handler: FairyEditor.PublishHandler) {
     let classCnt = classes.Count;
     let getMemberByName = settings.getMemberByName;
     handler.SetupCodeFolder(exportCodePath, "cs");  //check if target folder exists, and delete old files
+    let template = Utils.ReadTemplate(templateFileName, templatePath);
     // System.IO.File.Delete(exportCodePath)
 
     for (let i: number = 0; i < classCnt; i++) {
         let classInfo = classes.get_Item(i);
         let resUrl = Utils.FormatStr("ui://{0}/{1}", handler.pkg.name, classInfo.resName);
-        let template = Utils.ReadTemplate(templateFileName, templatePath);
         let classContent = Utils.ReplaceAll(template, "{className}", classInfo.className);
         classContent = Utils.ReplaceAll(classContent, "{uiPkgName}", codePkgName);
         classContent = Utils.ReplaceAll(classContent, "{uiResName}", classInfo.resName);

@@ -7,13 +7,13 @@ namespace ET.Client
 	
     public static partial class FGUIPackage
     {   
-		public const string PKG_UICommon = "UICommon";
+		public const string PKG_LoadingUI = "LoadingUI";
     }
 	
 	
 	public static partial class FGUIResName
 	{
-		public const string RES_UICommon_CommonBG = "CommonBG";
+		public const string RES_LoadingUI_LoadingUIView = "LoadingUIView";
 
 	}
 }
