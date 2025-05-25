@@ -10,16 +10,20 @@ namespace ET.Client
         protected override async ETTask Run(Scene root, EntryEvent3 args)
         {
             GlobalComponent globalComponent = root.AddComponent<GlobalComponent>();
-            root.AddComponent<UIGlobalComponent>();
-            root.AddComponent<UIComponent>();
-            root.AddComponent<FGUIComponent>();
-            root.AddComponent<FGUIPackageComponent>();
-            root.AddComponent<FGUIEventComponent>();
-            root.AddComponent<ResourcesLoaderComponent>();
             root.AddComponent<PlayerComponent>();
             root.AddComponent<CurrentScenesComponent>();
-            root.AddComponent<ClientLobbyDataComponent>();
+            root.AddComponent<ClientLobbyDataComponent>(); // 客户端 - Lobby 数据同步组件
             
+            // 数据加载
+            root.AddComponent<ResourcesLoaderComponent>();
+            
+            //// FGUI 
+            // FGUI 包管理器组件
+            root.AddComponent<FGUIPackageComponent>();
+            // FGUI 事件
+            root.AddComponent<FGUIEventComponent>();
+            // FGUI UI组件
+            root.AddComponent<FGUIComponent>();
             
             // 根据配置修改掉Main Fiber的SceneType
             SceneType sceneType = EnumHelper.FromString<SceneType>(globalComponent.GlobalConfig.AppType.ToString());
