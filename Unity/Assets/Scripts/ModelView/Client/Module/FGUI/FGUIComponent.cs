@@ -11,7 +11,8 @@ namespace ET.Client
         public static FGUIComponent Instance;
 
         public Dictionary<int, UIBaseWindow> AllWindowsDict = new ();
-        public Dictionary<int, UIBaseWindow> VisibleWindowsDic = new ();
+        public Dictionary<int, UIBaseWindow> VisibleWindowsDict = new ();    // 显示的WindowView
+        public Dictionary<int, UIBaseWindow> InVisibleWindowsDict = new ();  // 隐藏的WindowView
 
         public Dictionary<UIWindowType, FGUILayer> AllWindowTypes = new ();
     }

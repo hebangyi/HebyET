@@ -39,8 +39,55 @@ namespace ET.Client
             }
         }
 
+        public static void HideWindow(this FGUIComponent self, WindowID windowId)
+        {
+            UIBaseWindow baseWindow = self.GetUIBaseWindow(windowId);
+            if (baseWindow != null)
+            {
+                self.RealHideWindow(baseWindow, windowId);
+            }
+        }
+
+        public static void CloseWindow(this FGUIComponent self, WindowID windowId)
+        {
+            UIBaseWindow baseWindow = self.GetUIBaseWindow(windowId);
+            if (baseWindow != null)
+            {
+                self.RealCloseWindow(baseWindow, windowId);
+            }
+        }
+        
+        # region 私有方法
+
+        private static void RealHideWindow(this FGUIComponent self,UIBaseWindow baseWindow, WindowID id)
+        {
+            baseWindow.GObject.visible = false;
+            self.InVisibleWindowsDict[(int)id] = baseWindow;
+            var eventHandler = FGUIEventComponent.Instance.GetEventHandlerByWindowID(id);
+            if (eventHandler == null)
+            {
+                Log.Error($"Window Id : {id} Not Found EventHandler");
+                return;
+            }
+            eventHandler.OnHideWindow(baseWindow);
+        }
+        
         private static void RealShowWindow(this FGUIComponent self, UIBaseWindow baseWindow, WindowID id, ShowWindowData showWindowData)
         {
+            baseWindow.GObject.visible = true;
+            self.VisibleWindowsDict[(int)id] = baseWindow;
+            var eventHandler = FGUIEventComponent.Instance.GetEventHandlerByWindowID(id);
+            if (eventHandler == null)
+            {
+                Log.Error($"Window Id : {id} Not Found EventHandler");
+                return;
+            }
+            eventHandler.OnShowWindow(baseWindow, showWindowData);
+        }
+
+        private static void RealCloseWindow(this FGUIComponent self, UIBaseWindow baseWindow, WindowID id)
+        {
+            baseWindow.GObject.visible = false;
             var eventHandler = FGUIEventComponent.Instance.GetEventHandlerByWindowID(id);
             if (eventHandler == null)
             {
@@ -48,8 +95,11 @@ namespace ET.Client
                 return;
             }
 
-            eventHandler.OnShowWindow(baseWindow, showWindowData);
-            self.VisibleWindowsDic[(int)id] = baseWindow;
+            eventHandler.BeforeUnload(baseWindow);
+            self.AllWindowsDict.Remove((int)id);
+            self.VisibleWindowsDict.Remove((int)id);
+            self.InVisibleWindowsDict.Remove((int)id);
+            baseWindow.Dispose();
         }
 
         private static async ETTask<UIBaseWindow> LoadWindowAsync(this FGUIComponent self, WindowID id)
@@ -94,7 +144,7 @@ namespace ET.Client
                     eventHandler.OnInitWindowCoreData(baseWindow);
 
                     var fguiLayer = self.AllWindowTypes.GetValueOrDefault(baseWindow.WindowType);
-                    fguiLayer?.AddFGUIPage(baseWindow.GObject);
+                    fguiLayer?.AddWindow(baseWindow.GObject);
                     
                     // baseWindow?.SetRoot(EUIRootHelper.GetTargetRoot(baseWindow.WindowData.windowType));
                     // baseWindow.uiTransform.SetAsLastSibling();
@@ -137,5 +187,7 @@ namespace ET.Client
 
             return null;
         }
+        # endregion
+        
     }
 }

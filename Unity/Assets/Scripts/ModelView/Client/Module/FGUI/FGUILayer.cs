@@ -11,16 +11,24 @@ namespace ET.Client
         public GObject GObject;
         public Dictionary<string, GObject> FGuiChildNode = new ();
 
-        public void AddFGUIPage(GObject gObject)
+        public void AddWindow(GObject gObject)
         {
             string uiName = gObject.name;
-            if (this.FGuiChildNode.ContainsKey(uiName))
+            if (this.FGuiChildNode.ContainsKey(gObject.id))
             {
-                throw new Exception($"ui.Name({uiName}) already exist");
+                throw new Exception($"ui.Name({gObject.id}) already exist");
             }
-            FGuiChildNode[uiName] = gObject;
+            FGuiChildNode[gObject.id] = gObject;
             // 挂载
             this.GObject.asCom.AddChild(gObject);
+        }
+
+        public void RemoveWindow(GObject gObject)
+        {
+            string uiName = gObject.name;
+            this.FGuiChildNode.Remove(uiName);
+            
+            gObject.RemoveFromParent();
         }
     }
 }
