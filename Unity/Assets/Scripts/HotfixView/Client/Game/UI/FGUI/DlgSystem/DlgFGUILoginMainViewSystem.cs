@@ -16,11 +16,7 @@ namespace ET.Client
 
         private static async ETTask DoLogin(this DlgFGUILoginMainView self, EventContext context)
         {
-            FGUIComponent.Instance.CloseWindow(WindowID.LoginMainView);
-            await FGUIComponent.Instance.ShowWindowAsync(WindowID.LoadingUIView);
-            
-            
-            /*if(self.isLogging)
+            if(self.isLogging)
             {
                 return;
             }
@@ -39,7 +35,7 @@ namespace ET.Client
             finally
             {
                 self.isLogging = false;
-            }*/
+            }
         }
     }
 }

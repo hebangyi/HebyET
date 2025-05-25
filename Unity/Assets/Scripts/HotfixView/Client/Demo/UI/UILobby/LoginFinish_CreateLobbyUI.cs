@@ -5,7 +5,10 @@
 	{
 		protected override async ETTask Run(Scene scene, LoginFinish args)
 		{
-			await UIHelper.Create(scene, UIType.UILobby, UILayer.Mid);
+			// 打开加载界面
+			await FGUIComponent.Instance.ShowWindowAsync(WindowID.LoadingUIView);
+			// 关闭登录界面
+			FGUIComponent.Instance.CloseWindow(WindowID.LoginMainView);
 		}
 	}
 }
