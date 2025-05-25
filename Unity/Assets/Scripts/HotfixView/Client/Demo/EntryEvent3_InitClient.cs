@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using ET.Model;
 
 namespace ET.Client
 {
@@ -14,8 +15,11 @@ namespace ET.Client
             root.AddComponent<CurrentScenesComponent>();
             root.AddComponent<ClientLobbyDataComponent>(); // 客户端 - Lobby 数据同步组件
             
+            
             // 数据加载
             root.AddComponent<ResourcesLoaderComponent>();
+            // 场景管理
+            root.AddComponent<UnitySceneManagerComponent>();
             
             //// FGUI 
             // FGUI 包管理器组件
