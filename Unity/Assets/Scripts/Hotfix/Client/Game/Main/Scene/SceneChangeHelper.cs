@@ -23,9 +23,6 @@ namespace ET.Client
             var unitySceneChangeStart = new UnitySceneLoadStart();
             unitySceneChangeStart.UnityScene = unityScene;
             await EventSystem.Instance.PublishAsync(root, unitySceneChangeStart);
-            
-            // 等待CreateMyUnit的消息
-            await root.GetComponent<ObjectWait>().Wait<Wait_CreateMyUnit>();
 
             var unitySceneChangeFinish = new UnitySceneChangeFinish();
             unitySceneChangeFinish.UnityScene = unityScene;

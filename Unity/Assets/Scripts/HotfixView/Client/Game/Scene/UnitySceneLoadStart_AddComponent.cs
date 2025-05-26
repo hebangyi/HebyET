@@ -11,8 +11,6 @@ namespace ET.Client
             try
             {
                 var unityScene = UnitySceneManagerComponent.Instance.UnityScene;
-                
-
                 ResourcesLoaderComponent resourcesLoaderComponent = unityScene.GetComponent<ResourcesLoaderComponent>();
             
                 // 加载场景资源

@@ -178,7 +178,7 @@ public static class LobbyRoleComponentHelper
         session.AddComponent<SessionLobbyPlayerComponent, long>(role.RoleId);
     }
 
-    public static void KickOutSessionPlayer(LobbyRole role, ErrorCode errorCode)
+    public static void KickOutSessionPlayer(LobbyRole role, int errorCode)
     {
         var entityClientSessionComponent = role.GetComponent<EntityClientSessionComponent>();
         var session = entityClientSessionComponent.Session;

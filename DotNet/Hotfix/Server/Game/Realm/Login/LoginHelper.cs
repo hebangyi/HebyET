@@ -2,7 +2,7 @@
 [FriendOf(typeof(EtcdClientComponent))]
 public static class LoginHelper
 {
-    public static ErrorCode CheckLoginCommon(Scene scene)
+    public static int CheckLoginCommon(Scene scene)
     {
         var etcdClientComponent = scene.GetComponent<EtcdClientComponent>();
         if (!etcdClientComponent.IsRegisterOver)
