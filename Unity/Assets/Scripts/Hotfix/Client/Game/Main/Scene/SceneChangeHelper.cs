@@ -1,4 +1,6 @@
-﻿namespace ET.Client
+﻿
+
+namespace ET.Client
 {
     public static partial class SceneChangeHelper
     {
@@ -7,21 +9,28 @@
         {
             root.RemoveComponent<AIComponent>();
             
-            CurrentScenesComponent currentScenesComponent = root.GetComponent<CurrentScenesComponent>();
-            currentScenesComponent.Scene?.Dispose(); // 删除之前的CurrentScene，创建新的
-            Scene currentScene = CurrentSceneFactory.Create(sceneInstanceId, sceneName, currentScenesComponent);
-            UnitComponent unitComponent = currentScene.AddComponent<UnitComponent>();
-         
-            // 可以订阅这个事件中创建Loading界面
-            EventSystem.Instance.Publish(root, new SceneChangeStart());
-            // 等待CreateMyUnit的消息
-            Wait_CreateMyUnit waitCreateMyUnit = await root.GetComponent<ObjectWait>().Wait<Wait_CreateMyUnit>();
-            M2C_CreateMyUnit m2CCreateMyUnit = waitCreateMyUnit.Message;
-            Unit unit = UnitFactory.Create(currentScene, m2CCreateMyUnit.Unit);
-            unitComponent.Add(unit);
-            root.RemoveComponent<AIComponent>();
+            UnitySceneManagerComponent unitySceneManagerComponent = root.GetComponent<UnitySceneManagerComponent>();
+            unitySceneManagerComponent.UnityScene?.Dispose(); // 删除之前的CurrentScene，创建新的
+
+
+            var unityScene = unitySceneManagerComponent.AddChild<UnityScene>();
+            unitySceneManagerComponent.UnityScene = unityScene;
             
-            EventSystem.Instance.Publish(currentScene, new SceneChangeFinish());
+            var afterCreateCurrentUnityScene = new AfterCreateCurrentUnityScene();
+            afterCreateCurrentUnityScene.UnityScene = unityScene;
+            await EventSystem.Instance.PublishAsync(root, afterCreateCurrentUnityScene);
+
+            var unitySceneChangeStart = new UnitySceneLoadStart();
+            unitySceneChangeStart.UnityScene = unityScene;
+            await EventSystem.Instance.PublishAsync(root, unitySceneChangeStart);
+            
+            // 等待CreateMyUnit的消息
+            await root.GetComponent<ObjectWait>().Wait<Wait_CreateMyUnit>();
+
+            var unitySceneChangeFinish = new UnitySceneChangeFinish();
+            unitySceneChangeFinish.UnityScene = unityScene;
+            await EventSystem.Instance.PublishAsync(root, unitySceneChangeFinish);
+            
             // 通知等待场景切换的协程
             root.GetComponent<ObjectWait>().Notify(new Wait_SceneChangeFinish());
         }

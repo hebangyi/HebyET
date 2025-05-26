@@ -1,7 +1,4 @@
-﻿using ET.Client;
-using ET.Model;
-
-namespace ET.Hotfix
+﻿namespace ET.Client
 {
     [EntitySystemOf(typeof(UnitySceneManagerComponent))]
     public static partial class UnitySceneManagerComponentSystem

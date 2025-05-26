@@ -1,22 +1,24 @@
-﻿namespace ET.Model;
-
-[ComponentOf(typeof(Scene))]
-public class UnitySceneManagerComponent: Entity, IAwake
+﻿namespace ET.Client
 {
-    public static UnitySceneManagerComponent Instance;
-    
-    private EntityRef<UnityScene> unityScene;
-
-    public UnityScene UnityScene
+    [ComponentOf(typeof(Scene))]
+    public class UnitySceneManagerComponent: Entity, IAwake
     {
-        get
-        {
-            return this.unityScene;
-        }
-        set
-        {
-            this.unityScene = value;
-        }
-    }
+        public static UnitySceneManagerComponent Instance;
     
+        private EntityRef<UnityScene> unityScene;
+
+        public UnityScene UnityScene
+        {
+            get
+            {
+                return this.unityScene;
+            }
+            set
+            {
+                this.unityScene = value;
+            }
+        }
+    
+    }
 }
+
