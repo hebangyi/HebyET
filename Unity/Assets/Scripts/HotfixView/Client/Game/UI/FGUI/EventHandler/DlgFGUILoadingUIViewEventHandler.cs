@@ -8,10 +8,6 @@ namespace ET.Client
         protected override async ETTask Run(Scene scene, AfterCreateCurrentUnityScene args)
         {
             await FGUIComponent.Instance.ShowWindowAsync(WindowID.LoadingUIView);
-            
-            
-            var unityScene = args.UnityScene;
-            unityScene.AddComponent<ResourcesLoaderComponent>();
             await ETTask.CompletedTask;
         }
     }
@@ -36,6 +32,7 @@ namespace ET.Client
 
         public void OnShowWindow(UIBaseWindow uiBaseWindow, ShowWindowData showWindowData = null)
         {
+            uiBaseWindow.GetComponent<DlgFGUILoadingUIView>().ShowWindow(showWindowData);
         }
 
         public void OnHideWindow(UIBaseWindow uiBaseWindow)
