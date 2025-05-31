@@ -24,7 +24,7 @@ namespace ET.Client
                     }
                     default:
                     {
-                        scenePath = ABPathHelper.GetScenePath(args.UnityScene.ToString());
+                        scenePath = ABPathHelper.GetScenePath(args.UnityScene.UnitySceneType.ToString());
                         break;
                     }
                 }

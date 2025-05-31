@@ -153,10 +153,12 @@ namespace ET.Client
                     eventHandler.OnRegisterUIEvent(baseWindow);
                     self.AllWindowsDict[(int)id] = baseWindow;
                 }
+
+                return baseWindow;
             }
             catch (Exception e)
             {
-                throw;
+                Log.Error(e);
             }
             finally
             {
