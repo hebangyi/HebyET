@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <packageDescription id="y9rc4goc">
   <resources>
-    <component id="uexr2" name="CommonBG.xml" path="/" exported="true"/>
+    <component id="uexr2" name="FGUICommonBG.xml" path="/" exported="true"/>
   </resources>
   <publish name="UICommon" genCode="true"/>
 </packageDescription>

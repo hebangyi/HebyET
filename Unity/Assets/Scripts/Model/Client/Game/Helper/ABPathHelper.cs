@@ -11,10 +11,14 @@
         }
         
 
-
         public static string GetFGUIPicPath(string fileName)
         {
             return $"{ROOT_PATH}/FGUI/{fileName}";
+        }
+        
+        public static string GetScenePath(string fileName)
+        {
+            return $"{ROOT_PATH}/Scenes/{fileName}.unity";
         }
     }
 }

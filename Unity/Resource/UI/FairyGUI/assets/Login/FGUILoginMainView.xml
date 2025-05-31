@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1920,1080">
   <displayList>
-    <component id="n8_uexr" name="bg" src="uexr2" fileName="CommonBG.xml" pkg="y9rc4goc" xy="0,0">
+    <component id="n8_uexr" name="bg" src="uexr2" fileName="FGUICommonBG.xml" pkg="y9rc4goc" xy="0,0">
       <relation target="" sidePair="center-center,middle-middle"/>
     </component>
     <text id="n0_cirq" name="user_name_titime" xy="482,390" pivot="0.5,0.5" size="244,100" group="n9_joti" fontSize="50" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="用户名" input="true">
@@ -13,7 +13,6 @@
     </text>
     <component id="n1_cirq" name="loginBtn" src="cirq1" fileName="LoginBtn1.xml" xy="614,794" size="524,100" group="n9_joti">
       <relation target="" sidePair="center-center,middle-middle"/>
-      <Button title="登录" selectedTitle="登录"/>
     </component>
     <group id="n9_joti" name="login_field_group" xy="482,390" size="955,504" advanced="true">
       <relation target="" sidePair="center-center,middle-middle"/>

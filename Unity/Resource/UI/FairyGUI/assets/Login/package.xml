@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <packageDescription id="yn21ng5j">
   <resources>
-    <component id="cirq0" name="LoginMainView.xml" path="/" exported="true"/>
+    <component id="cirq0" name="FGUILoginMainView.xml" path="/" exported="true"/>
     <component id="cirq1" name="LoginBtn1.xml" path="/" exported="true"/>
-    <component id="kkop3" name="Button1.xml" path="/" exported="true"/>
   </resources>
   <publish name="Login" genCode="true"/>
 </packageDescription>

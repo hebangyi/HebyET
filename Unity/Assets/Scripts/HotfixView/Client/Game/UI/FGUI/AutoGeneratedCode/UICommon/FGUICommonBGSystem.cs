@@ -11,12 +11,12 @@ namespace ET.Client
         public static void Awake(this FGUICommonBG self, FairyGUI.GObject go)
         {
 			self.UIPackageName = "UICommon";
-	        self.UIResourceName = "CommonBG";
-	        self.UIResURL = "ui://UICommon/CommonBG";
+	        self.UIResourceName = "FGUICommonBG";
+	        self.UIResURL = "ui://UICommon/FGUICommonBG";
 	        self.FUIName = "FGUICommonBG";
 			self.GObject = go;
             var com = go.asCom;
-			self.fgui_bg_img = (GLoader)com.GetChild("bg_img");
+			self.bg_img = (GLoader)com.GetChild("bg_img");
 
         }
         
@@ -24,7 +24,7 @@ namespace ET.Client
         [EntitySystem]
         public static void Destroy(this FGUICommonBG self)
         {
-			self.fgui_bg_img = null;
+			self.bg_img = null;
 
         }
     }

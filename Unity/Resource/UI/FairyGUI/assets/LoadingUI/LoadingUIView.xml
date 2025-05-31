@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<component size="1920,1080">
-  <displayList>
-    <loader id="n1_gra1" name="n1" xy="0,0" size="2048,1152" url="ui://nfiegnxbgra11" fill="scaleNoBorder"/>
-  </displayList>
-</component>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <component id="n5_fnvc" name="bg" src="uexr2" fileName="FGUICommonBG.xml" pkg="y9rc4goc" xy="0,0"/>
+    <component id="n4_skoa" name="processBar" src="skoa4" fileName="FGUILoadingProgressBar.xml" xy="460,840" size="1000,50">
+      <ProgressBar value="50" max="100"/>
+    </component>
+  </displayList>
+</component>

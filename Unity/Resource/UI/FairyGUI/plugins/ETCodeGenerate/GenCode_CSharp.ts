@@ -44,7 +44,7 @@ function genPackage(handler: FairyEditor.PublishHandler){
     let templatePath = Utils.FormatStr("{0}{1}", FairyEditor.App.pluginManager.projectPluginFolder, codeTemplatePath);
     let template = Utils.ReadTemplate(templateFileName, templatePath);
 
-    let classes = handler.CollectClasses(false, false, null);
+    let classes = handler.CollectClasses(true, true, null);
     handler.SetupCodeFolder(exportCodePath, "cs"); //check if target folder exists, and delete old files
 
     let packageContent = new StringBuilder();
@@ -78,9 +78,10 @@ function genComponent(handler: FairyEditor.PublishHandler) {
     let codeTemplatePath = "/ETCodeGenerate/template/Unity";
     let templatePath = Utils.FormatStr("{0}{1}", FairyEditor.App.pluginManager.projectPluginFolder, codeTemplatePath);
     let template = Utils.ReadTemplate(templateFileName, templatePath);
-
-    //CollectClasses(stripeMemeber, stripeClass, fguiNamespace)
-    let classes = handler.CollectClasses(false, false, null);
+    
+    let classes = handler.CollectClasses(true, true, null);
+    console.log("classes count :")
+    console.log(classes.Count)
     handler.SetupCodeFolder(exportCodePath, "cs"); //check if target folder exists, and delete old files
 
     let getMemberByName = settings.getMemberByName;
@@ -89,6 +90,11 @@ function genComponent(handler: FairyEditor.PublishHandler) {
 
     for (let i: number = 0; i < classCnt; i++) {
         let classInfo = classes.get_Item(i);
+        if(!IsExportType(classInfo.className))
+        {
+            continue;
+        }
+
         let resUrl = Utils.FormatStr("ui://{0}/{1}", handler.pkg.name, classInfo.resName);
 
         let classContent = Utils.ReplaceAll(template, "{className}", classInfo.className);
@@ -128,7 +134,7 @@ function genComponentSystem(handler: FairyEditor.PublishHandler) {
     let templateFileName = "ETComponentSystem.template";
     let codeTemplatePath = "/ETCodeGenerate/template/Unity";
     let templatePath = Utils.FormatStr("{0}{1}", FairyEditor.App.pluginManager.projectPluginFolder, codeTemplatePath);
-    let classes = handler.CollectClasses(false, false, null);
+    let classes = handler.CollectClasses(true, true, null);
     let classCnt = classes.Count;
     let getMemberByName = settings.getMemberByName;
     handler.SetupCodeFolder(exportCodePath, "cs");  //check if target folder exists, and delete old files
@@ -137,6 +143,11 @@ function genComponentSystem(handler: FairyEditor.PublishHandler) {
 
     for (let i: number = 0; i < classCnt; i++) {
         let classInfo = classes.get_Item(i);
+        if(!IsExportType(classInfo.className))
+        {
+            continue;
+        }
+
         let resUrl = Utils.FormatStr("ui://{0}/{1}", handler.pkg.name, classInfo.resName);
         let classContent = Utils.ReplaceAll(template, "{className}", classInfo.className);
         classContent = Utils.ReplaceAll(classContent, "{uiPkgName}", codePkgName);
@@ -223,16 +234,29 @@ enum ExportClassType
     SelfDefineClass = 1,
 }
 
+
+function IsExportType(typeName: string): boolean
+{
+    return typeName.startsWith("FGUI");
+}
+
+
 function ClassExportDefine(setting: FairyEditor.GlobalPublishSettings.CodeGenerationConfig, memberInfo: FairyEditor.PublishHandler.MemberInfo) : [ExportClassType, string]
 {
+    console.log("=============================")
     if(memberInfo.res != null && memberInfo.res.name != null)
     {
-        console.log("=================")
-        console.log(memberInfo.res.name)
-        return [ExportClassType.SelfDefineClass, setting.classNamePrefix + memberInfo.res.name]
+        if(IsExportType(memberInfo.res.name))
+        {
+            console.log("self")
+            console.log(memberInfo.res.name)
+            return [ExportClassType.SelfDefineClass, setting.classNamePrefix + memberInfo.res.name]
+        }
     }
-    
-    return [ExportClassType.Normal, memberInfo.type]
+    console.log("normal")
+    console.log(memberInfo.type)
+    console.log(memberInfo.varName)
+    return [ExportClassType.Normal, memberInfo.type]    
 }
 
 export { genCode };

@@ -1244,6 +1244,8 @@ namespace FairyGUI
             }
         }
 
+        public object Log { get; set; }
+
         public void GetSnappingPosition(ref float xValue, ref float yValue)
         {
             GetSnappingPositionWithDir(ref xValue, ref yValue, 0, 0);

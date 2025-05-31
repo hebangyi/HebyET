@@ -90,20 +90,13 @@ namespace ET.Client
             return dictionary;
         }
 
-        public static async ETTask LoadSceneAsync(this ResourcesLoaderComponent self, string location, LoadSceneMode loadSceneMode)
+        public static ETTask<SceneHandle> LoadSceneAsync(this ResourcesLoaderComponent self, string location, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
         {
-            using CoroutineLock coroutineLock = await self.Root().GetComponent<CoroutineLockComponent>().Wait(CoroutineLockType.ResourcesLoader, location.GetHashCode());
-
-            HandleBase handler;
-            if (self.handlers.TryGetValue(location, out handler))
-            {
-                return;
-            }
-
-            handler = self.package.LoadSceneAsync(location);
-
-            await handler.Task;
-            self.handlers.Add(location, handler);
+            var handler = self.package.LoadSceneAsync(location, loadSceneMode);
+            ETTask<SceneHandle> tcs = ETTask<SceneHandle>.Create();
+            UnitySceneManagerComponent.Instance.UnityScene.SceneHandle = handler;
+            handler.Completed += (h) => { tcs.SetResult(h); };
+            return tcs;
         }
     }
 

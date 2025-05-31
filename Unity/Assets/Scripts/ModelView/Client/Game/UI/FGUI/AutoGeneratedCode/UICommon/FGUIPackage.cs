@@ -13,7 +13,7 @@ namespace ET.Client
 	
 	public static partial class FGUIResName
 	{
-		public const string RES_UICommon_CommonBG = "CommonBG";
+		public const string RES_UICommon_FGUICommonBG = "FGUICommonBG";
 
 	}
 }

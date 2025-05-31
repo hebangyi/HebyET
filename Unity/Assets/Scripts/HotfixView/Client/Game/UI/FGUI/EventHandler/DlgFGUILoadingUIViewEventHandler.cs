@@ -2,6 +2,21 @@
 
 namespace ET.Client
 {
+    [Event(SceneType.Game)]
+    public class AfterCreateCurrentUnityScene_ShowLoadingUI: AEvent<Scene, AfterCreateCurrentUnityScene>
+    {
+        protected override async ETTask Run(Scene scene, AfterCreateCurrentUnityScene args)
+        {
+            await FGUIComponent.Instance.ShowWindowAsync(WindowID.LoadingUIView);
+            
+            
+            var unityScene = args.UnityScene;
+            unityScene.AddComponent<ResourcesLoaderComponent>();
+            await ETTask.CompletedTask;
+        }
+    }
+    
+    
     [FGUIEvent(WindowID.LoadingUIView, typeof(FGUILoadingUIView))]
     public class DlgFGUILoadingUIViewEventHandler: IFGUIEventHandler
     {

@@ -11,12 +11,13 @@ namespace ET.Client
         public static void Awake(this FGUILoadingUIView self, FairyGUI.GObject go)
         {
 			self.UIPackageName = "LoadingUI";
-	        self.UIResourceName = "LoadingUIView";
-	        self.UIResURL = "ui://LoadingUI/LoadingUIView";
+	        self.UIResourceName = "FGUILoadingUIView";
+	        self.UIResURL = "ui://LoadingUI/FGUILoadingUIView";
 	        self.FUIName = "FGUILoadingUIView";
 			self.GObject = go;
             var com = go.asCom;
-			self.fgui_n1 = (GLoader)com.GetChild("n1");
+			self.bg = self.AddChild<FGUICommonBG,GObject>(com.GetChild("bg"));
+			self.processBar = (GProgressBar)com.GetChild("processBar");
 
         }
         
@@ -24,7 +25,10 @@ namespace ET.Client
         [EntitySystem]
         public static void Destroy(this FGUILoadingUIView self)
         {
-			self.fgui_n1 = null;
+			self.bg?.Dispose();
+			self.bg = null;
+			self.processBar?.Dispose();
+			self.processBar = null;
 
         }
     }

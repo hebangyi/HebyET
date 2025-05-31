@@ -13,7 +13,7 @@ namespace ET.Client
 	
 	public static partial class FGUIResName
 	{
-		public const string RES_LoadingUI_LoadingUIView = "LoadingUIView";
+		public const string RES_LoadingUI_FGUILoadingUIView = "FGUILoadingUIView";
 
 	}
 }

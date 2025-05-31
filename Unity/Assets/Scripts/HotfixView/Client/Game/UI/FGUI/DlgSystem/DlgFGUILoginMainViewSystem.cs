@@ -7,7 +7,7 @@ namespace ET.Client
     {
         public static void RegisterUIEvent(this DlgFGUILoginMainView self)
         {
-            self.View.fgui_loginBtn.GObject.asButton.onClick.Add((EventContext context) => { self.DoLogin(context).Coroutine();});
+            self.View.loginBtn.onClick.Add((EventContext context) => { self.DoLogin(context).Coroutine();});
         }
 
         public static void ShowWindow(this DlgFGUILoginMainView self, ShowWindowData showWindowData = null)
@@ -24,7 +24,7 @@ namespace ET.Client
             try
             {
                 self.isLogging = true;
-                string account = self.View.fgui_loginField.text;
+                string account = self.View.loginField.text;
                 await LoginHelper.Login(self.Root(), account, "");
             }
             catch (Exception e)

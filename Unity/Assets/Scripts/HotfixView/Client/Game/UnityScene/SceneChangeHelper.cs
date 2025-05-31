@@ -1,19 +1,22 @@
 ﻿
 
+using dnlib.DotNet;
+
 namespace ET.Client
 {
     public static partial class SceneChangeHelper
     {
         // 场景切换协程
-        public static async ETTask SceneChangeTo(Scene root, string sceneName, long sceneInstanceId)
+        public static async ETTask SceneChangeTo(Scene root, UnitySceneType unitySceneType, params object[] ParamList)
         {
             root.RemoveComponent<AIComponent>();
             
             UnitySceneManagerComponent unitySceneManagerComponent = root.GetComponent<UnitySceneManagerComponent>();
             unitySceneManagerComponent.UnityScene?.Dispose(); // 删除之前的CurrentScene，创建新的
-
-
+            
             var unityScene = unitySceneManagerComponent.AddChild<UnityScene>();
+            unityScene.UnitySceneType = unitySceneType;
+            unityScene.ParamList = ParamList;
             unitySceneManagerComponent.UnityScene = unityScene;
             
             var afterCreateCurrentUnityScene = new AfterCreateCurrentUnityScene();

@@ -11,6 +11,7 @@
 			await FGUIPackageComponent.Instance.TryAddPackageAsync(FGUIPackage.PKG_UICommon);
 			
 			await FGUIComponent.Instance.ShowWindowAsync(WindowID.LoginMainView);
+			await SceneChangeHelper.SceneChangeTo(root, UnitySceneType.Test);
 		}
 	}
 }
