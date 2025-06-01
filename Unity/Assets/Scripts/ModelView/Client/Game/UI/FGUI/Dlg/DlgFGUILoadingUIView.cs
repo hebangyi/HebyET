@@ -5,6 +5,7 @@ namespace ET.Client
 {
     [ComponentOf]
     [EnableMethod]
+    [FGUIDLG(WindowID.LoadingUIView, typeof(FGUILoadingUIView))]
     public class DlgFGUILoadingUIView : Entity,IAwake, IUpdate
     {
         public FGUILoadingUIView View { get => this.GetComponent<FGUILoadingUIView>(); }

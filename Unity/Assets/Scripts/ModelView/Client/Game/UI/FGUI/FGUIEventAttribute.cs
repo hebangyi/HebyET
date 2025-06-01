@@ -21,4 +21,24 @@ namespace ET.Client
             this.FGUIType = FGUIType;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public class FGUIDLGAttribute : BaseAttribute
+    {
+        public WindowID WindowID
+        {
+            get;
+        }
+
+        public Type FGUIType
+        {
+            get;
+        }
+        
+        public FGUIDLGAttribute(WindowID windowID, Type FGUIType)
+        {
+            this.WindowID = windowID;
+            this.FGUIType = FGUIType;
+        }
+    }
 }
