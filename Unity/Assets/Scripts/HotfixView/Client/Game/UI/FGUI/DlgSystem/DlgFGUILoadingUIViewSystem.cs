@@ -25,7 +25,7 @@
             // TODO 预加载GameObject的进度
             // TODO 时间伪加载
             
-            Log.Error($"{UnitySceneManagerComponent.Instance.UnityScene.SceneHandle.Progress}");
+            EventSystem.Instance.PublishAsync(self.Root(), new LoadUIFinished(){UnityScene = UnitySceneManagerComponent.Instance.UnityScene}).Coroutine();
         }
 
 

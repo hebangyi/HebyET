@@ -11,9 +11,8 @@
     {
         public UnityScene UnityScene;
     }
-    
-    
-    public struct UnitySceneChangeFinish
+
+    public struct LoadUIFinished
     {
         public UnityScene UnityScene;
     }

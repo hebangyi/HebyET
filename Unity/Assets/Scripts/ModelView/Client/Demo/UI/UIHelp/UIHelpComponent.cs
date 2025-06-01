@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿/*
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace ET.Client
@@ -9,3 +10,4 @@ namespace ET.Client
 		public Text text;
 	}
 }
+*/
