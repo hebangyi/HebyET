@@ -10,6 +10,7 @@
                 return;
             }
 
+            FGUIComponent.Instance.CloseWindowAll();
             FGUIComponent.Instance.ShowWindowAsync(WindowID.LobbyMainView).Coroutine();
         }
     }

@@ -20,12 +20,14 @@
             if (sceneHandle.Progress < 1)
             {
                 self.ShowProgress(sceneHandle.Progress - 0.3f);
+                return;
             }
             
             // TODO 预加载GameObject的进度
             // TODO 时间伪加载
             
             EventSystem.Instance.PublishAsync(self.Root(), new LoadUIFinished(){UnityScene = UnitySceneManagerComponent.Instance.UnityScene}).Coroutine();
+            FGUIComponent.Instance.CloseWindow(WindowID.LoadingUIView);
         }
 
 

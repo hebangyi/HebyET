@@ -7,6 +7,7 @@ namespace ET.Client
     {
         protected override async ETTask Run(Scene scene, AfterCreateCurrentUnityScene args)
         {
+            FGUIComponent.Instance.CloseWindowAll();
             await FGUIComponent.Instance.ShowWindowAsync(WindowID.LoadingUIView);
             await ETTask.CompletedTask;
         }

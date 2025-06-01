@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FairyGUI;
 
 namespace ET.Client
@@ -54,6 +55,15 @@ namespace ET.Client
             if (baseWindow != null)
             {
                 self.RealCloseWindow(baseWindow, windowId);
+            }
+        }
+
+        public static void CloseWindowAll(this FGUIComponent self)
+        {
+            var windowIds = self.AllWindowsDict.Keys.ToArray();
+            foreach (var windowId in windowIds)
+            {
+                self.CloseWindow((WindowID)windowId);
             }
         }
         
