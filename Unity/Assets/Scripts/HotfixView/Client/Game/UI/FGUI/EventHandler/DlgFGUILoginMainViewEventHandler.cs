@@ -2,7 +2,7 @@
 
 namespace ET.Client
 {
-    [FGUIEvent(WindowID.LoginMainView, typeof(FGUILoginMainView))]
+    [FGUIEvent(typeof(FGUILoginMainView))]
     public class DlgFGUILoginMainViewEventHandler : IFGUIEventHandler
     {
         public void OnInitWindowCoreData(UIBaseWindow uiBaseWindow)

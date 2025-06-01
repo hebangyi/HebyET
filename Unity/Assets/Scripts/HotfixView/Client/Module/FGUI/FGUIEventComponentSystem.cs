@@ -13,19 +13,31 @@ namespace ET.Client
         private static void Awake(this FGUIEventComponent self)
         {
             FGUIEventComponent.Instance = self;
-            var handlerTypes = CodeTypes.Instance.GetAttributeTypes(typeof(FGUIEventAttribute));
+            
+            var dlgTypes = CodeTypes.Instance.GetAttributeTypes(typeof(FGUIDLGAttribute));
+            foreach (var dlgType in dlgTypes)
+            {
+                var dlgAttribute = dlgType.GetCustomAttribute(typeof(FGUIDLGAttribute)) as FGUIDLGAttribute;
+                var windowID = dlgAttribute.WindowID;
+                var fguiType = dlgAttribute.FGUIType;
 
+                self.WindowID2FGUITypes[windowID] = fguiType;
+                self.FGUIType2WindowIds[fguiType] = windowID;
+                
+                var fguiTagAttribute = fguiType.GetCustomAttribute(typeof(FGUITagAttribute)) as FGUITagAttribute;
+                var packageName = fguiTagAttribute.PackageName;
+                var resourceName = fguiTagAttribute.ResourceName;
+                self.WindowId2Resources[windowID] = (packageName, resourceName);
+            }
+            
+            var handlerTypes = CodeTypes.Instance.GetAttributeTypes(typeof(FGUIEventAttribute));
             foreach (var handlerType in handlerTypes)
             {
                 IFGUIEventHandler eventHandler = Activator.CreateInstance(handlerType) as IFGUIEventHandler;
                 var eventAttribute = handlerType.GetCustomAttribute(typeof(FGUIEventAttribute)) as FGUIEventAttribute;
-                self.WindowID2EventHandlers[eventAttribute.WindowID] = eventHandler;
-                self.WindowID2UITypes[eventAttribute.WindowID] = eventAttribute.FGUIType;
-
-                var fguiTagAttribute = eventAttribute.FGUIType.GetCustomAttribute(typeof(FGUITagAttribute)) as FGUITagAttribute;
-                var packageName = fguiTagAttribute.PackageName;
-                var resourceName = fguiTagAttribute.ResourceName;
-                self.WindowId2Resources[eventAttribute.WindowID] = (packageName, resourceName);
+                var fguiType = eventAttribute.FGUIType;
+                var windowId = self.FGUIType2WindowIds[fguiType];
+                self.WindowID2EventHandlers[windowId] = eventHandler;
             }
         }
 

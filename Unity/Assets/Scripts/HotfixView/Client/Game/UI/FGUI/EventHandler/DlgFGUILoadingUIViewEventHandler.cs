@@ -13,7 +13,7 @@ namespace ET.Client
     }
     
     
-    [FGUIEvent(WindowID.LoadingUIView, typeof(FGUILoadingUIView))]
+    [FGUIEvent(typeof(FGUILoadingUIView))]
     public class DlgFGUILoadingUIViewEventHandler: IFGUIEventHandler
     {
         public void OnInitWindowCoreData(UIBaseWindow uiBaseWindow)

@@ -12,10 +12,15 @@ namespace ET.Client
         public Dictionary<WindowID, IFGUIEventHandler> WindowID2EventHandlers = new();
 
         // WindowId 对应的 UIType
-        public Dictionary<WindowID, Type> WindowID2UITypes = new();
+        public Dictionary<WindowID, Type> WindowID2FGUITypes = new();
 
         // WindowId 对应的 packageName 和 ResName
         public Dictionary<WindowID, (string, string)> WindowId2Resources = new ();
+        
+        // FGUIType 对应的 WindowID
+        public Dictionary<Type, WindowID> FGUIType2WindowIds = new();
+
+        
     
     }
 }
