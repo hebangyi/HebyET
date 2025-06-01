@@ -6,13 +6,7 @@
         public UnityScene UnityScene;
     }
     
-    
     public struct UnitySceneLoadStart
-    {
-        public UnityScene UnityScene;
-    }
-
-    public struct LoadUIFinished
     {
         public UnityScene UnityScene;
     }
