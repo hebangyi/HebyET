@@ -24,7 +24,7 @@ namespace ET.Client
             // FGUI 包管理器组件
             root.AddComponent<FGUIPackageComponent>();
             // FGUI 事件
-            root.AddComponent<FGUIEventComponent>();
+            root.AddComponent<FGUIManagerComponent>();
             // FGUI UI组件
             root.AddComponent<FGUIComponent>();
             

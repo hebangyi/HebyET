@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace ET.Client
 {
     [ComponentOf]
-    public class FGUIEventComponent : Entity, IAwake
+    public class FGUIManagerComponent : Entity, IAwake
     {
-        public static FGUIEventComponent Instance;
+        public static FGUIManagerComponent Instance;
     
         // WindowId 对应的 EventHandler 
         public Dictionary<WindowID, IFGUIEventHandler> WindowID2EventHandlers = new();

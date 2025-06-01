@@ -63,7 +63,7 @@ namespace ET.Client
         {
             baseWindow.GObject.visible = false;
             self.InVisibleWindowsDict[(int)id] = baseWindow;
-            var eventHandler = FGUIEventComponent.Instance.GetEventHandlerByWindowID(id);
+            var eventHandler = FGUIManagerComponent.Instance.GetEventHandlerByWindowID(id);
             if (eventHandler == null)
             {
                 Log.Error($"Window Id : {id} Not Found EventHandler");
@@ -76,7 +76,7 @@ namespace ET.Client
         {
             baseWindow.GObject.visible = true;
             self.VisibleWindowsDict[(int)id] = baseWindow;
-            var eventHandler = FGUIEventComponent.Instance.GetEventHandlerByWindowID(id);
+            var eventHandler = FGUIManagerComponent.Instance.GetEventHandlerByWindowID(id);
             if (eventHandler == null)
             {
                 Log.Error($"Window Id : {id} Not Found EventHandler");
@@ -88,7 +88,7 @@ namespace ET.Client
         private static void RealCloseWindow(this FGUIComponent self, UIBaseWindow baseWindow, WindowID id)
         {
             baseWindow.GObject.visible = false;
-            var eventHandler = FGUIEventComponent.Instance.GetEventHandlerByWindowID(id);
+            var eventHandler = FGUIManagerComponent.Instance.GetEventHandlerByWindowID(id);
             if (eventHandler == null)
             {
                 Log.Error($"Window Id : {id} Not Found EventHandler");
@@ -116,7 +116,7 @@ namespace ET.Client
                     baseWindow = self.AddChild<UIBaseWindow>();
                     baseWindow.WindowId = id;
 
-                    var res = FGUIEventComponent.Instance.GetWindowPackageAndRes(id);
+                    var res = FGUIManagerComponent.Instance.GetWindowPackageAndRes(id);
                     if (res.Item1 == null || res.Item2 == null)
                     {
                         Log.Error($"Window Id : {id} Not Found Package And Resource.");
@@ -134,7 +134,7 @@ namespace ET.Client
 
                     baseWindow.GObject = gobject;
 
-                    var eventHandler = FGUIEventComponent.Instance.GetEventHandlerByWindowID(id);
+                    var eventHandler = FGUIManagerComponent.Instance.GetEventHandlerByWindowID(id);
                     if (eventHandler == null)
                     {
                         Log.Error($"Window Id : {id} Not Found EventHandler");

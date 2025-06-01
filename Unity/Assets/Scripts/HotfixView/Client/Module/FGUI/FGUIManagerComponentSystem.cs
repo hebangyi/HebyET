@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace ET.Client
 {
-    [EntitySystemOf(typeof(FGUIEventComponent))]
-    [FriendOf(typeof(FGUIEventComponent))]
-    public static partial class  FGUIEventComponentSystem
+    [EntitySystemOf(typeof(FGUIManagerComponent))]
+    [FriendOf(typeof(FGUIManagerComponent))]
+    public static partial class  FGUIManagerComponentSystem
     {
         [EntitySystem]
-        private static void Awake(this FGUIEventComponent self)
+        private static void Awake(this FGUIManagerComponent self)
         {
-            FGUIEventComponent.Instance = self;
+            FGUIManagerComponent.Instance = self;
             
             var dlgTypes = CodeTypes.Instance.GetAttributeTypes(typeof(FGUIDLGAttribute));
             foreach (var dlgType in dlgTypes)
@@ -41,12 +41,12 @@ namespace ET.Client
             }
         }
 
-        public static (string, string) GetWindowPackageAndRes(this FGUIEventComponent self, WindowID windowID)
+        public static (string, string) GetWindowPackageAndRes(this FGUIManagerComponent self, WindowID windowID)
         {
             return self.WindowId2Resources.GetValueOrDefault(windowID);
         }
 
-        public static IFGUIEventHandler GetEventHandlerByWindowID(this FGUIEventComponent self, WindowID windowID)
+        public static IFGUIEventHandler GetEventHandlerByWindowID(this FGUIManagerComponent self, WindowID windowID)
         {
             return self.WindowID2EventHandlers.GetValueOrDefault(windowID);
         }
