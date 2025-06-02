@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using ET.Analyzer;
 using Microsoft.CodeAnalysis;
@@ -61,28 +62,51 @@ public class DlgGenerator : ISourceGenerator
     private void GenerateDlgCodeByTemplate(string namespaceName, string className,
     GeneratorExecutionContext context)
     {
+        string path = "../Assets/Scripts/ModelView/Client/Game/UI/FGUI/Dlg";
+        string fileName = $"Dlg{className}.cs";
+        var filePath = Path.Combine(path, fileName);
+        if (File.Exists(filePath))
+        {
+            return;
+        }
+        
         var code = DlgTemplate.Replace("{namespaceName}", namespaceName);
         code = code.Replace("{className}", className);
-        string fileName = $"Dlg{className}.cs";
-        context.AddSource(fileName, code);
-    }
-
-    private void GenerateDlgSystemByTemplate(string namespaceName, string className,
-    GeneratorExecutionContext context)
-    {
-        var code = DlgSystemTemplate.Replace("{namespaceName}", namespaceName);
-        code = code.Replace("{className}", className);
-        string fileName = $"Dlg{className}EventHandler.cs";
-        context.AddSource(fileName, code);
+        File.WriteAllText(filePath, code);
     }
 
     private void GenerateDlgEventByTemplate(string namespaceName, string className,
     GeneratorExecutionContext context)
     {
+        string path = "../Assets/Scripts/HotfixView/Client/Game/UI/FGUI/DlgEventHandler";
+        string fileName = $"Dlg{className}EventHandler.cs";
+        var filePath = Path.Combine(path, fileName);
+        
+        if (File.Exists(filePath))
+        {
+            return;
+        }
+        
+        var code = DlgSystemTemplate.Replace("{namespaceName}", namespaceName);
+        code = code.Replace("{className}", className);
+        
+        File.WriteAllText(filePath, code);
+    }
+
+    private void GenerateDlgSystemByTemplate(string namespaceName, string className,
+    GeneratorExecutionContext context)
+    {
+        string path = "../Assets/Scripts/HotfixView/Client/Game/UI/FGUI/DlgSystem";
+        string fileName = $"Dlg{className}System.cs";
+        var filePath = Path.Combine(path, fileName);
+        if (File.Exists(filePath))
+        {
+            return;
+        }
+        
         var code = DlgEventHandlerTemplate.Replace("{namespaceName}", namespaceName);
         code = code.Replace("{className}", className);
-        string fileName = $"Dlg{className}System.cs";
-        context.AddSource(fileName, code);
+        File.WriteAllText(filePath, code);
     }
     
     public const string DlgTemplate = $$"""
@@ -195,12 +219,12 @@ public class DlgGenerator : ISourceGenerator
                 return;
             }
 
-            if (!classTypeSymbol.HasAttribute("ET.EntitySystemOfAttribute"))
+            if (!classTypeSymbol.HasAttribute(Definition.FGUITagAttribute))
             {
                 return;
             }
 
-            if (!classTypeSymbol.Name.EndsWith("System"))
+            if (!classTypeSymbol.Name.EndsWith(Definition.ViewEndFix))
             {
                 return;
             }
