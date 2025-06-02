@@ -98,6 +98,8 @@
         public const string DisableNewAttribute = "ET.DisableNewAttribute";
 
         public const string EnableClassAttribute = "ET.EnableClassAttribute";
+
+        public const string ViewEndFix = "View";
     }
 }
 

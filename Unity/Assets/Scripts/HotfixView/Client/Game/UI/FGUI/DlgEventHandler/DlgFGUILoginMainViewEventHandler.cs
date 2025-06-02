@@ -13,6 +13,7 @@ namespace ET.Client
         public void OnInitComponent(UIBaseWindow uiBaseWindow)
         {
             uiBaseWindow.AddComponent<DlgFGUILoginMainView>().AddComponent<FGUILoginMainView, GObject>(uiBaseWindow.GObject);
+            uiBaseWindow.GetComponent<DlgFGUILoginMainView>().Init();
         }
 
         public void OnRegisterUIEvent(UIBaseWindow uiBaseWindow)
@@ -27,10 +28,12 @@ namespace ET.Client
 
         public void OnHideWindow(UIBaseWindow uiBaseWindow)
         {
+            uiBaseWindow.GetComponent<DlgFGUILoginMainView>().HideWindow();
         }
 
         public void BeforeUnload(UIBaseWindow uiBaseWindow)
         {
+            uiBaseWindow.GetComponent<DlgFGUILoginMainView>().BeforeUnload();
         }
     }
 }

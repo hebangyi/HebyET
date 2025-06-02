@@ -5,11 +5,15 @@ namespace ET.Client
 {
     public static class DlgFGUILoginMainViewSystem
     {
+        public static void Init(this DlgFGUILoginMainView self)
+        {
+        }
+        
         public static void RegisterUIEvent(this DlgFGUILoginMainView self)
         {
             self.View.loginBtn.onClick.Add((EventContext context) => { self.DoLogin(context).Coroutine();});
         }
-
+        
         public static void ShowWindow(this DlgFGUILoginMainView self, ShowWindowData showWindowData = null)
         {
         }
@@ -36,6 +40,14 @@ namespace ET.Client
             {
                 self.isLogging = false;
             }
+        }
+        
+        public static void HideWindow(this DlgFGUILoginMainView self)
+        {
+        }
+        
+        public static void BeforeUnload(this DlgFGUILoginMainView self)
+        {
         }
     }
 }
