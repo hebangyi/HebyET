@@ -27,7 +27,7 @@
             // TODO 时间伪加载
             
             EventSystem.Instance.PublishAsync(self.Root(), new LoadUIFinished(){UnityScene = UnitySceneManagerComponent.Instance.UnityScene}).Coroutine();
-            FGUIComponent.Instance.CloseWindow(WindowID.LoadingUIView);
+            FGUIComponent.Instance.CloseWindow(WindowID.FGUILoadingUIView);
         }
 
 

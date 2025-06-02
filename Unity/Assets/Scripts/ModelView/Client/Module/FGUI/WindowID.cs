@@ -4,11 +4,11 @@
     {
         None = 0,
         CommonBG = 1,       // 测试背景
-        LoginMainView = 2,  // 登录界面
-        LoadingUIView = 3,  // 加载界面
+        FGUI = 2,  // 登录界面
+        FGUILoadingUIView = 3,  // 加载界面
         
         
-        LobbyMainView = 4,  // 大厅
+        FGUILobbyMainView = 4,  // 大厅
     }
     
     

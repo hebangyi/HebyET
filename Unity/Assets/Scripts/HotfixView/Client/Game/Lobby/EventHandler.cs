@@ -11,7 +11,8 @@
             }
 
             FGUIComponent.Instance.CloseWindowAll();
-            FGUIComponent.Instance.ShowWindowAsync(WindowID.LobbyMainView).Coroutine();
+            FGUIComponent.Instance.ShowWindowAsync(WindowID.FGUILobbyMainView).Coroutine();
+            await ETTask.CompletedTask;
         }
     }
 }
