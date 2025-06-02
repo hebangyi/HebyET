@@ -4,7 +4,7 @@
     {
         None = 0,
         CommonBG = 1,       // 测试背景
-        FGUI = 2,  // 登录界面
+        FGUILoginMainView = 2,  // 登录界面
         FGUILoadingUIView = 3,  // 加载界面
         
         
