@@ -62,9 +62,15 @@ public class DlgGenerator : ISourceGenerator
     private void GenerateDlgCodeByTemplate(string namespaceName, string className,
     GeneratorExecutionContext context)
     {
-        string path = "../Assets/Scripts/ModelView/Client/Game/UI/FGUI/Dlg";
+        string path = "../Unity/Assets/Scripts/ModelView/Client/Game/UI/FGUI/Dlg";
         string fileName = $"Dlg{className}.cs";
         var filePath = Path.Combine(path, fileName);
+
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+        
         if (File.Exists(filePath))
         {
             return;
@@ -78,9 +84,17 @@ public class DlgGenerator : ISourceGenerator
     private void GenerateDlgEventByTemplate(string namespaceName, string className,
     GeneratorExecutionContext context)
     {
-        string path = "../Assets/Scripts/HotfixView/Client/Game/UI/FGUI/DlgEventHandler";
+        string path = "../Unity/Assets/Scripts/HotfixView/Client/Game/UI/FGUI/DlgEventHandler";
+        Directory.CreateDirectory(path);
+        
+        
         string fileName = $"Dlg{className}EventHandler.cs";
         var filePath = Path.Combine(path, fileName);
+        
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
         
         if (File.Exists(filePath))
         {
@@ -96,9 +110,16 @@ public class DlgGenerator : ISourceGenerator
     private void GenerateDlgSystemByTemplate(string namespaceName, string className,
     GeneratorExecutionContext context)
     {
-        string path = "../Assets/Scripts/HotfixView/Client/Game/UI/FGUI/DlgSystem";
+        string path = "../Unity/Assets/Scripts/HotfixView/Client/Game/UI/FGUI/DlgSystem";
+        Directory.CreateDirectory(path);
         string fileName = $"Dlg{className}System.cs";
         var filePath = Path.Combine(path, fileName);
+        
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+        
         if (File.Exists(filePath))
         {
             return;
