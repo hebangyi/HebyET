@@ -1058,35 +1058,35 @@ namespace ET
 
     public static class ServerMessage
     {
-        public const ushort ObjectQueryRequest = 10002;
-        public const ushort M2A_Reload = 10003;
-        public const ushort A2M_Reload = 10004;
-        public const ushort G2G_LockRequest = 10005;
-        public const ushort G2G_LockResponse = 10006;
-        public const ushort G2G_LockReleaseRequest = 10007;
-        public const ushort G2G_LockReleaseResponse = 10008;
-        public const ushort ObjectAddRequest = 10009;
-        public const ushort ObjectAddResponse = 10010;
-        public const ushort ObjectLockRequest = 10011;
-        public const ushort ObjectLockResponse = 10012;
-        public const ushort ObjectUnLockRequest = 10013;
-        public const ushort ObjectUnLockResponse = 10014;
-        public const ushort ObjectRemoveRequest = 10015;
-        public const ushort ObjectRemoveResponse = 10016;
-        public const ushort ObjectGetRequest = 10017;
-        public const ushort ObjectGetResponse = 10018;
-        public const ushort G2M_SessionDisconnect = 10019;
-        public const ushort ObjectQueryResponse = 10020;
-        public const ushort M2M_UnitTransferRequest = 10021;
-        public const ushort M2M_UnitTransferResponse = 10022;
-        public const ushort G2Match_Match = 10023;
-        public const ushort Match2G_Match = 10024;
-        public const ushort Match2Map_GetRoom = 10025;
-        public const ushort Map2Match_GetRoom = 10026;
-        public const ushort G2Room_Reconnect = 10027;
-        public const ushort Room2G_Reconnect = 10028;
-        public const ushort RoomManager2Room_Init = 10029;
-        public const ushort Room2RoomManager_Init = 10030;
-        public const ushort SceneNodeInfo = 10031;
+        public const ushort ObjectQueryRequest = 20002;
+        public const ushort M2A_Reload = 20003;
+        public const ushort A2M_Reload = 20004;
+        public const ushort G2G_LockRequest = 20005;
+        public const ushort G2G_LockResponse = 20006;
+        public const ushort G2G_LockReleaseRequest = 20007;
+        public const ushort G2G_LockReleaseResponse = 20008;
+        public const ushort ObjectAddRequest = 20009;
+        public const ushort ObjectAddResponse = 20010;
+        public const ushort ObjectLockRequest = 20011;
+        public const ushort ObjectLockResponse = 20012;
+        public const ushort ObjectUnLockRequest = 20013;
+        public const ushort ObjectUnLockResponse = 20014;
+        public const ushort ObjectRemoveRequest = 20015;
+        public const ushort ObjectRemoveResponse = 20016;
+        public const ushort ObjectGetRequest = 20017;
+        public const ushort ObjectGetResponse = 20018;
+        public const ushort G2M_SessionDisconnect = 20019;
+        public const ushort ObjectQueryResponse = 20020;
+        public const ushort M2M_UnitTransferRequest = 20021;
+        public const ushort M2M_UnitTransferResponse = 20022;
+        public const ushort G2Match_Match = 20023;
+        public const ushort Match2G_Match = 20024;
+        public const ushort Match2Map_GetRoom = 20025;
+        public const ushort Map2Match_GetRoom = 20026;
+        public const ushort G2Room_Reconnect = 20027;
+        public const ushort Room2G_Reconnect = 20028;
+        public const ushort RoomManager2Room_Init = 20029;
+        public const ushort Room2RoomManager_Init = 20030;
+        public const ushort SceneNodeInfo = 20031;
     }
 }

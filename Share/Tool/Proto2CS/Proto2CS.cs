@@ -74,8 +74,8 @@ namespace ET
             GenerateServerProto();
             GenerateClientProto();
             
-            ProtoFile2CS(clientOutputTempFilePath, "ClientMessage", "C", 10001);
-            ProtoFile2CS(serverOutputTempFilePath, "ServerMessage", "S", 10001);
+            ProtoFile2CS(clientOutputTempFilePath, "ClientMessage", "C", 10000);
+            ProtoFile2CS(serverOutputTempFilePath, "ServerMessage", "S", 20000);
             
             
             RemoveUnusedMetaFiles(clientMessagePath);
@@ -292,15 +292,12 @@ namespace ET
 
             if (cs.Contains('C'))
             {
-                GenerateCS(result, clientMessagePath, className);
-                GenerateCS(result, serverMessagePath, className);
                 GenerateCS(result, clientServerMessagePath, className);
             }
 
             if (cs.Contains('S'))
             {
                 GenerateCS(result, serverMessagePath, className);
-                GenerateCS(result, clientServerMessagePath, className);
             }
         }
 
