@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="1920,1080" opaque="false">
+<component size="1920,1080">
   <displayList>
     <text id="n0_j003" name="title" xy="752,375" size="260,178" fontSize="30" autoSize="none" text="这里是大厅"/>
   </displayList>
