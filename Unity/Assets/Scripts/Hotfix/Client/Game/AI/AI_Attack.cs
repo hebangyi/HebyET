@@ -16,11 +16,13 @@ namespace ET.Client
         {
             Fiber fiber = aiComponent.Fiber();
 
+            /*
             Unit myUnit = UnitHelper.GetMyUnitFromClientScene(fiber.Root);
             if (myUnit == null)
             {
                 return;
             }
+            */
 
             // 停在当前位置
             fiber.Root.GetComponent<ClientSenderComponent>().Send(C2M_Stop.Create());

@@ -17,13 +17,14 @@ namespace ET.Client
         public override async ETTask Execute(AIComponent aiComponent, AIConfig aiConfig, ETCancellationToken cancellationToken)
         {
             Scene root = aiComponent.Root();
-
+            await ETTask.CompletedTask;
+            /*
             Unit myUnit = UnitHelper.GetMyUnitFromClientScene(root);
             if (myUnit == null)
             {
                 return;
             }
-            
+
             Log.Debug("开始巡逻");
 
             while (true)
@@ -36,7 +37,7 @@ namespace ET.Client
                     return;
                 }
                 xunLuoPathComponent.MoveNext();
-            }
+            }*/
         }
     }
 }

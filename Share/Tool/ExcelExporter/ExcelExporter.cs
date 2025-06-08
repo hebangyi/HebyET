@@ -106,16 +106,19 @@ namespace ET
                 if (Directory.Exists(ClientClassDir))
                 {
                     Directory.Delete(ClientClassDir, true);
+                    Directory.CreateDirectory(ClientClassDir);
                 }
 
                 if (Directory.Exists(ServerClassDir))
                 {
                     Directory.Delete(ServerClassDir, true);
+                    Directory.CreateDirectory(ServerClassDir);
                 }
 
                 if (Directory.Exists(CSClassDir))
                 {
                     Directory.Delete(CSClassDir, true);
+                    Directory.CreateDirectory(CSClassDir);
                 }
 
                 string jsonProtoDirParent = jsonDir.Replace(replaceStr, string.Empty);
@@ -179,15 +182,18 @@ namespace ET
 
                 foreach (var kv in tables)
                 {
+                    if (kv.Value.C && kv.Value.S)
+                    {
+                        ExportClass(kv.Key, kv.Value.HeadInfos, ConfigType.cs);
+                    }
                     if (kv.Value.C)
                     {
                         ExportClass(kv.Key, kv.Value.HeadInfos, ConfigType.c);
                     }
-                    if (kv.Value.S)
+                    else
                     {
                         ExportClass(kv.Key, kv.Value.HeadInfos, ConfigType.s);
                     }
-                    ExportClass(kv.Key, kv.Value.HeadInfos, ConfigType.cs);
                 }
 
                 // 动态编译生成的配置代码
@@ -261,19 +267,19 @@ namespace ET
 
             ExcelPackage p = GetPackage(Path.GetFullPath(path));
 
-            if (cs.Contains("c"))
+            if (cs == "cs")
+            {
+                ExportExcelJson(p, fileNameWithoutCS, table, ConfigType.cs, relativePath);
+                ExportExcelProtobuf(ConfigType.cs, protoName, relativePath);
+            }else if (cs.Contains("c"))
             {
                 ExportExcelJson(p, fileNameWithoutCS, table, ConfigType.c, relativePath);
                 ExportExcelProtobuf(ConfigType.c, protoName, relativePath);
-            }
-
-            if (cs.Contains("s"))
+            } else
             {
                 ExportExcelJson(p, fileNameWithoutCS, table, ConfigType.s, relativePath);
                 ExportExcelProtobuf(ConfigType.s, protoName, relativePath);
             }
-            ExportExcelJson(p, fileNameWithoutCS, table, ConfigType.cs, relativePath);
-            ExportExcelProtobuf(ConfigType.cs, protoName, relativePath);
         }
 
         private static string GetProtoDir(ConfigType configType, string relativeDir)
