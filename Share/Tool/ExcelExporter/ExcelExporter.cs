@@ -27,6 +27,7 @@ namespace ET
     {
         [BsonElement]
         public string FieldCS;
+
         public string FieldDesc;
         public string FieldName;
         public string FieldType;
@@ -50,12 +51,13 @@ namespace ET
         public int Index;
         public Dictionary<string, HeadInfo> HeadInfos = new Dictionary<string, HeadInfo>();
     }
-    
+
     public static class ExcelExporter
     {
         private static string template;
 
         private const string ClientClassDir = "../Unity/Assets/Scripts/Model/Generate/Client/Config";
+
         // 服务端因为机器人的存在必须包含客户端所有配置，所以单独的c字段没有意义,单独的c就表示cs
         private const string ServerClassDir = "../Unity/Assets/Scripts/Model/Generate/Server/Config";
 
@@ -186,7 +188,7 @@ namespace ET
                     {
                         ExportClass(kv.Key, kv.Value.HeadInfos, ConfigType.cs);
                     }
-                    if (kv.Value.C)
+                    else if (kv.Value.C)
                     {
                         ExportClass(kv.Key, kv.Value.HeadInfos, ConfigType.c);
                     }
@@ -197,23 +199,24 @@ namespace ET
                 }
 
                 // 动态编译生成的配置代码
-                configAssemblies[(int) ConfigType.c] = DynamicBuild(ConfigType.c);
-                configAssemblies[(int) ConfigType.s] = DynamicBuild(ConfigType.s);
-                configAssemblies[(int) ConfigType.cs] = DynamicBuild(ConfigType.cs);
+                configAssemblies[(int)ConfigType.c] = DynamicBuild(ConfigType.c);
+                configAssemblies[(int)ConfigType.s] = DynamicBuild(ConfigType.s);
+                configAssemblies[(int)ConfigType.cs] = DynamicBuild(ConfigType.cs);
 
                 List<string> excels = FileHelper.GetAllFiles(excelDir, "*.xlsx");
-                
+
                 foreach (string path in excels)
                 {
                     ExportExcel(path);
                 }
-                
+
                 if (Directory.Exists(clientProtoDir))
                 {
                     Directory.Delete(clientProtoDir, true);
                 }
+
                 FileHelper.CopyDirectory("../Config/Excel/c", clientProtoDir);
-                
+
                 Log.Console("Export Excel Sucess!");
             }
             catch (Exception e)
@@ -251,7 +254,7 @@ namespace ET
                 fileNameWithoutCS = ss[0];
                 cs = ss[1];
             }
-            
+
             if (cs == "")
             {
                 cs = "cs";
@@ -271,11 +274,13 @@ namespace ET
             {
                 ExportExcelJson(p, fileNameWithoutCS, table, ConfigType.cs, relativePath);
                 ExportExcelProtobuf(ConfigType.cs, protoName, relativePath);
-            }else if (cs.Contains("c"))
+            }
+            else if (cs.Contains("c"))
             {
                 ExportExcelJson(p, fileNameWithoutCS, table, ConfigType.c, relativePath);
                 ExportExcelProtobuf(ConfigType.c, protoName, relativePath);
-            } else
+            }
+            else
             {
                 ExportExcelJson(p, fileNameWithoutCS, table, ConfigType.s, relativePath);
                 ExportExcelProtobuf(ConfigType.s, protoName, relativePath);
@@ -289,7 +294,7 @@ namespace ET
 
         private static Assembly GetAssembly(ConfigType configType)
         {
-            return configAssemblies[(int) configType];
+            return configAssemblies[(int)configType];
         }
 
         private static string GetClassDir(ConfigType configType)
@@ -301,7 +306,7 @@ namespace ET
                 _ => CSClassDir
             };
         }
-        
+
         // 动态编译生成的cs代码
         private static Assembly DynamicBuild(ConfigType configType)
         {
@@ -365,7 +370,6 @@ namespace ET
             return ass;
         }
 
-
         #region 导出class
 
         static void ExportExcelClass(ExcelPackage p, string name, Table table)
@@ -403,7 +407,7 @@ namespace ET
                     table.HeadInfos[fieldName] = null;
                     continue;
                 }
-                
+
                 if (fieldCS == "")
                 {
                     fieldCS = "cs";
@@ -465,7 +469,6 @@ namespace ET
 
         #region 导出json
 
-
         static void ExportExcelJson(ExcelPackage p, string name, Table table, ConfigType configType, string relativeDir)
         {
             StringBuilder sb = new StringBuilder();
@@ -494,8 +497,8 @@ namespace ET
             sw.Write(sb.ToString());
         }
 
-        static void ExportSheetJson(ExcelWorksheet worksheet, string name, 
-                Dictionary<string, HeadInfo> classField, ConfigType configType, StringBuilder sb)
+        static void ExportSheetJson(ExcelWorksheet worksheet, string name,
+        Dictionary<string, HeadInfo> classField, ConfigType configType, StringBuilder sb)
         {
             string configTypeStr = configType.ToString();
             for (int row = 6; row <= worksheet.Dimension.End.Row; ++row)
@@ -510,7 +513,7 @@ namespace ET
                 {
                     prefix = "cs";
                 }
-                
+
                 if (configType != ConfigType.cs && !prefix.Contains(configTypeStr))
                 {
                     continue;
@@ -590,7 +593,6 @@ namespace ET
         }
 
         #endregion
-
 
         // 根据生成的类，把json转成protobuf
         private static void ExportExcelProtobuf(ConfigType configType, string protoName, string relativeDir)

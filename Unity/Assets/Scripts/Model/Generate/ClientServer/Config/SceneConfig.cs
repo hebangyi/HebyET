@@ -65,6 +65,8 @@ namespace ET
 		public string Name { get; set; }
 		/// <summary>地图类型</summary>
 		public int MapSceneType { get; set; }
+		/// <summary>资源路径</summary>
+		public string AssetPath { get; set; }
 
 	}
 }
