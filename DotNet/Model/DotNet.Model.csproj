@@ -57,6 +57,5 @@
       <Folder Include="Generate\Config\" />
       <Folder Include="Server\Game\Account\" />
       <Folder Include="Server\Game\Data\" />
-      <Folder Include="Server\LockStep\Gate\" />
     </ItemGroup> 
 </Project>

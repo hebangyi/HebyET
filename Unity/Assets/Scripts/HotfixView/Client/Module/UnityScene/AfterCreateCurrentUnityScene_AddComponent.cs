@@ -7,6 +7,7 @@ namespace ET.Client
         {
             var unityScene = args.UnityScene;
             unityScene.AddComponent<ResourcesLoaderComponent>();
+            unityScene.AddComponent<GameObjectPoolComponent>();
             await ETTask.CompletedTask;
         }
     }

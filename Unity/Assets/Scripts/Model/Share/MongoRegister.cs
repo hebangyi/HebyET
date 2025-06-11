@@ -38,7 +38,6 @@ namespace ET
             RegisterStruct<TSVector2>();
             RegisterStruct<TSVector4>();
             RegisterStruct<TSQuaternion>();
-            RegisterStruct<LSInput>();
 
             Dictionary<string, Type> types = CodeTypes.Instance.GetAllTypes();
             foreach (Type type in types.Values)

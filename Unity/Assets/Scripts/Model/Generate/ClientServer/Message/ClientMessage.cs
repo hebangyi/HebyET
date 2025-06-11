@@ -303,6 +303,87 @@ namespace ET
     }
 
     [MemoryPackable]
+    [Message(ClientMessage.Main2NetClient_Login)]
+    [ResponseType(nameof(NetClient2Main_Login))]
+    public partial class Main2NetClient_Login : MessageObject, IRequest
+    {
+        public static Main2NetClient_Login Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(Main2NetClient_Login), isFromPool) as Main2NetClient_Login;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int OwnerFiberId { get; set; }
+
+        /// <summary>
+        /// 账号
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public string Account { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        [MemoryPackOrder(3)]
+        public string Password { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.OwnerFiberId = default;
+            this.Account = default;
+            this.Password = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.NetClient2Main_Login)]
+    public partial class NetClient2Main_Login : MessageObject, IResponse
+    {
+        public static NetClient2Main_Login Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(NetClient2Main_Login), isFromPool) as NetClient2Main_Login;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        [MemoryPackOrder(3)]
+        public long PlayerId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+            this.PlayerId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
     [Message(ClientMessage.C2A_Login)]
     [ResponseType(nameof(A2C_Login))]
     public partial class C2A_Login : MessageObject, ISessionRequest
@@ -454,452 +535,6 @@ namespace ET
             this.Error = default;
             this.Message = default;
             this.PlayerId = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.Main2NetClient_Login)]
-    [ResponseType(nameof(NetClient2Main_Login))]
-    public partial class Main2NetClient_Login : MessageObject, IRequest
-    {
-        public static Main2NetClient_Login Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(Main2NetClient_Login), isFromPool) as Main2NetClient_Login;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public int OwnerFiberId { get; set; }
-
-        /// <summary>
-        /// 账号
-        /// </summary>
-        [MemoryPackOrder(2)]
-        public string Account { get; set; }
-
-        /// <summary>
-        /// 密码
-        /// </summary>
-        [MemoryPackOrder(3)]
-        public string Password { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.OwnerFiberId = default;
-            this.Account = default;
-            this.Password = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.NetClient2Main_Login)]
-    public partial class NetClient2Main_Login : MessageObject, IResponse
-    {
-        public static NetClient2Main_Login Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(NetClient2Main_Login), isFromPool) as NetClient2Main_Login;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public int Error { get; set; }
-
-        [MemoryPackOrder(2)]
-        public string Message { get; set; }
-
-        [MemoryPackOrder(3)]
-        public long PlayerId { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-            this.PlayerId = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.C2G_Match)]
-    [ResponseType(nameof(G2C_Match))]
-    public partial class C2G_Match : MessageObject, ISessionRequest
-    {
-        public static C2G_Match Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(C2G_Match), isFromPool) as C2G_Match;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.G2C_Match)]
-    public partial class G2C_Match : MessageObject, ISessionResponse
-    {
-        public static G2C_Match Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(G2C_Match), isFromPool) as G2C_Match;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public int Error { get; set; }
-
-        [MemoryPackOrder(2)]
-        public string Message { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    /// <summary>
-    /// 匹配成功，通知客户端切换场景
-    /// </summary>
-    [MemoryPackable]
-    [Message(ClientMessage.Match2G_NotifyMatchSuccess)]
-    public partial class Match2G_NotifyMatchSuccess : MessageObject, IMessage
-    {
-        public static Match2G_NotifyMatchSuccess Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(Match2G_NotifyMatchSuccess), isFromPool) as Match2G_NotifyMatchSuccess;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        /// <summary>
-        /// 房间的ActorId
-        /// </summary>
-        [MemoryPackOrder(1)]
-        public ActorId ActorId { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.ActorId = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    /// <summary>
-    /// 客户端通知房间切换场景完成
-    /// </summary>
-    [MemoryPackable]
-    [Message(ClientMessage.C2Room_ChangeSceneFinish)]
-    public partial class C2Room_ChangeSceneFinish : MessageObject, IRoomMessage
-    {
-        public static C2Room_ChangeSceneFinish Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(C2Room_ChangeSceneFinish), isFromPool) as C2Room_ChangeSceneFinish;
-        }
-
-        [MemoryPackOrder(0)]
-        public long PlayerId { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.PlayerId = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.LockStepUnitInfo)]
-    public partial class LockStepUnitInfo : MessageObject
-    {
-        public static LockStepUnitInfo Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(LockStepUnitInfo), isFromPool) as LockStepUnitInfo;
-        }
-
-        [MemoryPackOrder(0)]
-        public long PlayerId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public TrueSync.TSVector Position { get; set; }
-
-        [MemoryPackOrder(2)]
-        public TrueSync.TSQuaternion Rotation { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.PlayerId = default;
-            this.Position = default;
-            this.Rotation = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    /// <summary>
-    /// 房间通知客户端进入战斗
-    /// </summary>
-    [MemoryPackable]
-    [Message(ClientMessage.Room2C_Start)]
-    public partial class Room2C_Start : MessageObject, IMessage
-    {
-        public static Room2C_Start Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(Room2C_Start), isFromPool) as Room2C_Start;
-        }
-
-        [MemoryPackOrder(0)]
-        public long StartTime { get; set; }
-
-        [MemoryPackOrder(1)]
-        public List<LockStepUnitInfo> UnitInfo { get; set; } = new();
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.StartTime = default;
-            this.UnitInfo.Clear();
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.FrameMessage)]
-    public partial class FrameMessage : MessageObject, IMessage
-    {
-        public static FrameMessage Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(FrameMessage), isFromPool) as FrameMessage;
-        }
-
-        [MemoryPackOrder(0)]
-        public int Frame { get; set; }
-
-        [MemoryPackOrder(1)]
-        public long PlayerId { get; set; }
-
-        [MemoryPackOrder(2)]
-        public LSInput Input { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.Frame = default;
-            this.PlayerId = default;
-            this.Input = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.OneFrameInputs)]
-    public partial class OneFrameInputs : MessageObject, IMessage
-    {
-        public static OneFrameInputs Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(OneFrameInputs), isFromPool) as OneFrameInputs;
-        }
-
-        [MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
-        [MemoryPackOrder(1)]
-        public Dictionary<long, LSInput> Inputs { get; set; } = new();
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.Inputs.Clear();
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.Room2C_AdjustUpdateTime)]
-    public partial class Room2C_AdjustUpdateTime : MessageObject, IMessage
-    {
-        public static Room2C_AdjustUpdateTime Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(Room2C_AdjustUpdateTime), isFromPool) as Room2C_AdjustUpdateTime;
-        }
-
-        [MemoryPackOrder(0)]
-        public int DiffTime { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.DiffTime = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.C2Room_CheckHash)]
-    public partial class C2Room_CheckHash : MessageObject, IRoomMessage
-    {
-        public static C2Room_CheckHash Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(C2Room_CheckHash), isFromPool) as C2Room_CheckHash;
-        }
-
-        [MemoryPackOrder(0)]
-        public long PlayerId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public int Frame { get; set; }
-
-        [MemoryPackOrder(2)]
-        public long Hash { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.PlayerId = default;
-            this.Frame = default;
-            this.Hash = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.Room2C_CheckHashFail)]
-    public partial class Room2C_CheckHashFail : MessageObject, IMessage
-    {
-        public static Room2C_CheckHashFail Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(Room2C_CheckHashFail), isFromPool) as Room2C_CheckHashFail;
-        }
-
-        [MemoryPackOrder(0)]
-        public int Frame { get; set; }
-
-        [MemoryPackOrder(1)]
-        public byte[] LSWorldBytes { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.Frame = default;
-            this.LSWorldBytes = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.G2C_Reconnect)]
-    public partial class G2C_Reconnect : MessageObject, IMessage
-    {
-        public static G2C_Reconnect Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(G2C_Reconnect), isFromPool) as G2C_Reconnect;
-        }
-
-        [MemoryPackOrder(0)]
-        public long StartTime { get; set; }
-
-        [MemoryPackOrder(1)]
-        public List<LockStepUnitInfo> UnitInfos { get; set; } = new();
-
-        [MemoryPackOrder(2)]
-        public int Frame { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.StartTime = default;
-            this.UnitInfos.Clear();
-            this.Frame = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1697,58 +1332,46 @@ namespace ET
 
     public static class ClientMessage
     {
-        public const ushort SyncDataUnitStruct = 10002;
-        public const ushort DataUnitBytes = 10003;
-        public const ushort C2G_GetAllDataUnits = 10004;
-        public const ushort G2_GetAllDataUnits = 10005;
-        public const ushort L2C_SyncDirtyDataUnits = 10006;
-        public const ushort C2G_Ping = 10007;
-        public const ushort G2C_Ping = 10008;
-        public const ushort G2C_SessionDisconnect = 10009;
-        public const ushort RoleInfoUnitData = 10010;
-        public const ushort C2A_Login = 10011;
-        public const ushort A2C_Login = 10012;
-        public const ushort C2L_LoginLobby = 10013;
-        public const ushort L2C_LoginLobby = 10014;
-        public const ushort Main2NetClient_Login = 10015;
-        public const ushort NetClient2Main_Login = 10016;
-        public const ushort C2G_Match = 10017;
-        public const ushort G2C_Match = 10018;
-        public const ushort Match2G_NotifyMatchSuccess = 10019;
-        public const ushort C2Room_ChangeSceneFinish = 10020;
-        public const ushort LockStepUnitInfo = 10021;
-        public const ushort Room2C_Start = 10022;
-        public const ushort FrameMessage = 10023;
-        public const ushort OneFrameInputs = 10024;
-        public const ushort Room2C_AdjustUpdateTime = 10025;
-        public const ushort C2Room_CheckHash = 10026;
-        public const ushort Room2C_CheckHashFail = 10027;
-        public const ushort G2C_Reconnect = 10028;
-        public const ushort HttpGetRouterResponse = 10029;
-        public const ushort RouterSync = 10030;
-        public const ushort C2G_EnterMap = 10031;
-        public const ushort G2C_EnterMap = 10032;
-        public const ushort MoveInfo = 10033;
-        public const ushort UnitInfo = 10034;
-        public const ushort M2C_CreateUnits = 10035;
-        public const ushort M2C_CreateMyUnit = 10036;
-        public const ushort M2C_StartSceneChange = 10037;
-        public const ushort M2C_RemoveUnits = 10038;
-        public const ushort C2M_PathfindingResult = 10039;
-        public const ushort C2M_Stop = 10040;
-        public const ushort M2C_PathfindingResult = 10041;
-        public const ushort M2C_Stop = 10042;
-        public const ushort G2C_Test = 10043;
-        public const ushort C2M_Reload = 10044;
-        public const ushort M2C_Reload = 10045;
-        public const ushort G2C_TestHotfixMessage = 10046;
-        public const ushort C2M_TestRobotCase = 10047;
-        public const ushort M2C_TestRobotCase = 10048;
-        public const ushort C2M_TestRobotCase2 = 10049;
-        public const ushort M2C_TestRobotCase2 = 10050;
-        public const ushort C2M_TransferMap = 10051;
-        public const ushort M2C_TransferMap = 10052;
-        public const ushort C2G_Benchmark = 10053;
-        public const ushort G2C_Benchmark = 10054;
+        public const ushort SyncDataUnitStruct = 10001;
+        public const ushort DataUnitBytes = 10002;
+        public const ushort C2G_GetAllDataUnits = 10003;
+        public const ushort G2_GetAllDataUnits = 10004;
+        public const ushort L2C_SyncDirtyDataUnits = 10005;
+        public const ushort C2G_Ping = 10006;
+        public const ushort G2C_Ping = 10007;
+        public const ushort G2C_SessionDisconnect = 10008;
+        public const ushort RoleInfoUnitData = 10009;
+        public const ushort Main2NetClient_Login = 10010;
+        public const ushort NetClient2Main_Login = 10011;
+        public const ushort C2A_Login = 10012;
+        public const ushort A2C_Login = 10013;
+        public const ushort C2L_LoginLobby = 10014;
+        public const ushort L2C_LoginLobby = 10015;
+        public const ushort HttpGetRouterResponse = 10016;
+        public const ushort RouterSync = 10017;
+        public const ushort C2G_EnterMap = 10018;
+        public const ushort G2C_EnterMap = 10019;
+        public const ushort MoveInfo = 10020;
+        public const ushort UnitInfo = 10021;
+        public const ushort M2C_CreateUnits = 10022;
+        public const ushort M2C_CreateMyUnit = 10023;
+        public const ushort M2C_StartSceneChange = 10024;
+        public const ushort M2C_RemoveUnits = 10025;
+        public const ushort C2M_PathfindingResult = 10026;
+        public const ushort C2M_Stop = 10027;
+        public const ushort M2C_PathfindingResult = 10028;
+        public const ushort M2C_Stop = 10029;
+        public const ushort G2C_Test = 10030;
+        public const ushort C2M_Reload = 10031;
+        public const ushort M2C_Reload = 10032;
+        public const ushort G2C_TestHotfixMessage = 10033;
+        public const ushort C2M_TestRobotCase = 10034;
+        public const ushort M2C_TestRobotCase = 10035;
+        public const ushort C2M_TestRobotCase2 = 10036;
+        public const ushort M2C_TestRobotCase2 = 10037;
+        public const ushort C2M_TransferMap = 10038;
+        public const ushort M2C_TransferMap = 10039;
+        public const ushort C2G_Benchmark = 10040;
+        public const ushort G2C_Benchmark = 10041;
     }
 }
