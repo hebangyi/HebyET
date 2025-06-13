@@ -27,9 +27,6 @@ namespace ET.Client
     [ComponentOf(typeof(UnityScene))]
     public class GameObjectPoolComponent : Entity, IAwake,IUpdate
     {
-        [StaticField]
-        public static GameObjectPoolComponent Instance;
-
         public Dictionary<string, List<GameObject>> Pools = new();
 
         public Queue<GameObjectLoadContext> WaitLoadingQueue = new();

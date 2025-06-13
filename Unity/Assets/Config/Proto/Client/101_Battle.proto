@@ -1,0 +1,4 @@
+message UnitInfo // IBattleData
+{
+    public int32 unitType = 1;
+}

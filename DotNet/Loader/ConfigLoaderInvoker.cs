@@ -15,7 +15,12 @@ namespace ET
             HashSet<Type> configTypes = CodeTypes.Instance.GetAttributeTypes(typeof (ConfigAttribute));
             foreach (Type configType in configTypes)
             {
-                string configFilePath = $"../Config/Excel/s/{configType.Name}.bytes";
+                string configFilePath = null;
+                configFilePath = $"../Config/Excel/s/{configType.Name}.bytes";
+                if (!File.Exists(configFilePath))
+                {
+                    configFilePath = $"../Config/Excel/cs/{configType.Name}.bytes";
+                }
                 output[configType] = File.ReadAllBytes(configFilePath);
             }
 
