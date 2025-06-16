@@ -26,7 +26,7 @@ namespace ET
 
             Assembly hotfixAssembly = this.LoadHotfix();
 
-            World.Instance.AddSingleton<CodeTypes, Assembly[]>(new[] { typeof (World).Assembly, typeof(Init).Assembly, this.assembly, hotfixAssembly });
+            ApplicationContext.Instance.AddSingleton<CodeTypes, Assembly[]>(new[] { typeof (ApplicationContext).Assembly, typeof(Init).Assembly, this.assembly, hotfixAssembly });
 
             IStaticMethod start = new StaticMethod(this.assembly, "ET.Entry", "Start");
             start.Run();
@@ -47,7 +47,7 @@ namespace ET
         {
             Assembly hotfixAssembly = this.LoadHotfix();
 			
-            CodeTypes codeTypes = World.Instance.AddSingleton<CodeTypes, Assembly[]>(new[] { typeof (World).Assembly, typeof(Init).Assembly, this.assembly, hotfixAssembly });
+            CodeTypes codeTypes = ApplicationContext.Instance.AddSingleton<CodeTypes, Assembly[]>(new[] { typeof (ApplicationContext).Assembly, typeof(Init).Assembly, this.assembly, hotfixAssembly });
 
             codeTypes.CreateCode();
             Log.Debug($"reload dll finish!");

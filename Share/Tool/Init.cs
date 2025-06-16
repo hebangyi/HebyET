@@ -20,12 +20,12 @@ namespace ET.Server
                 // 命令行参数
                 Parser.Default.ParseArguments<Options>(args)
                     .WithNotParsed(error => throw new Exception($"命令行格式错误! {error}"))
-                    .WithParsed((o)=>World.Instance.AddSingleton(o));
+                    .WithParsed((o)=>ApplicationContext.Instance.AddSingleton(o));
                 
-                World.Instance.AddSingleton<Logger>().Log = new NLogger(Options.Instance.AppType.ToString(), Options.Instance.Process, 0);
+                ApplicationContext.Instance.AddSingleton<Logger>().Log = new NLogger(Options.Instance.AppType.ToString(), Options.Instance.Process, 0);
                 
-                World.Instance.AddSingleton<CodeTypes, Assembly[]>(new[] { typeof (Init).Assembly });
-                World.Instance.AddSingleton<EventSystem>();
+                ApplicationContext.Instance.AddSingleton<CodeTypes, Assembly[]>(new[] { typeof (Init).Assembly });
+                ApplicationContext.Instance.AddSingleton<EventSystem>();
                 
                 // 强制调用一下mongo，避免mongo库被裁剪
                 MongoHelper.ToJson(1);

@@ -59,7 +59,7 @@ namespace ET
             {
                 object obj = Activator.CreateInstance(type);
                 ((ISingletonAwake)obj).Awake();
-                World.Instance.AddSingleton((ASingleton)obj);
+                ApplicationContext.Instance.AddSingleton((ASingleton)obj);
             }
         }
     }

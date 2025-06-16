@@ -59,7 +59,7 @@ namespace ET
             Log.Info($"加载配置 [{configType.Name} 配置条数 [{oneConfigBytes.Length}]]");
             object category = MongoHelper.Deserialize(configType, oneConfigBytes, 0, oneConfigBytes.Length);
             ASingleton singleton = category as ASingleton;
-            World.Instance.AddSingleton(singleton);
+            ApplicationContext.Instance.AddSingleton(singleton);
         }
     }
 }

@@ -3,24 +3,24 @@ using System.Collections.Generic;
 
 namespace ET
 {
-    public class World: IDisposable
+    public class ApplicationContext: IDisposable
     {
         [StaticField]
-        private static World instance;
+        private static ApplicationContext instance;
 
         [StaticField]
-        public static World Instance
+        public static ApplicationContext Instance
         {
             get
             {
-                return instance ??= new World();
+                return instance ??= new ApplicationContext();
             }
         }
 
         private readonly Stack<Type> stack = new();
         private readonly Dictionary<Type, ASingleton> singletons = new();
         
-        private World()
+        private ApplicationContext()
         {
         }
         

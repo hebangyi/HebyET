@@ -24,18 +24,18 @@ namespace ET
 			string[] args = "".Split(" ");
 			Parser.Default.ParseArguments<Options>(args)
 				.WithNotParsed(error => throw new Exception($"命令行格式错误! {error}"))
-				.WithParsed((o)=>World.Instance.AddSingleton(o));
+				.WithParsed((o)=>ApplicationContext.Instance.AddSingleton(o));
 			Options.Instance.StartConfig = $"StartConfig/Localhost";
 			
-			World.Instance.AddSingleton<Logger>().Log = new UnityLogger();
+			ApplicationContext.Instance.AddSingleton<Logger>().Log = new UnityLogger();
 			ETTask.ExceptionHandler += Log.Error;
 			
-			World.Instance.AddSingleton<TimeInfo>();
-			World.Instance.AddSingleton<FiberManager>();
+			ApplicationContext.Instance.AddSingleton<TimeInfo>();
+			ApplicationContext.Instance.AddSingleton<FiberManager>();
 
-			await World.Instance.AddSingleton<ResourcesComponent>().CreatePackageAsync("DefaultPackage", true);
+			await ApplicationContext.Instance.AddSingleton<ResourcesComponent>().CreatePackageAsync("DefaultPackage", true);
 			
-			CodeLoader codeLoader = World.Instance.AddSingleton<CodeLoader>();
+			CodeLoader codeLoader = ApplicationContext.Instance.AddSingleton<CodeLoader>();
 			await codeLoader.DownloadAsync();
 			
 			codeLoader.Start();
@@ -54,7 +54,7 @@ namespace ET
 
 		private void OnApplicationQuit()
 		{
-			World.Instance.Dispose();
+			ApplicationContext.Instance.Dispose();
 		}
 	}
 	
