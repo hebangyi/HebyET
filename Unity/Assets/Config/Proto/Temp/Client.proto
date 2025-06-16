@@ -1,5 +1,16 @@
 syntax = "proto3";
 package ET;
+enum UnitEntityTypeEnum
+{
+    Player = 1;         // 玩家
+    Monster = 2;        // 怪物
+}
+
+message UnitEntityInfo // IUnitEntityElemData
+{
+    UnitEntityTypeEnum unitEntityTypeEnum = 1;      // 实体类型
+    int32 ConfigId = 2;                             // 配置ID
+}
 
 
 // ============================= 数据结构 =============================
