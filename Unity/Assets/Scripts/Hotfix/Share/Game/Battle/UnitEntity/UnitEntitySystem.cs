@@ -20,11 +20,28 @@ namespace ET
         private static void Destroy(this UnitEntity self)
         {
             ObjectPool objectPool = ObjectPool.Instance;
+            // 回收所有的EntityData
+            foreach (var dataElement in self.UnitEntityData.Values)
+            {
+                if (dataElement is MessageObject messageObject)
+                {
+                    messageObject.Dispose();
+                }
+            }
+            
             self.UnitEntityData.Clear();
             objectPool.Recycle(self.UnitEntityData);
             self.UnitEntityData = null;
-# if DOTNET 
+
+            var world = self.GetParent<World>();
+            if (world != null)
+            {
+                world.RemoveEntity(self);
+            }
             
+            
+# if DOTNET
+
             self.DirtySyncUnitEntityData.Clear();
             objectPool.Recycle(self.DirtySyncUnitEntityData);
             self.DirtySyncUnitEntityData = null;

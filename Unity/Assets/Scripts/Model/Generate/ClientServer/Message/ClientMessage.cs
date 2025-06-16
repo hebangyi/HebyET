@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace ET
 {
+    // 常规信息
     [MemoryPackable]
     [Message(ClientMessage.UnitEntityInfo)]
     public partial class UnitEntityInfo : MessageObject, IUnitEntityElemData
@@ -33,6 +34,35 @@ namespace ET
 
             this.unitEntityTypeEnum = default;
             this.ConfigId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 玩家信息
+    [MemoryPackable]
+    [Message(ClientMessage.UnitEntityPlayerInfo)]
+    public partial class UnitEntityPlayerInfo : MessageObject, IUnitEntityElemData
+    {
+        public static UnitEntityPlayerInfo Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerInfo), isFromPool) as UnitEntityPlayerInfo;
+        }
+
+        /// <summary>
+        /// 玩家ID
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public long playerId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.playerId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1368,46 +1398,47 @@ namespace ET
     public static class ClientMessage
     {
         public const ushort UnitEntityInfo = 10001;
-        public const ushort SyncDataUnitStruct = 10002;
-        public const ushort DataUnitBytes = 10003;
-        public const ushort C2G_GetAllDataUnits = 10004;
-        public const ushort G2_GetAllDataUnits = 10005;
-        public const ushort L2C_SyncDirtyDataUnits = 10006;
-        public const ushort C2G_Ping = 10007;
-        public const ushort G2C_Ping = 10008;
-        public const ushort G2C_SessionDisconnect = 10009;
-        public const ushort RoleInfoUnitData = 10010;
-        public const ushort Main2NetClient_Login = 10011;
-        public const ushort NetClient2Main_Login = 10012;
-        public const ushort C2A_Login = 10013;
-        public const ushort A2C_Login = 10014;
-        public const ushort C2L_LoginLobby = 10015;
-        public const ushort L2C_LoginLobby = 10016;
-        public const ushort HttpGetRouterResponse = 10017;
-        public const ushort RouterSync = 10018;
-        public const ushort C2G_EnterMap = 10019;
-        public const ushort G2C_EnterMap = 10020;
-        public const ushort MoveInfo = 10021;
-        public const ushort UnitInfo = 10022;
-        public const ushort M2C_CreateUnits = 10023;
-        public const ushort M2C_CreateMyUnit = 10024;
-        public const ushort M2C_StartSceneChange = 10025;
-        public const ushort M2C_RemoveUnits = 10026;
-        public const ushort C2M_PathfindingResult = 10027;
-        public const ushort C2M_Stop = 10028;
-        public const ushort M2C_PathfindingResult = 10029;
-        public const ushort M2C_Stop = 10030;
-        public const ushort G2C_Test = 10031;
-        public const ushort C2M_Reload = 10032;
-        public const ushort M2C_Reload = 10033;
-        public const ushort G2C_TestHotfixMessage = 10034;
-        public const ushort C2M_TestRobotCase = 10035;
-        public const ushort M2C_TestRobotCase = 10036;
-        public const ushort C2M_TestRobotCase2 = 10037;
-        public const ushort M2C_TestRobotCase2 = 10038;
-        public const ushort C2M_TransferMap = 10039;
-        public const ushort M2C_TransferMap = 10040;
-        public const ushort C2G_Benchmark = 10041;
-        public const ushort G2C_Benchmark = 10042;
+        public const ushort UnitEntityPlayerInfo = 10002;
+        public const ushort SyncDataUnitStruct = 10003;
+        public const ushort DataUnitBytes = 10004;
+        public const ushort C2G_GetAllDataUnits = 10005;
+        public const ushort G2_GetAllDataUnits = 10006;
+        public const ushort L2C_SyncDirtyDataUnits = 10007;
+        public const ushort C2G_Ping = 10008;
+        public const ushort G2C_Ping = 10009;
+        public const ushort G2C_SessionDisconnect = 10010;
+        public const ushort RoleInfoUnitData = 10011;
+        public const ushort Main2NetClient_Login = 10012;
+        public const ushort NetClient2Main_Login = 10013;
+        public const ushort C2A_Login = 10014;
+        public const ushort A2C_Login = 10015;
+        public const ushort C2L_LoginLobby = 10016;
+        public const ushort L2C_LoginLobby = 10017;
+        public const ushort HttpGetRouterResponse = 10018;
+        public const ushort RouterSync = 10019;
+        public const ushort C2G_EnterMap = 10020;
+        public const ushort G2C_EnterMap = 10021;
+        public const ushort MoveInfo = 10022;
+        public const ushort UnitInfo = 10023;
+        public const ushort M2C_CreateUnits = 10024;
+        public const ushort M2C_CreateMyUnit = 10025;
+        public const ushort M2C_StartSceneChange = 10026;
+        public const ushort M2C_RemoveUnits = 10027;
+        public const ushort C2M_PathfindingResult = 10028;
+        public const ushort C2M_Stop = 10029;
+        public const ushort M2C_PathfindingResult = 10030;
+        public const ushort M2C_Stop = 10031;
+        public const ushort G2C_Test = 10032;
+        public const ushort C2M_Reload = 10033;
+        public const ushort M2C_Reload = 10034;
+        public const ushort G2C_TestHotfixMessage = 10035;
+        public const ushort C2M_TestRobotCase = 10036;
+        public const ushort M2C_TestRobotCase = 10037;
+        public const ushort C2M_TestRobotCase2 = 10038;
+        public const ushort M2C_TestRobotCase2 = 10039;
+        public const ushort C2M_TransferMap = 10040;
+        public const ushort M2C_TransferMap = 10041;
+        public const ushort C2G_Benchmark = 10042;
+        public const ushort G2C_Benchmark = 10043;
     }
 }

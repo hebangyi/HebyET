@@ -2,8 +2,8 @@
 
 namespace ET
 {
-    /*public class World: Entity
+    public class World : Entity, IAwake
     {
-        public Dictionary<long, UnitEntity> AllEntity = new Dictionary<long, UnitEntity>();
-    }*/
+        public Dictionary<long, UnitEntity> AllEntity = new ();
+    }
 }
