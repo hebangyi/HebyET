@@ -4,8 +4,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        World.Instance.AddSingleton<TimeInfo>();
-        World.Instance.AddSingleton<RSATokenManager>();
+        ApplicationContext.Instance.AddSingleton<TimeInfo>();
+        ApplicationContext.Instance.AddSingleton<RSATokenManager>();
         
         AccountLoginRSA rsa = new ();
         rsa.RoleId = 123;

@@ -41,18 +41,18 @@ namespace ET
         {
             if (Logger.Instance == null)
             {
-                World.Instance.AddSingleton<Logger>().Log = new UnityLogger();
+                ApplicationContext.Instance.AddSingleton<Logger>().Log = new UnityLogger();
             }
 
             if (Options.Instance == null)
             {
-                World.Instance.AddSingleton(new Options());
+                ApplicationContext.Instance.AddSingleton(new Options());
             }
         }
 
         private static void DestroyLog()
         {
-            World.Instance.Dispose();
+            ApplicationContext.Instance.Dispose();
         }
     }
 }
