@@ -55,7 +55,6 @@
       <Folder Include="..\..\Unity\Assets\Scripts\Hotfix\Share\Module\Console\">
         <Link>Share\Module\Console</Link>
       </Folder>
-      <Folder Include="Server\Global\Etcd\" />
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="dotnet-etcd" Version="7.2.0" />

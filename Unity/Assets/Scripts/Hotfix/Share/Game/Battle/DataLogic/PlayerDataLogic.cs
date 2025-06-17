@@ -15,12 +15,12 @@ namespace ET
             
         }
 
-        public int[] WatchComponentIds()
+        public ushort[] WatchComponentIds()
         {
-            
-            
-            
-            return Array.Empty<int>();
+            return new ushort []
+            {
+                OpcodeType.Instance.GetOpcode(typeof(UnitEntityPlayerInfo))
+            };
         }
 
         public void OnExecute(UnitEntity unitEntity)

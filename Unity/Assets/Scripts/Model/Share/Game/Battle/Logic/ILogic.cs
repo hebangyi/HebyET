@@ -14,7 +14,7 @@
         void OnDestroy(UnitEntity unitEntity);
 
         // 监听的 ComponentId
-        int[] WatchComponentIds();
+        ushort[] WatchComponentIds();
     }
 
     // 数据处理接口 会修改UnitEntity中的数据
