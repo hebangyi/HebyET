@@ -1,4 +1,4 @@
-namespace ET.Client
+/*namespace ET.Client
 {
     public class AI_Attack: AAIHandler
     {
@@ -22,7 +22,7 @@ namespace ET.Client
             {
                 return;
             }
-            */
+            #1#
 
             // 停在当前位置
             fiber.Root.GetComponent<ClientSenderComponent>().Send(C2M_Stop.Create());
@@ -42,4 +42,4 @@ namespace ET.Client
             }
         }
     }
-}
+}*/

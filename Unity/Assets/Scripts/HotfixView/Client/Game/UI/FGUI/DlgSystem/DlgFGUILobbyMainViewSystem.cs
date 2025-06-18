@@ -11,6 +11,15 @@ namespace ET.Client
         
         public static void RegisterUIEvent(this DlgFGUILobbyMainView self)
         {
+            self.View.battle_btn.onClick.Add(() =>
+            {
+                OnClickStartBattle().Coroutine();
+            });
+        }
+        
+        public static async  ETTask OnClickStartBattle()
+        {
+            // ClientSenderComponent.Instance.Call()
         }
         
         public static void ShowWindow(this DlgFGUILobbyMainView self, ShowWindowData showWindowData = null)

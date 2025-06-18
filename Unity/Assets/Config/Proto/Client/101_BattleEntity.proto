@@ -1,3 +1,6 @@
+// 战斗通讯实体
+
+
 enum UnitEntityTypeEnum
 {
     Player = 1;         // 玩家

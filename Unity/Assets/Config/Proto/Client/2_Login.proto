@@ -16,7 +16,7 @@ message NetClient2Main_Login // IResponse
 	int64 PlayerId = 4;
 }
 
-
+// 登录账号服务器
 // ResponseType A2C_Login
 message C2A_Login // ISessionRequest
 {
@@ -35,6 +35,7 @@ message A2C_Login // ISessionResponse
 	string Token = 5;				// Token
 }
 
+// 登录大厅服务器
 // ResponseType L2C_LoginLobby
 message C2L_LoginLobby // ISessionRequest
 {

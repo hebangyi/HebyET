@@ -1,0 +1,39 @@
+// ResponseType L2C_StartMatchBattle
+// 1.开始匹配战斗
+message C2L_StartMatchBattle // IClientRequest
+{
+	int32 RpcId = 1;
+	// TODO 各个战斗服的ping值
+}
+
+message L2C_StartMatchBattle // IClientResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
+
+// 2.通知匹配成功
+message L2C_MatchBattleSuccess // IMessage
+{
+	// 匹配的服务器 Node
+	// TODO 服务器 Node
+	string Token = 1;	// 加入玩家的签名
+}
+
+
+// 3.玩家进入战斗
+message C2B_PlayerEnterBattle // ISessionRequest
+{
+	int32 RpcId = 1;
+	string Token = 2;
+}
+
+message B2C_PlayerEnterBattle // ISessionResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+

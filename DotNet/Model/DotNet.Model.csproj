@@ -57,5 +57,6 @@
       <Folder Include="Generate\Config\" />
       <Folder Include="Server\Game\Account\" />
       <Folder Include="Server\Game\Data\" />
+      <Folder Include="Server\Game\Robot\Case\" />
     </ItemGroup> 
 </Project>

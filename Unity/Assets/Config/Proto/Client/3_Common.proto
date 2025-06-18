@@ -1,0 +1,12 @@
+// 链接服务器主动断开 (不要重连)
+message G2C_SessionDisconnect // IMessage
+{
+    int32 Error = 1;    // 断开原因
+}
+
+
+message HttpGetRouterResponse
+{
+	repeated string Routers = 1;
+	repeated string Accounts = 2;
+}

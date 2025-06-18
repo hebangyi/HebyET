@@ -1,3 +1,4 @@
+// 玩家与大厅间的数据同步接口
 // ============================= 数据结构 =============================
 // 客户端服务器通用同步
 message SyncDataUnitStruct
@@ -38,27 +39,6 @@ message L2C_SyncDirtyDataUnits // IMessage
     SyncDataUnitStruct UnitStructData = 1;  // 数据
 }
 
-
-//// 网络
-// ResponseType G2C_Ping
-message C2G_Ping // ISessionRequest
-{
-	int32 RpcId = 1;
-}
-
-message G2C_Ping // ISessionResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-	int64 Time = 4;
-}
-
-// 链接服务器主动断开 (不要重连)
-message G2C_SessionDisconnect // IMessage
-{
-    int32 Error = 1;    // 断开原因
-}
 
 
 // ============================= 数据 =============================

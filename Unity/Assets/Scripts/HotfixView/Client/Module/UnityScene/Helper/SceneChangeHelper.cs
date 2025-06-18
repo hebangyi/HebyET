@@ -28,7 +28,7 @@ namespace ET.Client
             await EventSystem.Instance.PublishAsync(root, unitySceneChangeStart);
             
             // 通知等待场景切换的协程
-            root.GetComponent<ObjectWait>().Notify(new Wait_SceneChangeFinish());
+            // root.GetComponent<ObjectWait>().Notify(new Wait_SceneChangeFinish());
         }
     }
 }

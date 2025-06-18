@@ -1,4 +1,4 @@
-using Unity.Mathematics;
+/*using Unity.Mathematics;
 
 namespace ET.Client
 {
@@ -15,4 +15,4 @@ namespace ET.Client
             self.Index = ++self.Index % self.path.Length;
         }
     }
-}
+}*/
