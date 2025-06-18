@@ -10,6 +10,8 @@ namespace ET.Client
     {   
         //// 组件变量
 		public GTextField title;
+		public GButton battle_btn;
+		public GTextField battle_text;
 
     }
 }

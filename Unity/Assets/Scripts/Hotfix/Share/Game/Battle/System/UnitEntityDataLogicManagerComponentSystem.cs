@@ -6,7 +6,7 @@ namespace ET
 {
     [EntitySystemOf(typeof(UnitEntityDataLogicManagerComponent))]
     [FriendOf(typeof(UnitEntityDataLogicManagerComponent))]
-    public static class UnitEntityDataLogicManagerComponentSystem
+    public static partial class UnitEntityDataLogicManagerComponentSystem
     {
         [EntitySystem]
         private static void Awake(this UnitEntityDataLogicManagerComponent self)

@@ -2,6 +2,7 @@
 <packageDescription id="cb9g4c6h">
   <resources>
     <component id="j0030" name="FGUILobbyMainView.xml" path="/" exported="true"/>
+    <component id="h83y1" name="战斗.xml" path="/"/>
   </resources>
   <publish name="" genCode="true"/>
 </packageDescription>

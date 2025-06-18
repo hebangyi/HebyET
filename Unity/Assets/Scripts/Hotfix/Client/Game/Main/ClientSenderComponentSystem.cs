@@ -10,12 +10,13 @@ namespace ET.Client
         [EntitySystem]
         private static void Awake(this ClientSenderComponent self)
         {
-
+            ClientSenderComponent.Instance = self;
         }
         
         [EntitySystem]
         private static void Destroy(this ClientSenderComponent self)
         {
+            ClientSenderComponent.Instance = null;
             self.RemoveFiberAsync().Coroutine();
         }
 

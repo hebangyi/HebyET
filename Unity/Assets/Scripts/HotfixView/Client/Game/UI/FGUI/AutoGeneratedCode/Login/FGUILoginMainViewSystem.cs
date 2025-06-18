@@ -17,10 +17,12 @@ namespace ET.Client
 			self.GObject = go;
             var com = go.asCom;
 			self.bg = self.AddChild<FGUICommonBG,GObject>(com.GetChild("bg"));
-			self.user_name_titime = (GTextInput)com.GetChild("user_name_titime");
+			self.loginUserName = (GTextInput)com.GetChild("loginUserName");
+			self.loginFieldBg = (GGraph)com.GetChild("loginFieldBg");
 			self.loginField = (GTextInput)com.GetChild("loginField");
 			self.loginBtn = (GButton)com.GetChild("loginBtn");
-			self.login_field_group = (GGroup)com.GetChild("login_field_group");
+			self.loginBtbTitile = (GTextField)com.GetChild("loginBtbTitile");
+			self.loginFieldGroup = (GGroup)com.GetChild("loginFieldGroup");
 
         }
         
@@ -30,11 +32,13 @@ namespace ET.Client
         {
 			self.bg?.Dispose();
 			self.bg = null;
-			self.user_name_titime = null;
+			self.loginUserName = null;
+			self.loginFieldBg = null;
 			self.loginField = null;
 			self.loginBtn?.Dispose();
 			self.loginBtn = null;
-			self.login_field_group = null;
+			self.loginBtbTitile = null;
+			self.loginFieldGroup = null;
 
         }
     }

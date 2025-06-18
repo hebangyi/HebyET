@@ -2,5 +2,7 @@
 <component size="1920,1080">
   <displayList>
     <text id="n0_j003" name="title" xy="752,375" size="260,178" fontSize="30" autoSize="none" text="这里是大厅"/>
+    <component id="n1_h83y" name="battle_btn" src="h83y1" fileName="战斗.xml" xy="1500,800" size="240,200"/>
+    <text id="n2_h83y" name="battle_text" xy="1570,880" size="86,54" fontSize="40" align="center" bold="true" text="战斗"/>
   </displayList>
 </component>

@@ -4,17 +4,19 @@
     <component id="n8_uexr" name="bg" src="uexr2" fileName="FGUICommonBG.xml" pkg="y9rc4goc" xy="0,0">
       <relation target="" sidePair="center-center,middle-middle"/>
     </component>
-    <text id="n0_cirq" name="user_name_titime" xy="482,390" pivot="0.5,0.5" size="244,100" group="n9_joti" fontSize="50" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="用户名" input="true">
+    <text id="n0_cirq" name="loginUserName" xy="609,390" pivot="0.5,0.5" size="176,100" group="n9_joti" fontSize="50" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="用户名" input="true">
       <relation target="" sidePair="center-center,middle-middle"/>
       <relation target="n1_cirq" sidePair=""/>
     </text>
-    <text id="n3_cirq" name="loginField" xy="868,392" size="569,100" group="n9_joti" fontSize="50" color="#ffffff" vAlign="middle" letterSpacing="5" autoSize="none" text="" input="true">
+    <graph id="n10_h83y" name="loginFieldBg" xy="791,400" size="586,80" group="n9_joti" type="rect"/>
+    <text id="n3_cirq" name="loginField" xy="791,402" size="571,80" group="n9_joti" fontSize="50" vAlign="middle" letterSpacing="2" autoSize="none" text="" input="true">
       <relation target="" sidePair="center-center,middle-middle"/>
     </text>
-    <component id="n1_cirq" name="loginBtn" src="cirq1" fileName="LoginBtn1.xml" xy="614,794" size="524,100" group="n9_joti">
+    <component id="n1_cirq" name="loginBtn" src="cirq1" fileName="LoginBtn1.xml" xy="707,794" size="524,100" group="n9_joti">
       <relation target="" sidePair="center-center,middle-middle"/>
     </component>
-    <group id="n9_joti" name="login_field_group" xy="482,390" size="955,504" advanced="true">
+    <text id="n11_h83y" name="loginBtbTitile" xy="846,810" size="264,66" group="n9_joti" fontSize="50" align="center" vAlign="middle" letterSpacing="50" autoSize="none" bold="true" text="登录"/>
+    <group id="n9_joti" name="loginFieldGroup" xy="609,390" size="768,504" advanced="true">
       <relation target="" sidePair="center-center,middle-middle"/>
     </group>
   </displayList>

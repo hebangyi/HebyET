@@ -16,7 +16,7 @@
             {
                 return;
             }
-
+ 
             if (sceneHandle.Progress < 1)
             {
                 self.ShowProgress(sceneHandle.Progress - 0.3f);

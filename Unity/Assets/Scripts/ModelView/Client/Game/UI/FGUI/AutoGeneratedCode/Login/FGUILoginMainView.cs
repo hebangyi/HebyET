@@ -10,10 +10,12 @@ namespace ET.Client
     {   
         //// 组件变量
 		public FGUICommonBG bg;
-		public GTextInput user_name_titime;
+		public GTextInput loginUserName;
+		public GGraph loginFieldBg;
 		public GTextInput loginField;
 		public GButton loginBtn;
-		public GGroup login_field_group;
+		public GTextField loginBtbTitile;
+		public GGroup loginFieldGroup;
 
     }
 }

@@ -1,39 +1,28 @@
+using System;
 using FairyGUI;
 
 namespace ET.Client
 {
-    [FGUIEvent(typeof(FGUILobbyMainView))]
-    public class DlgFGUILobbyMainViewEventHandler : IFGUIEventHandler
+    public static class DlgFGUILobbyMainViewSystem
     {
-        public void OnInitWindowCoreData(UIBaseWindow uiBaseWindow)
+        public static void Init(this DlgFGUILobbyMainView self)
         {
-            uiBaseWindow.WindowType = UIWindowType.Normal;
         }
-
-        public void OnInitComponent(UIBaseWindow uiBaseWindow)
+        
+        public static void RegisterUIEvent(this DlgFGUILobbyMainView self)
         {
-            uiBaseWindow.AddComponent<DlgFGUILobbyMainView>().AddComponent<FGUILobbyMainView, GObject>(uiBaseWindow.GObject);
-            uiBaseWindow.GetComponent<DlgFGUILobbyMainView>().Init();
         }
-
-        public void OnRegisterUIEvent(UIBaseWindow uiBaseWindow)
+        
+        public static void ShowWindow(this DlgFGUILobbyMainView self, ShowWindowData showWindowData = null)
         {
-            uiBaseWindow.GetComponent<DlgFGUILobbyMainView>().RegisterUIEvent();
         }
-
-        public void OnShowWindow(UIBaseWindow uiBaseWindow, ShowWindowData showWindowData = null)
+        
+        public static void HideWindow(this DlgFGUILobbyMainView self)
         {
-            uiBaseWindow.GetComponent<DlgFGUILobbyMainView>().ShowWindow(showWindowData);
         }
-
-        public void OnHideWindow(UIBaseWindow uiBaseWindow)
+        
+        public static void BeforeUnload(this DlgFGUILobbyMainView self)
         {
-            uiBaseWindow.GetComponent<DlgFGUILobbyMainView>().HideWindow();
-        }
-
-        public void BeforeUnload(UIBaseWindow uiBaseWindow)
-        {
-            uiBaseWindow.GetComponent<DlgFGUILobbyMainView>().BeforeUnload();
         }
     }
 }

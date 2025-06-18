@@ -1,16 +1,18 @@
-﻿namespace ET.Battle.Factory;
-
-public static class UnitPlayerFactory
+﻿namespace ET
 {
-    public static UnitEntity Create(World world, long playerId)
+    public static class UnitPlayerFactory
     {
-        UnitEntity entity = world.CreateEntity();
-        UnitEntityInfo unitEntityInfo = entity.GetOrCreateUnitEntityElemData<UnitEntityInfo>();
-        unitEntityInfo.unitEntityTypeEnum = UnitEntityTypeEnum.Player;
-        unitEntityInfo.ConfigId = 0;
+        public static UnitEntity Create(World world, long playerId)
+        {
+            UnitEntity entity = world.CreateEntity();
+            UnitEntityInfo unitEntityInfo = entity.GetOrCreateUnitEntityElemData<UnitEntityInfo>();
+            unitEntityInfo.unitEntityTypeEnum = UnitEntityTypeEnum.Player;
+            unitEntityInfo.ConfigId = 0;
         
-        var unitEntityPlayerInfo = entity.GetOrCreateUnitEntityElemData<UnitEntityPlayerInfo>();
-        unitEntityPlayerInfo.playerId = playerId;
-        return entity;
+            var unitEntityPlayerInfo = entity.GetOrCreateUnitEntityElemData<UnitEntityPlayerInfo>();
+            unitEntityPlayerInfo.playerId = playerId;
+            return entity;
+        }
     }
 }
+

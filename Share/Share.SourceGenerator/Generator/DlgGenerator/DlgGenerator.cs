@@ -101,7 +101,7 @@ public class DlgGenerator : ISourceGenerator
             return;
         }
         
-        var code = DlgSystemTemplate.Replace("{namespaceName}", namespaceName);
+        var code = DlgEventHandlerTemplate.Replace("{namespaceName}", namespaceName);
         code = code.Replace("{className}", className);
         
         File.WriteAllText(filePath, code);
@@ -125,7 +125,7 @@ public class DlgGenerator : ISourceGenerator
             return;
         }
         
-        var code = DlgEventHandlerTemplate.Replace("{namespaceName}", namespaceName);
+        var code = DlgSystemTemplate.Replace("{namespaceName}", namespaceName);
         code = code.Replace("{className}", className);
         File.WriteAllText(filePath, code);
     }

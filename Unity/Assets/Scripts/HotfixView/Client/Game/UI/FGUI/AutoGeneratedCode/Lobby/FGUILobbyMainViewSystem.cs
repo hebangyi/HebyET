@@ -17,6 +17,8 @@ namespace ET.Client
 			self.GObject = go;
             var com = go.asCom;
 			self.title = (GTextField)com.GetChild("title");
+			self.battle_btn = (GButton)com.GetChild("battle_btn");
+			self.battle_text = (GTextField)com.GetChild("battle_text");
 
         }
         
@@ -25,6 +27,9 @@ namespace ET.Client
         public static void Destroy(this FGUILobbyMainView self)
         {
 			self.title = null;
+			self.battle_btn?.Dispose();
+			self.battle_btn = null;
+			self.battle_text = null;
 
         }
     }
