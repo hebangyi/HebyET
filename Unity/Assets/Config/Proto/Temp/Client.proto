@@ -23,6 +23,35 @@ message UnitEntityPlayerInfo // IUnitEntityElemData
     int64 playerId = 1;     // 玩家ID
 }
 
+//// 进入战斗流程
+
+// 3.玩家进入战斗 对Session 进行登录验证
+message C2B_PlayerEnterBattle // ISessionRequest
+{
+	int32 RpcId = 1;
+	string Token = 2;
+}
+
+message B2C_PlayerEnterBattle // ISessionResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
+// 4.玩家通知准备完成
+message C2B_PlayerReadyCompleted
+{
+	int32 RpcId = 1;
+}
+
+message B2C_PlayerReadyCompleted
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
 // 未登录的常规协议
 
 //// 网络
@@ -110,8 +139,10 @@ message L2C_LoginLobby // ISessionResponse
 
 
 
-// ResponseType L2C_StartMatchBattle
+//// 战斗流程
+
 // 1.开始匹配战斗
+// ResponseType L2C_StartMatchBattle
 message C2L_StartMatchBattle // IClientRequest
 {
 	int32 RpcId = 1;
@@ -133,23 +164,6 @@ message L2C_MatchBattleSuccess // IMessage
 	// TODO 服务器 Node
 	string Token = 1;	// 加入玩家的签名
 }
-
-
-// 3.玩家进入战斗
-message C2B_PlayerEnterBattle // ISessionRequest
-{
-	int32 RpcId = 1;
-	string Token = 2;
-}
-
-message B2C_PlayerEnterBattle // ISessionResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-}
-
-
 
 // 链接服务器主动断开 (不要重连)
 message G2C_SessionDisconnect // IMessage
