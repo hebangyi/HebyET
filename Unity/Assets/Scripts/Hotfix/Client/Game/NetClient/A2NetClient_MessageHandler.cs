@@ -1,6 +1,6 @@
 ﻿namespace ET.Client
 {
-    [MessageHandler(SceneType.NetClient)]
+    [MessageHandler(SceneType.NetLobby)]
     public class A2NetClient_MessageHandler: MessageHandler<Scene, A2NetClient_Message>
     {
         protected override async ETTask Run(Scene root, A2NetClient_Message message)

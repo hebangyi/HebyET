@@ -1,6 +1,6 @@
 ﻿namespace ET.Client
 {
-    [Invoke((long)SceneType.NetClient)]
+    [Invoke((long)SceneType.NetLobby)]
     public class FiberInit_NetClient: AInvokeHandler<FiberInit, ETTask>
     {
         public override async ETTask Handle(FiberInit fiberInit)

@@ -40,7 +40,7 @@ namespace ET.Client
 
         public static async ETTask<(int,long)> LoginAsync(this ClientSenderComponent self, string account, string password)
         {
-            self.fiberId = await FiberManager.Instance.Create(SchedulerType.ThreadPool, 0, SceneType.NetClient, "");
+            self.fiberId = await FiberManager.Instance.Create(SchedulerType.ThreadPool, 0, SceneType.NetLobby, "");
             self.netClientActorId = new ActorId(self.Fiber().Process, self.fiberId);
 
             Main2NetClient_Login main2NetClientLogin = Main2NetClient_Login.Create();

@@ -4,7 +4,7 @@ using System.Net.Sockets;
 
 namespace ET.Client
 {
-    [MessageHandler(SceneType.NetClient)]
+    [MessageHandler(SceneType.NetLobby)]
     public class Main2NetClient_LoginHandler: MessageHandler<Scene, Main2NetClient_Login, NetClient2Main_Login>
     {
         protected override async ETTask Run(Scene root, Main2NetClient_Login request, NetClient2Main_Login response)

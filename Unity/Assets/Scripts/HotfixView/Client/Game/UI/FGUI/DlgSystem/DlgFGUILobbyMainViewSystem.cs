@@ -20,6 +20,7 @@ namespace ET.Client
         public static async  ETTask OnClickStartBattle()
         {
             // ClientSenderComponent.Instance.Call()
+            await ETTask.CompletedTask;
         }
         
         public static void ShowWindow(this DlgFGUILobbyMainView self, ShowWindowData showWindowData = null)
