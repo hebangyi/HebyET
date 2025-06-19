@@ -23,7 +23,21 @@ message UnitEntityPlayerInfo // IUnitEntityElemData
     int64 playerId = 1;     // 玩家ID
 }
 
-//// 进入战斗流程
+//// 客户端Main向网络线程发送消息
+// ResponseType NetBattle2MainLogin
+message Main2NetBattleLogin // IRequest
+{
+	int32 RpcId = 1;
+	string Token = 2;
+}
+
+message NetBattle2MainLogin // IResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
 
 // 3.玩家进入战斗 对Session 进行登录验证
 message C2B_PlayerEnterBattle // ISessionRequest
@@ -32,6 +46,7 @@ message C2B_PlayerEnterBattle // ISessionRequest
 	string Token = 2;
 }
 
+// ResponseType B2C_PlayerEnterBattle
 message B2C_PlayerEnterBattle // ISessionResponse
 {
 	int32 RpcId = 1;
@@ -40,6 +55,7 @@ message B2C_PlayerEnterBattle // ISessionResponse
 }
 
 // 4.玩家通知准备完成
+// ResponseType B2C_PlayerReadyCompleted
 message C2B_PlayerReadyCompleted
 {
 	int32 RpcId = 1;
@@ -82,8 +98,10 @@ message G2C_Benchmark // ISessionResponse
 	string Message = 3;
 }
 
-// ResponseType NetClient2Main_Login
-message Main2NetClient_Login // IRequest
+
+//// 客户端Main向网络线程发送消息
+// ResponseType NetLobby2MainLogin
+message Main2NetLobbyLogin // IRequest
 {
 	int32 RpcId = 1;
 	int32 OwnerFiberId = 2;
@@ -91,7 +109,7 @@ message Main2NetClient_Login // IRequest
 	string Password = 4; 	// 密码
 }
 
-message NetClient2Main_Login // IResponse
+message NetLobby2MainLogin // IResponse
 {
 	int32 RpcId = 1;
 	int32 Error = 2;
@@ -138,32 +156,6 @@ message L2C_LoginLobby // ISessionResponse
 
 
 
-
-//// 战斗流程
-
-// 1.开始匹配战斗
-// ResponseType L2C_StartMatchBattle
-message C2L_StartMatchBattle // IClientRequest
-{
-	int32 RpcId = 1;
-	// TODO 各个战斗服的ping值
-}
-
-message L2C_StartMatchBattle // IClientResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-}
-
-
-// 2.通知匹配成功
-message L2C_MatchBattleSuccess // IMessage
-{
-	// 匹配的服务器 Node
-	// TODO 服务器 Node
-	string Token = 1;	// 加入玩家的签名
-}
 
 // 链接服务器主动断开 (不要重连)
 message G2C_SessionDisconnect // IMessage
@@ -227,5 +219,31 @@ message L2C_SyncDirtyDataUnits // IMessage
 message RoleInfoUnitData // IUnitData
 {
     string NickName = 1;    // 昵称
+}
+
+//// 战斗流程
+
+// 1.开始匹配战斗
+// ResponseType L2C_StartMatchBattle
+message C2L_StartMatchBattle // IClientRequest
+{
+	int32 RpcId = 1;
+	// TODO 各个战斗服的ping值
+}
+
+message L2C_StartMatchBattle // IClientResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
+
+// 2.通知匹配成功
+message L2C_MatchBattleSuccess // IMessage
+{
+	// 匹配的服务器 Node
+	// TODO 服务器 Node
+	string Token = 1;	// 加入玩家的签名
 }
 

@@ -8,10 +8,10 @@ namespace ET.Client
     {
         public static async ETTask<int> Login(Scene root, string account, string password)
         {
-            root.RemoveComponent<ClientSenderComponent>();
+            root.RemoveComponent<ClientLobbySenderComponent>();
             
-            ClientSenderComponent clientSenderComponent = root.AddComponent<ClientSenderComponent>();
-            var (errorCode, playerId) = await clientSenderComponent.LoginAsync(account, password);
+            ClientLobbySenderComponent clientLobbySenderComponent = root.AddComponent<ClientLobbySenderComponent>();
+            var (errorCode, playerId) = await clientLobbySenderComponent.LoginAsync(account, password);
 
             if (errorCode != ErrorCode.ERR_Success)
             {

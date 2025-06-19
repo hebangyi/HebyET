@@ -70,8 +70,71 @@ namespace ET
     }
 
     /// <summary>
-    /// 进入战斗流程
+    /// 客户端Main向网络线程发送消息
     /// </summary>
+    [MemoryPackable]
+    [Message(ClientMessage.Main2NetBattleLogin)]
+    [ResponseType(nameof(NetBattle2MainLogin))]
+    public partial class Main2NetBattleLogin : MessageObject, IRequest
+    {
+        public static Main2NetBattleLogin Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(Main2NetBattleLogin), isFromPool) as Main2NetBattleLogin;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public string Token { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Token = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.NetBattle2MainLogin)]
+    public partial class NetBattle2MainLogin : MessageObject, IResponse
+    {
+        public static NetBattle2MainLogin Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(NetBattle2MainLogin), isFromPool) as NetBattle2MainLogin;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
     // 3.玩家进入战斗 对Session 进行登录验证
     [MemoryPackable]
     [Message(ClientMessage.C2B_PlayerEnterBattle)]
@@ -104,6 +167,7 @@ namespace ET
 
     [MemoryPackable]
     [Message(ClientMessage.B2C_PlayerEnterBattle)]
+    [ResponseType(nameof(B2C_PlayerEnterBattle))]
     public partial class B2C_PlayerEnterBattle : MessageObject, ISessionResponse
     {
         public static B2C_PlayerEnterBattle Create(bool isFromPool = false)
@@ -138,6 +202,7 @@ namespace ET
     // 4.玩家通知准备完成
     [MemoryPackable]
     [Message(ClientMessage.C2B_PlayerReadyCompleted)]
+    [ResponseType(nameof(B2C_PlayerReadyCompleted))]
     public partial class C2B_PlayerReadyCompleted : MessageObject
     {
         public static C2B_PlayerReadyCompleted Create(bool isFromPool = false)
@@ -320,14 +385,17 @@ namespace ET
         }
     }
 
+    /// <summary>
+    /// 客户端Main向网络线程发送消息
+    /// </summary>
     [MemoryPackable]
-    [Message(ClientMessage.Main2NetClient_Login)]
-    [ResponseType(nameof(NetClient2Main_Login))]
-    public partial class Main2NetClient_Login : MessageObject, IRequest
+    [Message(ClientMessage.Main2NetLobbyLogin)]
+    [ResponseType(nameof(NetLobby2MainLogin))]
+    public partial class Main2NetLobbyLogin : MessageObject, IRequest
     {
-        public static Main2NetClient_Login Create(bool isFromPool = false)
+        public static Main2NetLobbyLogin Create(bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(Main2NetClient_Login), isFromPool) as Main2NetClient_Login;
+            return ObjectPool.Instance.Fetch(typeof(Main2NetLobbyLogin), isFromPool) as Main2NetLobbyLogin;
         }
 
         [MemoryPackOrder(0)]
@@ -365,12 +433,12 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(ClientMessage.NetClient2Main_Login)]
-    public partial class NetClient2Main_Login : MessageObject, IResponse
+    [Message(ClientMessage.NetLobby2MainLogin)]
+    public partial class NetLobby2MainLogin : MessageObject, IResponse
     {
-        public static NetClient2Main_Login Create(bool isFromPool = false)
+        public static NetLobby2MainLogin Create(bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(NetClient2Main_Login), isFromPool) as NetClient2Main_Login;
+            return ObjectPool.Instance.Fetch(typeof(NetLobby2MainLogin), isFromPool) as NetLobby2MainLogin;
         }
 
         [MemoryPackOrder(0)]
@@ -555,107 +623,6 @@ namespace ET
             this.Error = default;
             this.Message = default;
             this.PlayerId = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    /// <summary>
-    /// 战斗流程
-    /// </summary>
-    // 1.开始匹配战斗
-    [MemoryPackable]
-    [Message(ClientMessage.C2L_StartMatchBattle)]
-    [ResponseType(nameof(L2C_StartMatchBattle))]
-    public partial class C2L_StartMatchBattle : MessageObject, IClientRequest
-    {
-        public static C2L_StartMatchBattle Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(C2L_StartMatchBattle), isFromPool) as C2L_StartMatchBattle;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        /// <summary>
-        /// TODO 各个战斗服的ping值
-        /// </summary>
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.L2C_StartMatchBattle)]
-    public partial class L2C_StartMatchBattle : MessageObject, IClientResponse
-    {
-        public static L2C_StartMatchBattle Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(L2C_StartMatchBattle), isFromPool) as L2C_StartMatchBattle;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public int Error { get; set; }
-
-        [MemoryPackOrder(2)]
-        public string Message { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    // 2.通知匹配成功
-    [MemoryPackable]
-    [Message(ClientMessage.L2C_MatchBattleSuccess)]
-    public partial class L2C_MatchBattleSuccess : MessageObject, IMessage
-    {
-        public static L2C_MatchBattleSuccess Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(L2C_MatchBattleSuccess), isFromPool) as L2C_MatchBattleSuccess;
-        }
-
-        /// <summary>
-        /// 匹配的服务器 Node
-        /// </summary>
-        /// <summary>
-        /// TODO 服务器 Node
-        /// </summary>
-        /// <summary>
-        /// 加入玩家的签名
-        /// </summary>
-        [MemoryPackOrder(0)]
-        public string Token { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.Token = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -924,34 +891,137 @@ namespace ET
         }
     }
 
+    /// <summary>
+    /// 战斗流程
+    /// </summary>
+    // 1.开始匹配战斗
+    [MemoryPackable]
+    [Message(ClientMessage.C2L_StartMatchBattle)]
+    [ResponseType(nameof(L2C_StartMatchBattle))]
+    public partial class C2L_StartMatchBattle : MessageObject, IClientRequest
+    {
+        public static C2L_StartMatchBattle Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2L_StartMatchBattle), isFromPool) as C2L_StartMatchBattle;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        /// <summary>
+        /// TODO 各个战斗服的ping值
+        /// </summary>
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.L2C_StartMatchBattle)]
+    public partial class L2C_StartMatchBattle : MessageObject, IClientResponse
+    {
+        public static L2C_StartMatchBattle Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(L2C_StartMatchBattle), isFromPool) as L2C_StartMatchBattle;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 2.通知匹配成功
+    [MemoryPackable]
+    [Message(ClientMessage.L2C_MatchBattleSuccess)]
+    public partial class L2C_MatchBattleSuccess : MessageObject, IMessage
+    {
+        public static L2C_MatchBattleSuccess Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(L2C_MatchBattleSuccess), isFromPool) as L2C_MatchBattleSuccess;
+        }
+
+        /// <summary>
+        /// 匹配的服务器 Node
+        /// </summary>
+        /// <summary>
+        /// TODO 服务器 Node
+        /// </summary>
+        /// <summary>
+        /// 加入玩家的签名
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public string Token { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.Token = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
     public static class ClientMessage
     {
         public const ushort UnitEntityInfo = 10001;
         public const ushort UnitEntityPlayerInfo = 10002;
-        public const ushort C2B_PlayerEnterBattle = 10003;
-        public const ushort B2C_PlayerEnterBattle = 10004;
-        public const ushort C2B_PlayerReadyCompleted = 10005;
-        public const ushort B2C_PlayerReadyCompleted = 10006;
-        public const ushort C2G_Ping = 10007;
-        public const ushort G2C_Ping = 10008;
-        public const ushort C2G_Benchmark = 10009;
-        public const ushort G2C_Benchmark = 10010;
-        public const ushort Main2NetClient_Login = 10011;
-        public const ushort NetClient2Main_Login = 10012;
-        public const ushort C2A_Login = 10013;
-        public const ushort A2C_Login = 10014;
-        public const ushort C2L_LoginLobby = 10015;
-        public const ushort L2C_LoginLobby = 10016;
-        public const ushort C2L_StartMatchBattle = 10017;
-        public const ushort L2C_StartMatchBattle = 10018;
-        public const ushort L2C_MatchBattleSuccess = 10019;
-        public const ushort G2C_SessionDisconnect = 10020;
-        public const ushort HttpGetRouterResponse = 10021;
-        public const ushort SyncDataUnitStruct = 10022;
-        public const ushort DataUnitBytes = 10023;
-        public const ushort C2G_GetAllDataUnits = 10024;
-        public const ushort G2_GetAllDataUnits = 10025;
-        public const ushort L2C_SyncDirtyDataUnits = 10026;
-        public const ushort RoleInfoUnitData = 10027;
+        public const ushort Main2NetBattleLogin = 10003;
+        public const ushort NetBattle2MainLogin = 10004;
+        public const ushort C2B_PlayerEnterBattle = 10005;
+        public const ushort B2C_PlayerEnterBattle = 10006;
+        public const ushort C2B_PlayerReadyCompleted = 10007;
+        public const ushort B2C_PlayerReadyCompleted = 10008;
+        public const ushort C2G_Ping = 10009;
+        public const ushort G2C_Ping = 10010;
+        public const ushort C2G_Benchmark = 10011;
+        public const ushort G2C_Benchmark = 10012;
+        public const ushort Main2NetLobbyLogin = 10013;
+        public const ushort NetLobby2MainLogin = 10014;
+        public const ushort C2A_Login = 10015;
+        public const ushort A2C_Login = 10016;
+        public const ushort C2L_LoginLobby = 10017;
+        public const ushort L2C_LoginLobby = 10018;
+        public const ushort G2C_SessionDisconnect = 10019;
+        public const ushort HttpGetRouterResponse = 10020;
+        public const ushort SyncDataUnitStruct = 10021;
+        public const ushort DataUnitBytes = 10022;
+        public const ushort C2G_GetAllDataUnits = 10023;
+        public const ushort G2_GetAllDataUnits = 10024;
+        public const ushort L2C_SyncDirtyDataUnits = 10025;
+        public const ushort RoleInfoUnitData = 10026;
+        public const ushort C2L_StartMatchBattle = 10027;
+        public const ushort L2C_StartMatchBattle = 10028;
+        public const ushort L2C_MatchBattleSuccess = 10029;
     }
 }

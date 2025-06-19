@@ -1,4 +1,18 @@
-//// 进入战斗流程
+//// 客户端Main向网络线程发送消息
+// ResponseType NetBattle2MainLogin
+message Main2NetBattleLogin // IRequest
+{
+	int32 RpcId = 1;
+	string Token = 2;
+}
+
+message NetBattle2MainLogin // IResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
 
 // 3.玩家进入战斗 对Session 进行登录验证
 message C2B_PlayerEnterBattle // ISessionRequest
@@ -7,6 +21,7 @@ message C2B_PlayerEnterBattle // ISessionRequest
 	string Token = 2;
 }
 
+// ResponseType B2C_PlayerEnterBattle
 message B2C_PlayerEnterBattle // ISessionResponse
 {
 	int32 RpcId = 1;
@@ -15,6 +30,7 @@ message B2C_PlayerEnterBattle // ISessionResponse
 }
 
 // 4.玩家通知准备完成
+// ResponseType B2C_PlayerReadyCompleted
 message C2B_PlayerReadyCompleted
 {
 	int32 RpcId = 1;

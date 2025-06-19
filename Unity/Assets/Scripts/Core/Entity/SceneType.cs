@@ -20,9 +20,7 @@ namespace ET
 		RouterGate = 1 << 9,
 		RouterServer = 1 << 10,
 		
-		
-		Map = 1 << 8,
-		
+		Battle = 1 << 11,
 		
 		
 		// 测试服务器
@@ -39,9 +37,6 @@ namespace ET
 		// 客户端
 		Game = 1 << 30,
 		Current = 1L << 31,
-		LockStep = 1L << 32,
-		LockStepView = 1L << 33,
-		DemoView = 1L << 34,
 		NetLobby = 1L << 35,
 		NetBattle = 1L << 36,
 

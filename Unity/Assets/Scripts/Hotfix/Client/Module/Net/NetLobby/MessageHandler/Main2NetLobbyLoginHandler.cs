@@ -5,9 +5,9 @@ using System.Net.Sockets;
 namespace ET.Client
 {
     [MessageHandler(SceneType.NetLobby)]
-    public class Main2NetClient_LoginHandler: MessageHandler<Scene, Main2NetClient_Login, NetClient2Main_Login>
+    public class Main2NetLobbyLoginHandler: MessageHandler<Scene, Main2NetLobbyLogin, NetLobby2MainLogin>
     {
-        protected override async ETTask Run(Scene root, Main2NetClient_Login request, NetClient2Main_Login response)
+        protected override async ETTask Run(Scene root, Main2NetLobbyLogin request, NetLobby2MainLogin response)
         {
             string account = request.Account;
             string password = request.Password;

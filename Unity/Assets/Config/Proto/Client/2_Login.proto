@@ -1,5 +1,7 @@
-// ResponseType NetClient2Main_Login
-message Main2NetClient_Login // IRequest
+
+//// 客户端Main向网络线程发送消息
+// ResponseType NetLobby2MainLogin
+message Main2NetLobbyLogin // IRequest
 {
 	int32 RpcId = 1;
 	int32 OwnerFiberId = 2;
@@ -7,7 +9,7 @@ message Main2NetClient_Login // IRequest
 	string Password = 4; 	// 密码
 }
 
-message NetClient2Main_Login // IResponse
+message NetLobby2MainLogin // IResponse
 {
 	int32 RpcId = 1;
 	int32 Error = 2;

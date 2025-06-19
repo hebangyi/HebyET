@@ -43,7 +43,7 @@ namespace ET.Client
 
         public static async ETTask<int> SyncAllData(Scene scene)
         {
-            var clientSenderComponent = scene.GetComponent<ClientSenderComponent>();
+            var clientSenderComponent = scene.GetComponent<ClientLobbySenderComponent>();
             var clientLobbyDataComponent = scene.GetComponent<ClientLobbyDataComponent>();
             if (clientSenderComponent == null || clientLobbyDataComponent == null)
             {

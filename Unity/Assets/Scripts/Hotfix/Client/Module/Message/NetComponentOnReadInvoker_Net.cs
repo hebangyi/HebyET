@@ -3,7 +3,8 @@
 namespace ET.Client
 {
     [Invoke((long)SceneType.NetLobby)]
-    public class NetComponentOnReadInvoker_NetLobby: AInvokeHandler<NetComponentOnRead>
+    [Invoke((long)SceneType.NetBattle)]
+    public class NetComponentOnReadInvoker_Net: AInvokeHandler<NetComponentOnRead>
     {
         public override void Handle(NetComponentOnRead args)
         {
