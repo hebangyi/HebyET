@@ -748,18 +748,21 @@ namespace ET
         public int SceneId { get; set; }
 
         [MemoryPackOrder(3)]
-        public string OuterIp { get; set; }
+        public string SceneName { get; set; }
 
         [MemoryPackOrder(4)]
-        public string InnerIp { get; set; }
+        public string OuterIp { get; set; }
 
         [MemoryPackOrder(5)]
-        public int InnerPort { get; set; }
+        public string InnerIp { get; set; }
 
         [MemoryPackOrder(6)]
-        public int OuterPort { get; set; }
+        public int InnerPort { get; set; }
 
         [MemoryPackOrder(7)]
+        public int OuterPort { get; set; }
+
+        [MemoryPackOrder(8)]
         public int Status { get; set; }
 
         public override void Dispose()
@@ -772,6 +775,7 @@ namespace ET
             this.SceneType = default;
             this.ProcessId = default;
             this.SceneId = default;
+            this.SceneName = default;
             this.OuterIp = default;
             this.InnerIp = default;
             this.InnerPort = default;

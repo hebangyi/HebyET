@@ -99,6 +99,8 @@
 
         public const string EnableClassAttribute = "ET.EnableClassAttribute";
         public const string FGUITagAttribute = "ET.Client.FGUITagAttribute";
+        public const string ResponseTypeAttribute = "ET.ResponseTypeAttribute";
+        public const string ISessionRequest = "ET.ISessionRequest";
 
         public const string ViewEndFix = "View";
     }

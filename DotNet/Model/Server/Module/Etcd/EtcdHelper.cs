@@ -31,6 +31,7 @@ public static class EtcdHelper
         sceneNode.OuterIp = outerIp; 
         sceneNode.InnerPort = innerPort;
         sceneNode.OuterPort = outPort;
+        sceneNode.SceneName = $"{scene.SceneType}_{scene.Id}";
         // TODO 根据不同的服务器 数据相关
         sceneNode.Status = 0;
         return sceneNode;

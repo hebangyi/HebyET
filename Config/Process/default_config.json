@@ -72,17 +72,20 @@
                     "DbConnection": "mongodb://localhost:27017/",
                     "DbName": "user_db",
                     "UserCollection": "UserItem"
-                }
+                },
+				"NetComponent":
+				{
+					"OuterPort": 10002
+				}
             }
         },
         "Battle": {
             "SceneId": 70001,
             "ModulesConfig": {
-                "UserDBComponent": {
-                    "DbConnection": "mongodb://localhost:27017/",
-                    "DbName": "user_db",
-                    "UserCollection": "UserItem"
-                }
+                "NetComponent":
+				{
+					"OuterPort": 10003
+				}
             }
         },
         "DBCache": {

@@ -15,13 +15,13 @@ message NetBattle2MainLogin // IResponse
 
 
 // 3.玩家进入战斗 对Session 进行登录验证
+// ResponseType B2C_PlayerEnterBattle
 message C2B_PlayerEnterBattle // ISessionRequest
 {
 	int32 RpcId = 1;
 	string Token = 2;
 }
 
-// ResponseType B2C_PlayerEnterBattle
 message B2C_PlayerEnterBattle // ISessionResponse
 {
 	int32 RpcId = 1;

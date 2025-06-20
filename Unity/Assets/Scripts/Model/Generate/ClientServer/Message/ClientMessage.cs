@@ -138,6 +138,7 @@ namespace ET
     // 3.玩家进入战斗 对Session 进行登录验证
     [MemoryPackable]
     [Message(ClientMessage.C2B_PlayerEnterBattle)]
+    [ResponseType(nameof(B2C_PlayerEnterBattle))]
     public partial class C2B_PlayerEnterBattle : MessageObject, ISessionRequest
     {
         public static C2B_PlayerEnterBattle Create(bool isFromPool = false)
@@ -167,7 +168,6 @@ namespace ET
 
     [MemoryPackable]
     [Message(ClientMessage.B2C_PlayerEnterBattle)]
-    [ResponseType(nameof(B2C_PlayerEnterBattle))]
     public partial class B2C_PlayerEnterBattle : MessageObject, ISessionResponse
     {
         public static B2C_PlayerEnterBattle Create(bool isFromPool = false)
