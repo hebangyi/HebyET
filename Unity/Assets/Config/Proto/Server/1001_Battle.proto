@@ -1,0 +1,16 @@
+// ResponseType B2L_PlayerStartMatch
+L2B_PlayerStartMatch // IRequest
+{
+	int32 RpcId = 1;
+    int32 PlayerId = 2;
+}
+
+B2L_PlayerStartMatch // IResponse
+{
+    int32 RpcId = 1;
+}
+
+L2B_PlayerMatchSuccessNotify
+{
+    
+}
