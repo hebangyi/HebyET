@@ -11,6 +11,11 @@ namespace ET
     {
     }
 
+    public abstract class ServerData : Object, IServerData
+    {
+        
+    }
+
     public interface IUnitDataConverter
     {
         Type GetServerDataType();
@@ -22,19 +27,19 @@ namespace ET
 
 
     [DataUnitConverter]
-    public abstract class UnitDataConverter<ServerData, ClientData, UnitData> : IUnitDataConverter where UnitData: MessageObject, IUnitData where ServerData: IServerData where ClientData : IClientData
+    public abstract class UnitDataConverter<SData, CData, UnitData> : IUnitDataConverter where UnitData: MessageObject, IUnitData where SData: IServerData where CData : IClientData
     {
 
-        public abstract UnitData ToUnitData(ServerData data);
+        public abstract UnitData ToUnitData(SData data);
 
-        public abstract ClientData FromUnitData(UnitData unitData);
+        public abstract CData FromUnitData(UnitData unitData);
 
         
         public IUnitData ToUnitData(IServerData data)
         {
-            if (data is not ServerData serverData)
+            if (data is not SData serverData)
             {
-                Log.Error($"Server Data 转换 错误 转换器类型 {typeof(ServerData).FullName} 目标对象类型 {data.GetType().FullName}");
+                Log.Error($"Server Data 转换 错误 转换器类型 {typeof(SData).FullName} 目标对象类型 {data.GetType().FullName}");
                 return null;
             }
 
@@ -54,12 +59,12 @@ namespace ET
         
         public Type GetServerDataType()
         {
-            return typeof (ServerData);
+            return typeof (SData);
         }
     
         public Type GetClientDataType()
         {
-            return typeof (ClientData);
+            return typeof (CData);
         }
         
         public Type GetUnitDataType()

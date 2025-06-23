@@ -4,6 +4,90 @@ using System.Collections.Generic;
 namespace ET
 {
     [MemoryPackable]
+    [Message(ServerMessage.L2B_PlayerStartMatch)]
+    [ResponseType(nameof(B2L_PlayerStartMatch))]
+    public partial class L2B_PlayerStartMatch : MessageObject, IRequest
+    {
+        public static L2B_PlayerStartMatch Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(L2B_PlayerStartMatch), isFromPool) as L2B_PlayerStartMatch;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int PlayerId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.PlayerId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ServerMessage.B2L_PlayerStartMatch)]
+    public partial class B2L_PlayerStartMatch : MessageObject, IResponse
+    {
+        public static B2L_PlayerStartMatch Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(B2L_PlayerStartMatch), isFromPool) as B2L_PlayerStartMatch;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ServerMessage.L2B_PlayerMatchSuccessNotify)]
+    public partial class L2B_PlayerMatchSuccessNotify : MessageObject, IMessage
+    {
+        public static L2B_PlayerMatchSuccessNotify Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(L2B_PlayerMatchSuccessNotify), isFromPool) as L2B_PlayerMatchSuccessNotify;
+        }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
     [Message(ServerMessage.ObjectQueryRequest)]
     [ResponseType(nameof(ObjectQueryResponse))]
     public partial class ObjectQueryRequest : MessageObject, IRequest
@@ -745,24 +829,27 @@ namespace ET
         public int ProcessId { get; set; }
 
         [MemoryPackOrder(2)]
-        public int SceneId { get; set; }
+        public int FiberId { get; set; }
 
         [MemoryPackOrder(3)]
-        public string SceneName { get; set; }
+        public int SceneId { get; set; }
 
         [MemoryPackOrder(4)]
-        public string OuterIp { get; set; }
+        public string SceneName { get; set; }
 
         [MemoryPackOrder(5)]
-        public string InnerIp { get; set; }
+        public string OuterIp { get; set; }
 
         [MemoryPackOrder(6)]
-        public int InnerPort { get; set; }
+        public string InnerIp { get; set; }
 
         [MemoryPackOrder(7)]
-        public int OuterPort { get; set; }
+        public int InnerPort { get; set; }
 
         [MemoryPackOrder(8)]
+        public int OuterPort { get; set; }
+
+        [MemoryPackOrder(9)]
         public int Status { get; set; }
 
         public override void Dispose()
@@ -774,6 +861,7 @@ namespace ET
 
             this.SceneType = default;
             this.ProcessId = default;
+            this.FiberId = default;
             this.SceneId = default;
             this.SceneName = default;
             this.OuterIp = default;
@@ -788,27 +876,30 @@ namespace ET
 
     public static class ServerMessage
     {
-        public const ushort ObjectQueryRequest = 20001;
-        public const ushort M2A_Reload = 20002;
-        public const ushort A2M_Reload = 20003;
-        public const ushort G2G_LockRequest = 20004;
-        public const ushort G2G_LockResponse = 20005;
-        public const ushort G2G_LockReleaseRequest = 20006;
-        public const ushort G2G_LockReleaseResponse = 20007;
-        public const ushort ObjectAddRequest = 20008;
-        public const ushort ObjectAddResponse = 20009;
-        public const ushort ObjectLockRequest = 20010;
-        public const ushort ObjectLockResponse = 20011;
-        public const ushort ObjectUnLockRequest = 20012;
-        public const ushort ObjectUnLockResponse = 20013;
-        public const ushort ObjectRemoveRequest = 20014;
-        public const ushort ObjectRemoveResponse = 20015;
-        public const ushort ObjectGetRequest = 20016;
-        public const ushort ObjectGetResponse = 20017;
-        public const ushort G2M_SessionDisconnect = 20018;
-        public const ushort ObjectQueryResponse = 20019;
-        public const ushort M2M_UnitTransferRequest = 20020;
-        public const ushort M2M_UnitTransferResponse = 20021;
-        public const ushort SceneNodeInfo = 20022;
+        public const ushort L2B_PlayerStartMatch = 20001;
+        public const ushort B2L_PlayerStartMatch = 20002;
+        public const ushort L2B_PlayerMatchSuccessNotify = 20003;
+        public const ushort ObjectQueryRequest = 20004;
+        public const ushort M2A_Reload = 20005;
+        public const ushort A2M_Reload = 20006;
+        public const ushort G2G_LockRequest = 20007;
+        public const ushort G2G_LockResponse = 20008;
+        public const ushort G2G_LockReleaseRequest = 20009;
+        public const ushort G2G_LockReleaseResponse = 20010;
+        public const ushort ObjectAddRequest = 20011;
+        public const ushort ObjectAddResponse = 20012;
+        public const ushort ObjectLockRequest = 20013;
+        public const ushort ObjectLockResponse = 20014;
+        public const ushort ObjectUnLockRequest = 20015;
+        public const ushort ObjectUnLockResponse = 20016;
+        public const ushort ObjectRemoveRequest = 20017;
+        public const ushort ObjectRemoveResponse = 20018;
+        public const ushort ObjectGetRequest = 20019;
+        public const ushort ObjectGetResponse = 20020;
+        public const ushort G2M_SessionDisconnect = 20021;
+        public const ushort ObjectQueryResponse = 20022;
+        public const ushort M2M_UnitTransferRequest = 20023;
+        public const ushort M2M_UnitTransferResponse = 20024;
+        public const ushort SceneNodeInfo = 20025;
     }
 }

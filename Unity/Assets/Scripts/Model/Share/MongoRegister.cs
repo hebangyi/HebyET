@@ -51,7 +51,6 @@ namespace ET
                 {
                     continue;
                 }
-
                 BsonClassMap.LookupClassMap(type);
             }
         }

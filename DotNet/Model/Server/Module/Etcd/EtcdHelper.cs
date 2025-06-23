@@ -4,6 +4,12 @@ namespace ET.Server;
 
 public static class EtcdHelper
 {
+    public static ActorId GetActorId(this SceneNodeInfo sceneNodeInfo)
+    {
+        return new ActorId(sceneNodeInfo.ProcessId, sceneNodeInfo.FiberId, 1);
+    }
+    
+    
     public const string m_prefix = "GA";
 
     public static string GetRegPath(SceneType type, long sceneId)
@@ -11,7 +17,7 @@ public static class EtcdHelper
         return $"/{m_prefix}/{type}/{sceneId}";
     }
 
-    public static string GetSubPatch( SceneType type)
+    public static string GetSubPatch(SceneType type)
     {
         return $"/{m_prefix}/{type}/";
     }
@@ -26,9 +32,10 @@ public static class EtcdHelper
         SceneNodeInfo sceneNode = SceneNodeInfo.Create();
         sceneNode.SceneType = (int)scene.SceneType;
         sceneNode.ProcessId = processId;
+        sceneNode.FiberId = scene.Fiber.Id;
         sceneNode.SceneId = (int)scene.Id;
         sceneNode.InnerIp = innerIp;
-        sceneNode.OuterIp = outerIp; 
+        sceneNode.OuterIp = outerIp;
         sceneNode.InnerPort = innerPort;
         sceneNode.OuterPort = outPort;
         sceneNode.SceneName = $"{scene.SceneType}_{scene.Id}";
@@ -57,7 +64,7 @@ public static class EtcdHelper
 
         return sceneNodes.RandomArray();
     }
-    
+
     public static bool IsRegSceneNode(int sceneId)
     {
         return EtcdManager.Instance.SceneId2RegSceneNodePacks.ContainsKey(sceneId);

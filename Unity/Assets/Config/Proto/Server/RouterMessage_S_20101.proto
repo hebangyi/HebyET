@@ -2,11 +2,12 @@ message SceneNodeInfo
 {
     int32 SceneType = 1; // SceneType
     int32 ProcessId = 2;
-    int32 SceneId = 3;
-    string SceneName = 4;
-    string OuterIp = 5;
-    string InnerIp = 6;
-    int32 InnerPort = 7;
-    int32 OuterPort = 8;
-    int32 Status = 9;
+    int32 FiberId = 3;
+    int32 SceneId = 4;
+    string SceneName = 5;
+    string OuterIp = 6;
+    string InnerIp = 7;
+    int32 InnerPort = 8;
+    int32 OuterPort = 9;
+    int32 Status = 10;
 }

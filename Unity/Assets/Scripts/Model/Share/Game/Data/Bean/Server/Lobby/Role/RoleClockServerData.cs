@@ -1,6 +1,6 @@
 ﻿namespace ET
 {
-    public class RoleClockServerData: IServerData
+    public class RoleClockServerData: ServerData
     {
         public long LastUpdateTime;
         public long LastDayUpdateTime;

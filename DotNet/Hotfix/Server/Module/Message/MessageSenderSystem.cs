@@ -26,12 +26,7 @@ namespace ET.Server
 
             MessageQueue.Instance.Send(new ActorId(fiber.Process, ConstFiberId.NetInner), a2NetInnerMessage);
         }
-
-        private static int GetRpcId(this MessageSender self)
-        {
-            return ++self.RpcId;
-        }
-
+        
         public static async ETTask<IResponse> Call(
                 this MessageSender self,
                 ActorId actorId,

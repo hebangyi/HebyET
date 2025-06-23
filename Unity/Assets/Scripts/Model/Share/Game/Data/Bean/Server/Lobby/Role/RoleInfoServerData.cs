@@ -1,6 +1,6 @@
 ﻿namespace ET
 {
-    public class RoleInfoServerData : IServerData
+    public class RoleInfoServerData : ServerData
     {
         public string NickName; // 昵称
         public long LastLoginTime; // 上一次登录的时间

@@ -23,6 +23,9 @@ namespace ET
         public const int ServerIsStarting = 210100;                  // 参数错误
         public const int OtherPersonLogin = 210101;                  // 其他玩家登录
         
+        ///////////////////////////// 战斗匹配
+        public const int NotFoundBattleNode = 210201;                  // 其他玩家登录
+        
         //// 账号服 
         public const int AccountLoginErr = 310101;                   // 用户名密码错误
         

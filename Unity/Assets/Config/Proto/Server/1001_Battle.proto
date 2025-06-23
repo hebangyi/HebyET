@@ -1,16 +1,18 @@
 // ResponseType B2L_PlayerStartMatch
-L2B_PlayerStartMatch // IRequest
+message L2B_PlayerStartMatch // IRequest
 {
 	int32 RpcId = 1;
     int32 PlayerId = 2;
 }
 
-B2L_PlayerStartMatch // IResponse
+message B2L_PlayerStartMatch // IResponse
 {
-    int32 RpcId = 1;
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
 }
 
-L2B_PlayerMatchSuccessNotify
+message L2B_PlayerMatchSuccessNotify // IMessage
 {
-    
+
 }

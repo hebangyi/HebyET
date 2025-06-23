@@ -21,8 +21,6 @@ public static partial class EtcdComponentSystem
     [EntitySystem]
     private static void Awake(this EtcdComponent self)
     {
-        // 显式指定 GrpcChannelOptions
-
         self.Config = ProcessConfig.Instance.GetSceneComponentConfig<EtcdComponentConfig>(self.Root());
         self.RegClient = new EtcdClient(self.Config.EtcdAddress,
             configureChannelOptions: options => { options.Credentials = ChannelCredentials.Insecure; });

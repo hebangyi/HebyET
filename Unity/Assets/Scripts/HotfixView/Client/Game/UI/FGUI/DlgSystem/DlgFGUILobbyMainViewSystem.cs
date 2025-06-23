@@ -8,29 +8,27 @@ namespace ET.Client
         public static void Init(this DlgFGUILobbyMainView self)
         {
         }
-        
+
         public static void RegisterUIEvent(this DlgFGUILobbyMainView self)
         {
-            self.View.battle_btn.onClick.Add(() =>
-            {
-                OnClickStartBattle().Coroutine();
-            });
+            self.View.battle_btn.onClick.Add((EventContext context) => { OnClickStartBattle().Coroutine(); });
         }
-        
-        public static async  ETTask OnClickStartBattle()
+
+        public static async ETTask OnClickStartBattle()
         {
+            Log.Error("OnClickStartBattle");
             // ClientSenderComponent.Instance.Call()
             await ETTask.CompletedTask;
         }
-        
+
         public static void ShowWindow(this DlgFGUILobbyMainView self, ShowWindowData showWindowData = null)
         {
         }
-        
+
         public static void HideWindow(this DlgFGUILobbyMainView self)
         {
         }
-        
+
         public static void BeforeUnload(this DlgFGUILobbyMainView self)
         {
         }
