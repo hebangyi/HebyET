@@ -19,7 +19,6 @@ message L2C_StartMatchBattle // IClientResponse
 // 2.通知匹配成功
 message L2C_MatchBattleSuccess // IMessage
 {
-	// 匹配的服务器 Node
-	// TODO 服务器 Node
-	string Token = 1;	// 加入玩家的签名
+	string Address = 1;		// 战斗服地址
+	string Token = 2;		// Token
 }

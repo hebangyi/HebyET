@@ -21,7 +21,6 @@ namespace ET
                     continue;
                 }
                 
-                Log.Info(fullName);
                 // 记录所有的有BaseAttribute标记的的类型
                 object[] objects = type.GetCustomAttributes(typeof(BaseAttribute), true);
 

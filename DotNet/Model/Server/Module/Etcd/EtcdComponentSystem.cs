@@ -43,6 +43,7 @@ public static partial class EtcdComponentSystem
     /// </summary>
     public static void CalEtcdTarget(this EtcdComponent self)
     {
+        // TODO
         Array watchingSceneTypes = Enum.GetValues(typeof(SceneType));
         foreach (SceneType watchingSceneType in watchingSceneTypes)
         {
@@ -56,63 +57,50 @@ public static partial class EtcdComponentSystem
         }
 
         var fiberInner = FiberManager.Instance.fibers.Values.FirstOrDefault(x => x.Root.SceneType == SceneType.NetInner);
-        if (fiberInner != null)
-        {
-            foreach (var fiber in FiberManager.Instance.fibers.Values)
-            {
-                var scene = fiber.Root;
-                var etcdClientComponent = scene.GetComponent<EtcdClientComponent>();
-                if (etcdClientComponent == null)
-                {
-                    continue;
-                }
-
-                SceneNodeInfo sceneNodeInfo = null;
-                if (scene.SceneType is SceneType.Lobby or SceneType.Account)
-                {
-                    var netComponent = scene.GetComponent<NetComponent>();
-                    int outPort = 0;
-                    if (netComponent != null)
-                    {
-                        outPort = netComponent.OutPort;
-                    }
-
-                    sceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, outPort);
-                }
-                else if (scene.SceneType is SceneType.RouterGate)
-                {
-                    var routerComponent = scene.GetComponent<RouterGateComponent>();
-                    int outPort = 0;
-                    if (routerComponent != null)
-                    {
-                        outPort = routerComponent.OuterPort;
-                    }
-
-                    sceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, outPort);
-                }
-                else
-                {
-                    sceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, 0);
-                }
-
-                EtcdClient client = self.RegClient;
-                var sceneId = scene.Id;
-                // var lease = await client.LeaseGrantAsync(new LeaseGrantRequest { TTL = 90 });
-                // var leaseId = lease.ID;
-                var regPath = ByteString.CopyFromUtf8(EtcdHelper.GetRegPath(scene.SceneType, scene.Id));
-                var regValue = ByteString.CopyFromUtf8(JsonHelper.ToJson(sceneNodeInfo));
-
-                RegSceneNodePack regSceneNodePack = new();
-                regSceneNodePack.SceneId = sceneId;
-                regSceneNodePack.RegPath = regPath;
-                regSceneNodePack.RegValue = regValue;
-                regSceneNodePack.SceneNodeInfo = sceneNodeInfo;
-                EtcdManager.Instance.SceneId2RegSceneNodePacks.Add((int)sceneId, regSceneNodePack);
-            }
-        }
-        else
+        if (fiberInner == null)
         {
             Log.Error("没有找到 fiber NetInner 内网组件 注册Etcd失败");
+            return;
+        }
+
+        foreach (var fiber in FiberManager.Instance.fibers.Values)
+        {
+            var scene = fiber.Root;
+            var etcdClientComponent = scene.GetComponent<EtcdClientComponent>();
+            if (etcdClientComponent == null)
+            {
+                continue;
+            }
+
+            SceneNodeInfo sceneNodeInfo = null;
+
+            var routerGateComponent = scene.GetComponent<RouterGateComponent>();
+            var netComponent = scene.GetComponent<NetComponent>();
+            if (routerGateComponent != null)
+            {
+                var outPort = routerGateComponent.OuterPort;
+                sceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, outPort);
+            }
+            else if (netComponent != null)
+            {
+                var outPort = netComponent.OutPort;
+                sceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, outPort);
+            }
+            else
+            {
+                sceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, 0);
+            }
+            
+            var sceneId = scene.Id;
+            var regPath = ByteString.CopyFromUtf8(EtcdHelper.GetRegPath(scene.SceneType, scene.Id));
+            var regValue = ByteString.CopyFromUtf8(JsonHelper.ToJson(sceneNodeInfo));
+
+            RegSceneNodePack regSceneNodePack = new();
+            regSceneNodePack.SceneId = sceneId;
+            regSceneNodePack.RegPath = regPath;
+            regSceneNodePack.RegValue = regValue;
+            regSceneNodePack.SceneNodeInfo = sceneNodeInfo;
+            EtcdManager.Instance.SceneId2RegSceneNodePacks.Add((int)sceneId, regSceneNodePack);
         }
     }
 
@@ -261,7 +249,6 @@ public static partial class EtcdComponentSystem
             // add
             if (!EtcdManager.Instance.WatchSceneNodes.TryGetValue(sceneType, out list))
             {
-                
                 list = new();
                 EtcdManager.Instance.WatchSceneNodes[sceneType] = list;
             }
@@ -269,7 +256,7 @@ public static partial class EtcdComponentSystem
             list.Add(sceneNode);
             EtcdManager.Instance.WatchId2SceneNodes[(int)sceneId] = sceneNode;
             Log.Info($"ETCD WatchEvent : Create Node :\n {JsonHelper.ToJson(sceneNode)}");
-            
+
             if (EtcdHelper.IsRegSceneNode((int)sceneId))
             {
                 var fiber = FiberManager.Instance.Get((int)sceneId);
@@ -298,6 +285,7 @@ public static partial class EtcdComponentSystem
                     fiber.ThreadSynchronizationContext.Post(() => { EventSystem.Instance.Publish(fiber.Root, new EtcdRemoveSelfSceneEvent()); });
                 }
             }
+
             Log.Info($"ETCD WatchEvent RemoveNode , SceneType : {sceneType}, Scene sceneId : {sceneId}");
         }
     }

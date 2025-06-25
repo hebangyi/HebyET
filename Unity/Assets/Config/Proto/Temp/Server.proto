@@ -1,10 +1,13 @@
 syntax = "proto3";
 package ET;
+
+
 // ResponseType B2L_PlayerStartMatch
 message L2B_PlayerStartMatch // IRequest
 {
 	int32 RpcId = 1;
-    int32 PlayerId = 2;
+    int64 PlayerId = 2;
+	ActorId ActorId = 3;		// 玩家ActorId
 }
 
 message B2L_PlayerStartMatch // IResponse
@@ -16,7 +19,7 @@ message B2L_PlayerStartMatch // IResponse
 
 message L2B_PlayerMatchSuccessNotify // IMessage
 {
-
+	int64 worldId = 1;	// 世界ID
 }
 
 // ResponseType ObjectQueryResponse

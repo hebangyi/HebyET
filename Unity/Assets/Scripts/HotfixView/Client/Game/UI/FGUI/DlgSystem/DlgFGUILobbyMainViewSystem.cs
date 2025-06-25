@@ -16,7 +16,19 @@ namespace ET.Client
 
         public static async ETTask OnClickStartBattle()
         {
-            Log.Error("OnClickStartBattle");
+            Log.Info("OnClick StartBattle");
+            var request = C2L_StartMatchBattle.Create();
+            var response = await ClientLobbySenderComponent.Instance.Call(request) as L2C_StartMatchBattle;
+            if (response == null)
+            {
+                return;
+            }
+
+            if (response.Error != ErrorCode.ERR_Success)
+            {
+                Log.Error(response.Error.ToString());
+                return;
+            }
             // ClientSenderComponent.Instance.Call()
             await ETTask.CompletedTask;
         }

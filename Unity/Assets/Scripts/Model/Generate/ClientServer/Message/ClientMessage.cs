@@ -968,15 +968,15 @@ namespace ET
         }
 
         /// <summary>
-        /// 匹配的服务器 Node
-        /// </summary>
-        /// <summary>
-        /// TODO 服务器 Node
-        /// </summary>
-        /// <summary>
-        /// 加入玩家的签名
+        /// 战斗服地址
         /// </summary>
         [MemoryPackOrder(0)]
+        public string Address { get; set; }
+
+        /// <summary>
+        /// Token
+        /// </summary>
+        [MemoryPackOrder(1)]
         public string Token { get; set; }
 
         public override void Dispose()
@@ -986,6 +986,7 @@ namespace ET
                 return;
             }
 
+            this.Address = default;
             this.Token = default;
 
             ObjectPool.Instance.Recycle(this);

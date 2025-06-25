@@ -10,6 +10,10 @@ using System.Security.Cryptography;
 public abstract class RSATokenBean
 {
     public long GenerateTime = TimeInfo.Instance.ServerNowSec();
+    public virtual long RSAEffectiveSec()
+    {
+        return GameServerConstant.RSAEffectiveSec;
+    }
 }
 
 [Code]
@@ -82,7 +86,7 @@ public class RSATokenManager : Singleton<RSATokenManager>, ISingletonAwake
             return false;
         }
 
-        if (bean.GenerateTime + GameServerConstant.RSAEffectiveSec < TimeInfo.Instance.ServerNowSec())
+        if (bean.GenerateTime + bean.RSAEffectiveSec() < TimeInfo.Instance.ServerNowSec())
         {
             return false;
         }

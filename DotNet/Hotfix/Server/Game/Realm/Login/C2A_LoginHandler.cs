@@ -46,6 +46,7 @@ namespace ET.Server
 				await mongoDbComponent.Save(testAccount);
 			}
 			
+			// TODO
 			response.Address = lobbyNodeInfo.OuterIpAndOuterPortAddress;
 
 			AccountLoginRSA rsa = new ();

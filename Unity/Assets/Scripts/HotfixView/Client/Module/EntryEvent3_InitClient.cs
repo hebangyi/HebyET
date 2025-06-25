@@ -15,6 +15,10 @@ namespace ET.Client
             root.AddComponent<ClientLobbyDataComponent>(); // 客户端 - Lobby 数据同步组件
             
             
+            //// 战斗
+            // 战斗数据逻辑管理器
+            root.AddComponent<BattleUnitEntityDataLogicManagerComponent>();
+            
             // 数据加载
             root.AddComponent<ResourcesLoaderComponent>();
             // 场景管理

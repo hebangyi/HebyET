@@ -12,10 +12,9 @@ namespace ET.Server
             root.AddComponent<TimerComponent>();
             root.AddComponent<CoroutineLockComponent>();
             root.AddComponent<ProcessInnerSender>();
-            
-            
-            
             root.AddComponent<MessageSender>();
+            
+            // 业务相关
             root.AddComponent<LobbyRoleComponent>();
             root.AddComponent<LocationProxyComponent>();
             root.AddComponent<MessageLocationSenderComponent>();

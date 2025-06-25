@@ -11,7 +11,7 @@ namespace ET
             root.AddComponent<MailBoxComponent, MailBoxType>(MailBoxType.UnOrderedMessage);
             root.AddComponent<ProcessInnerSender>();
 
-            root.AddComponent<UnitEntityDataLogicManagerComponent>();
+
             
             await ETTask.CompletedTask;
         }

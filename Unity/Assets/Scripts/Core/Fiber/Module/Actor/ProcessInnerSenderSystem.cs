@@ -162,8 +162,7 @@ namespace ET
                 }
                 else
                 {
-                    IResponse response = MessageHelper.CreateResponse(requestType, rpcId, ErrorCore.ERR_Timeout);
-                    action.SetResult(response);
+                    action.SetResult(MessageHelper.CreateResponse(requestType, rpcId, ErrorCore.ERR_Timeout));
                 }
             }
             

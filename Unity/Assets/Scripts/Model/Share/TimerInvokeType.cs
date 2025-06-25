@@ -17,16 +17,18 @@
         
         public const int RoomUpdate = 301;
 
-        // 应用层
+        /////// 应用层
         public const int MongoCacheCheckerTimer = 1001;
         public const int GlobalClockTimer = 1002;
-
-
+        
+        // 战斗匹配
+        public const int BattleMatchTimer = 1003;
 
         public const int OneSecondTimer = 2001; // 秒级定时器
         public const int TenSecondTimer = 2002; // 十秒级定时器
         public const int OneMinuteTimer = 2003; // 分钟级定时器
         public const int OneHourTimer = 2004;   // 小时级定时器
 
+        
     }
 }

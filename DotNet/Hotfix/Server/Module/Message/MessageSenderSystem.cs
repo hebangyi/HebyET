@@ -31,7 +31,7 @@ namespace ET.Server
                 this MessageSender self,
                 ActorId actorId,
                 IRequest request,
-                bool needException = true
+                bool needException = false
         )
         {
             if (actorId == default)

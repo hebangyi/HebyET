@@ -16,13 +16,19 @@ public class C2L_StartMatchBattleHandler: MessageClientHandler<LobbyRole, C2L_St
             return;
         }
         
-        SendMatch(lobbyRole.Root(), battle).Coroutine();
+        SendMatch(lobbyRole.Root(), lobbyRole, battle).Coroutine();
     }
 
 
-    public async ETTask SendMatch(Scene scene, SceneNodeInfo nodeInfo)
+    public async ETTask SendMatch(Scene scene, LobbyRole lobbyRole, SceneNodeInfo nodeInfo)
     {
+        var playerId = lobbyRole.RoleId;
+        var actorId = lobbyRole.GetActorId();
+        var request = L2B_PlayerStartMatch.Create();
+        request.PlayerId = playerId;
+        request.ActorId = actorId;
+        
         var messageSender = scene.GetComponent<MessageSender>();
-        var response = await messageSender.Call(nodeInfo.GetActorId(), L2B_PlayerStartMatch.Create()) as B2L_PlayerStartMatch;
+        var response = await messageSender.Call(nodeInfo.GetActorId(), request) as B2L_PlayerStartMatch;
     }
 }

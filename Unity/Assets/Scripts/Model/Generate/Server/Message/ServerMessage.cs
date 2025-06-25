@@ -17,7 +17,13 @@ namespace ET
         public int RpcId { get; set; }
 
         [MemoryPackOrder(1)]
-        public int PlayerId { get; set; }
+        public long PlayerId { get; set; }
+
+        /// <summary>
+        /// 玩家ActorId
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public ActorId ActorId { get; set; }
 
         public override void Dispose()
         {
@@ -28,6 +34,7 @@ namespace ET
 
             this.RpcId = default;
             this.PlayerId = default;
+            this.ActorId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -75,6 +82,12 @@ namespace ET
             return ObjectPool.Instance.Fetch(typeof(L2B_PlayerMatchSuccessNotify), isFromPool) as L2B_PlayerMatchSuccessNotify;
         }
 
+        /// <summary>
+        /// 世界ID
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public long worldId { get; set; }
+
         public override void Dispose()
         {
             if (!this.IsFromPool)
@@ -82,7 +95,8 @@ namespace ET
                 return;
             }
 
-            
+            this.worldId = default;
+
             ObjectPool.Instance.Recycle(this);
         }
     }
