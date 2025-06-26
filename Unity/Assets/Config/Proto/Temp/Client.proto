@@ -28,7 +28,10 @@ message UnitEntityPlayerInfo // IUnitEntityElemData
 message Main2NetBattleLogin // IRequest
 {
 	int32 RpcId = 1;
-	string Token = 2;
+	int32 OwnerFiberId = 2;
+	string RouterAddress = 3;				// 路由地址
+	string Address = 3;						// 地址
+	string Token = 4;						// Token 令牌	
 }
 
 message NetBattle2MainLogin // IResponse
@@ -40,14 +43,14 @@ message NetBattle2MainLogin // IResponse
 
 
 // 3.玩家进入战斗 对Session 进行登录验证
-// ResponseType B2C_PlayerEnterBattle
-message C2B_PlayerEnterBattle // ISessionRequest
+// ResponseType B2C_Login
+message C2B_Login // ISessionRequest
 {
 	int32 RpcId = 1;
 	string Token = 2;
 }
 
-message B2C_PlayerEnterBattle // ISessionResponse
+message B2C_Login // ISessionResponse
 {
 	int32 RpcId = 1;
 	int32 Error = 2;
@@ -99,7 +102,7 @@ message G2C_Benchmark // ISessionResponse
 }
 
 
-//// 客户端Main向网络线程发送消息
+//// 客户端Main向Lobby网络线程发送消息
 // ResponseType NetLobby2MainLogin
 message Main2NetLobbyLogin // IRequest
 {

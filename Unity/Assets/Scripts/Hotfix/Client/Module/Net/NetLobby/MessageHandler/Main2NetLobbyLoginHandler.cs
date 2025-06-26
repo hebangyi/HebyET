@@ -20,16 +20,16 @@ namespace ET.Client
             RouterAddressComponent routerAddressComponent =
                     root.AddComponent<RouterAddressComponent, string, int>(GameConstant.EntryServerHttpHost, GameConstant.EntryServerHttpPort);
             await routerAddressComponent.Init();
-            root.AddComponent<NetComponent, AddressFamily, NetworkProtocol>(routerAddressComponent.RouterManagerIPAddress.AddressFamily, NetworkProtocol.UDP);
+            
+            IPEndPoint routerAddress = routerAddressComponent.GetAddress();
+            var netComponent = root.AddComponent<NetComponent, AddressFamily, NetworkProtocol>(routerAddress.AddressFamily, NetworkProtocol.UDP);
             root.GetComponent<FiberParentComponent>().ParentFiberId = request.OwnerFiberId;
-
-            NetComponent netComponent = root.GetComponent<NetComponent>();
             
             IPEndPoint realmAddress = routerAddressComponent.GetRealmAddress(account);
             
             // TODO 链接异常处理
             A2C_Login a2CLogin;
-            using (Session session = await netComponent.CreateRouterSession(realmAddress, account, password))
+            using (Session session = await netComponent.CreateRouterSession(routerAddress, realmAddress))
             {
                 C2A_Login c2ALogin = C2A_Login.Create();
                 c2ALogin.Account = account;
@@ -44,7 +44,7 @@ namespace ET.Client
             }
             
             // 创建一个gate Session,并且保存到SessionComponent中
-            Session gateSession = await netComponent.CreateRouterSession(NetworkHelper.ToIPEndPoint(a2CLogin.Address), account, password);
+            Session gateSession = await netComponent.CreateRouterSession(routerAddress, NetworkHelper.ToIPEndPoint(a2CLogin.Address));
             gateSession.AddComponent<ClientSessionErrorComponent>();
             root.AddComponent<SessionComponent>().Session = gateSession;
             

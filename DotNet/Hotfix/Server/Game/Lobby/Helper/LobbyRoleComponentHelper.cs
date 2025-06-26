@@ -100,7 +100,10 @@ public static class LobbyRoleComponentHelper
             foreach (var roleKv in self.OnlineRoles)
             {
                 LobbyRole role = roleKv.Value;
-                if (role.RoleStatus == LobbyRoleStatus.UnloadedDB)
+                if (role == null)
+                {
+                    unloadedIds.Add(role.RoleId);
+                } else if (role.RoleStatus == LobbyRoleStatus.UnloadedDB)
                 {
                     unloadedIds.Add(role.RoleId);
                 }
@@ -111,7 +114,7 @@ public static class LobbyRoleComponentHelper
                 if (self.OnlineRoles.Remove(unloadId, out var role))
                 {
                     LobbyRole r = role;
-                    r.Dispose();
+                    r?.Dispose();
                 }
 
                 Log.Info($"玩家已经卸载 : {unloadId}");
@@ -171,14 +174,14 @@ public static class LobbyRoleComponentHelper
             }
 
             // 不同Session 则踢掉老链接
-            KickOutSessionPlayer(role, ErrorCode.OtherPersonLogin);
+            KickOutOldPlayerSession(role, ErrorCode.OtherPersonLogin);
         }
 
         entityClientSessionComponent.Session = session;
         session.AddComponent<SessionLobbyPlayerComponent, long>(role.RoleId);
     }
 
-    public static void KickOutSessionPlayer(LobbyRole role, int errorCode)
+    public static void KickOutOldPlayerSession(LobbyRole role, int errorCode)
     {
         var entityClientSessionComponent = role.GetComponent<EntityClientSessionComponent>();
         var session = entityClientSessionComponent.Session;

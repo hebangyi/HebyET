@@ -17,6 +17,7 @@
             {
                 // 玩家下线
                 EventSystem.Instance.Publish(root, new LobbyRoleOffOnlineEvent { RoleId = self.RoleId});
+                self.RoleId = 0;
             }
         }
 

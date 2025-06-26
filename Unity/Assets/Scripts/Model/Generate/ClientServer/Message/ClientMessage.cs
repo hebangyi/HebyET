@@ -86,6 +86,24 @@ namespace ET
         public int RpcId { get; set; }
 
         [MemoryPackOrder(1)]
+        public int OwnerFiberId { get; set; }
+
+        /// <summary>
+        /// 路由地址
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public string RouterAddress { get; set; }
+
+        /// <summary>
+        /// 地址
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public string Address { get; set; }
+
+        /// <summary>
+        /// Token 令牌
+        /// </summary>
+        [MemoryPackOrder(3)]
         public string Token { get; set; }
 
         public override void Dispose()
@@ -96,6 +114,9 @@ namespace ET
             }
 
             this.RpcId = default;
+            this.OwnerFiberId = default;
+            this.RouterAddress = default;
+            this.Address = default;
             this.Token = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -137,13 +158,13 @@ namespace ET
 
     // 3.玩家进入战斗 对Session 进行登录验证
     [MemoryPackable]
-    [Message(ClientMessage.C2B_PlayerEnterBattle)]
-    [ResponseType(nameof(B2C_PlayerEnterBattle))]
-    public partial class C2B_PlayerEnterBattle : MessageObject, ISessionRequest
+    [Message(ClientMessage.C2B_Login)]
+    [ResponseType(nameof(B2C_Login))]
+    public partial class C2B_Login : MessageObject, ISessionRequest
     {
-        public static C2B_PlayerEnterBattle Create(bool isFromPool = false)
+        public static C2B_Login Create(bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(C2B_PlayerEnterBattle), isFromPool) as C2B_PlayerEnterBattle;
+            return ObjectPool.Instance.Fetch(typeof(C2B_Login), isFromPool) as C2B_Login;
         }
 
         [MemoryPackOrder(0)]
@@ -167,12 +188,12 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(ClientMessage.B2C_PlayerEnterBattle)]
-    public partial class B2C_PlayerEnterBattle : MessageObject, ISessionResponse
+    [Message(ClientMessage.B2C_Login)]
+    public partial class B2C_Login : MessageObject, ISessionResponse
     {
-        public static B2C_PlayerEnterBattle Create(bool isFromPool = false)
+        public static B2C_Login Create(bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(B2C_PlayerEnterBattle), isFromPool) as B2C_PlayerEnterBattle;
+            return ObjectPool.Instance.Fetch(typeof(B2C_Login), isFromPool) as B2C_Login;
         }
 
         [MemoryPackOrder(0)]
@@ -386,7 +407,7 @@ namespace ET
     }
 
     /// <summary>
-    /// 客户端Main向网络线程发送消息
+    /// 客户端Main向Lobby网络线程发送消息
     /// </summary>
     [MemoryPackable]
     [Message(ClientMessage.Main2NetLobbyLogin)]
@@ -999,8 +1020,8 @@ namespace ET
         public const ushort UnitEntityPlayerInfo = 10002;
         public const ushort Main2NetBattleLogin = 10003;
         public const ushort NetBattle2MainLogin = 10004;
-        public const ushort C2B_PlayerEnterBattle = 10005;
-        public const ushort B2C_PlayerEnterBattle = 10006;
+        public const ushort C2B_Login = 10005;
+        public const ushort B2C_Login = 10006;
         public const ushort C2B_PlayerReadyCompleted = 10007;
         public const ushort B2C_PlayerReadyCompleted = 10008;
         public const ushort C2G_Ping = 10009;

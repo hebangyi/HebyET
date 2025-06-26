@@ -1,5 +1,5 @@
 
-//// 客户端Main向网络线程发送消息
+//// 客户端Main向Lobby网络线程发送消息
 // ResponseType NetLobby2MainLogin
 message Main2NetLobbyLogin // IRequest
 {

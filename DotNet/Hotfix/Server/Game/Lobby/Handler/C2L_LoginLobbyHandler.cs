@@ -15,7 +15,7 @@ namespace ET.Server
             {
                 response.Error = (int)ErrorCode.LoginTokenErr;
                 
-                // TODO 断开链接
+                // TODO 断开链接 要注意消息要发送完
                 return;
             }
 

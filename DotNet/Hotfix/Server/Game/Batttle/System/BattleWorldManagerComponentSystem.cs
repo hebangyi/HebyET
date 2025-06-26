@@ -1,9 +1,16 @@
-﻿namespace ET.Server;
+﻿using System.Collections.Generic;
+
+namespace ET.Server;
 
 [EntitySystemOf(typeof(BattleWorldManagerComponent))]
 [FriendOf(typeof(BattleWorldManagerComponent))]
 public static partial class BattleWorldManagerComponentSystem
 {
+    public static World GetWorldById(this BattleWorldManagerComponent self, long worldId)
+    {
+        return self.Worlds.GetValueOrDefault(worldId);
+    }
+    
     public static World CreateWorld(this BattleWorldManagerComponent self, MatchRoom matchRoom)
     {
         var world = self.AddChild<World>();

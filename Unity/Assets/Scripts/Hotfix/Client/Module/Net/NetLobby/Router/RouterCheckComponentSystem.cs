@@ -6,9 +6,11 @@ namespace ET.Client
     [EntitySystemOf(typeof(RouterCheckComponent))]
     public static partial class RouterCheckComponentSystem
     {
+        
         [EntitySystem]
-        private static void Awake(this RouterCheckComponent self)
+        private static void Awake(this RouterCheckComponent self, IPEndPoint routerAddress)
         {
+            self.RouterAddress = routerAddress;
             self.CheckAsync().Coroutine();
         }
 
@@ -18,10 +20,10 @@ namespace ET.Client
             long instanceId = self.InstanceId;
             Fiber fiber = self.Fiber();
             Scene root = fiber.Root;
-            
+
             IPEndPoint realAddress = session.RemoteAddress;
             NetComponent netComponent = root.GetComponent<NetComponent>();
-            
+
             while (true)
             {
                 if (self.InstanceId != instanceId)
@@ -30,7 +32,7 @@ namespace ET.Client
                 }
 
                 await fiber.Root.GetComponent<TimerComponent>().WaitAsync(1000);
-                
+
                 if (self.InstanceId != instanceId)
                 {
                     return;
@@ -42,28 +44,28 @@ namespace ET.Client
                 {
                     continue;
                 }
-                
+
                 try
                 {
                     long sessionId = session.Id;
 
                     (uint localConn, uint remoteConn) = session.AService.GetChannelConn(sessionId);
-                    
-                    
+
+
                     Log.Info($"get recvLocalConn start: {root.Id} {realAddress} {localConn} {remoteConn}");
 
-                    (uint recvLocalConn, IPEndPoint routerAddress) = await netComponent.GetRouterAddress(realAddress, localConn, remoteConn);
+                    uint recvLocalConn = await netComponent.GetRouterAddress(self.RouterAddress, realAddress, localConn, remoteConn);
                     if (recvLocalConn == 0)
                     {
-                        Log.Error($"get recvLocalConn fail: {root.Id} {routerAddress} {realAddress} {localConn} {remoteConn}");
+                        Log.Error($"get recvLocalConn fail: {root.Id} {self.RouterAddress} {realAddress} {localConn} {remoteConn}");
                         continue;
                     }
-                    
-                    Log.Info($"get recvLocalConn ok: {root.Id} {routerAddress} {realAddress} {recvLocalConn} {localConn} {remoteConn}");
-                    
+
+                    Log.Info($"get recvLocalConn ok: {root.Id} {self.RouterAddress} {realAddress} {recvLocalConn} {localConn} {remoteConn}");
+
                     session.LastRecvTime = TimeInfo.Instance.ClientNowMillTime();
-                    
-                    session.AService.ChangeAddress(sessionId, routerAddress);
+
+                    session.AService.ChangeAddress(sessionId, self.RouterAddress);
                 }
                 catch (Exception e)
                 {
@@ -71,5 +73,6 @@ namespace ET.Client
                 }
             }
         }
+
     }
 }
