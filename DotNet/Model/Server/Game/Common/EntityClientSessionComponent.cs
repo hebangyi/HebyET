@@ -5,7 +5,7 @@ namespace ET.Server
     /// <summary>
     /// 玩家 Entity绑定的Session
     /// </summary>
-    [ComponentOf(typeof(LobbyRole))]
+    [ComponentOf]
     public class EntityClientSessionComponent: Entity, IAwake
     {
         private EntityRef<Session> session;

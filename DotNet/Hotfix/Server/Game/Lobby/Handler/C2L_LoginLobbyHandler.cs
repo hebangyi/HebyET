@@ -50,8 +50,8 @@ namespace ET.Server
                 lobbyRole.AddComponent<EntityClientSessionComponent>();
                 lobbyRole.AddComponent<LobbySyncUnitDataComponent>();
                 // 设置网络邮箱与消息处理方式
-                lobbyRole.AddComponent<MailBoxComponent, MailBoxType>(MailBoxType.OrderedMessage);
-                LobbyRoleComponentHelper.BindClientSession(lobbyRole, session);
+                lobbyRole.AddComponent<MailBoxComponent, MailBoxType>(MailBoxType.UnOrderedMessage);
+                lobbyRole.BindClientSession(session);
             }
             
             // 登录事件
@@ -62,7 +62,7 @@ namespace ET.Server
             await EventSystem.Instance.PublishAsync(root, new LobbyRoleLoginFinishedEvent { LobbyRole = lobbyRole });
 
             // 绑定Session可以发送消息
-            LobbyRoleComponentHelper.BindClientSession(lobbyRole, session);
+            lobbyRole.BindClientSession(session);
             
             response.PlayerId = lobbyRole.RoleId;
             await ETTask.CompletedTask;

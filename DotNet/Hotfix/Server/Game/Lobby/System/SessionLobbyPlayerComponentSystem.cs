@@ -8,11 +8,6 @@
         private static void Destroy(this SessionLobbyPlayerComponent self)
         {
             Scene root = self.Root();
-            if (root.IsDisposed)
-            {
-                return;
-            }
-            
             if (self.RoleId != 0)
             {
                 // 玩家下线

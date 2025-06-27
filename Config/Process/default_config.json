@@ -38,7 +38,11 @@
             "ModulesConfig": {
                 "NetComponent": {
                     "OuterPort": 9500
-                }
+                },
+				"MongoDBComponent": {
+                    "DbConnection": "mongodb://localhost:27017/",
+                    "DbName": "Lobby",
+                },
             }
         },
         "EntryHttpServer": {
@@ -68,10 +72,9 @@
         "Lobby": {
             "SceneId": 60001,
             "ModulesConfig": {
-                "UserDBComponent": {
+                "MongoDBComponent": {
                     "DbConnection": "mongodb://localhost:27017/",
-                    "DbName": "user_db",
-                    "UserCollection": "UserItem"
+                    "DbName": "Lobby",
                 },
 				"NetComponent":
 				{
@@ -82,6 +85,10 @@
         "Battle": {
             "SceneId": 70001,
             "ModulesConfig": {
+				"MongoDBComponent": {
+                    "DbConnection": "mongodb://localhost:27017/",
+                    "DbName": "Battle",
+                },
                 "NetComponent":
 				{
 					"OuterPort": 10003

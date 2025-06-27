@@ -9,7 +9,7 @@ namespace ET.Server
     public class MongoDBComponentConfig
     {
         public string DbConnection = "mongodb://localhost:27017/";
-        public string DbName = "Unit";
+        public string DbName = "Default";
     }
 
 

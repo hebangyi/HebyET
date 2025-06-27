@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Authpb;
 
 namespace ET.Server
 {
@@ -18,6 +19,10 @@ namespace ET.Server
             root.AddComponent<BattleMatchComponent>();
             root.AddComponent<BattleWorldManagerComponent>();
             root.AddComponent<BattleUnitEntityDataLogicManagerComponent>();
+            root.AddComponent<BattleRoleComponent>();
+            root.AddComponent<GlobalClockComponent>();
+            root.AddComponent<MongoDBComponent>();
+            
             
             await EventSystem.Instance.PublishAsync(root, new InitServerEvent ());
             await EventSystem.Instance.PublishAsync(root, new InitServerFinishEvent ());

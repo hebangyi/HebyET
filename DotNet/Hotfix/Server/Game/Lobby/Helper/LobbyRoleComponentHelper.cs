@@ -100,10 +100,7 @@ public static class LobbyRoleComponentHelper
             foreach (var roleKv in self.OnlineRoles)
             {
                 LobbyRole role = roleKv.Value;
-                if (role == null)
-                {
-                    unloadedIds.Add(role.RoleId);
-                } else if (role.RoleStatus == LobbyRoleStatus.UnloadedDB)
+                if (role == null || role.RoleStatus == LobbyRoleStatus.UnloadedDB)
                 {
                     unloadedIds.Add(role.RoleId);
                 }
@@ -128,12 +125,13 @@ public static class LobbyRoleComponentHelper
     
     public static LobbyRole Add(this LobbyRoleComponent self, long roleId)
     {
-        if (self.GetById(roleId) != null)
+        var lobbyRole = self.GetById(roleId);
+        if (lobbyRole != null)
         {
-            return self.GetById(roleId);
+            return lobbyRole;
         }
 
-        var lobbyRole = self.AddChildWithId<LobbyRole>(roleId);
+        lobbyRole = self.AddChildWithId<LobbyRole>(roleId);
         lobbyRole.RoleId = roleId;
         self.OnlineRoles[lobbyRole.RoleId] = lobbyRole;
         return lobbyRole;
@@ -152,52 +150,5 @@ public static class LobbyRoleComponentHelper
             self.OnlineRoles.Remove(roleId);
             lobbyRole.Dispose();
         }
-    }
-
-    public static void SendToClient(this LobbyRole lobbyRole, IMessage message)
-    {
-        lobbyRole.GetComponent<EntityClientSessionComponent>()?.Session.Send(message);
-    }
-
-    public static void BindClientSession(LobbyRole role, Session session)
-    {
-        // Session 与玩家相互绑定
-        var entityClientSessionComponent = role.GetComponent<EntityClientSessionComponent>();
-        var oldSession = entityClientSessionComponent.Session;
-
-        if (oldSession != null)
-        {
-            // 已经用相同的Session 绑定过了
-            if (oldSession.InstanceId == session.InstanceId)
-            {
-                return;
-            }
-
-            // 不同Session 则踢掉老链接
-            KickOutOldPlayerSession(role, ErrorCode.OtherPersonLogin);
-        }
-
-        entityClientSessionComponent.Session = session;
-        session.AddComponent<SessionLobbyPlayerComponent, long>(role.RoleId);
-    }
-
-    public static void KickOutOldPlayerSession(LobbyRole role, int errorCode)
-    {
-        var entityClientSessionComponent = role.GetComponent<EntityClientSessionComponent>();
-        var session = entityClientSessionComponent.Session;
-        if (session == null)
-        {
-            return;
-        }
-
-        var message = G2C_SessionDisconnect.Create();
-        message.Error = (int)errorCode;
-        role.SendToClient(message);
-
-        // 移除 该Session 绑定的 Player Component
-        session.RemoveComponent<SessionLobbyPlayerComponent>();
-
-        // 将Session 挂载在 自动销毁的定时器中
-        session.AddComponent<SessionAcceptLoginCheckTimeoutComponent>();
     }
 }

@@ -13,16 +13,29 @@
                 return;
             }
             session.RemoveComponent<SessionAcceptLoginCheckTimeoutComponent>();
-
+            
 
             long worldId = bean.WorldId;
             long playerId = bean.RoleId;
-            var world = BattleWorldManagerComponent.Instance.GetWorldById(worldId);
+            /*var world = BattleWorldManagerComponent.Instance.GetWorldById(worldId);
             if (world == null)
             {
                 response.Error = ErrorCode.NotFoundBattleWorld;
                 return;
+            }*/
+            
+            Scene root = session.Root();
+            BattleRoleComponent battleRoleComponent = root.GetComponent<BattleRoleComponent>();
+            var battleRole = battleRoleComponent.GetById(playerId);
+            if (battleRole == null)
+            {
+                battleRole = battleRoleComponent.Add(playerId);
+                battleRole.AddComponent<EntityClientSessionComponent>();
+                battleRole.AddComponent<MailBoxComponent, MailBoxType>(MailBoxType.UnOrderedMessage);
             }
+            
+            
+            
             
              
             await ETTask.CompletedTask;
