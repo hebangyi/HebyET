@@ -55,6 +55,8 @@ namespace ET
             Session session = self.AddChildWithId<Session, AService>(channelId, self.AService);
             session.RemoteAddress = ipEndPoint;
 
+            
+            Log.Info("Session 创建Session");
             // 挂上这个组件，5秒就会删除session，所以客户端验证完成要删除这个组件。该组件的作用就是防止外挂一直连接不发消息也不进行权限验证
             session.AddComponent<SessionAcceptLoginCheckTimeoutComponent>();
             // 客户端连接，2秒检查一次recv消息，10秒没有消息则断开

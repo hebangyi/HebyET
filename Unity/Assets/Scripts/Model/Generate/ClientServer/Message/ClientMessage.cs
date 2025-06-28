@@ -3,7 +3,149 @@ using System.Collections.Generic;
 
 namespace ET
 {
-    // 战斗通讯实体
+    /// <summary>
+    /// 战斗世界通用数据结构
+    /// </summary>
+    [MemoryPackable]
+    [Message(ClientMessage.BattleWorld)]
+    public partial class BattleWorld : MessageObject
+    {
+        public static BattleWorld Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(BattleWorld), isFromPool) as BattleWorld;
+        }
+
+        /// <summary>
+        /// 世界帧
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public uint frame { get; set; }
+
+        /// <summary>
+        /// TODO 世界的其他配置 天空盒 场景 等战场常规信息
+        /// </summary>
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.frame = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.BattleUnitEntity)]
+    public partial class BattleUnitEntity : MessageObject
+    {
+        public static BattleUnitEntity Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(BattleUnitEntity), isFromPool) as BattleUnitEntity;
+        }
+
+        /// <summary>
+        /// Unit 实例id
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public long insId { get; set; }
+
+        /// <summary>
+        /// 实体组件数据
+        /// </summary>
+        [MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
+        [MemoryPackOrder(1)]
+        public Dictionary<ushort, byte[]> UnitEntityElemDatas { get; set; } = new();
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.insId = default;
+            this.UnitEntityElemDatas.Clear();
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 脏数据变动
+    [MemoryPackable]
+    [Message(ClientMessage.DirtyUnitEntity)]
+    public partial class DirtyUnitEntity : MessageObject
+    {
+        public static DirtyUnitEntity Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(DirtyUnitEntity), isFromPool) as DirtyUnitEntity;
+        }
+
+        /// <summary>
+        /// 实例id
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public long insId { get; set; }
+
+        /// <summary>
+        /// 组件数据集合
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public List<DirtyUnitElemData> eleDatas { get; set; } = new();
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.insId = default;
+            this.eleDatas.Clear();
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.DirtyUnitElemData)]
+    public partial class DirtyUnitElemData : MessageObject
+    {
+        public static DirtyUnitElemData Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(DirtyUnitElemData), isFromPool) as DirtyUnitElemData;
+        }
+
+        /// <summary>
+        /// 组件id
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public ushort compId { get; set; }
+
+        /// <summary>
+        /// element数据
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public byte[] elemDatas { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.compId = default;
+            this.elemDatas = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    /// <summary>
+    /// UnitEntityElemData 数据定义
+    /// </summary>
     // 常规信息
     [MemoryPackable]
     [Message(ClientMessage.UnitEntityInfo)]
@@ -64,6 +206,195 @@ namespace ET
             }
 
             this.playerId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    /// <summary>
+    /// 通讯协议
+    /// </summary>
+    // 1.获得玩家的视野世界信息
+    [MemoryPackable]
+    [Message(ClientMessage.C2B_PlayerGetAllAOIWorldData)]
+    [ResponseType(nameof(B2C_PlayerGetAllAOIWorldData))]
+    public partial class C2B_PlayerGetAllAOIWorldData : MessageObject, IClientRequest
+    {
+        public static C2B_PlayerGetAllAOIWorldData Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2B_PlayerGetAllAOIWorldData), isFromPool) as C2B_PlayerGetAllAOIWorldData;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.B2C_PlayerGetAllAOIWorldData)]
+    public partial class B2C_PlayerGetAllAOIWorldData : MessageObject, IClientResponse
+    {
+        public static B2C_PlayerGetAllAOIWorldData Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(B2C_PlayerGetAllAOIWorldData), isFromPool) as B2C_PlayerGetAllAOIWorldData;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        [MemoryPackOrder(3)]
+        public BattleWorld BattleWorld { get; set; }
+
+        [MemoryPackOrder(4)]
+        public List<BattleUnitEntity> BattleUnitEntity { get; set; } = new();
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+            this.BattleWorld = default;
+            this.BattleUnitEntity.Clear();
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 2.战斗场景玩家心跳
+    [MemoryPackable]
+    [Message(ClientMessage.C2B_PlayerBattleWorldPing)]
+    [ResponseType(nameof(B2C_PlayerBattleWorldPing))]
+    public partial class C2B_PlayerBattleWorldPing : MessageObject, IClientRequest
+    {
+        public static C2B_PlayerBattleWorldPing Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2B_PlayerBattleWorldPing), isFromPool) as C2B_PlayerBattleWorldPing;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public long ClientTime { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.ClientTime = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.B2C_PlayerBattleWorldPing)]
+    public partial class B2C_PlayerBattleWorldPing : MessageObject, IClientResponse
+    {
+        public static B2C_PlayerBattleWorldPing Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(B2C_PlayerBattleWorldPing), isFromPool) as B2C_PlayerBattleWorldPing;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        [MemoryPackOrder(3)]
+        public long SendClientTime { get; set; }
+
+        /// <summary>
+        /// 当前战斗世界的帧号
+        /// </summary>
+        [MemoryPackOrder(3)]
+        public uint PlayerCurFrame { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+            this.SendClientTime = default;
+            this.PlayerCurFrame = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 3.玩家战斗脏数据推送
+    [MemoryPackable]
+    [Message(ClientMessage.L2C_PlayerAOIWorldDirtyPush)]
+    public partial class L2C_PlayerAOIWorldDirtyPush : MessageObject, IMessage
+    {
+        public static L2C_PlayerAOIWorldDirtyPush Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(L2C_PlayerAOIWorldDirtyPush), isFromPool) as L2C_PlayerAOIWorldDirtyPush;
+        }
+
+        /// <summary>
+        /// 开始帧数
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public uint startFrame { get; set; }
+
+        /// <summary>
+        /// 解锁帧数
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public uint endFrame { get; set; }
+
+        /// <summary>
+        /// 脏数据
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public List<DirtyUnitEntity> DirtyUnitEntities { get; set; } = new();
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.startFrame = default;
+            this.endFrame = default;
+            this.DirtyUnitEntities.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -787,13 +1118,13 @@ namespace ET
     /// </summary>
     // 获得所有的 DataUnit 数据
     [MemoryPackable]
-    [Message(ClientMessage.C2G_GetAllDataUnits)]
-    [ResponseType(nameof(G2_GetAllDataUnits))]
-    public partial class C2G_GetAllDataUnits : MessageObject, IClientRequest
+    [Message(ClientMessage.C2L_GetAllDataUnits)]
+    [ResponseType(nameof(L2C_GetAllDataUnits))]
+    public partial class C2L_GetAllDataUnits : MessageObject, IClientRequest
     {
-        public static C2G_GetAllDataUnits Create(bool isFromPool = false)
+        public static C2L_GetAllDataUnits Create(bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(C2G_GetAllDataUnits), isFromPool) as C2G_GetAllDataUnits;
+            return ObjectPool.Instance.Fetch(typeof(C2L_GetAllDataUnits), isFromPool) as C2L_GetAllDataUnits;
         }
 
         [MemoryPackOrder(0)]
@@ -813,12 +1144,12 @@ namespace ET
     }
 
     [MemoryPackable]
-    [Message(ClientMessage.G2_GetAllDataUnits)]
-    public partial class G2_GetAllDataUnits : MessageObject, IClientResponse
+    [Message(ClientMessage.L2C_GetAllDataUnits)]
+    public partial class L2C_GetAllDataUnits : MessageObject, IClientResponse
     {
-        public static G2_GetAllDataUnits Create(bool isFromPool = false)
+        public static L2C_GetAllDataUnits Create(bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(G2_GetAllDataUnits), isFromPool) as G2_GetAllDataUnits;
+            return ObjectPool.Instance.Fetch(typeof(L2C_GetAllDataUnits), isFromPool) as L2C_GetAllDataUnits;
         }
 
         [MemoryPackOrder(0)]
@@ -989,15 +1320,21 @@ namespace ET
         }
 
         /// <summary>
-        /// 战斗服地址
+        /// 路由地址
         /// </summary>
         [MemoryPackOrder(0)]
-        public string Address { get; set; }
+        public string RouterAddress { get; set; }
+
+        /// <summary>
+        /// 战斗服地址
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public string BattleAddress { get; set; }
 
         /// <summary>
         /// Token
         /// </summary>
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(2)]
         public string Token { get; set; }
 
         public override void Dispose()
@@ -1007,7 +1344,8 @@ namespace ET
                 return;
             }
 
-            this.Address = default;
+            this.RouterAddress = default;
+            this.BattleAddress = default;
             this.Token = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -1016,34 +1354,43 @@ namespace ET
 
     public static class ClientMessage
     {
-        public const ushort UnitEntityInfo = 10001;
-        public const ushort UnitEntityPlayerInfo = 10002;
-        public const ushort Main2NetBattleLogin = 10003;
-        public const ushort NetBattle2MainLogin = 10004;
-        public const ushort C2B_Login = 10005;
-        public const ushort B2C_Login = 10006;
-        public const ushort C2B_PlayerReadyCompleted = 10007;
-        public const ushort B2C_PlayerReadyCompleted = 10008;
-        public const ushort C2G_Ping = 10009;
-        public const ushort G2C_Ping = 10010;
-        public const ushort C2G_Benchmark = 10011;
-        public const ushort G2C_Benchmark = 10012;
-        public const ushort Main2NetLobbyLogin = 10013;
-        public const ushort NetLobby2MainLogin = 10014;
-        public const ushort C2A_Login = 10015;
-        public const ushort A2C_Login = 10016;
-        public const ushort C2L_LoginLobby = 10017;
-        public const ushort L2C_LoginLobby = 10018;
-        public const ushort G2C_SessionDisconnect = 10019;
-        public const ushort HttpGetRouterResponse = 10020;
-        public const ushort SyncDataUnitStruct = 10021;
-        public const ushort DataUnitBytes = 10022;
-        public const ushort C2G_GetAllDataUnits = 10023;
-        public const ushort G2_GetAllDataUnits = 10024;
-        public const ushort L2C_SyncDirtyDataUnits = 10025;
-        public const ushort RoleInfoUnitData = 10026;
-        public const ushort C2L_StartMatchBattle = 10027;
-        public const ushort L2C_StartMatchBattle = 10028;
-        public const ushort L2C_MatchBattleSuccess = 10029;
+        public const ushort BattleWorld = 10001;
+        public const ushort BattleUnitEntity = 10002;
+        public const ushort DirtyUnitEntity = 10003;
+        public const ushort DirtyUnitElemData = 10004;
+        public const ushort UnitEntityInfo = 10005;
+        public const ushort UnitEntityPlayerInfo = 10006;
+        public const ushort C2B_PlayerGetAllAOIWorldData = 10007;
+        public const ushort B2C_PlayerGetAllAOIWorldData = 10008;
+        public const ushort C2B_PlayerBattleWorldPing = 10009;
+        public const ushort B2C_PlayerBattleWorldPing = 10010;
+        public const ushort L2C_PlayerAOIWorldDirtyPush = 10011;
+        public const ushort Main2NetBattleLogin = 10012;
+        public const ushort NetBattle2MainLogin = 10013;
+        public const ushort C2B_Login = 10014;
+        public const ushort B2C_Login = 10015;
+        public const ushort C2B_PlayerReadyCompleted = 10016;
+        public const ushort B2C_PlayerReadyCompleted = 10017;
+        public const ushort C2G_Ping = 10018;
+        public const ushort G2C_Ping = 10019;
+        public const ushort C2G_Benchmark = 10020;
+        public const ushort G2C_Benchmark = 10021;
+        public const ushort Main2NetLobbyLogin = 10022;
+        public const ushort NetLobby2MainLogin = 10023;
+        public const ushort C2A_Login = 10024;
+        public const ushort A2C_Login = 10025;
+        public const ushort C2L_LoginLobby = 10026;
+        public const ushort L2C_LoginLobby = 10027;
+        public const ushort G2C_SessionDisconnect = 10028;
+        public const ushort HttpGetRouterResponse = 10029;
+        public const ushort SyncDataUnitStruct = 10030;
+        public const ushort DataUnitBytes = 10031;
+        public const ushort C2L_GetAllDataUnits = 10032;
+        public const ushort L2C_GetAllDataUnits = 10033;
+        public const ushort L2C_SyncDirtyDataUnits = 10034;
+        public const ushort RoleInfoUnitData = 10035;
+        public const ushort C2L_StartMatchBattle = 10036;
+        public const ushort L2C_StartMatchBattle = 10037;
+        public const ushort L2C_MatchBattleSuccess = 10038;
     }
 }

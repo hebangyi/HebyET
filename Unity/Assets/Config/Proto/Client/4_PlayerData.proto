@@ -19,13 +19,13 @@ message DataUnitBytes
 // ============================= 协议 =============================
 //// 数据同步
 // 获得所有的 DataUnit 数据
-// ResponseType G2_GetAllDataUnits
-message C2G_GetAllDataUnits // IClientRequest
+// ResponseType L2C_GetAllDataUnits
+message C2L_GetAllDataUnits // IClientRequest
 {
     int32 RpcId = 1;
 }
 
-message G2_GetAllDataUnits // IClientResponse
+message L2C_GetAllDataUnits // IClientResponse
 {
 	int32 RpcId = 1;
 	int32 Error = 2;

@@ -47,7 +47,7 @@ namespace ET.Server
 			}
 			
 			// TODO
-			response.Address = lobbyNodeInfo.OuterIpAndOuterPortAddress;
+			response.Address = lobbyNodeInfo.InnerIpAndOuterPortAddress;
 
 			AccountLoginRSA rsa = new ();
 			rsa.RoleId = testAccount.roleItem.RoleId;

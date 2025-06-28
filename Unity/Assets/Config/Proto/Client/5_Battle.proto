@@ -19,6 +19,7 @@ message L2C_StartMatchBattle // IClientResponse
 // 2.通知匹配成功
 message L2C_MatchBattleSuccess // IMessage
 {
-	string Address = 1;		// 战斗服地址
-	string Token = 2;		// Token
+	string RouterAddress = 1;	// 路由地址
+	string BattleAddress = 2;	// 战斗服地址
+	string Token = 3;			// Token
 }

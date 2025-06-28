@@ -1,8 +1,32 @@
 syntax = "proto3";
 package ET;
-// 战斗通讯实体
+//// 战斗世界通用数据结构
+message BattleWorld
+{
+    uint32 frame = 1;   // 世界帧
+    // TODO 世界的其他配置 天空盒 场景 等战场常规信息
+}
 
+message BattleUnitEntity
+{
+    int64 insId = 1;                              // Unit 实例id
+    map<ushort, bytes> UnitEntityElemDatas = 2;   // 实体组件数据
+}
 
+// 脏数据变动
+message DirtyUnitEntity
+{
+    int64 insId = 1;                              // 实例id
+    repeated DirtyUnitElemData eleDatas = 2;      // 组件数据集合
+}
+
+message DirtyUnitElemData
+{
+    ushort compId = 1;                  // 组件id
+    bytes elemDatas = 2;                // element数据
+}
+
+//// UnitEntityElemData 数据定义
 enum UnitEntityTypeEnum
 {
     Player = 1;         // 玩家
@@ -21,6 +45,50 @@ message UnitEntityInfo // IUnitEntityElemData
 message UnitEntityPlayerInfo // IUnitEntityElemData
 {
     int64 playerId = 1;     // 玩家ID
+}
+
+//// 通讯协议
+
+// 1.获得玩家的视野世界信息
+// ResponseType B2C_PlayerGetAllAOIWorldData
+message C2B_PlayerGetAllAOIWorldData // IClientRequest
+{
+    int32 RpcId = 1;
+}
+
+message B2C_PlayerGetAllAOIWorldData // IClientResponse
+{
+    int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+
+    BattleWorld BattleWorld = 4;
+    repeated BattleUnitEntity BattleUnitEntity = 5;
+}
+
+// 2.战斗场景玩家心跳
+// ResponseType B2C_PlayerBattleWorldPing
+message C2B_PlayerBattleWorldPing // IClientRequest
+{
+    int32 RpcId = 1;
+    int64 ClientTime = 2;
+}
+
+message B2C_PlayerBattleWorldPing // IClientResponse
+{
+    int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+    int64 SendClientTime = 4;
+    uint32 PlayerCurFrame = 4;         // 当前战斗世界的帧号
+}
+
+// 3.玩家战斗脏数据推送
+message L2C_PlayerAOIWorldDirtyPush // IMessage
+{
+    uint32 startFrame = 1;                          // 开始帧数
+    uint32 endFrame = 2;                            // 解锁帧数
+    repeated DirtyUnitEntity DirtyUnitEntities = 3; // 脏数据
 }
 
 //// 客户端Main向网络线程发送消息
@@ -195,13 +263,13 @@ message DataUnitBytes
 // ============================= 协议 =============================
 //// 数据同步
 // 获得所有的 DataUnit 数据
-// ResponseType G2_GetAllDataUnits
-message C2G_GetAllDataUnits // IClientRequest
+// ResponseType L2C_GetAllDataUnits
+message C2L_GetAllDataUnits // IClientRequest
 {
     int32 RpcId = 1;
 }
 
-message G2_GetAllDataUnits // IClientResponse
+message L2C_GetAllDataUnits // IClientResponse
 {
 	int32 RpcId = 1;
 	int32 Error = 2;
@@ -245,7 +313,8 @@ message L2C_StartMatchBattle // IClientResponse
 // 2.通知匹配成功
 message L2C_MatchBattleSuccess // IMessage
 {
-	string Address = 1;		// 战斗服地址
-	string Token = 2;		// Token
+	string RouterAddress = 1;	// 路由地址
+	string BattleAddress = 2;	// 战斗服地址
+	string Token = 3;			// Token
 }
 

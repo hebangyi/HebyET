@@ -1,22 +1,25 @@
-// 战斗通讯实体
-
-
-enum UnitEntityTypeEnum
+//// 战斗世界通用数据结构
+message BattleWorld
 {
-    Player = 1;         // 玩家
-    Monster = 2;        // 怪物
+    uint32 frame = 1;   // 世界帧
+    // TODO 世界的其他配置 天空盒 场景 等战场常规信息
 }
 
-// 常规信息
-message UnitEntityInfo // IUnitEntityElemData
+message BattleUnitEntity
 {
-    UnitEntityTypeEnum unitEntityTypeEnum = 1;      // 实体类型
-    int32 ConfigId = 2;                             // 配置ID
+    int64 insId = 1;                              // Unit 实例id
+    map<ushort, bytes> UnitEntityElemDatas = 2;   // 实体组件数据
 }
 
-
-// 玩家信息
-message UnitEntityPlayerInfo // IUnitEntityElemData
+// 脏数据变动
+message DirtyUnitEntity
 {
-    int64 playerId = 1;     // 玩家ID
+    int64 insId = 1;                              // 实例id
+    repeated DirtyUnitElemData eleDatas = 2;      // 组件数据集合
+}
+
+message DirtyUnitElemData
+{
+    ushort compId = 1;                  // 组件id
+    bytes elemDatas = 2;                // element数据
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace ET.Server
 {
     [Invoke((long)SceneType.Lobby)]
+    [Invoke((long)SceneType.Battle)]
     [FriendOfAttribute(typeof(ET.Server.SessionLobbyPlayerComponent))]
     public class NetComponentOnReadInvoker_Lobby : AInvokeHandler<NetComponentOnRead>
     {
@@ -21,55 +22,75 @@ namespace ET.Server
             switch (message)
             {
                 case ISessionMessage:
-                    {
-                        MessageSessionDispatcher.Instance.Handle(session, message);
-                        break;
-                    }
+                {
+                    MessageSessionDispatcher.Instance.Handle(session, message);
+                    break;
+                }
                 case IClientRequest:
+                {
+                    Entity entity = null;
+                    if (root.SceneType == SceneType.Lobby)
                     {
-                        LobbyRole entity = root.GetComponent<LobbyRoleComponent>()?.GetById(session.GetComponent<SessionLobbyPlayerComponent>().RoleId);
-                        if (entity == null)
+                        var sessionLobbyPlayerComponent = session.GetComponent<SessionLobbyPlayerComponent>();
+                        var lobbyRoleComponent = root.GetComponent<LobbyRoleComponent>();
+                        if (sessionLobbyPlayerComponent != null && lobbyRoleComponent !=null)
                         {
-                            Log.Error($"Role Id {session.GetComponent<SessionLobbyPlayerComponent>().RoleId} Not Found Online Role Entity");
-                            break;
+                            entity = lobbyRoleComponent.GetById(sessionLobbyPlayerComponent.RoleId);
                         }
-                        
-                        MessageClientDisPatcher.Instance.Handle(entity, message);
+                    }
+                    else if (root.SceneType == SceneType.Battle)
+                    {
+                        var sessionBattlePlayerComponent = session.GetComponent<SessionBattlePlayerComponent>();
+                        var battleRoleComponent = root.GetComponent<BattleRoleComponent>();
+                        if (sessionBattlePlayerComponent != null && battleRoleComponent != null)
+                        {
+                            entity = battleRoleComponent.GetById(sessionBattlePlayerComponent.RoleId);
+                        }
+                    }
+                    
+                    if (entity == null)
+                    {
+                        Log.Error($"Role Id {session.GetComponent<SessionLobbyPlayerComponent>().RoleId} Not Found Online Role Entity");
                         break;
                     }
+                    MessageClientDisPatcher.Instance.Handle(entity, message);
+                    break;
+                }
                 case ILocationMessage actorLocationMessage:
-                    {
-                        // long unitId = session.GetComponent<SessionPlayerComponent>().Player.Id;
-                        // root.GetComponent<MessageLocationSenderComponent>().Get(LocationType.Unit).Send(unitId, actorLocationMessage);
-                        break;
-                    }
+                {
+                    // long unitId = session.GetComponent<SessionPlayerComponent>().Player.Id;
+                    // root.GetComponent<MessageLocationSenderComponent>().Get(LocationType.Unit).Send(unitId, actorLocationMessage);
+                    break;
+                }
                 case ILocationRequest actorLocationRequest: // gate session收到actor rpc消息，先向actor 发送rpc请求，再将请求结果返回客户端
+                {
+                    long unitId = session.GetComponent<SessionLobbyPlayerComponent>().RoleId;
+                    int rpcId = actorLocationRequest.RpcId; // 这里要保存客户端的rpcId
+                    long instanceId = session.InstanceId;
+                    IResponse iResponse = await root.GetComponent<MessageLocationSenderComponent>().Get(LocationType.Unit)
+                            .Call(unitId, actorLocationRequest);
+                    iResponse.RpcId = rpcId;
+                    // session可能已经断开了，所以这里需要判断
+                    if (session.InstanceId == instanceId)
                     {
-                        long unitId = session.GetComponent<SessionLobbyPlayerComponent>().RoleId;
-                        int rpcId = actorLocationRequest.RpcId; // 这里要保存客户端的rpcId
-                        long instanceId = session.InstanceId;
-                        IResponse iResponse = await root.GetComponent<MessageLocationSenderComponent>().Get(LocationType.Unit).Call(unitId, actorLocationRequest);
-                        iResponse.RpcId = rpcId;
-                        // session可能已经断开了，所以这里需要判断
-                        if (session.InstanceId == instanceId)
-                        {
-                            session.Send(iResponse);
-                        }
-                        break;
-                    }
-                case IRequest actorRequest:  // 分发IActorRequest消息，目前没有用到，需要的自己添加
-                    {
-                        break;
-                    }
-                case IMessage actorMessage:  // 分发IActorMessage消息，目前没有用到，需要的自己添加
-                    {
-                        break;
+                        session.Send(iResponse);
                     }
 
+                    break;
+                }
+                case IRequest actorRequest: // 分发IActorRequest消息，目前没有用到，需要的自己添加
+                {
+                    break;
+                }
+                case IMessage actorMessage: // 分发IActorMessage消息，目前没有用到，需要的自己添加
+                {
+                    break;
+                }
+
                 default:
-                    {
-                        throw new Exception($"not found handler: {message}");
-                    }
+                {
+                    throw new Exception($"not found handler: {message}");
+                }
             }
         }
     }

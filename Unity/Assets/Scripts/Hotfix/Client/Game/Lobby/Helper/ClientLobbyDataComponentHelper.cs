@@ -52,8 +52,8 @@ namespace ET.Client
 
             // 同步全量数据
             Log.Info("开始同步全量数据 ..");
-            C2G_GetAllDataUnits getAllDataUnits = C2G_GetAllDataUnits.Create();
-            var response = (G2_GetAllDataUnits)await clientSenderComponent.Call(getAllDataUnits);
+            C2L_GetAllDataUnits getAllDataUnits = C2L_GetAllDataUnits.Create();
+            var response = (L2C_GetAllDataUnits)await clientSenderComponent.Call(getAllDataUnits);
 
             if (response.Error != (int)ErrorCode.ERR_Success)
             {

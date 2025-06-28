@@ -12,6 +12,7 @@ namespace ET.Server
         {
             HttpGetRouterResponse response = HttpGetRouterResponse.Create();
             SceneNodeInfo accountSceneNode = EtcdHelper.GetRandomNode(SceneType.Account);
+            // TODO 大厅服的Gate
             SceneNodeInfo routerSceneNode = EtcdHelper.GetRandomNode(SceneType.RouterGate);
 
             if (accountSceneNode != null)
@@ -21,7 +22,7 @@ namespace ET.Server
 
             if (routerSceneNode != null)
             {
-                response.Routers.Add(routerSceneNode.OuterIpAndOuterPortAddress);
+                response.Routers.Add(routerSceneNode.InnerIpAndOuterPortAddress);
             }
             
             HttpHelper.Response(context, response);

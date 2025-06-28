@@ -14,14 +14,14 @@ namespace ET.Server
             if (!ret)
             {
                 response.Error = (int)ErrorCode.LoginTokenErr;
-                
-                // TODO 断开链接 要注意消息要发送完
                 return;
             }
 
+            // 登录成功
+            session.RemoveComponent<SessionAcceptLoginCheckTimeoutComponent>();
+            
             var roleId = accountBean.RoleId;
             Scene root = session.Root();
-            session.RemoveComponent<SessionAcceptLoginCheckTimeoutComponent>();
             LobbyRoleComponent lobbyRoleComponent = root.GetComponent<LobbyRoleComponent>();
 
             var lobbyRole = lobbyRoleComponent.GetById(roleId);

@@ -5,26 +5,29 @@
     public static partial class ClientBattleSenderComponentSystem
     {
         [EntitySystem]
-        private static void Awake(this ET.Client.ClientBattleSenderComponent self)
+        private static void Awake(this ClientBattleSenderComponent self)
         {
             ClientBattleSenderComponent.Instance = self;
         }
         
         [EntitySystem]
-        private static void Destroy(this ET.Client.ClientBattleSenderComponent self)
+        private static void Destroy(this ClientBattleSenderComponent self)
         {
             ClientBattleSenderComponent.Instance = null;
             self.RemoveFiberAsync().Coroutine();
         }
 
-        public static async ETTask<int> SessionLogin(this ClientBattleSenderComponent self, string token)
+        public static async ETTask<int> SessionLogin(this ClientBattleSenderComponent self, string routerAddress, string address, string token)
         {
-            self.fiberId = await FiberManager.Instance.Create(SchedulerType.ThreadPool, 0, SceneType.NetLobby, "");
+            self.fiberId = await FiberManager.Instance.Create(SchedulerType.ThreadPool, 0, SceneType.NetBattle, "");
             self.netClientActorId = new ActorId(self.Fiber().Process, self.fiberId);
 
             var request = Main2NetBattleLogin.Create();
             request.OwnerFiberId = self.Fiber().Id;
             request.Token = token;
+            request.RouterAddress = routerAddress;
+            request.Address = address;
+            
             var response = await self.Root().GetComponent<ProcessInnerSender>().Call(self.netClientActorId, request) as NetBattle2MainLogin;
             return response.Error;
         }
@@ -39,6 +42,34 @@
             int fiberId = self.fiberId;
             self.fiberId = 0;
             await FiberManager.Instance.Remove(fiberId);
+        }
+        
+        
+        public static void Send(this ClientBattleSenderComponent self, IMessage message)
+        {
+            A2NetClient_Message a2NetClientMessage = A2NetClient_Message.Create();
+            a2NetClientMessage.MessageObject = message;
+            self.Root().GetComponent<ProcessInnerSender>().Send(self.netClientActorId, a2NetClientMessage);
+        }
+        
+        
+        public static async ETTask<IResponse> Call(this ClientBattleSenderComponent self, IRequest request, bool needException = false)
+        {
+            A2NetClient_Request a2NetClientRequest = A2NetClient_Request.Create();
+            a2NetClientRequest.MessageObject = request;
+            using A2NetClient_Response a2NetClientResponse = await self.Root().GetComponent<ProcessInnerSender>().Call(self.netClientActorId, a2NetClientRequest) as A2NetClient_Response;
+            IResponse response = a2NetClientResponse.MessageObject;
+                        
+            if (response.Error == ErrorCore.ERR_MessageTimeout)
+            {
+                throw new RpcException(response.Error, $"Rpc error: request, 注意Actor消息超时，请注意查看是否死锁或者没有reply: {request}, response: {response}");
+            }
+
+            if (needException && ErrorCore.IsRpcNeedThrowException(response.Error))
+            {
+                throw new RpcException(response.Error, $"Rpc error: {request}, response: {response}");
+            }
+            return response;
         }
     }
 }

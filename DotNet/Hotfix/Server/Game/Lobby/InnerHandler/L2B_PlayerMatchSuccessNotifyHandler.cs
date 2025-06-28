@@ -17,10 +17,15 @@ public class L2B_PlayerMatchSuccessNotifyHandler: MessageHandler<LobbyRole, L2B_
         
         // TODO 使用
         var battleNode = EtcdHelper.GetRandomNode(SceneType.Battle);
-        if (battleNode != null)
+        // TODO 战斗服的Gate
+        var routerGateNode = EtcdHelper.GetRandomNode(SceneType.RouterGate);
+        
+        
+        if (battleNode != null && routerGateNode != null)
         {
             var clientMessage = L2C_MatchBattleSuccess.Create();
-            clientMessage.Address = battleNode.OuterIpAndOuterPortAddress;
+            clientMessage.RouterAddress = routerGateNode.InnerIpAndOuterPortAddress;
+            clientMessage.BattleAddress = battleNode.InnerIpAndOuterPortAddress;
             clientMessage.Token = token;
             lobbyRole.SendToClient(clientMessage);
         }

@@ -64,7 +64,7 @@ public static class BattleRoleHelper
     }
 
 
-    public static void BindClientSession(BattleRole battleRole, Session session)
+    public static void BindClientSession(this BattleRole battleRole, Session session)
     {
         // Session 与玩家相互绑定
         var entityClientSessionComponent = battleRole.GetComponent<EntityClientSessionComponent>();

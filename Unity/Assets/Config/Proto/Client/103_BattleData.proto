@@ -1,0 +1,43 @@
+//// 通讯协议
+
+// 1.获得玩家的视野世界信息
+// ResponseType B2C_PlayerGetAllAOIWorldData
+message C2B_PlayerGetAllAOIWorldData // IClientRequest
+{
+    int32 RpcId = 1;
+}
+
+message B2C_PlayerGetAllAOIWorldData // IClientResponse
+{
+    int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+
+    BattleWorld BattleWorld = 4;
+    repeated BattleUnitEntity BattleUnitEntity = 5;
+}
+
+// 2.战斗场景玩家心跳
+// ResponseType B2C_PlayerBattleWorldPing
+message C2B_PlayerBattleWorldPing // IClientRequest
+{
+    int32 RpcId = 1;
+    int64 ClientTime = 2;
+}
+
+message B2C_PlayerBattleWorldPing // IClientResponse
+{
+    int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+    int64 SendClientTime = 4;
+    uint32 PlayerCurFrame = 4;         // 当前战斗世界的帧号
+}
+
+// 3.玩家战斗脏数据推送
+message L2C_PlayerAOIWorldDirtyPush // IMessage
+{
+    uint32 startFrame = 1;                          // 开始帧数
+    uint32 endFrame = 2;                            // 解锁帧数
+    repeated DirtyUnitEntity DirtyUnitEntities = 3; // 脏数据
+}

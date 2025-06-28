@@ -28,6 +28,7 @@ namespace ET.Client
             C2B_Login c2bLogin = C2B_Login.Create();
             c2bLogin.Token = token;
             B2C_Login b2CLogin = (B2C_Login)await gateSession.Call(c2bLogin);
+            response.Error = b2CLogin.Error;
             await ETTask.CompletedTask;
         }
     }

@@ -1,0 +1,20 @@
+//// UnitEntityElemData 数据定义
+enum UnitEntityTypeEnum
+{
+    Player = 1;         // 玩家
+    Monster = 2;        // 怪物
+}
+
+// 常规信息
+message UnitEntityInfo // IUnitEntityElemData
+{
+    UnitEntityTypeEnum unitEntityTypeEnum = 1;      // 实体类型
+    int32 ConfigId = 2;                             // 配置ID
+}
+
+
+// 玩家信息
+message UnitEntityPlayerInfo // IUnitEntityElemData
+{
+    int64 playerId = 1;     // 玩家ID
+}
