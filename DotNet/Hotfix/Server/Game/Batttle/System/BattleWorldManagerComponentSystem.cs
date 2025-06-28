@@ -17,7 +17,7 @@ public static partial class BattleWorldManagerComponentSystem
         // 创建玩家
         foreach (var matchOrder in matchRoom.MatchOrders)
         {
-            UnitPlayerFactory.Create(world, matchOrder.PlayerId);
+            UnitPlayerHelper.Create(world, matchOrder.PlayerId);
         }
         
         self.Worlds[world.Id] = world;

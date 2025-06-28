@@ -11,10 +11,17 @@
                 response.Error = (int)ErrorCode.LoginTokenErr;
                 return;
             }
+            long worldId = bean.WorldId;
+            var world = BattleWorldManagerComponent.Instance.GetWorldById(worldId);
+            if (world == null)
+            {
+                response.Error = (int)ErrorCode.NotFoundBattleNode;
+                return;
+            }
+
+
             // 登录成功
             session.RemoveComponent<SessionAcceptLoginCheckTimeoutComponent>();
-            
-            long worldId = bean.WorldId;
             long playerId = bean.RoleId;
 
             Scene root = session.Root();
@@ -29,8 +36,7 @@
             
             battleRole.BindClientSession(session);
             
-            var world = BattleWorldManagerComponent.Instance.GetWorldById(worldId);
-            var battleRoleWorldManagerComponent = world.TryAddComponent<BattleRoleWorldManagerComponent>();
+            var battleRoleWorldManagerComponent = battleRole.TryAddComponent<BattleRoleWorldManagerComponent>();
             battleRoleWorldManagerComponent.World = world;
             await ETTask.CompletedTask;
         }

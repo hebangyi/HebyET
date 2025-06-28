@@ -16,6 +16,13 @@ public class BattleRoleComponent_BattleRoleOnlineEvent : AEvent<Scene, BattleRol
 
         role.LoginTime = TimeInfo.Instance.NowSec();
         role.RoleStatus = BattleRoleStatus.Online;
+        
+        var world = role.World();
+        if (world != null)
+        {
+            UnitPlayerHelper.Online(world, roleId);
+        }
+        
         Log.Info($"战斗服 玩家上线 Id : {role.RoleId}");
         await ETTask.CompletedTask;
     }
@@ -32,7 +39,12 @@ public class BattleRoleComponent_BattleRoleOffOnlineEvent : AEvent<Scene, Battle
         {
             return;
         }
-
+        
+        var world = role.World();
+        if (world != null)
+        {
+            UnitPlayerHelper.Offline(world, roleId);
+        }
 
         role.RoleStatus = BattleRoleStatus.Offline;
         Log.Info($"战斗服 玩家下线 Id : {role.RoleId}");
@@ -86,7 +98,7 @@ public static class BattleRoleHelper
     }
 
 
-    public static void KickOutOldPlayerSession(BattleRole role, int errorCode)
+    public static void KickOutOldPlayerSession(this BattleRole role, int errorCode)
     {
         var entityClientSessionComponent = role.GetComponent<EntityClientSessionComponent>();
         var session = entityClientSessionComponent.Session;
@@ -106,6 +118,10 @@ public static class BattleRoleHelper
         session.AddComponent<SessionAcceptLoginCheckTimeoutComponent>();
     }
 
+    public static World World(this BattleRole role)
+    {
+        return role.GetComponent<BattleRoleWorldManagerComponent>()?.World;
+    }
 
     public static BattleRole GetById(this BattleRoleComponent self, long roleId)
     {

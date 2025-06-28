@@ -1,29 +1,38 @@
 syntax = "proto3";
 package ET;
+enum WorldStatusEnum
+{
+    WS_Init = 0;                                  // 初始化状态
+    WS_Battle = 1;                                // 战斗状态
+    WS_Finish = 2;                                // 战斗结束状态
+}
+
+
 //// 战斗世界通用数据结构
 message BattleWorld
 {
-    uint32 frame = 1;   // 世界帧
+    uint32 Frame = 1;                           // 世界帧
+    WorldStatusEnum WorldStatus = 2;            // 世界状态
     // TODO 世界的其他配置 天空盒 场景 等战场常规信息
 }
 
 message BattleUnitEntity
 {
-    int64 insId = 1;                              // Unit 实例id
+    int64 InsId = 1;                              // Unit 实例id
     map<ushort, bytes> UnitEntityElemDatas = 2;   // 实体组件数据
 }
 
 // 脏数据变动
 message DirtyUnitEntity
 {
-    int64 insId = 1;                              // 实例id
-    repeated DirtyUnitElemData eleDatas = 2;      // 组件数据集合
+    int64 InsId = 1;                              // 实例id
+    repeated DirtyUnitElemData EleDatas = 2;      // 组件数据集合
 }
 
 message DirtyUnitElemData
 {
-    ushort compId = 1;                  // 组件id
-    bytes elemDatas = 2;                // element数据
+    ushort CompId = 1;                  // 组件id
+    bytes ElemDatas = 2;                // element数据
 }
 
 //// UnitEntityElemData 数据定义
@@ -36,7 +45,7 @@ enum UnitEntityTypeEnum
 // 常规信息
 message UnitEntityInfo // IUnitEntityElemData
 {
-    UnitEntityTypeEnum unitEntityTypeEnum = 1;      // 实体类型
+    UnitEntityTypeEnum UnitEntityTypeEnum = 1;      // 实体类型
     int32 ConfigId = 2;                             // 配置ID
 }
 
@@ -44,7 +53,9 @@ message UnitEntityInfo // IUnitEntityElemData
 // 玩家信息
 message UnitEntityPlayerInfo // IUnitEntityElemData
 {
-    int64 playerId = 1;     // 玩家ID
+    int64 PlayerId = 1;        // 玩家ID
+    bool IsOnline = 2;         // 是否在线
+    int64 LastLoginTime = 3;   // 上次登录时间
 }
 
 //// 通讯协议

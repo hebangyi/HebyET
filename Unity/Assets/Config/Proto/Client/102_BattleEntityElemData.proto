@@ -8,7 +8,7 @@ enum UnitEntityTypeEnum
 // 常规信息
 message UnitEntityInfo // IUnitEntityElemData
 {
-    UnitEntityTypeEnum unitEntityTypeEnum = 1;      // 实体类型
+    UnitEntityTypeEnum UnitEntityTypeEnum = 1;      // 实体类型
     int32 ConfigId = 2;                             // 配置ID
 }
 
@@ -16,5 +16,7 @@ message UnitEntityInfo // IUnitEntityElemData
 // 玩家信息
 message UnitEntityPlayerInfo // IUnitEntityElemData
 {
-    int64 playerId = 1;     // 玩家ID
+    int64 PlayerId = 1;        // 玩家ID
+    bool IsOnline = 2;         // 是否在线
+    int64 LastLoginTime = 3;   // 上次登录时间
 }

@@ -9,13 +9,13 @@ namespace ET
         public void OnInit(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
-            unitEntity.World.AllPlayers[playerInfo.playerId] = unitEntity;
+            unitEntity.World.AllPlayers[playerInfo.PlayerId] = unitEntity;
         }
 
         public void OnDestroy(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
-            unitEntity.World.AllEntity.Remove(playerInfo.playerId);
+            unitEntity.World.AllPlayers.Remove(playerInfo.PlayerId);
         }
 
         public ushort[] WatchComponentIds()

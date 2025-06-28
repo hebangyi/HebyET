@@ -19,7 +19,13 @@ namespace ET
         /// 世界帧
         /// </summary>
         [MemoryPackOrder(0)]
-        public uint frame { get; set; }
+        public uint Frame { get; set; }
+
+        /// <summary>
+        /// 世界状态
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public WorldStatusEnum WorldStatus { get; set; }
 
         /// <summary>
         /// TODO 世界的其他配置 天空盒 场景 等战场常规信息
@@ -31,7 +37,8 @@ namespace ET
                 return;
             }
 
-            this.frame = default;
+            this.Frame = default;
+            this.WorldStatus = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -50,7 +57,7 @@ namespace ET
         /// Unit 实例id
         /// </summary>
         [MemoryPackOrder(0)]
-        public long insId { get; set; }
+        public long InsId { get; set; }
 
         /// <summary>
         /// 实体组件数据
@@ -65,7 +72,7 @@ namespace ET
                 return;
             }
 
-            this.insId = default;
+            this.InsId = default;
             this.UnitEntityElemDatas.Clear();
 
             ObjectPool.Instance.Recycle(this);
@@ -86,13 +93,13 @@ namespace ET
         /// 实例id
         /// </summary>
         [MemoryPackOrder(0)]
-        public long insId { get; set; }
+        public long InsId { get; set; }
 
         /// <summary>
         /// 组件数据集合
         /// </summary>
         [MemoryPackOrder(1)]
-        public List<DirtyUnitElemData> eleDatas { get; set; } = new();
+        public List<DirtyUnitElemData> EleDatas { get; set; } = new();
 
         public override void Dispose()
         {
@@ -101,8 +108,8 @@ namespace ET
                 return;
             }
 
-            this.insId = default;
-            this.eleDatas.Clear();
+            this.InsId = default;
+            this.EleDatas.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -121,13 +128,13 @@ namespace ET
         /// 组件id
         /// </summary>
         [MemoryPackOrder(0)]
-        public ushort compId { get; set; }
+        public ushort CompId { get; set; }
 
         /// <summary>
         /// element数据
         /// </summary>
         [MemoryPackOrder(1)]
-        public byte[] elemDatas { get; set; }
+        public byte[] ElemDatas { get; set; }
 
         public override void Dispose()
         {
@@ -136,8 +143,8 @@ namespace ET
                 return;
             }
 
-            this.compId = default;
-            this.elemDatas = default;
+            this.CompId = default;
+            this.ElemDatas = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -160,7 +167,7 @@ namespace ET
         /// 实体类型
         /// </summary>
         [MemoryPackOrder(0)]
-        public UnitEntityTypeEnum unitEntityTypeEnum { get; set; }
+        public UnitEntityTypeEnum UnitEntityTypeEnum { get; set; }
 
         /// <summary>
         /// 配置ID
@@ -175,7 +182,7 @@ namespace ET
                 return;
             }
 
-            this.unitEntityTypeEnum = default;
+            this.UnitEntityTypeEnum = default;
             this.ConfigId = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -196,7 +203,19 @@ namespace ET
         /// 玩家ID
         /// </summary>
         [MemoryPackOrder(0)]
-        public long playerId { get; set; }
+        public long PlayerId { get; set; }
+
+        /// <summary>
+        /// 是否在线
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public bool IsOnline { get; set; }
+
+        /// <summary>
+        /// 上次登录时间
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public long LastLoginTime { get; set; }
 
         public override void Dispose()
         {
@@ -205,7 +224,9 @@ namespace ET
                 return;
             }
 
-            this.playerId = default;
+            this.PlayerId = default;
+            this.IsOnline = default;
+            this.LastLoginTime = default;
 
             ObjectPool.Instance.Recycle(this);
         }

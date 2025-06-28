@@ -1,25 +1,34 @@
+enum WorldStatusEnum
+{
+    WS_Init = 0;                                  // 初始化状态
+    WS_Battle = 1;                                // 战斗状态
+    WS_Finish = 2;                                // 战斗结束状态
+}
+
+
 //// 战斗世界通用数据结构
 message BattleWorld
 {
-    uint32 frame = 1;   // 世界帧
+    uint32 Frame = 1;                           // 世界帧
+    WorldStatusEnum WorldStatus = 2;            // 世界状态
     // TODO 世界的其他配置 天空盒 场景 等战场常规信息
 }
 
 message BattleUnitEntity
 {
-    int64 insId = 1;                              // Unit 实例id
+    int64 InsId = 1;                              // Unit 实例id
     map<ushort, bytes> UnitEntityElemDatas = 2;   // 实体组件数据
 }
 
 // 脏数据变动
 message DirtyUnitEntity
 {
-    int64 insId = 1;                              // 实例id
-    repeated DirtyUnitElemData eleDatas = 2;      // 组件数据集合
+    int64 InsId = 1;                              // 实例id
+    repeated DirtyUnitElemData EleDatas = 2;      // 组件数据集合
 }
 
 message DirtyUnitElemData
 {
-    ushort compId = 1;                  // 组件id
-    bytes elemDatas = 2;                // element数据
+    ushort CompId = 1;                  // 组件id
+    bytes ElemDatas = 2;                // element数据
 }
