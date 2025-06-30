@@ -38,10 +38,12 @@ namespace ET
 
             DateTime dt1 = DateTimeOffset.FromUnixTimeSeconds(timeSec1).ToLocalTime().AddHours(-hour).DateTime;
             DateTime dt2 = DateTimeOffset.FromUnixTimeSeconds(timeSec2).ToLocalTime().AddHours(-hour).DateTime;
-
+            
+            // 获得周一的时间
+            DateTime weekStart1 = dt1.AddDays(-realDayOfWeek(dt1) + 1);
+            DateTime weekStart2 = dt2.AddDays(-realDayOfWeek(dt2) + 1);
+            
             // 获取同一周的周一
-            DateTime weekStart1 = dt1.AddDays(-(int)dt1.DayOfWeek + (int)DayOfWeek.Monday);
-            DateTime weekStart2 = dt2.AddDays(-(int)dt2.DayOfWeek + (int)DayOfWeek.Monday);
             return weekStart1.Date != weekStart2.Date;
         }
 

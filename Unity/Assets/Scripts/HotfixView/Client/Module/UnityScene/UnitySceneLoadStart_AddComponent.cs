@@ -19,6 +19,9 @@ namespace ET.Client
                 {
                     case UnitySceneType.Battle:
                     {
+                        
+                        
+                        
                         // TODO
                         break;
                     }

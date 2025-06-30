@@ -33,7 +33,7 @@
 
         public static void ShowProgress(this DlgFGUILoadingUIView self, float progress)
         {
-            self.View.processBar.value = (int)UnitySceneManagerComponent.Instance.UnityScene.SceneHandle.Progress;
+            self.View.processBar.value = progress;
         }
         
         public static void ShowWindow(this DlgFGUILoadingUIView self, ShowWindowData showWindowData = null)

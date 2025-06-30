@@ -1,11 +1,12 @@
 @echo off
-CALL "%~dp0.\Build\BuildTool.bat"
 
-IF %ERRORLEVEL% EQU 0 (
+:: 查找 wt.exe 是否存在
+where wt.exe >nul 2>&1
+set WTERELEV=%ERRORLEVEL%
+
+IF %WTERELEV% EQU 0 (
     wt PowerShell -ExecutionPolicy unrestricted -File "%~dp0./Run/Tool_Excel.ps1" "wt" > nul 2>&1
 ) ELSE (
-     ECHO "Build Server failed!!!"
-     PAUSE
-     Exit 0
+	PowerShell -ExecutionPolicy unrestricted -File "%~dp0./Run/Tool_Excel.ps1" "cmd" > nul 2>&1
 )
 @echo on

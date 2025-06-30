@@ -19,7 +19,7 @@ function StartProcess {
 }
 
 $targets = @(
-	[Target]@{ExeFileName='Tool.exe'; RelativePath=".\..\..\..\Bin\"; Params="--AppType ExcelExporter"}
+	[Target]@{ExeFileName='Tool.exe'; RelativePath=".\..\..\..\ETTools\"; Params="--AppType ExcelExporter"}
     )
 	
 if ($args[0].Equals('wt')) {
