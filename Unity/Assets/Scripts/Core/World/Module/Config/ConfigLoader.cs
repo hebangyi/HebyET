@@ -56,8 +56,9 @@ namespace ET
 
         private static void LoadOneConfig(Type configType, byte[] oneConfigBytes)
         {
-            Log.Info($"加载配置 [{configType.Name} 配置条数 [{oneConfigBytes.Length}]]");
             object category = MongoHelper.Deserialize(configType, oneConfigBytes, 0, oneConfigBytes.Length);
+            // TODO 条数不是bytes TODO 内存优雅加载
+            Log.Info($"加载配置 [{configType.Name} 配置条数 [{oneConfigBytes.Length}]]");
             ASingleton singleton = category as ASingleton;
             ApplicationContext.Instance.AddSingleton(singleton);
         }

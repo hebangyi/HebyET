@@ -6,9 +6,8 @@
         CommonBG = 1,       // 测试背景
         FGUILoginMainView = 2,  // 登录界面
         FGUILoadingUIView = 3,  // 加载界面
-        
-        
         FGUILobbyMainView = 4,  // 大厅
+        FGUIBattleOperationMainView = 5,    // 战斗服操作界面
     }
     
     

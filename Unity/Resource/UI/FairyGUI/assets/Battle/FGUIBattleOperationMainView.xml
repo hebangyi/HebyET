@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <text id="n0_i52o" name="title" xy="684,436" size="398,136" fontSize="50" autoSize="none" text="这个是战斗界面"/>
+  </displayList>
+</component>

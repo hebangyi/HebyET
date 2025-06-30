@@ -22,16 +22,9 @@ namespace ET
             }
         }
 		
-        public BattleSceneConfig Get(int id)
+        public BattleSceneConfig GetById(int id)
         {
-            this.dict.TryGetValue(id, out BattleSceneConfig item);
-
-            if (item == null)
-            {
-                throw new Exception($"配置找不到，配置表名: {nameof (BattleSceneConfig)}，配置id: {id}");
-            }
-
-            return item;
+            return this.dict.GetValueOrDefault(id);
         }
 		
         public bool Contain(int id)

@@ -22,16 +22,9 @@ namespace ET
             }
         }
 		
-        public SceneConfig Get(int id)
+        public SceneConfig GetById(int id)
         {
-            this.dict.TryGetValue(id, out SceneConfig item);
-
-            if (item == null)
-            {
-                throw new Exception($"配置找不到，配置表名: {nameof (SceneConfig)}，配置id: {id}");
-            }
-
-            return item;
+            return this.dict.GetValueOrDefault(id);
         }
 		
         public bool Contain(int id)

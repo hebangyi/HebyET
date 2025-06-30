@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,10 +20,10 @@ namespace ET.Client
                 {
                     case UnitySceneType.Battle:
                     {
-                        
-                        
-                        
+                        var matchBattleSuccess = (MatchBattleSuccess)unityScene.ParamList.First();
                         // TODO
+                        var battleSceneConfig = BattleSceneConfigCategory.Instance.GetById(1001);
+                        scenePath = ABPathHelper.GetScenePath(battleSceneConfig.AssetPath);
                         break;
                     }
                     default:
@@ -31,7 +32,8 @@ namespace ET.Client
                         break;
                     }
                 }
-                
+                Log.Info("场景地址");
+                Log.Info(scenePath);
                 // 加载场景资源
                 await resourcesLoaderComponent.LoadSceneAsync(scenePath);
                 

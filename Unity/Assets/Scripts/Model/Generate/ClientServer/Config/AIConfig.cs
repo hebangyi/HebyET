@@ -22,16 +22,9 @@ namespace ET
             }
         }
 		
-        public AIConfig Get(int id)
+        public AIConfig GetById(int id)
         {
-            this.dict.TryGetValue(id, out AIConfig item);
-
-            if (item == null)
-            {
-                throw new Exception($"配置找不到，配置表名: {nameof (AIConfig)}，配置id: {id}");
-            }
-
-            return item;
+            return this.dict.GetValueOrDefault(id);
         }
 		
         public bool Contain(int id)
