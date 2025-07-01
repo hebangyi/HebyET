@@ -17,6 +17,8 @@ namespace ET.Client
 			self.GObject = go;
             var com = go.asCom;
 			self.title = (GTextField)com.GetChild("title");
+			self.BattleButton = self.AddChild<FGUIBattleButton,GObject>(com.GetChild("BattleButton"));
+			self.OpButton = self.AddChild<FGUIOperateButton,GObject>(com.GetChild("OpButton"));
 
         }
         
@@ -25,6 +27,10 @@ namespace ET.Client
         public static void Destroy(this FGUIBattleOperationMainView self)
         {
 			self.title = null;
+			self.BattleButton?.Dispose();
+			self.BattleButton = null;
+			self.OpButton?.Dispose();
+			self.OpButton = null;
 
         }
     }

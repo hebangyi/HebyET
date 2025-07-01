@@ -2,6 +2,13 @@
 <packageDescription id="a1przqrj">
   <resources>
     <component id="i52o0" name="FGUIBattleOperationMainView.xml" path="/" exported="true"/>
+    <image id="i52o4" name="YaoGan.png" path="/Resource/" exported="true"/>
+    <image id="i52o5" name="YaoGan_2.png" path="/Resource/" exported="true"/>
+    <image id="i52o2" name="YaoGanBoarder.png" path="/Resource/" exported="true"/>
+    <image id="i52o3" name="YaoGanBg.png" path="/Resource/" exported="true"/>
+    <component id="i52o1" name="FGUIOperateButton.xml" path="/" exported="true"/>
+    <component id="i52o6" name="FGUIBattleButton.xml" path="/" exported="true"/>
+    <image id="i52o7" name="Button.png" path="/Resource/" exported="true"/>
   </resources>
   <publish name="" genCode="true"/>
 </packageDescription>

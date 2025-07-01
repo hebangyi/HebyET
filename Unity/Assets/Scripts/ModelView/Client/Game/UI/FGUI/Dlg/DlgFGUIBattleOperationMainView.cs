@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace ET.Client
 {
     [ComponentOf]
@@ -6,6 +8,16 @@ namespace ET.Client
     public class DlgFGUIBattleOperationMainView : Entity,IAwake
     {
         public FGUIBattleOperationMainView View { get => this.GetComponent<FGUIBattleOperationMainView>(); }
+
+        public Vector2 OnTouchBeginPoint;
         
+
+        public float InitTouchAreaX;
+        public float InitTouchAreaY;
+        
+        public float InitYaoGanX;
+        public float InitYaoGanY;
+
+        public float YaoGanRadius;
     }
 }

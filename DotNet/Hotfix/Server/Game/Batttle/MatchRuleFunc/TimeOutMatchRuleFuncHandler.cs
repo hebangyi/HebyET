@@ -12,7 +12,7 @@ public class TimeOutMatchRuleFuncHandler : IMatchRuleFunc
         long now = TimeInfo.Instance.NowSec();
         List<long> timeOutOrders = new List<long>();
         // TODO 以后读取匹配配置 现在设置超时时间是10s
-        int timeOutSeconds = 10;
+        int timeOutSeconds = 3;
         
         
         foreach (var orderKv in BattleMatchComponent.Instance.AllMatchOrders)

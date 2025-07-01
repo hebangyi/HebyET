@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="300,300">
+  <displayList>
+    <graph id="n7_i52o" name="TouchArea" xy="0,2" size="300,300" group="n6_i52o" type="eclipse" lineSize="0" lineColor="#00000000" fillColor="#80000000"/>
+    <image id="n0_i52o" name="YaoGanBg3" src="i52o2" fileName="Resource/YaoGanBoarder.png" xy="22,26" size="254,254" group="n6_i52o"/>
+    <image id="n3_i52o" name="YaoGanBg2" src="i52o5" fileName="Resource/YaoGan_2.png" xy="83,86" group="n6_i52o"/>
+    <image id="n4_i52o" name="YaoGanBg1" src="i52o3" fileName="Resource/YaoGanBg.png" xy="99,102" group="n6_i52o"/>
+    <image id="n2_i52o" name="YaoGanImg" src="i52o4" fileName="Resource/YaoGan.png" xy="111,114" group="n6_i52o"/>
+    <group id="n6_i52o" name="ButtonGroup" xy="0,2" size="300,300" advanced="true">
+      <relation target="" sidePair="width-width%,height-height%,center-center,middle-middle"/>
+    </group>
+  </displayList>
+</component>

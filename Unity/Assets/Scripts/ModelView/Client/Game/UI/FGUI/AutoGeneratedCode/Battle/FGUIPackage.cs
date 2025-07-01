@@ -14,6 +14,8 @@ namespace ET.Client
 	public static partial class FGUIResName
 	{
 		public const string RES_Battle_FGUIBattleOperationMainView = "FGUIBattleOperationMainView";
+		public const string RES_Battle_FGUIOperateButton = "FGUIOperateButton";
+		public const string RES_Battle_FGUIBattleButton = "FGUIBattleButton";
 
 	}
 }
