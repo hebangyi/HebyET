@@ -20,13 +20,6 @@
             }
 
             await EventSystem.Instance.PublishAsync(scene, new MatchBattleSuccess() { MatchMessage = message });
-            
-            
-            var clientBattleSenderComponent = scene.GetComponent<ClientBattleSenderComponent>();
-            C2B_PlayerGetAllAOIWorldData request = C2B_PlayerGetAllAOIWorldData.Create();
-            B2C_PlayerGetAllAOIWorldData response = (B2C_PlayerGetAllAOIWorldData)await clientBattleSenderComponent.Call(request);
-
-            await ETTask.CompletedTask;
         }
     }
 }

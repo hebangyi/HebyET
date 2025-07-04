@@ -13,7 +13,7 @@ public static partial class BattleWorldManagerComponentSystem
     
     public static World CreateWorld(this BattleWorldManagerComponent self, MatchRoom matchRoom)
     {
-        var world = self.AddChild<World>();
+        var world = self.AddChild<World, int>((int)WorldMode.Logic);
         // 创建玩家
         foreach (var matchOrder in matchRoom.MatchOrders)
         {

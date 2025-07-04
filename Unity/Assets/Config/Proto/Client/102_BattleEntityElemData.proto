@@ -20,3 +20,9 @@ message UnitEntityPlayerInfo // IUnitEntityElemData
     bool IsOnline = 2;         // 是否在线
     int64 LastLoginTime = 3;   // 上次登录时间
 }
+
+// 玩家帧信息
+message UnitEntityPlayerFrame // IUnitEntityElemData
+{
+    uint32 Frame = 1;          // 当前玩家的帧率
+}

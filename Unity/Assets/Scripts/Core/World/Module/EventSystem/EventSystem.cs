@@ -10,7 +10,7 @@ namespace ET
         {
             public IEvent IEvent { get; }
             
-            public SceneType SceneType {get; }
+            public SceneType SceneType {get; } 
 
             public EventInfo(IEvent iEvent, SceneType sceneType)
             {

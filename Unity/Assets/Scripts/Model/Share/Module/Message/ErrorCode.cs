@@ -34,6 +34,7 @@ namespace ET
         
         ///////////////////////////// 战斗服登录
         public const int NotFoundBattleWorld = 220201;                 // 没有找到战斗世界
+        public const int NotFoundWorldPlayer = 220202;                 // 战斗世界没有找到玩家
         
         ////////////////////////////////////////////////////////// End Battle
         

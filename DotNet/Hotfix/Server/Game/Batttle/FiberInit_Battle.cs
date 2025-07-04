@@ -15,10 +15,15 @@ namespace ET.Server
             root.AddComponent<CoroutineLockComponent>();
             root.AddComponent<MessageSender>();
             
+            //// 战斗
+            // 战斗数据逻辑管理器
+            root.AddComponent<BattleUnitEntityDataLogicManagerComponent>();
+            root.AddComponent<BattleEventManagerComponent>();
+            
             // 业务相关
             root.AddComponent<BattleMatchComponent>();
             root.AddComponent<BattleWorldManagerComponent>();
-            root.AddComponent<BattleUnitEntityDataLogicManagerComponent>();
+
             root.AddComponent<BattleRoleComponent>();
             root.AddComponent<GlobalClockComponent>();
             root.AddComponent<MongoDBComponent>();

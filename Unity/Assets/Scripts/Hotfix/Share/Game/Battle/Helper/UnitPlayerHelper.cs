@@ -16,6 +16,11 @@ namespace ET
             return entity;
         }
 
+        public static UnitEntity GetUnitEntityById(World world, long playerId)
+        {
+            var unitEntity = world.AllPlayers.GetValueOrDefault(playerId);
+            return unitEntity;
+        }
 
         public static void Online(World world, long playerId)
         {

@@ -25,11 +25,4 @@
         // 执行更新
         void OnTick();
     }
-
-    // 显示接口
-    public interface IUnitEntityClientLogic : IUnitEntityLogic
-    {
-        // 执行
-        void OnUpdateEntity(UnitEntity unitEntity, IUnitEntityElemData oldData);
-    }
 }

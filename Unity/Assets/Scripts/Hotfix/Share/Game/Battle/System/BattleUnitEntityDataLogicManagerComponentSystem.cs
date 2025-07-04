@@ -47,22 +47,7 @@ namespace ET
                         logics.Add(tickLogic);
                     }
                 }
-
-
-                if (handler is IUnitEntityClientLogic clientLogic)
-                {
-                    foreach (ushort componentId in clientLogic.WatchComponentIds())
-                    {
-                        var logics = self.CompId2ClientLogics.GetValueOrDefault(componentId);
-                        if (logics == null)
-                        {
-                            logics = new List<IUnitEntityClientLogic>();
-                            self.CompId2ClientLogics.Add(componentId, logics);
-                        }
-                        
-                        logics.Add(clientLogic);
-                    }
-                }
+                
             }
         }
 
@@ -75,10 +60,6 @@ namespace ET
         {
             return self.CompId2TickLogics.GetValueOrDefault(componentId);
         }
-
-        public static List<IUnitEntityClientLogic> GetClientLogicByComponentId(this BattleUnitEntityDataLogicManagerComponent self, ushort componentId)
-        {
-            return self.CompId2ClientLogics.GetValueOrDefault(componentId);
-        }
+        
     }
 }

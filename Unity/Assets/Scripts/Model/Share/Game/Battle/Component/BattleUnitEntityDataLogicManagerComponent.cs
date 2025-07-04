@@ -10,7 +10,5 @@ namespace ET
         public Dictionary<int, List<IUnitEntityInitLogic>> CompId2InitLogics = new ();
 
         public Dictionary<int, List<IUnitEntityTickLogic>> CompId2TickLogics = new();
-
-        public Dictionary<int, List<IUnitEntityClientLogic>> CompId2ClientLogics = new();
     }    
 }
