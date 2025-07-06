@@ -20,10 +20,7 @@ namespace ET
 
         public ushort[] WatchComponentIds()
         {
-            return new ushort
-            [
-                OpcodeType.Instance.GetOpcode(typeof(UnitEntityPlayerInfo))
-            ];
+            return new []{OpcodeType.Instance.GetOpcode(typeof(UnitEntityPlayerInfo))};
         }
     }
 }

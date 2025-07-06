@@ -1,9 +1,20 @@
-//// UnitEntityElemData 数据定义
-enum UnitEntityTypeEnum
+
+//// 常规信息 
+message UnitEntityCommonData // IUnitEntityElemData
 {
-    Player = 1;         // 玩家
-    Monster = 2;        // 怪物
+    UnitEntityTypeEnum UnitEntityType = 1;
+    map<string, string> Datas = 2;
 }
+
+
+message UnitEntityPosition // IUnitEntityElemData
+{
+    Unity.Mathematics.int3 Position = 1;
+    Unity.Mathematics.int3 Forward = 2;
+}
+
+
+
 
 // 常规信息
 message UnitEntityInfo // IUnitEntityElemData
@@ -26,3 +37,4 @@ message UnitEntityPlayerFrame // IUnitEntityElemData
 {
     uint32 Frame = 1;          // 当前玩家的帧率
 }
+

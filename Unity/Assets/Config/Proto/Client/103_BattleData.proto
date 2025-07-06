@@ -15,6 +15,7 @@ message B2C_PlayerGetAllAOIWorldData // IClientResponse
 
     BattleWorld BattleWorld = 4;
     repeated BattleUnitEntity BattleUnitEntity = 5;
+    BattleUnitEntity MyPlayerUnitEntity = 6;
 }
 
 // 2.战斗场景玩家心跳

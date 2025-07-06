@@ -1,14 +1,14 @@
-﻿namespace ET
+﻿namespace ET.Client
 {
-    [BattleEvent(WorldMode.Logic)]
-    public class CreateUnitEntityElementData_Logic: ABattleEvent<CreateUnitEntityElementData>
+    [BattleEvent(WorldMode.View)]
+    public class CreateUnitEntityElementData_ViewLogic: ABattleEvent<CreateUnitEntityElementData>
     {
         protected override void Run(World world, CreateUnitEntityElementData args)
         {
             var unitEntity = args.UnitEntity;
             var componentId = args.ComponentId;
             
-            var logics = BattleUnitEntityLogicManagerComponent.Instance.GetInitLogicByComponentId(componentId);
+            var logics = BattleUnitEntityViewLogicManagerComponent.Instance.GetInitViewLogicByComponentId(componentId);
             if (logics != null)
             {
                 foreach (var logic in logics)
@@ -19,4 +19,3 @@
         }
     }
 }
-

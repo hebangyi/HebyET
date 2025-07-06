@@ -17,8 +17,13 @@ namespace ET.Client
             
             //// 战斗
             // 战斗数据逻辑管理器
-            root.AddComponent<BattleUnitEntityDataLogicManagerComponent>();
+            root.AddComponent<BattleUnitEntityLogicManagerComponent>();
+            // 战斗显示逻辑
+            root.AddComponent<BattleUnitEntityViewLogicManagerComponent>();
+            // 战斗事件
             root.AddComponent<BattleEventManagerComponent>();
+            // 客户端战斗世界管理器
+            root.AddComponent<BattleClientWorldManagerComponent>();
             
             // 数据加载
             root.AddComponent<ResourcesLoaderComponent>();

@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace ET
 {
-    [EntitySystemOf(typeof(BattleUnitEntityDataLogicManagerComponent))]
-    [FriendOf(typeof(BattleUnitEntityDataLogicManagerComponent))]
-    public static partial class BattleUnitEntityDataLogicManagerComponentSystem
+    [EntitySystemOf(typeof(BattleUnitEntityLogicManagerComponent))]
+    [FriendOf(typeof(BattleUnitEntityLogicManagerComponent))]
+    public static partial class BattleUnitEntityLogicManagerComponentSystem
     {
         [EntitySystem]
-        private static void Awake(this BattleUnitEntityDataLogicManagerComponent self)
+        private static void Awake(this BattleUnitEntityLogicManagerComponent self)
         {
-            BattleUnitEntityDataLogicManagerComponent.Instance = self;
+            BattleUnitEntityLogicManagerComponent.Instance = self;
             
             var logicTypes = CodeTypes.Instance.GetAttributeTypes(typeof(UnitEntityLogicAttribute));
             foreach (var type in logicTypes)
@@ -19,7 +19,8 @@ namespace ET
                 var handler =  Activator.CreateInstance(type);
                 if (handler is IUnitEntityInitLogic dataLogic)
                 {
-                    foreach (ushort componentId in dataLogic.WatchComponentIds())
+                    var watchComponentIds = dataLogic.WatchComponentIds();
+                    foreach (ushort componentId in watchComponentIds)
                     {
                         var logics = self.CompId2InitLogics.GetValueOrDefault(componentId);
                         if (logics == null)
@@ -47,16 +48,15 @@ namespace ET
                         logics.Add(tickLogic);
                     }
                 }
-                
             }
         }
 
-        public static List<IUnitEntityInitLogic> GetInitLogicByComponentId(this BattleUnitEntityDataLogicManagerComponent self, ushort componentId)
+        public static List<IUnitEntityInitLogic> GetInitLogicByComponentId(this BattleUnitEntityLogicManagerComponent self, ushort componentId)
         {
             return self.CompId2InitLogics.GetValueOrDefault(componentId);
         }
         
-        public static List<IUnitEntityTickLogic> GetTickLogicByComponentId(this BattleUnitEntityDataLogicManagerComponent self, ushort componentId)
+        public static List<IUnitEntityTickLogic> GetTickLogicByComponentId(this BattleUnitEntityLogicManagerComponent self, ushort componentId)
         {
             return self.CompId2TickLogics.GetValueOrDefault(componentId);
         }

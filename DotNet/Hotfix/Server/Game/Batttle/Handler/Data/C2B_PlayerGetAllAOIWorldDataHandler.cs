@@ -12,7 +12,7 @@ public class C2B_PlayerGetAllAOIWorldDataHandler: MessageClientHandler<BattleRol
             return;
         }
 
-        var unitPlayerEntity = UnitPlayerHelper.GetUnitEntityById(world, battleRole.RoleId);
+        var unitPlayerEntity = UnitPlayerHelper.GetPlayerUnitEntityByPlayerId(world, battleRole.RoleId);
         if (unitPlayerEntity == null)
         {
             response.Error = ErrorCode.NotFoundWorldPlayer;
@@ -20,6 +20,8 @@ public class C2B_PlayerGetAllAOIWorldDataHandler: MessageClientHandler<BattleRol
         }
         
         response.BattleWorld = world.ToBattleWorld();
+        response.MyPlayerUnitEntity = unitPlayerEntity.ToBattleUnitEntity();
+        
         
         // TODO AOI 机制 
         foreach (var unitEntityKv in world.AllEntity)

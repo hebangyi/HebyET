@@ -3,9 +3,9 @@
 namespace ET
 {
     [ComponentOf(typeof(Scene))]
-    public class BattleUnitEntityDataLogicManagerComponent: Entity, IAwake
+    public class BattleUnitEntityLogicManagerComponent: Entity, IAwake
     {
-        public static BattleUnitEntityDataLogicManagerComponent Instance;
+        public static BattleUnitEntityLogicManagerComponent Instance;
         
         public Dictionary<int, List<IUnitEntityInitLogic>> CompId2InitLogics = new ();
 

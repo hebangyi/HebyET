@@ -10,6 +10,7 @@ namespace ET.Client
         public Camera MainCamera;
         // 偏移地址
         public float3 OffsetPosition;
-        // TODO 跟踪对象
+        // 跟踪对象
+        public EntityRef<UnitEntity> FlowUnitEntity;
     }
 }

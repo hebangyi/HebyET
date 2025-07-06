@@ -151,8 +151,66 @@ namespace ET
     }
 
     /// <summary>
-    /// UnitEntityElemData 数据定义
+    /// 常规信息
     /// </summary>
+    [MemoryPackable]
+    [Message(ClientMessage.UnitEntityCommonData)]
+    public partial class UnitEntityCommonData : MessageObject, IUnitEntityElemData
+    {
+        public static UnitEntityCommonData Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(UnitEntityCommonData), isFromPool) as UnitEntityCommonData;
+        }
+
+        [MemoryPackOrder(0)]
+        public UnitEntityTypeEnum UnitEntityType { get; set; }
+
+        [MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
+        [MemoryPackOrder(1)]
+        public Dictionary<string, string> Datas { get; set; } = new();
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.UnitEntityType = default;
+            this.Datas.Clear();
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.UnitEntityPosition)]
+    public partial class UnitEntityPosition : MessageObject, IUnitEntityElemData
+    {
+        public static UnitEntityPosition Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(UnitEntityPosition), isFromPool) as UnitEntityPosition;
+        }
+
+        [MemoryPackOrder(0)]
+        public Unity.Mathematics.int3 Position { get; set; }
+
+        [MemoryPackOrder(1)]
+        public Unity.Mathematics.int3 Forward { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.Position = default;
+            this.Forward = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
     // 常规信息
     [MemoryPackable]
     [Message(ClientMessage.UnitEntityInfo)]
@@ -232,6 +290,35 @@ namespace ET
         }
     }
 
+    // 玩家帧信息
+    [MemoryPackable]
+    [Message(ClientMessage.UnitEntityPlayerFrame)]
+    public partial class UnitEntityPlayerFrame : MessageObject, IUnitEntityElemData
+    {
+        public static UnitEntityPlayerFrame Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerFrame), isFromPool) as UnitEntityPlayerFrame;
+        }
+
+        /// <summary>
+        /// 当前玩家的帧率
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public uint Frame { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.Frame = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
     /// <summary>
     /// 通讯协议
     /// </summary>
@@ -286,6 +373,9 @@ namespace ET
         [MemoryPackOrder(4)]
         public List<BattleUnitEntity> BattleUnitEntity { get; set; } = new();
 
+        [MemoryPackOrder(5)]
+        public BattleUnitEntity MyPlayerUnitEntity { get; set; }
+
         public override void Dispose()
         {
             if (!this.IsFromPool)
@@ -298,6 +388,7 @@ namespace ET
             this.Message = default;
             this.BattleWorld = default;
             this.BattleUnitEntity.Clear();
+            this.MyPlayerUnitEntity = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1379,39 +1470,42 @@ namespace ET
         public const ushort BattleUnitEntity = 10002;
         public const ushort DirtyUnitEntity = 10003;
         public const ushort DirtyUnitElemData = 10004;
-        public const ushort UnitEntityInfo = 10005;
-        public const ushort UnitEntityPlayerInfo = 10006;
-        public const ushort C2B_PlayerGetAllAOIWorldData = 10007;
-        public const ushort B2C_PlayerGetAllAOIWorldData = 10008;
-        public const ushort C2B_PlayerBattleWorldPing = 10009;
-        public const ushort B2C_PlayerBattleWorldPing = 10010;
-        public const ushort L2C_PlayerAOIWorldDirtyPush = 10011;
-        public const ushort Main2NetBattleLogin = 10012;
-        public const ushort NetBattle2MainLogin = 10013;
-        public const ushort C2B_Login = 10014;
-        public const ushort B2C_Login = 10015;
-        public const ushort C2B_PlayerReadyCompleted = 10016;
-        public const ushort B2C_PlayerReadyCompleted = 10017;
-        public const ushort C2G_Ping = 10018;
-        public const ushort G2C_Ping = 10019;
-        public const ushort C2G_Benchmark = 10020;
-        public const ushort G2C_Benchmark = 10021;
-        public const ushort Main2NetLobbyLogin = 10022;
-        public const ushort NetLobby2MainLogin = 10023;
-        public const ushort C2A_Login = 10024;
-        public const ushort A2C_Login = 10025;
-        public const ushort C2L_LoginLobby = 10026;
-        public const ushort L2C_LoginLobby = 10027;
-        public const ushort G2C_SessionDisconnect = 10028;
-        public const ushort HttpGetRouterResponse = 10029;
-        public const ushort SyncDataUnitStruct = 10030;
-        public const ushort DataUnitBytes = 10031;
-        public const ushort C2L_GetAllDataUnits = 10032;
-        public const ushort L2C_GetAllDataUnits = 10033;
-        public const ushort L2C_SyncDirtyDataUnits = 10034;
-        public const ushort RoleInfoUnitData = 10035;
-        public const ushort C2L_StartMatchBattle = 10036;
-        public const ushort L2C_StartMatchBattle = 10037;
-        public const ushort L2C_MatchBattleSuccess = 10038;
+        public const ushort UnitEntityCommonData = 10005;
+        public const ushort UnitEntityPosition = 10006;
+        public const ushort UnitEntityInfo = 10007;
+        public const ushort UnitEntityPlayerInfo = 10008;
+        public const ushort UnitEntityPlayerFrame = 10009;
+        public const ushort C2B_PlayerGetAllAOIWorldData = 10010;
+        public const ushort B2C_PlayerGetAllAOIWorldData = 10011;
+        public const ushort C2B_PlayerBattleWorldPing = 10012;
+        public const ushort B2C_PlayerBattleWorldPing = 10013;
+        public const ushort L2C_PlayerAOIWorldDirtyPush = 10014;
+        public const ushort Main2NetBattleLogin = 10015;
+        public const ushort NetBattle2MainLogin = 10016;
+        public const ushort C2B_Login = 10017;
+        public const ushort B2C_Login = 10018;
+        public const ushort C2B_PlayerReadyCompleted = 10019;
+        public const ushort B2C_PlayerReadyCompleted = 10020;
+        public const ushort C2G_Ping = 10021;
+        public const ushort G2C_Ping = 10022;
+        public const ushort C2G_Benchmark = 10023;
+        public const ushort G2C_Benchmark = 10024;
+        public const ushort Main2NetLobbyLogin = 10025;
+        public const ushort NetLobby2MainLogin = 10026;
+        public const ushort C2A_Login = 10027;
+        public const ushort A2C_Login = 10028;
+        public const ushort C2L_LoginLobby = 10029;
+        public const ushort L2C_LoginLobby = 10030;
+        public const ushort G2C_SessionDisconnect = 10031;
+        public const ushort HttpGetRouterResponse = 10032;
+        public const ushort SyncDataUnitStruct = 10033;
+        public const ushort DataUnitBytes = 10034;
+        public const ushort C2L_GetAllDataUnits = 10035;
+        public const ushort L2C_GetAllDataUnits = 10036;
+        public const ushort L2C_SyncDirtyDataUnits = 10037;
+        public const ushort RoleInfoUnitData = 10038;
+        public const ushort C2L_StartMatchBattle = 10039;
+        public const ushort L2C_StartMatchBattle = 10040;
+        public const ushort L2C_MatchBattleSuccess = 10041;
     }
 }

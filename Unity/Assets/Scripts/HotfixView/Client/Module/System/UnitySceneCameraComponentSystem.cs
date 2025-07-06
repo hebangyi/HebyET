@@ -16,10 +16,23 @@ namespace ET.Client
         [EntitySystem]
         private static void LateUpdate(this UnitySceneCameraComponent self)
         {
-            // TODO 跟随 Unit 的相对位置
             // TODO 研究一下需不需要控制频率
-            self.MainCamera.transform.position = self.OffsetPosition;
-            self.MainCamera.transform.LookAt(new float3(0f, 0f, 0f));
+            UnitEntity flowUnitEntity = self.FlowUnitEntity;
+            if (flowUnitEntity != null)
+            {
+                var unitEntityPosition = flowUnitEntity.GetUnitEntityElemData<UnitEntityPosition>();
+                if (unitEntityPosition != null)
+                {
+                    var position = new float3(unitEntityPosition.Position.x, unitEntityPosition.Position.y, unitEntityPosition.Position.z);
+                    self.MainCamera.transform.position = position + self.OffsetPosition;
+                    self.MainCamera.transform.LookAt(position);
+                }
+            }
+        }
+
+        public static void SetFlowUnitEntity(this UnitySceneCameraComponent self, UnitEntity unitEntity)
+        {
+            self.FlowUnitEntity = unitEntity;
         }
     }
 }

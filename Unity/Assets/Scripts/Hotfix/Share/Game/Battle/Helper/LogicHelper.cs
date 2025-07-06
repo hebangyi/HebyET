@@ -7,7 +7,7 @@ namespace ET
     {
         public static void Tick(this World self)
         {
-            var comId2Logics = BattleUnitEntityDataLogicManagerComponent.Instance.CompId2TickLogics;
+            var comId2Logics = BattleUnitEntityLogicManagerComponent.Instance.CompId2TickLogics;
             foreach (var comId2LogicsKv in comId2Logics)
             {
                 var logicHandlers = comId2LogicsKv.Value;
@@ -39,7 +39,11 @@ namespace ET
             var obj = methodInfo.Invoke(null, new object[]{true});
             T instance = (T)obj;
             self.UnitEntityData[componentId] = instance;
-            world.PublishEvent(new CreateUnitEntityElementData(){UnitEntity = self, UnitEntityElemData = instance, ComponentId = componentId});
+
+            if (world.AllEntity.ContainsKey(self.InsId))
+            {
+                world.PublishEvent(new CreateUnitEntityElementData(){UnitEntity = self, UnitEntityElemData = instance, ComponentId = componentId});    
+            }
             return instance;
         }
     }
