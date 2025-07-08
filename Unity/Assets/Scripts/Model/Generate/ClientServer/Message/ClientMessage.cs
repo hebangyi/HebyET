@@ -919,16 +919,15 @@ this._MoveAngle = default;
 
     // 1.玩家移动
     [MemoryPackable]
-    [Message(ClientMessage.C2B_PlayerMoveOperation)]
-    [ResponseType(nameof(B2C_PlayerMoveOperation))]
-    public partial class C2B_PlayerMoveOperation : MessageObject, IClientRequest
+    [Message(ClientMessage.C2B_PlayerMoveOperationMessage)]
+    public partial class C2B_PlayerMoveOperationMessage : MessageObject, IClientMessage
     {
         private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
-        public static C2B_PlayerMoveOperation Create(bool isFromPool = false)
+        public static C2B_PlayerMoveOperationMessage Create(bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(C2B_PlayerMoveOperation), isFromPool) as C2B_PlayerMoveOperation;
+            return ObjectPool.Instance.Fetch(typeof(C2B_PlayerMoveOperationMessage), isFromPool) as C2B_PlayerMoveOperationMessage;
         }
 
         [MemoryPackOrder(0)]
@@ -938,7 +937,7 @@ this._MoveAngle = default;
         /// 移动角度
         /// </summary>
         [MemoryPackOrder(1)]
-        public short MoveAngle { get; set; }
+        public int MoveAngle { get; set; }
 
         public override void Dispose()
         {
@@ -949,42 +948,6 @@ this._MoveAngle = default;
 
             this.RpcId = default;
             this.MoveAngle = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.B2C_PlayerMoveOperation)]
-    public partial class B2C_PlayerMoveOperation : MessageObject, IClientResponse
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static B2C_PlayerMoveOperation Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(B2C_PlayerMoveOperation), isFromPool) as B2C_PlayerMoveOperation;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public int Error { get; set; }
-
-        [MemoryPackOrder(2)]
-        public string Message { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1816,28 +1779,27 @@ this._MoveAngle = default;
         public const ushort B2C_Login = 10018;
         public const ushort C2B_PlayerReadyCompleted = 10019;
         public const ushort B2C_PlayerReadyCompleted = 10020;
-        public const ushort C2B_PlayerMoveOperation = 10021;
-        public const ushort B2C_PlayerMoveOperation = 10022;
-        public const ushort C2G_Ping = 10023;
-        public const ushort G2C_Ping = 10024;
-        public const ushort C2G_Benchmark = 10025;
-        public const ushort G2C_Benchmark = 10026;
-        public const ushort Main2NetLobbyLogin = 10027;
-        public const ushort NetLobby2MainLogin = 10028;
-        public const ushort C2A_Login = 10029;
-        public const ushort A2C_Login = 10030;
-        public const ushort C2L_LoginLobby = 10031;
-        public const ushort L2C_LoginLobby = 10032;
-        public const ushort G2C_SessionDisconnect = 10033;
-        public const ushort HttpGetRouterResponse = 10034;
-        public const ushort SyncDataUnitStruct = 10035;
-        public const ushort DataUnitBytes = 10036;
-        public const ushort C2L_GetAllDataUnits = 10037;
-        public const ushort L2C_GetAllDataUnits = 10038;
-        public const ushort L2C_SyncDirtyDataUnits = 10039;
-        public const ushort RoleInfoUnitData = 10040;
-        public const ushort C2L_StartMatchBattle = 10041;
-        public const ushort L2C_StartMatchBattle = 10042;
-        public const ushort L2C_MatchBattleSuccess = 10043;
+        public const ushort C2B_PlayerMoveOperationMessage = 10021;
+        public const ushort C2G_Ping = 10022;
+        public const ushort G2C_Ping = 10023;
+        public const ushort C2G_Benchmark = 10024;
+        public const ushort G2C_Benchmark = 10025;
+        public const ushort Main2NetLobbyLogin = 10026;
+        public const ushort NetLobby2MainLogin = 10027;
+        public const ushort C2A_Login = 10028;
+        public const ushort A2C_Login = 10029;
+        public const ushort C2L_LoginLobby = 10030;
+        public const ushort L2C_LoginLobby = 10031;
+        public const ushort G2C_SessionDisconnect = 10032;
+        public const ushort HttpGetRouterResponse = 10033;
+        public const ushort SyncDataUnitStruct = 10034;
+        public const ushort DataUnitBytes = 10035;
+        public const ushort C2L_GetAllDataUnits = 10036;
+        public const ushort L2C_GetAllDataUnits = 10037;
+        public const ushort L2C_SyncDirtyDataUnits = 10038;
+        public const ushort RoleInfoUnitData = 10039;
+        public const ushort C2L_StartMatchBattle = 10040;
+        public const ushort L2C_StartMatchBattle = 10041;
+        public const ushort L2C_MatchBattleSuccess = 10042;
     }
 }

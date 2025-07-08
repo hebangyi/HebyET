@@ -1,5 +1,6 @@
 using System;
 using FairyGUI;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace ET.Client
@@ -62,16 +63,15 @@ namespace ET.Client
             // + (int)self.MainCamera.transform.eulerAngles.y
             
             Vector2 indicator = newPoint - self.OnTouchBeginPoint;
-            int angle = (int)(Mathf.Atan2(indicator.y, indicator.x) * Mathf.Rad2Deg);
+            int angle = (int)(Mathf.Atan2(-indicator.y, indicator.x) * Mathf.Rad2Deg);
             self.View.angle.text = angle.ToString();
-
-
             self.lastMoveAngle = angle;
+
+            self.SetOperation(angle);
         }
 
         public static void OnTouchEnd(this DlgFGUIBattleOperationMainView self, EventContext context)
         {
-            
             self.View.OpButton.YaoGanBg1.alpha = 1f;
             self.View.OpButton.YaoGanBg2.alpha = 1f;
             self.View.OpButton.YaoGanBg3.alpha = 1f;
@@ -83,7 +83,15 @@ namespace ET.Client
             self.View.OpButton.TouchArea.y = self.InitTouchAreaY;
             self.View.OpButton.YaoGanImg.x = self.InitYaoGanX;
             self.View.OpButton.YaoGanImg.y = self.InitYaoGanY;
-            self.lastMoveAngle = -1;
+            self.lastMoveAngle = -1000;
+            
+            self.SetOperation(self.lastMoveAngle);
+        }
+
+        public static void SetOperation(this DlgFGUIBattleOperationMainView self, int angle)
+        {
+            var operaComponent = UnitySceneManagerComponent.Instance.UnityScene?.GetComponent<OperaComponent>();
+            operaComponent?.SetOperaMoveAngle(angle);
         }
         
         

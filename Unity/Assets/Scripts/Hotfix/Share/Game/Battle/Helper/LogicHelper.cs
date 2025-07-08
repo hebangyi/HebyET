@@ -8,7 +8,7 @@ namespace ET
         public static void Tick(this World self)
         {
             self.Frame++;
-            Log.Info($"World Id : {self.Id} Tick Frame: {self.Frame}");
+            // Log.Info($"World Id : {self.Id} Tick Frame: {self.Frame}");
             foreach (var comId2LogicsKv in BattleUnitEntityLogicManagerComponent.Instance.Type2TickLogics)
             {
                 var logicHandler = comId2LogicsKv.Value;
@@ -41,5 +41,39 @@ namespace ET
             self.UnitEntityData[componentId] = instance;
             return instance;
         }
+
+        public static T CreateUnitEntityLogicElemData<T>(this UnitEntity self) where T : class, IUnitEntityLogicElemData
+        {
+            var world = self.GetParent<World>();
+            if (world.WorldMode != WorldMode.Logic)
+            {
+                Log.Error("this world is not server , can not create entity element data");
+                return default;
+            }
+            Type type = typeof(T);
+            if (self.UnitEntityLogicData.ContainsKey(type))
+            {
+                Log.Error("this world component id is already exist, can not create entity element data");
+                return default;
+            }
+
+            var logicElemData = Activator.CreateInstance(type) as IUnitEntityLogicElemData;
+            if (logicElemData == null)
+            {
+                return null;
+            }
+            
+            self.UnitEntityLogicData[type] = logicElemData;
+            return (T)logicElemData;
+        }
+        
+        
+        public static T GetUnitEntityLogicElemData<T>(this UnitEntity self) where T : class, IUnitEntityLogicElemData
+        {
+            Type type = typeof(T);
+            T elemData = self.UnitEntityLogicData.GetValueOrDefault(type) as T;
+            return elemData;
+        }
+        
     }
 }

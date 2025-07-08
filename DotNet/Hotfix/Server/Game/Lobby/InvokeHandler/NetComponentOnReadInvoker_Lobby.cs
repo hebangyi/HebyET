@@ -27,6 +27,7 @@ namespace ET.Server
                     break;
                 }
                 case IClientRequest:
+                case IClientMessage:
                 {
                     Entity entity = null;
                     if (root.SceneType == SceneType.Lobby)

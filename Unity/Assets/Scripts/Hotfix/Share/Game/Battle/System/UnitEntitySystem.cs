@@ -11,6 +11,7 @@ namespace ET
         private static void Awake(this UnitEntity self)
         {
             self.UnitEntityData = ObjectPool.Instance.Fetch<Dictionary<ushort, IUnitEntityElemData>>();
+            self.UnitEntityLogicData = ObjectPool.Instance.Fetch<Dictionary<Type, IUnitEntityLogicElemData>>();
         }
 
         [EntitySystem]
@@ -35,7 +36,12 @@ namespace ET
             self.UnitEntityData.Clear();
             objectPool.Recycle(self.UnitEntityData);
             self.UnitEntityData = null;
-
+            
+            
+            self.UnitEntityLogicData.Clear();
+            objectPool.Recycle(self.UnitEntityLogicData);
+            self.UnitEntityLogicData = null;
+            
             self.Dispose();
         }
     }

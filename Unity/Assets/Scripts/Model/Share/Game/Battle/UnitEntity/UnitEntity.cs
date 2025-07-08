@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ET
 {
@@ -8,7 +9,8 @@ namespace ET
         public long InsId;
         // componentId 对应的 组件数据
         public Dictionary<ushort, IUnitEntityElemData> UnitEntityData;
-
+        public Dictionary<Type, IUnitEntityLogicElemData> UnitEntityLogicData;
+        
 
         public World World
         {

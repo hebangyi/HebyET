@@ -4,6 +4,6 @@
     <text id="n0_i52o" name="title" xy="814,419" size="398,136" fontSize="50" autoSize="none" text="Batte View&#xA;"/>
     <component id="n1_i52o" name="BattleButton" src="i52o6" fileName="FGUIBattleButton.xml" xy="1541,762" size="250,250"/>
     <component id="n2_i52o" name="OpButton" src="i52o1" fileName="FGUIOperateButton.xml" xy="100,600"/>
-    <text id="n3_i52o" name="angle" xy="545,711" size="155,108" fontSize="24" autoSize="none" text=""/>
+    <text id="n3_i52o" name="angle" xy="540,711" size="836,108" fontSize="60" autoSize="none" text="发生的发生"/>
   </displayList>
 </component>

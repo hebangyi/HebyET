@@ -41,7 +41,6 @@ message UnitEntityPosition // IUnitEntityElemData
 {
     Unity.Mathematics.float3 Position = 1;
     Unity.Mathematics.float3 Forward = 2;
-    
 }
 
 
@@ -169,18 +168,10 @@ message B2C_PlayerReadyCompleted
 }
 
 // 1.玩家移动
-// ResponseType B2C_PlayerMoveOperation
-message C2B_PlayerMoveOperation // IClientRequest
+message C2B_PlayerMoveOperationMessage // IClientMessage
 {
     int32 RpcId = 1;
-    short MoveAngle = 2;        // 移动角度 
-}
-
-message B2C_PlayerMoveOperation // IClientResponse
-{
-    int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
+    int32 MoveAngle = 2;        // 移动角度 
 }
 
 // 未登录的常规协议

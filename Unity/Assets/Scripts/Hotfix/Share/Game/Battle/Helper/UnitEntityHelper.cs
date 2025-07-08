@@ -13,7 +13,7 @@ namespace ET
             return self.UnitEntityData.ContainsKey(componentId);
         }
 
-        public static T GetUnitEntityElemData<T>(this UnitEntity self) where T : class
+        public static T GetUnitEntityElemData<T>(this UnitEntity self) where T : class, IUnitEntityElemData
         {
             Type type = typeof(T);
             var componentId = OpcodeType.Instance.GetOpcode(type);

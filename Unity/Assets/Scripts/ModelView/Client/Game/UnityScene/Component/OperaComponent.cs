@@ -4,11 +4,10 @@ using UnityEngine;
 
 namespace ET.Client
 {
-	[ComponentOf(typeof(Scene))]
+	[ComponentOf(typeof(UnityScene))]
 	public class OperaComponent: Entity, IAwake, IUpdate
-    {
-        public Vector3 ClickPoint;
-
-	    public int mapMask;
-    }
+	{
+		public int lastAngel = -1000;
+		public int targetAngel = -1000;
+	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ET
 {
@@ -10,12 +11,14 @@ namespace ET
             ClientMessage.G2C_Ping, 
             ClientMessage.C2G_Benchmark, 
             ClientMessage.G2C_Benchmark,
+            ClientMessage.L2C_PlayerAOIWorldDirtyPush,
         };
 
         public void Awake()
         {
         }
 
+        [Conditional("DEBUG")]
         public void Debug(Fiber fiber, object msg)
         {
             ushort opcode = OpcodeType.Instance.GetOpcode(msg.GetType());

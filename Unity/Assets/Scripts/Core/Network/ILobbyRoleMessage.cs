@@ -9,7 +9,7 @@
     {
     }
 
-    public interface IClientMessage: ILocationRequest
+    public interface IClientMessage: IMessage
     {
     }
 }
