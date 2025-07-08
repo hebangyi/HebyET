@@ -19,7 +19,6 @@
             var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
             if (unitEntityGameObjectComponent != null && unitEntityGameObjectComponent.GameObject)
             {
-                Log.Info("更新GameObject Position");
                 unitEntityGameObjectComponent.GameObject.transform.position = unitEntityPosition.Position;
             }
         }

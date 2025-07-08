@@ -30,7 +30,6 @@ namespace ET.Client
         
         public async ETTask CreatePlayer(UnitEntity unitEntity)
         {
-            Log.Info("创建角色Entity");
             string assetsName = $"Assets/Bundles/Unit/Unit.prefab";
             GameObject bundleGameObject = await unitEntity.Root().GetComponent<ResourcesLoaderComponent>().LoadAssetAsync<GameObject>(assetsName);
             GameObject playerGameObject = bundleGameObject.Get<GameObject>("Skeleton");
@@ -40,6 +39,7 @@ namespace ET.Client
 
             var unitEntityGameObjectComponent = unitEntity.TryAddComponent<UnitEntityGameObjectComponent>();
             unitEntityGameObjectComponent.GameObject = go;
+            go.name = $"Player_{unitEntity.InsId}";
             go.transform.position = new Vector3(unitEntityPosition.Position.x, unitEntityPosition.Position.y, unitEntityPosition.Position.z);
         }
     }    
