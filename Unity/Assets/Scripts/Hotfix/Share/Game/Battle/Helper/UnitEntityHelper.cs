@@ -28,9 +28,29 @@ namespace ET
 
             foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
             {
-                battleUnitEntity.UnitEntityElemDatas[unitEntityElemDataKv.Key] = MemoryPackHelper.Serialize(unitEntityElemDataKv.Value);
+                var unitEntityElemData = UnitEntityElemData.Create();
+                unitEntityElemData.CompId = unitEntityElemDataKv.Key;
+                unitEntityElemData.ElemDatas = MemoryPackHelper.Serialize(unitEntityElemDataKv.Value);
+                battleUnitEntity.EleDatas.Add(unitEntityElemData);
             }
             return battleUnitEntity;
         }
+
+        public static BattleUnitEntity ToBattleUnitEntity(this SyncDirtyUnitEntity syncDirtyUnitEntity)
+        {
+            BattleUnitEntity battleUnitEntity = BattleUnitEntity.Create();
+            battleUnitEntity.InsId = syncDirtyUnitEntity.InsId;
+            
+            foreach (var unitEntityElemDataKv in syncDirtyUnitEntity.DirtyElemDatas)
+            {
+                var unitEntityElemData = UnitEntityElemData.Create();
+                unitEntityElemData.CompId = unitEntityElemDataKv.Key;
+                unitEntityElemData.ElemDatas = MemoryPackHelper.Serialize(unitEntityElemDataKv.Value);
+                battleUnitEntity.EleDatas.Add(unitEntityElemData);
+            }
+            
+            return battleUnitEntity;
+        }
+        
     }
 }

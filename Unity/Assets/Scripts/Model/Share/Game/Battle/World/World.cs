@@ -15,6 +15,9 @@ namespace ET
     public partial class World : Entity, IAwake<int>
     {
         public IDirtyHandler DirtyHandler;
+        public ISyncHandler SyncHandler;
+        
+        
         public WorldMode WorldMode { get; set; } = WorldMode.None;
         // 当前世界逻辑帧
         public uint Frame = 1;
@@ -25,26 +28,6 @@ namespace ET
         // 世界状态
         public WorldStatusEnum WorldStatusEnum = WorldStatusEnum.Init;
         
-        
-        
-        
-        
         public Dictionary<long, UnitEntity> AllEntity = new ();
-        
-        
-        
-        //// 逻辑端数据
-        // 玩家数据 PlayerId 2 Entity
-        public Dictionary<long, UnitEntity> AllPlayers = new();
-        // 逻辑帧脏数据
-        // TODO AOI机制
-        public Dictionary<long, SyncDirtyUnitEntity> DirtyUnitEntities = new ();
-        
-        
-        
-        //// 客户端显示数据
-        public UnitEntity MyPlayer;
-        public Dictionary<long, UnitEntity> ViewAllPlayers = new();
-        
     }
 }

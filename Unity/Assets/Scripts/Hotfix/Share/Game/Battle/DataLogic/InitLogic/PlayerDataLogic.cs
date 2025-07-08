@@ -18,9 +18,9 @@ namespace ET
             unitEntity.World.AllPlayers.Remove(playerInfo.PlayerId);
         }
 
-        public ushort[] WatchComponentIds()
+        public ushort WatchComponentId()
         {
-            return new []{OpcodeType.Instance.GetOpcode(typeof(UnitEntityPlayerInfo))};
+            return OpcodeType.Instance.GetOpcode(typeof(UnitEntityPlayerInfo));
         }
     }
 }

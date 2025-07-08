@@ -6,7 +6,7 @@
     
     public interface IViewLogic
     {
-        ushort[] WatchComponentIds();
+        
     }
     
     public interface IUnitEntityViewInitLogic : IViewLogic
@@ -16,12 +16,16 @@
 
         // 在销毁的时候触发
         void OnDestroy(UnitEntity unitEntity);
+        
+        // 监听的 ComponentId
+        ushort WatchComponentId();
     }
 
 
     public interface IUnitEntityViewElementDataUpdateLogic : IViewLogic
     {
+        ushort WatchComponentId();
         public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData);
     }
+    
 }
-

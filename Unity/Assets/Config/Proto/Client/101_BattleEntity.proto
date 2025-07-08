@@ -17,17 +17,10 @@ message BattleWorld
 message BattleUnitEntity
 {
     int64 InsId = 1;                              // Unit 实例id
-    map<ushort, bytes> UnitEntityElemDatas = 2;   // 实体组件数据
+    repeated UnitEntityElemData EleDatas = 2;     // 数据项
 }
 
-// 脏数据变动
-message DirtyUnitEntity
-{
-    int64 InsId = 1;                              // 实例id
-    repeated DirtyUnitElemData EleDatas = 2;      // 组件数据集合
-}
-
-message DirtyUnitElemData
+message UnitEntityElemData
 {
     ushort CompId = 1;                  // 组件id
     bytes ElemDatas = 2;                // element数据

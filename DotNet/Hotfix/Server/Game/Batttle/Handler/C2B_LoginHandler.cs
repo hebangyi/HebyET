@@ -26,7 +26,7 @@
 
             Scene root = session.Root();
             BattleRoleComponent battleRoleComponent = root.GetComponent<BattleRoleComponent>();
-            var battleRole = battleRoleComponent.GetById(playerId);
+            var battleRole = battleRoleComponent.GetByRoleId(playerId);
             if (battleRole == null)
             {
                 battleRole = battleRoleComponent.Add(playerId);

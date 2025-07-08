@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ET.Client;
 
 namespace ET.Server;
 
@@ -15,6 +16,12 @@ public static partial class BattleWorldManagerComponentSystem
     {
         var world = self.AddChild<World, int>((int)WorldMode.Logic);
         world.WorldStatusEnum = WorldStatusEnum.Init;
+
+        var syncPlayerDirtyBattleDataHandler = new SyncPlayerDirtyBattleDataHandler(world, SyncDirtyBattleData);
+        var logicDirtyHandler = new LogicDirtyHandler(world);
+        
+        world.InitDirtyHandler(logicDirtyHandler);
+        world.InitSyncHandler(syncPlayerDirtyBattleDataHandler);
         
         // 创建玩家
         foreach (var matchOrder in matchRoom.MatchOrders)
@@ -29,11 +36,31 @@ public static partial class BattleWorldManagerComponentSystem
         return world;
     }
 
-    public static void Test(IUnitEntityElemData elemData)
+    public static void SyncDirtyBattleData(World world)
     {
-        
+        if (world.DirtyUnitEntities.Count == 0)
+        {
+            return;
+        }
+
+        L2C_PlayerAOIWorldDirtyPush message = L2C_PlayerAOIWorldDirtyPush.Create();
+        foreach (var dirtyUnitEntityKv in world.DirtyUnitEntities)
+        {
+            var battleUnitEntity = dirtyUnitEntityKv.Value.ToBattleUnitEntity();
+            message.DirtyUnitEntities.Add(battleUnitEntity);
+        }
+
+        foreach (var playerId in world.AllPlayers.Keys)
+        {
+            var battleRole = BattleRoleComponent.Instance.GetByRoleId(playerId);
+            if (battleRole != null)
+            {
+                battleRole.SendToClient(message);
+            }
+        }
+
+        world.DirtyUnitEntities.Clear();
     }
-    
     
     
     [EntitySystem]

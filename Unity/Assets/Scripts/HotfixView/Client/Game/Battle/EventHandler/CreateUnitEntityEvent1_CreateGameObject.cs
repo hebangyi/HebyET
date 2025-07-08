@@ -35,10 +35,11 @@ namespace ET.Client
             GameObject bundleGameObject = await unitEntity.Root().GetComponent<ResourcesLoaderComponent>().LoadAssetAsync<GameObject>(assetsName);
             GameObject playerGameObject = bundleGameObject.Get<GameObject>("Skeleton");
 
-            var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
-            
-            
             GameObject go = UnityEngine.Object.Instantiate(playerGameObject, GlobalComponent.Instance.Unit, true);
+            var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
+
+            var unitEntityGameObjectComponent = unitEntity.TryAddComponent<UnitEntityGameObjectComponent>();
+            unitEntityGameObjectComponent.GameObject = go;
             go.transform.position = new Vector3(unitEntityPosition.Position.x, unitEntityPosition.Position.y, unitEntityPosition.Position.z);
         }
     }    

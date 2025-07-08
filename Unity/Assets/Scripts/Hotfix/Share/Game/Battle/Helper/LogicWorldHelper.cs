@@ -5,42 +5,27 @@ namespace ET
     public  static partial class LogicWorldHelper
     {
         public static UnitEntity 
-                CreateEntity(this World self, UnitEntity unitEntity)
-        {
-            unitEntity.InsId = unitEntity.InstanceId;
-            self.AllEntity[unitEntity.InsId] = unitEntity;
-            self.PublishEvent(new CreateUnitEntityEvent0(){UnitEntity = unitEntity});
-            self.PublishEvent(new CreateUnitEntityEvent1(){UnitEntity = unitEntity});
-            self.PublishEvent(new CreateUnitEntityEvent2(){UnitEntity = unitEntity});
-            return unitEntity;
-        }
-        
-        public static UnitEntity CreateEntity(this World self, BattleUnitEntity battleUnitEntity)
+                CreateEntity(this World self)
         {
             var unitEntity = self.AddChild<UnitEntity>();
-            unitEntity.InsId = battleUnitEntity.InsId;
+            unitEntity.InsId = unitEntity.InstanceId;
             self.AllEntity[unitEntity.InsId] = unitEntity;
-            foreach (var unitEntityElemDataKv in battleUnitEntity.UnitEntityElemDatas)
-            {
-                var componentId = unitEntityElemDataKv.Key;
-                var unitElemType = OpcodeType.Instance.GetType(componentId);
-                if (unitElemType == null)
-                {
-                    Log.Error($"没有找到UnitEntity 组件 {componentId} 对应的数据类型");
-                    continue;
-                }
-                
-                var unitEntityElemData = MemoryPackHelper.Deserialize(unitElemType, unitEntityElemDataKv.Value, 0, unitEntityElemDataKv.Value.Length) as IUnitEntityElemData;
-                unitEntity.UnitEntityData[unitEntityElemDataKv.Key] = unitEntityElemData;
-            }
-            
+            return unitEntity;
+        }
+
+        public static void CreateEntityFinish(this World self, UnitEntity unitEntity)
+        {
             self.PublishEvent(new CreateUnitEntityEvent0(){UnitEntity = unitEntity});
             self.PublishEvent(new CreateUnitEntityEvent1(){UnitEntity = unitEntity});
             self.PublishEvent(new CreateUnitEntityEvent2(){UnitEntity = unitEntity});
-            return unitEntity;
+
+            foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
+            {
+                self.PublishEvent(new CreateUnitEntityElementData(){UnitEntity = unitEntity, UnitEntityElemData = unitEntityElemDataKv.Value, ComponentId = unitEntityElemDataKv.Key});
+            }
         }
         
-
+        
         public static void RemoveEntity(this World self, UnitEntity unitEntity)
         {
             self.PublishEvent(new RemoveUnitEntity(){UnitEntity = unitEntity});

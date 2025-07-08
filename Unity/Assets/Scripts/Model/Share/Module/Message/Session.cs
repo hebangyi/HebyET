@@ -149,6 +149,7 @@ namespace ET
         
         public static void Send(this Session self, ActorId actorId, IMessage message)
         {
+            // TODO 这里可能报空异常
             self.LastSendTime = TimeInfo.Instance.ClientNowMillTime();
             LogMsg.Instance.Debug(self.Fiber(), message);
 

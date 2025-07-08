@@ -14,9 +14,11 @@ namespace ET
                 var logicHandler = comId2LogicsKv.Value;
                 logicHandler.OnTick(self);
             }
+            
+            self.SyncHandler?.Sync();
         }
     
-        public static T GetOrCreateUnitEntityElemData<T>(this UnitEntity self) where T : IUnitEntityElemData
+        public static T CreateUnitEntityElemData<T>(this UnitEntity self) where T : IUnitEntityElemData
         {
             var world = self.GetParent<World>();
             if (world.WorldMode != WorldMode.Logic)
@@ -27,21 +29,16 @@ namespace ET
         
             Type type = typeof(T);
             var componentId = OpcodeType.Instance.GetOpcode(type);
-            var elemData = self.UnitEntityData.GetValueOrDefault(componentId);
-            if (elemData != null)
+            if (self.UnitEntityData.ContainsKey(componentId))
             {
-                return (T)elemData;
+                Log.Error("this world component id is already exist, can not create entity element data");
+                return default;
             }
 
             var methodInfo = type.GetMethod("Create");
             var obj = methodInfo.Invoke(null, new object[]{self.InsId, world.DirtyHandler ,true});
             T instance = (T)obj;
             self.UnitEntityData[componentId] = instance;
-
-            if (world.AllEntity.ContainsKey(self.InsId))
-            {
-                world.PublishEvent(new CreateUnitEntityElementData(){UnitEntity = self, UnitEntityElemData = instance, ComponentId = componentId});    
-            }
             return instance;
         }
     }

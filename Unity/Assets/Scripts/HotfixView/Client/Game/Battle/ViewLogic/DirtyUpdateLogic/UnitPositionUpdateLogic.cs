@@ -1,0 +1,28 @@
+﻿namespace ET.Client
+{
+    [UnitEntityViewLogic]
+    public class UnitPositionUpdateLogic : IUnitEntityViewElementDataUpdateLogic
+    {
+        public ushort WatchComponentId()
+        {
+            return OpcodeType.Instance.GetOpcode(typeof(UnitEntityPosition));
+        }
+
+        public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData)
+        {
+            var unitEntityPosition = newData as UnitEntityPosition;
+            if (unitEntityPosition == null)
+            {
+                return;
+            }
+            
+            var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
+            if (unitEntityGameObjectComponent != null && unitEntityGameObjectComponent.GameObject)
+            {
+                Log.Info("更新GameObject Position");
+                unitEntityGameObjectComponent.GameObject.transform.position = unitEntityPosition.Position;
+            }
+        }
+    }    
+}
+

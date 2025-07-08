@@ -8,7 +8,7 @@ public class BattleRoleComponent_BattleRoleOnlineEvent : AEvent<Scene, BattleRol
     protected override async ETTask Run(Scene scene, BattleRoleOnlineEvent args)
     {
         var roleId = args.RoleId;
-        BattleRole role = scene.GetComponent<BattleRoleComponent>().GetById(roleId);
+        BattleRole role = scene.GetComponent<BattleRoleComponent>().GetByRoleId(roleId);
         if (role == null)
         {
             return;
@@ -34,7 +34,7 @@ public class BattleRoleComponent_BattleRoleOffOnlineEvent : AEvent<Scene, Battle
     protected override async ETTask Run(Scene scene, BattleRoleOffOnlineEvent args)
     {
         var roleId = args.RoleId;
-        BattleRole role = scene.GetComponent<BattleRoleComponent>().GetById(roleId);
+        BattleRole role = scene.GetComponent<BattleRoleComponent>().GetByRoleId(roleId);
         if (role == null)
         {
             return;
@@ -63,7 +63,7 @@ public static class BattleRoleHelper
 
     public static BattleRole Add(this BattleRoleComponent self, long roleId)
     {
-        var battleRole = self.GetById(roleId);
+        var battleRole = self.GetByRoleId(roleId);
         if (battleRole != null)
         {
             return battleRole;
@@ -123,7 +123,7 @@ public static class BattleRoleHelper
         return role.GetComponent<BattleRoleWorldManagerComponent>()?.World;
     }
 
-    public static BattleRole GetById(this BattleRoleComponent self, long roleId)
+    public static BattleRole GetByRoleId(this BattleRoleComponent self, long roleId)
     {
         return self.BattleRoles.GetValueOrDefault(roleId);
     }

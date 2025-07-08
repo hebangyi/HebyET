@@ -22,7 +22,7 @@ namespace ET
                 m_World.DirtyUnitEntities[insId] = dirtyUnitEntity;
             }
 
-            int compId = OpcodeType.Instance.GetOpcode(elemData.GetType());
+            ushort compId = OpcodeType.Instance.GetOpcode(elemData.GetType());
             dirtyUnitEntity.DirtyElemDatas[compId] = elemData;
         }
     }
@@ -32,7 +32,8 @@ namespace ET
     public class SyncDirtyUnitEntity
     {
         public long InsId;
-        public Dictionary<int, IUnitEntityElemData> DirtyElemDatas = new ();
+        // TODO 对象池
+        public Dictionary<ushort, IUnitEntityElemData> DirtyElemDatas = new ();
     }
 }
 

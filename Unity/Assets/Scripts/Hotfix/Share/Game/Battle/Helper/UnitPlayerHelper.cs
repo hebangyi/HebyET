@@ -7,33 +7,31 @@ namespace ET
     {
         public static UnitEntity Create(World world, long playerId)
         {
-            BattleUnitEntity battleUnitEntity = BattleUnitEntity.Create();
-
-            var unitEntity = world.AddChild<UnitEntity>();
-            var unitEntityCommonData = unitEntity.GetOrCreateUnitEntityElemData<UnitEntityCommonData>();
+            var unitEntity = world.CreateEntity();
+            var unitEntityCommonData = unitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
             unitEntityCommonData.UnitEntityType = UnitEntityTypeEnum.Player;
             
-            UnitEntityInfo unitEntityInfo = unitEntity.GetOrCreateUnitEntityElemData<UnitEntityInfo>();
+            UnitEntityInfo unitEntityInfo = unitEntity.CreateUnitEntityElemData<UnitEntityInfo>();
             unitEntityInfo.UnitEntityTypeEnum = UnitEntityTypeEnum.Player;
             unitEntityInfo.ConfigId = 0;
-            unitEntityInfo.Speed = 50;
+            unitEntityInfo.Speed = 5;
         
-            var unitEntityPlayerInfo = unitEntity.GetOrCreateUnitEntityElemData<UnitEntityPlayerInfo>();
+            var unitEntityPlayerInfo = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerInfo>();
             unitEntityPlayerInfo.PlayerId = playerId;
             
-            var unitEntityPosition = unitEntity.GetOrCreateUnitEntityElemData<UnitEntityPosition>();
+            var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
             unitEntityPosition.Forward = new int3(0, 0, 1);
             unitEntityPosition.Position = new int3(50, 0, 50);
 
-            var unitEntityPlayerFrame = unitEntity.GetOrCreateUnitEntityElemData<UnitEntityPlayerFrame>();
+            var unitEntityPlayerFrame = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerFrame>();
             unitEntityPlayerFrame.Frame = world.Frame;
             
             
-            var unitEntityPlayerOperationAction = unitEntity.GetOrCreateUnitEntityElemData<UnitEntityPlayerOperationAction>();
+            var unitEntityPlayerOperationAction = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerOperationAction>();
             unitEntityPlayerOperationAction.MoveAngle = -1;
             
-            UnitEntity entity = world.CreateEntity(unitEntity);
-            return entity;
+            world.CreateEntityFinish(unitEntity);
+            return unitEntity;
         }
 
         public static UnitEntity GetPlayerUnitEntityByPlayerId(World world, long playerId)

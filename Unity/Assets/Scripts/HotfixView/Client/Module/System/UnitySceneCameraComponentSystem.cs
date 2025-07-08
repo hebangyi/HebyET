@@ -20,12 +20,11 @@ namespace ET.Client
             UnitEntity flowUnitEntity = self.FlowUnitEntity;
             if (flowUnitEntity != null)
             {
-                var unitEntityPosition = flowUnitEntity.GetUnitEntityElemData<UnitEntityPosition>();
-                if (unitEntityPosition != null)
+                var unitEntityGameObjectComponent = flowUnitEntity.GetComponent<UnitEntityGameObjectComponent>();
+                if (unitEntityGameObjectComponent != null && unitEntityGameObjectComponent.Transform)
                 {
-                    var position = new float3(unitEntityPosition.Position.x, unitEntityPosition.Position.y, unitEntityPosition.Position.z);
-                    self.MainCamera.transform.position = position + self.OffsetPosition;
-                    self.MainCamera.transform.LookAt(position);
+                    self.MainCamera.transform.position = new float3(unitEntityGameObjectComponent.Transform.position) + self.OffsetPosition;
+                    self.MainCamera.transform.LookAt(unitEntityGameObjectComponent.Transform.position);
                 }
             }
         }

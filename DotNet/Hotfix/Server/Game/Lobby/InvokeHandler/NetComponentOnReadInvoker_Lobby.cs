@@ -44,7 +44,7 @@ namespace ET.Server
                         var battleRoleComponent = root.GetComponent<BattleRoleComponent>();
                         if (sessionBattlePlayerComponent != null && battleRoleComponent != null)
                         {
-                            entity = battleRoleComponent.GetById(sessionBattlePlayerComponent.RoleId);
+                            entity = battleRoleComponent.GetByRoleId(sessionBattlePlayerComponent.RoleId);
                         }
                     }
                     

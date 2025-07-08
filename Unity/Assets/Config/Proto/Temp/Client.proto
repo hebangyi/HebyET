@@ -19,17 +19,10 @@ message BattleWorld
 message BattleUnitEntity
 {
     int64 InsId = 1;                              // Unit 实例id
-    map<ushort, bytes> UnitEntityElemDatas = 2;   // 实体组件数据
+    repeated UnitEntityElemData EleDatas = 2;     // 数据项
 }
 
-// 脏数据变动
-message DirtyUnitEntity
-{
-    int64 InsId = 1;                              // 实例id
-    repeated DirtyUnitElemData EleDatas = 2;      // 组件数据集合
-}
-
-message DirtyUnitElemData
+message UnitEntityElemData
 {
     ushort CompId = 1;                  // 组件id
     bytes ElemDatas = 2;                // element数据
@@ -122,9 +115,9 @@ message B2C_PlayerBattleWorldPing // IClientResponse
 // 3.玩家战斗脏数据推送
 message L2C_PlayerAOIWorldDirtyPush // IMessage
 {
-    uint32 startFrame = 1;                          // 开始帧数
-    uint32 endFrame = 2;                            // 解锁帧数
-    repeated DirtyUnitEntity DirtyUnitEntities = 3; // 脏数据
+    uint32 startFrame = 1;                              // 开始帧数
+    uint32 endFrame = 2;                                // 解锁帧数
+    repeated BattleUnitEntity DirtyUnitEntities = 3;    // 脏数据
 }
 
 //// 客户端Main向网络线程发送消息
