@@ -19,6 +19,7 @@ namespace ET.Client
 			self.title = (GTextField)com.GetChild("title");
 			self.BattleButton = self.AddChild<FGUIBattleButton,GObject>(com.GetChild("BattleButton"));
 			self.OpButton = self.AddChild<FGUIOperateButton,GObject>(com.GetChild("OpButton"));
+			self.angle = (GTextField)com.GetChild("angle");
 
         }
         
@@ -31,6 +32,7 @@ namespace ET.Client
 			self.BattleButton = null;
 			self.OpButton?.Dispose();
 			self.OpButton = null;
+			self.angle = null;
 
         }
     }

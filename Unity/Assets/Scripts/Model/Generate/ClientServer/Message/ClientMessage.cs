@@ -10,6 +10,9 @@ namespace ET
     [Message(ClientMessage.BattleWorld)]
     public partial class BattleWorld : MessageObject
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static BattleWorld Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(BattleWorld), isFromPool) as BattleWorld;
@@ -48,6 +51,9 @@ namespace ET
     [Message(ClientMessage.BattleUnitEntity)]
     public partial class BattleUnitEntity : MessageObject
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static BattleUnitEntity Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(BattleUnitEntity), isFromPool) as BattleUnitEntity;
@@ -84,6 +90,9 @@ namespace ET
     [Message(ClientMessage.DirtyUnitEntity)]
     public partial class DirtyUnitEntity : MessageObject
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static DirtyUnitEntity Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(DirtyUnitEntity), isFromPool) as DirtyUnitEntity;
@@ -119,6 +128,9 @@ namespace ET
     [Message(ClientMessage.DirtyUnitElemData)]
     public partial class DirtyUnitElemData : MessageObject
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static DirtyUnitElemData Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(DirtyUnitElemData), isFromPool) as DirtyUnitElemData;
@@ -157,17 +169,40 @@ namespace ET
     [Message(ClientMessage.UnitEntityCommonData)]
     public partial class UnitEntityCommonData : MessageObject, IUnitEntityElemData
     {
-        public static UnitEntityCommonData Create(bool isFromPool = false)
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static UnitEntityCommonData Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(UnitEntityCommonData), isFromPool) as UnitEntityCommonData;
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityCommonData), isFromPool) as UnitEntityCommonData;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
         }
 
+        private UnitEntityTypeEnum _UnitEntityType;
+
         [MemoryPackOrder(0)]
-        public UnitEntityTypeEnum UnitEntityType { get; set; }
+        public UnitEntityTypeEnum UnitEntityType
+        {
+            get => _UnitEntityType;
+            set {
+                _UnitEntityType = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        private Dictionary<string, string> _Datas = new();
 
         [MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
         [MemoryPackOrder(1)]
-        public Dictionary<string, string> Datas { get; set; } = new();
+        public Dictionary<string, string> Datas 
+        {
+            get => _Datas;
+            set {
+                _Datas = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
         public override void Dispose()
         {
             if (!this.IsFromPool)
@@ -175,8 +210,12 @@ namespace ET
                 return;
             }
 
-            this.UnitEntityType = default;
-            this.Datas.Clear();
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+            
+this._UnitEntityType = default;
+            this._Datas.Clear();
+            
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -186,17 +225,39 @@ namespace ET
     [Message(ClientMessage.UnitEntityPosition)]
     public partial class UnitEntityPosition : MessageObject, IUnitEntityElemData
     {
-        public static UnitEntityPosition Create(bool isFromPool = false)
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static UnitEntityPosition Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(UnitEntityPosition), isFromPool) as UnitEntityPosition;
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityPosition), isFromPool) as UnitEntityPosition;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
         }
 
+        private Unity.Mathematics.float3 _Position;
+
         [MemoryPackOrder(0)]
-        public Unity.Mathematics.int3 Position { get; set; }
+        public Unity.Mathematics.float3 Position
+        {
+            get => _Position;
+            set {
+                _Position = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        private Unity.Mathematics.float3 _Forward;
 
         [MemoryPackOrder(1)]
-        public Unity.Mathematics.int3 Forward { get; set; }
-
+        public Unity.Mathematics.float3 Forward
+        {
+            get => _Forward;
+            set {
+                _Forward = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
         public override void Dispose()
         {
             if (!this.IsFromPool)
@@ -204,8 +265,11 @@ namespace ET
                 return;
             }
 
-            this.Position = default;
-            this.Forward = default;
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+            
+this._Position = default;
+            this._Forward = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -216,23 +280,59 @@ namespace ET
     [Message(ClientMessage.UnitEntityInfo)]
     public partial class UnitEntityInfo : MessageObject, IUnitEntityElemData
     {
-        public static UnitEntityInfo Create(bool isFromPool = false)
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static UnitEntityInfo Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(UnitEntityInfo), isFromPool) as UnitEntityInfo;
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityInfo), isFromPool) as UnitEntityInfo;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
         }
 
         /// <summary>
         /// 实体类型
         /// </summary>
-        [MemoryPackOrder(0)]
-        public UnitEntityTypeEnum UnitEntityTypeEnum { get; set; }
+        private UnitEntityTypeEnum _UnitEntityTypeEnum;
 
+        [MemoryPackOrder(0)]
+        public UnitEntityTypeEnum UnitEntityTypeEnum
+        {
+            get => _UnitEntityTypeEnum;
+            set {
+                _UnitEntityTypeEnum = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
         /// <summary>
         /// 配置ID
         /// </summary>
-        [MemoryPackOrder(1)]
-        public int ConfigId { get; set; }
+        private int _ConfigId;
 
+        [MemoryPackOrder(1)]
+        public int ConfigId
+        {
+            get => _ConfigId;
+            set {
+                _ConfigId = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        /// <summary>
+        /// 移动速度
+        /// </summary>
+        private int _Speed;
+
+        [MemoryPackOrder(2)]
+        public int Speed
+        {
+            get => _Speed;
+            set {
+                _Speed = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
         public override void Dispose()
         {
             if (!this.IsFromPool)
@@ -240,8 +340,12 @@ namespace ET
                 return;
             }
 
-            this.UnitEntityTypeEnum = default;
-            this.ConfigId = default;
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+            
+this._UnitEntityTypeEnum = default;
+            this._ConfigId = default;
+            this._Speed = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -252,29 +356,59 @@ namespace ET
     [Message(ClientMessage.UnitEntityPlayerInfo)]
     public partial class UnitEntityPlayerInfo : MessageObject, IUnitEntityElemData
     {
-        public static UnitEntityPlayerInfo Create(bool isFromPool = false)
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static UnitEntityPlayerInfo Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerInfo), isFromPool) as UnitEntityPlayerInfo;
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerInfo), isFromPool) as UnitEntityPlayerInfo;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
         }
 
         /// <summary>
         /// 玩家ID
         /// </summary>
-        [MemoryPackOrder(0)]
-        public long PlayerId { get; set; }
+        private long _PlayerId;
 
+        [MemoryPackOrder(0)]
+        public long PlayerId
+        {
+            get => _PlayerId;
+            set {
+                _PlayerId = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
         /// <summary>
         /// 是否在线
         /// </summary>
-        [MemoryPackOrder(1)]
-        public bool IsOnline { get; set; }
+        private bool _IsOnline;
 
+        [MemoryPackOrder(1)]
+        public bool IsOnline
+        {
+            get => _IsOnline;
+            set {
+                _IsOnline = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
         /// <summary>
         /// 上次登录时间
         /// </summary>
-        [MemoryPackOrder(2)]
-        public long LastLoginTime { get; set; }
+        private long _LastLoginTime;
 
+        [MemoryPackOrder(2)]
+        public long LastLoginTime
+        {
+            get => _LastLoginTime;
+            set {
+                _LastLoginTime = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
         public override void Dispose()
         {
             if (!this.IsFromPool)
@@ -282,9 +416,12 @@ namespace ET
                 return;
             }
 
-            this.PlayerId = default;
-            this.IsOnline = default;
-            this.LastLoginTime = default;
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+            
+this._PlayerId = default;
+            this._IsOnline = default;
+            this._LastLoginTime = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -295,17 +432,31 @@ namespace ET
     [Message(ClientMessage.UnitEntityPlayerFrame)]
     public partial class UnitEntityPlayerFrame : MessageObject, IUnitEntityElemData
     {
-        public static UnitEntityPlayerFrame Create(bool isFromPool = false)
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static UnitEntityPlayerFrame Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerFrame), isFromPool) as UnitEntityPlayerFrame;
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerFrame), isFromPool) as UnitEntityPlayerFrame;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
         }
 
         /// <summary>
         /// 当前玩家的帧率
         /// </summary>
-        [MemoryPackOrder(0)]
-        public uint Frame { get; set; }
+        private uint _Frame;
 
+        [MemoryPackOrder(0)]
+        public uint Frame
+        {
+            get => _Frame;
+            set {
+                _Frame = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
         public override void Dispose()
         {
             if (!this.IsFromPool)
@@ -313,7 +464,56 @@ namespace ET
                 return;
             }
 
-            this.Frame = default;
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+            
+this._Frame = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 玩家操作
+    [MemoryPackable]
+    [Message(ClientMessage.UnitEntityPlayerOperationAction)]
+    public partial class UnitEntityPlayerOperationAction : MessageObject, IUnitEntityElemData
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static UnitEntityPlayerOperationAction Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        {
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerOperationAction), isFromPool) as UnitEntityPlayerOperationAction;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
+        }
+
+        /// <summary>
+        /// 操作角度
+        /// </summary>
+        private short _MoveAngle;
+
+        [MemoryPackOrder(0)]
+        public short MoveAngle
+        {
+            get => _MoveAngle;
+            set {
+                _MoveAngle = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+            
+this._MoveAngle = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -328,6 +528,9 @@ namespace ET
     [ResponseType(nameof(B2C_PlayerGetAllAOIWorldData))]
     public partial class C2B_PlayerGetAllAOIWorldData : MessageObject, IClientRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static C2B_PlayerGetAllAOIWorldData Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(C2B_PlayerGetAllAOIWorldData), isFromPool) as C2B_PlayerGetAllAOIWorldData;
@@ -353,6 +556,9 @@ namespace ET
     [Message(ClientMessage.B2C_PlayerGetAllAOIWorldData)]
     public partial class B2C_PlayerGetAllAOIWorldData : MessageObject, IClientResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static B2C_PlayerGetAllAOIWorldData Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(B2C_PlayerGetAllAOIWorldData), isFromPool) as B2C_PlayerGetAllAOIWorldData;
@@ -400,6 +606,9 @@ namespace ET
     [ResponseType(nameof(B2C_PlayerBattleWorldPing))]
     public partial class C2B_PlayerBattleWorldPing : MessageObject, IClientRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static C2B_PlayerBattleWorldPing Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(C2B_PlayerBattleWorldPing), isFromPool) as C2B_PlayerBattleWorldPing;
@@ -429,6 +638,9 @@ namespace ET
     [Message(ClientMessage.B2C_PlayerBattleWorldPing)]
     public partial class B2C_PlayerBattleWorldPing : MessageObject, IClientResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static B2C_PlayerBattleWorldPing Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(B2C_PlayerBattleWorldPing), isFromPool) as B2C_PlayerBattleWorldPing;
@@ -474,6 +686,9 @@ namespace ET
     [Message(ClientMessage.L2C_PlayerAOIWorldDirtyPush)]
     public partial class L2C_PlayerAOIWorldDirtyPush : MessageObject, IMessage
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static L2C_PlayerAOIWorldDirtyPush Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(L2C_PlayerAOIWorldDirtyPush), isFromPool) as L2C_PlayerAOIWorldDirtyPush;
@@ -520,6 +735,9 @@ namespace ET
     [ResponseType(nameof(NetBattle2MainLogin))]
     public partial class Main2NetBattleLogin : MessageObject, IRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static Main2NetBattleLogin Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(Main2NetBattleLogin), isFromPool) as Main2NetBattleLogin;
@@ -570,6 +788,9 @@ namespace ET
     [Message(ClientMessage.NetBattle2MainLogin)]
     public partial class NetBattle2MainLogin : MessageObject, IResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static NetBattle2MainLogin Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(NetBattle2MainLogin), isFromPool) as NetBattle2MainLogin;
@@ -605,6 +826,9 @@ namespace ET
     [ResponseType(nameof(B2C_Login))]
     public partial class C2B_Login : MessageObject, ISessionRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static C2B_Login Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(C2B_Login), isFromPool) as C2B_Login;
@@ -634,6 +858,9 @@ namespace ET
     [Message(ClientMessage.B2C_Login)]
     public partial class B2C_Login : MessageObject, ISessionResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static B2C_Login Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(B2C_Login), isFromPool) as B2C_Login;
@@ -669,6 +896,9 @@ namespace ET
     [ResponseType(nameof(B2C_PlayerReadyCompleted))]
     public partial class C2B_PlayerReadyCompleted : MessageObject
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static C2B_PlayerReadyCompleted Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(C2B_PlayerReadyCompleted), isFromPool) as C2B_PlayerReadyCompleted;
@@ -694,9 +924,85 @@ namespace ET
     [Message(ClientMessage.B2C_PlayerReadyCompleted)]
     public partial class B2C_PlayerReadyCompleted : MessageObject
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static B2C_PlayerReadyCompleted Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(B2C_PlayerReadyCompleted), isFromPool) as B2C_PlayerReadyCompleted;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 1.玩家移动
+    [MemoryPackable]
+    [Message(ClientMessage.C2B_PlayerMoveOperation)]
+    [ResponseType(nameof(B2C_PlayerMoveOperation))]
+    public partial class C2B_PlayerMoveOperation : MessageObject, IClientRequest
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static C2B_PlayerMoveOperation Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2B_PlayerMoveOperation), isFromPool) as C2B_PlayerMoveOperation;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        /// <summary>
+        /// 移动角度
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public short MoveAngle { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.MoveAngle = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.B2C_PlayerMoveOperation)]
+    public partial class B2C_PlayerMoveOperation : MessageObject, IClientResponse
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static B2C_PlayerMoveOperation Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(B2C_PlayerMoveOperation), isFromPool) as B2C_PlayerMoveOperation;
         }
 
         [MemoryPackOrder(0)]
@@ -732,6 +1038,9 @@ namespace ET
     [ResponseType(nameof(G2C_Ping))]
     public partial class C2G_Ping : MessageObject, ISessionRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static C2G_Ping Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(C2G_Ping), isFromPool) as C2G_Ping;
@@ -757,6 +1066,9 @@ namespace ET
     [Message(ClientMessage.G2C_Ping)]
     public partial class G2C_Ping : MessageObject, ISessionResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static G2C_Ping Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(G2C_Ping), isFromPool) as G2C_Ping;
@@ -795,6 +1107,9 @@ namespace ET
     [ResponseType(nameof(G2C_Benchmark))]
     public partial class C2G_Benchmark : MessageObject, ISessionRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static C2G_Benchmark Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(C2G_Benchmark), isFromPool) as C2G_Benchmark;
@@ -820,6 +1135,9 @@ namespace ET
     [Message(ClientMessage.G2C_Benchmark)]
     public partial class G2C_Benchmark : MessageObject, ISessionResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static G2C_Benchmark Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(G2C_Benchmark), isFromPool) as G2C_Benchmark;
@@ -857,6 +1175,9 @@ namespace ET
     [ResponseType(nameof(NetLobby2MainLogin))]
     public partial class Main2NetLobbyLogin : MessageObject, IRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static Main2NetLobbyLogin Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(Main2NetLobbyLogin), isFromPool) as Main2NetLobbyLogin;
@@ -900,6 +1221,9 @@ namespace ET
     [Message(ClientMessage.NetLobby2MainLogin)]
     public partial class NetLobby2MainLogin : MessageObject, IResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static NetLobby2MainLogin Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(NetLobby2MainLogin), isFromPool) as NetLobby2MainLogin;
@@ -939,6 +1263,9 @@ namespace ET
     [ResponseType(nameof(A2C_Login))]
     public partial class C2A_Login : MessageObject, ISessionRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static C2A_Login Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(C2A_Login), isFromPool) as C2A_Login;
@@ -978,6 +1305,9 @@ namespace ET
     [Message(ClientMessage.A2C_Login)]
     public partial class A2C_Login : MessageObject, ISessionResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static A2C_Login Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(A2C_Login), isFromPool) as A2C_Login;
@@ -1027,6 +1357,9 @@ namespace ET
     [ResponseType(nameof(L2C_LoginLobby))]
     public partial class C2L_LoginLobby : MessageObject, ISessionRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static C2L_LoginLobby Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(C2L_LoginLobby), isFromPool) as C2L_LoginLobby;
@@ -1059,6 +1392,9 @@ namespace ET
     [Message(ClientMessage.L2C_LoginLobby)]
     public partial class L2C_LoginLobby : MessageObject, ISessionResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static L2C_LoginLobby Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(L2C_LoginLobby), isFromPool) as L2C_LoginLobby;
@@ -1097,6 +1433,9 @@ namespace ET
     [Message(ClientMessage.G2C_SessionDisconnect)]
     public partial class G2C_SessionDisconnect : MessageObject, IMessage
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static G2C_SessionDisconnect Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(G2C_SessionDisconnect), isFromPool) as G2C_SessionDisconnect;
@@ -1125,6 +1464,9 @@ namespace ET
     [Message(ClientMessage.HttpGetRouterResponse)]
     public partial class HttpGetRouterResponse : MessageObject
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static HttpGetRouterResponse Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(HttpGetRouterResponse), isFromPool) as HttpGetRouterResponse;
@@ -1157,6 +1499,9 @@ namespace ET
     [Message(ClientMessage.SyncDataUnitStruct)]
     public partial class SyncDataUnitStruct : MessageObject
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static SyncDataUnitStruct Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(SyncDataUnitStruct), isFromPool) as SyncDataUnitStruct;
@@ -1193,6 +1538,9 @@ namespace ET
     [Message(ClientMessage.DataUnitBytes)]
     public partial class DataUnitBytes : MessageObject
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static DataUnitBytes Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(DataUnitBytes), isFromPool) as DataUnitBytes;
@@ -1234,6 +1582,9 @@ namespace ET
     [ResponseType(nameof(L2C_GetAllDataUnits))]
     public partial class C2L_GetAllDataUnits : MessageObject, IClientRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static C2L_GetAllDataUnits Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(C2L_GetAllDataUnits), isFromPool) as C2L_GetAllDataUnits;
@@ -1259,6 +1610,9 @@ namespace ET
     [Message(ClientMessage.L2C_GetAllDataUnits)]
     public partial class L2C_GetAllDataUnits : MessageObject, IClientResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static L2C_GetAllDataUnits Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(L2C_GetAllDataUnits), isFromPool) as L2C_GetAllDataUnits;
@@ -1299,6 +1653,9 @@ namespace ET
     [Message(ClientMessage.L2C_SyncDirtyDataUnits)]
     public partial class L2C_SyncDirtyDataUnits : MessageObject, IMessage
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static L2C_SyncDirtyDataUnits Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(L2C_SyncDirtyDataUnits), isFromPool) as L2C_SyncDirtyDataUnits;
@@ -1331,6 +1688,9 @@ namespace ET
     [Message(ClientMessage.RoleInfoUnitData)]
     public partial class RoleInfoUnitData : MessageObject, IUnitData
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static RoleInfoUnitData Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(RoleInfoUnitData), isFromPool) as RoleInfoUnitData;
@@ -1364,6 +1724,9 @@ namespace ET
     [ResponseType(nameof(L2C_StartMatchBattle))]
     public partial class C2L_StartMatchBattle : MessageObject, IClientRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static C2L_StartMatchBattle Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(C2L_StartMatchBattle), isFromPool) as C2L_StartMatchBattle;
@@ -1392,6 +1755,9 @@ namespace ET
     [Message(ClientMessage.L2C_StartMatchBattle)]
     public partial class L2C_StartMatchBattle : MessageObject, IClientResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static L2C_StartMatchBattle Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(L2C_StartMatchBattle), isFromPool) as L2C_StartMatchBattle;
@@ -1426,6 +1792,9 @@ namespace ET
     [Message(ClientMessage.L2C_MatchBattleSuccess)]
     public partial class L2C_MatchBattleSuccess : MessageObject, IMessage
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static L2C_MatchBattleSuccess Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(L2C_MatchBattleSuccess), isFromPool) as L2C_MatchBattleSuccess;
@@ -1475,37 +1844,40 @@ namespace ET
         public const ushort UnitEntityInfo = 10007;
         public const ushort UnitEntityPlayerInfo = 10008;
         public const ushort UnitEntityPlayerFrame = 10009;
-        public const ushort C2B_PlayerGetAllAOIWorldData = 10010;
-        public const ushort B2C_PlayerGetAllAOIWorldData = 10011;
-        public const ushort C2B_PlayerBattleWorldPing = 10012;
-        public const ushort B2C_PlayerBattleWorldPing = 10013;
-        public const ushort L2C_PlayerAOIWorldDirtyPush = 10014;
-        public const ushort Main2NetBattleLogin = 10015;
-        public const ushort NetBattle2MainLogin = 10016;
-        public const ushort C2B_Login = 10017;
-        public const ushort B2C_Login = 10018;
-        public const ushort C2B_PlayerReadyCompleted = 10019;
-        public const ushort B2C_PlayerReadyCompleted = 10020;
-        public const ushort C2G_Ping = 10021;
-        public const ushort G2C_Ping = 10022;
-        public const ushort C2G_Benchmark = 10023;
-        public const ushort G2C_Benchmark = 10024;
-        public const ushort Main2NetLobbyLogin = 10025;
-        public const ushort NetLobby2MainLogin = 10026;
-        public const ushort C2A_Login = 10027;
-        public const ushort A2C_Login = 10028;
-        public const ushort C2L_LoginLobby = 10029;
-        public const ushort L2C_LoginLobby = 10030;
-        public const ushort G2C_SessionDisconnect = 10031;
-        public const ushort HttpGetRouterResponse = 10032;
-        public const ushort SyncDataUnitStruct = 10033;
-        public const ushort DataUnitBytes = 10034;
-        public const ushort C2L_GetAllDataUnits = 10035;
-        public const ushort L2C_GetAllDataUnits = 10036;
-        public const ushort L2C_SyncDirtyDataUnits = 10037;
-        public const ushort RoleInfoUnitData = 10038;
-        public const ushort C2L_StartMatchBattle = 10039;
-        public const ushort L2C_StartMatchBattle = 10040;
-        public const ushort L2C_MatchBattleSuccess = 10041;
+        public const ushort UnitEntityPlayerOperationAction = 10010;
+        public const ushort C2B_PlayerGetAllAOIWorldData = 10011;
+        public const ushort B2C_PlayerGetAllAOIWorldData = 10012;
+        public const ushort C2B_PlayerBattleWorldPing = 10013;
+        public const ushort B2C_PlayerBattleWorldPing = 10014;
+        public const ushort L2C_PlayerAOIWorldDirtyPush = 10015;
+        public const ushort Main2NetBattleLogin = 10016;
+        public const ushort NetBattle2MainLogin = 10017;
+        public const ushort C2B_Login = 10018;
+        public const ushort B2C_Login = 10019;
+        public const ushort C2B_PlayerReadyCompleted = 10020;
+        public const ushort B2C_PlayerReadyCompleted = 10021;
+        public const ushort C2B_PlayerMoveOperation = 10022;
+        public const ushort B2C_PlayerMoveOperation = 10023;
+        public const ushort C2G_Ping = 10024;
+        public const ushort G2C_Ping = 10025;
+        public const ushort C2G_Benchmark = 10026;
+        public const ushort G2C_Benchmark = 10027;
+        public const ushort Main2NetLobbyLogin = 10028;
+        public const ushort NetLobby2MainLogin = 10029;
+        public const ushort C2A_Login = 10030;
+        public const ushort A2C_Login = 10031;
+        public const ushort C2L_LoginLobby = 10032;
+        public const ushort L2C_LoginLobby = 10033;
+        public const ushort G2C_SessionDisconnect = 10034;
+        public const ushort HttpGetRouterResponse = 10035;
+        public const ushort SyncDataUnitStruct = 10036;
+        public const ushort DataUnitBytes = 10037;
+        public const ushort C2L_GetAllDataUnits = 10038;
+        public const ushort L2C_GetAllDataUnits = 10039;
+        public const ushort L2C_SyncDirtyDataUnits = 10040;
+        public const ushort RoleInfoUnitData = 10041;
+        public const ushort C2L_StartMatchBattle = 10042;
+        public const ushort L2C_StartMatchBattle = 10043;
+        public const ushort L2C_MatchBattleSuccess = 10044;
     }
 }

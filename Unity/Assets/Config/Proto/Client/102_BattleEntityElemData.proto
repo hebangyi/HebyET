@@ -9,11 +9,10 @@ message UnitEntityCommonData // IUnitEntityElemData
 
 message UnitEntityPosition // IUnitEntityElemData
 {
-    Unity.Mathematics.int3 Position = 1;
-    Unity.Mathematics.int3 Forward = 2;
+    Unity.Mathematics.float3 Position = 1;
+    Unity.Mathematics.float3 Forward = 2;
+    
 }
-
-
 
 
 // 常规信息
@@ -21,6 +20,7 @@ message UnitEntityInfo // IUnitEntityElemData
 {
     UnitEntityTypeEnum UnitEntityTypeEnum = 1;      // 实体类型
     int32 ConfigId = 2;                             // 配置ID
+    int32 Speed = 3;           // 移动速度
 }
 
 
@@ -38,3 +38,8 @@ message UnitEntityPlayerFrame // IUnitEntityElemData
     uint32 Frame = 1;          // 当前玩家的帧率
 }
 
+// 玩家操作
+message UnitEntityPlayerOperationAction // IUnitEntityElemData
+{
+    short MoveAngle = 1;       // 操作角度
+}

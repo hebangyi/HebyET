@@ -141,6 +141,7 @@ namespace ET
             sb.Append("{\n");
 
             bool isMsgStart = false;
+            bool isUnitElementData = false;
             string msgName = "";
             string responseType = "";
             StringBuilder sbDispose = new();
@@ -179,6 +180,7 @@ namespace ET
                 if (newline.StartsWith("message"))
                 {
                     isMsgStart = true;
+                    isUnitElementData = false;
 
                     string parentClass = "";
                     msgName = newline.Split(splitChars, StringSplitOptions.RemoveEmptyEntries)[1];
@@ -203,6 +205,11 @@ namespace ET
                     {
                         sb.Append($", {parentClass}\n");
                     }
+                    else if (parentClass is "IUnitEntityElemData")
+                    {
+                        isUnitElementData = true;
+                        sb.Append($", {parentClass}\n");
+                    }
                     else if (parentClass != "")
                     {
                         sb.Append($", {parentClass}\n");
@@ -221,7 +228,27 @@ namespace ET
                     {
                         sbDispose.Clear();
                         sb.Append("\t{\n");
-                        sb.Append($"\t\tpublic static {msgName} Create(bool isFromPool = false)\n\t\t{{\n\t\t\treturn ObjectPool.Instance.Fetch(typeof({msgName}), isFromPool) as {msgName};\n\t\t}}\n\n");
+                        sb.AppendLine("\t\tprivate IDirtyHandler m_DirtyHandler;");
+                        sb.AppendLine("\t\tprivate long m_InstanceId;");
+                        sb.Append("\n");
+                        
+                        if (isUnitElementData)
+                        {
+                            sb.Append($"\t\tpublic static {msgName} Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)\n");
+                            sb.AppendLine($"\t\t{{");
+                            sb.AppendLine($"\t\t\tvar instance = ObjectPool.Instance.Fetch(typeof({msgName}), isFromPool) as {msgName};");
+                            sb.AppendLine($"\t\t\tinstance.m_DirtyHandler = dirtyHandler;");
+                            sb.AppendLine($"\t\t\tinstance.m_InstanceId = instanceId;");
+                            sb.Append($"\t\t\treturn instance;");
+                            sb.Append($"\n\t\t}}\n\n");
+                            
+                            sbDispose.AppendLine($"this.m_DirtyHandler = null;");
+                            sbDispose.AppendLine($"\t\t\tthis.m_InstanceId = default;\n\t\t\t");
+                        }
+                        else
+                        {
+                            sb.Append($"\t\tpublic static {msgName} Create(bool isFromPool = false)\n\t\t{{\n\t\t\treturn ObjectPool.Instance.Fetch(typeof({msgName}), isFromPool) as {msgName};\n\t\t}}\n\n");    
+                        }
                         continue;
                     }
 
@@ -264,15 +291,36 @@ namespace ET
 
                     if (memberStr.StartsWith("map<"))
                     {
-                        Map(sb, memberStr, sbDispose);
+                        if (isUnitElementData)
+                        {
+                            UnitEntityElemDataMap(sb, memberStr, sbDispose);
+                        }
+                        else
+                        {
+                            Map(sb, memberStr, sbDispose);    
+                        }
                     }
                     else if (memberStr.StartsWith("repeated"))
                     {
-                        Repeated(sb, memberStr, sbDispose);
+                        if (isUnitElementData)
+                        {
+                            UnitEntityElemDataRepeated(sb, memberStr, sbDispose);
+                        }
+                        else
+                        {
+                            Repeated(sb, memberStr, sbDispose);   
+                        }
                     }
                     else
                     {
-                        Members(sb, memberStr, sbDispose);
+                        if (isUnitElementData)
+                        {
+                            UnitEntityElemDataMembers(sb, memberStr, sbDispose);
+                        }
+                        else
+                        {
+                            Members(sb, memberStr, sbDispose);   
+                        }
                     }
                 }
             }
@@ -314,6 +362,38 @@ namespace ET
             sw.Write(result);
         }
 
+        
+        private static void UnitEntityElemDataMap(StringBuilder sb, string newline, StringBuilder sbDispose)
+        {
+            int start = newline.IndexOf('<') + 1;
+            int end = newline.IndexOf('>');
+            string types = newline.Substring(start, end - start);
+            string[] ss = types.Split(',');
+            string keyType = ConvertType(ss[0].Trim());
+            string valueType = ConvertType(ss[1].Trim());
+            string tail = newline[(end + 1)..];
+            ss = tail.Trim().Replace(";", "").Split(' ');
+            string v = ss[0];
+            int n = int.Parse(ss[2]);
+
+            sb.AppendLine($"\t\tprivate Dictionary<{keyType}, {valueType}> _{v} = new();\n");
+            sb.Append("\t\t[MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]\n");
+            sb.Append($"\t\t[MemoryPackOrder({n - 1})]\n");
+            sb.AppendLine($$"""
+                                public Dictionary<{{keyType}}, {{valueType}}> {{v}} 
+                                {
+                                    get => _{{v}};
+                                    set {
+                                        _{{v}} = value;
+                                        this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                                    }
+                                }
+                        """);
+
+            sbDispose.AppendLine($"this._{v}.Clear();\n\t\t\t");
+        }
+        
+        
         private static void Map(StringBuilder sb, string newline, StringBuilder sbDispose)
         {
             int start = newline.IndexOf('<') + 1;
@@ -332,6 +412,42 @@ namespace ET
             sb.Append($"\t\tpublic Dictionary<{keyType}, {valueType}> {v} {{ get; set; }} = new();\n");
 
             sbDispose.Append($"this.{v}.Clear();\n\t\t\t");
+        }
+
+        private static void UnitEntityElemDataRepeated(StringBuilder sb, string newline, StringBuilder sbDispose)
+        {
+            try
+            {
+                int index = newline.IndexOf(';');
+                newline = newline.Remove(index);
+                string[] ss = newline.Split(splitChars, StringSplitOptions.RemoveEmptyEntries);
+                string type = ss[1];
+                type = ConvertType(type);
+                string name = ss[2];
+                int n = int.Parse(ss[4]);
+
+                
+                sb.AppendLine($"\t\tprivate List<{type}> _{name} = new();\n");
+                sb.Append($"\t\t[MemoryPackOrder({n - 1})]\n");
+                sb.Append($"\t\tpublic List<{type}> {name} {{ get; set; }} = new();\n\n");
+                sb.AppendLine($$"""
+                                        public List<{{type}}> {{name}}
+                                        {
+                                            get => _{{name}};
+                                            set {
+                                                _{{name}} = value;
+                                                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                                            }
+                                        }
+                                """);
+                
+                
+                sbDispose.Append($"this._{name}.Clear();\n\t\t\t");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"{newline}\n {e}");
+            }
         }
 
         private static void Repeated(StringBuilder sb, string newline, StringBuilder sbDispose)
@@ -372,7 +488,51 @@ namespace ET
                 _ => type
             };
         }
+        
+        private static void UnitEntityElemDataMembers(StringBuilder sb, string newline, StringBuilder sbDispose)
+        {
+            try
+            {
+                int index = newline.IndexOf(';');
+                newline = newline.Remove(index);
+                string[] ss = newline.Split(splitChars, StringSplitOptions.RemoveEmptyEntries);
+                string type = ss[0];
+                string name = ss[1];
+                int n = int.Parse(ss[3]);
+                string typeCs = ConvertType(type);
 
+                sb.AppendLine($"\t\tprivate {typeCs} _{name};\n");
+                sb.Append($"\t\t[MemoryPackOrder({n - 1})]\n");
+                sb.AppendLine($$"""
+                                    public {{typeCs}} {{name}}
+                                    {
+                                        get => _{{name}};
+                                        set {
+                                            _{{name}} = value;
+                                            this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                                        }
+                                    }
+                            """);
+                
+                
+                
+                switch (typeCs)
+                {
+                    case "bytes":
+                    {
+                        break;
+                    }
+                    default:
+                        sbDispose.Append($"this._{name} = default;\n\t\t\t");
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"{newline}\n {e}");
+            }
+        }
+                
         private static void Members(StringBuilder sb, string newline, StringBuilder sbDispose)
         {
             try

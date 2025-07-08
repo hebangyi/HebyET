@@ -36,17 +36,7 @@ namespace ET
 
                 if (handler is IUnitEntityTickLogic tickLogic)
                 {
-                    foreach (ushort componentId in tickLogic.WatchComponentIds())
-                    {
-                        var logics = self.CompId2TickLogics.GetValueOrDefault(componentId);
-                        if (logics == null)
-                        {
-                            logics = new List<IUnitEntityTickLogic>();
-                            self.CompId2TickLogics.Add(componentId, logics);
-                        }
-                        
-                        logics.Add(tickLogic);
-                    }
+                    self.Type2TickLogics[handler.GetType()] = tickLogic;
                 }
             }
         }
@@ -56,9 +46,9 @@ namespace ET
             return self.CompId2InitLogics.GetValueOrDefault(componentId);
         }
         
-        public static List<IUnitEntityTickLogic> GetTickLogicByComponentId(this BattleUnitEntityLogicManagerComponent self, ushort componentId)
+        public static IUnitEntityTickLogic GetTickLogicByType(this BattleUnitEntityLogicManagerComponent self, Type logicType)
         {
-            return self.CompId2TickLogics.GetValueOrDefault(componentId);
+            return self.Type2TickLogics.GetValueOrDefault(logicType);
         }
         
     }

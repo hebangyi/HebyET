@@ -8,6 +8,9 @@ namespace ET
     [ResponseType(nameof(B2L_PlayerStartMatch))]
     public partial class L2B_PlayerStartMatch : MessageObject, IRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static L2B_PlayerStartMatch Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(L2B_PlayerStartMatch), isFromPool) as L2B_PlayerStartMatch;
@@ -44,6 +47,9 @@ namespace ET
     [Message(ServerMessage.B2L_PlayerStartMatch)]
     public partial class B2L_PlayerStartMatch : MessageObject, IResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static B2L_PlayerStartMatch Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(B2L_PlayerStartMatch), isFromPool) as B2L_PlayerStartMatch;
@@ -77,6 +83,9 @@ namespace ET
     [Message(ServerMessage.L2B_PlayerMatchSuccessNotify)]
     public partial class L2B_PlayerMatchSuccessNotify : MessageObject, IMessage
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static L2B_PlayerMatchSuccessNotify Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(L2B_PlayerMatchSuccessNotify), isFromPool) as L2B_PlayerMatchSuccessNotify;
@@ -106,6 +115,9 @@ namespace ET
     [ResponseType(nameof(ObjectQueryResponse))]
     public partial class ObjectQueryRequest : MessageObject, IRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static ObjectQueryRequest Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(ObjectQueryRequest), isFromPool) as ObjectQueryRequest;
@@ -140,6 +152,9 @@ namespace ET
     [ResponseType(nameof(A2M_Reload))]
     public partial class M2A_Reload : MessageObject, IRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static M2A_Reload Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(M2A_Reload), isFromPool) as M2A_Reload;
@@ -165,6 +180,9 @@ namespace ET
     [Message(ServerMessage.A2M_Reload)]
     public partial class A2M_Reload : MessageObject, IResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static A2M_Reload Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(A2M_Reload), isFromPool) as A2M_Reload;
@@ -199,6 +217,9 @@ namespace ET
     [ResponseType(nameof(G2G_LockResponse))]
     public partial class G2G_LockRequest : MessageObject, IRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static G2G_LockRequest Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(G2G_LockRequest), isFromPool) as G2G_LockRequest;
@@ -232,6 +253,9 @@ namespace ET
     [Message(ServerMessage.G2G_LockResponse)]
     public partial class G2G_LockResponse : MessageObject, IResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static G2G_LockResponse Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(G2G_LockResponse), isFromPool) as G2G_LockResponse;
@@ -266,6 +290,9 @@ namespace ET
     [ResponseType(nameof(G2G_LockReleaseResponse))]
     public partial class G2G_LockReleaseRequest : MessageObject, IRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static G2G_LockReleaseRequest Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(G2G_LockReleaseRequest), isFromPool) as G2G_LockReleaseRequest;
@@ -299,6 +326,9 @@ namespace ET
     [Message(ServerMessage.G2G_LockReleaseResponse)]
     public partial class G2G_LockReleaseResponse : MessageObject, IResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static G2G_LockReleaseResponse Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(G2G_LockReleaseResponse), isFromPool) as G2G_LockReleaseResponse;
@@ -333,6 +363,9 @@ namespace ET
     [ResponseType(nameof(ObjectAddResponse))]
     public partial class ObjectAddRequest : MessageObject, IRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static ObjectAddRequest Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(ObjectAddRequest), isFromPool) as ObjectAddRequest;
@@ -370,6 +403,9 @@ namespace ET
     [Message(ServerMessage.ObjectAddResponse)]
     public partial class ObjectAddResponse : MessageObject, IResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static ObjectAddResponse Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(ObjectAddResponse), isFromPool) as ObjectAddResponse;
@@ -404,6 +440,9 @@ namespace ET
     [ResponseType(nameof(ObjectLockResponse))]
     public partial class ObjectLockRequest : MessageObject, IRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static ObjectLockRequest Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(ObjectLockRequest), isFromPool) as ObjectLockRequest;
@@ -445,6 +484,9 @@ namespace ET
     [Message(ServerMessage.ObjectLockResponse)]
     public partial class ObjectLockResponse : MessageObject, IResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static ObjectLockResponse Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(ObjectLockResponse), isFromPool) as ObjectLockResponse;
@@ -479,6 +521,9 @@ namespace ET
     [ResponseType(nameof(ObjectUnLockResponse))]
     public partial class ObjectUnLockRequest : MessageObject, IRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static ObjectUnLockRequest Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(ObjectUnLockRequest), isFromPool) as ObjectUnLockRequest;
@@ -520,6 +565,9 @@ namespace ET
     [Message(ServerMessage.ObjectUnLockResponse)]
     public partial class ObjectUnLockResponse : MessageObject, IResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static ObjectUnLockResponse Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(ObjectUnLockResponse), isFromPool) as ObjectUnLockResponse;
@@ -554,6 +602,9 @@ namespace ET
     [ResponseType(nameof(ObjectRemoveResponse))]
     public partial class ObjectRemoveRequest : MessageObject, IRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static ObjectRemoveRequest Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(ObjectRemoveRequest), isFromPool) as ObjectRemoveRequest;
@@ -587,6 +638,9 @@ namespace ET
     [Message(ServerMessage.ObjectRemoveResponse)]
     public partial class ObjectRemoveResponse : MessageObject, IResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static ObjectRemoveResponse Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(ObjectRemoveResponse), isFromPool) as ObjectRemoveResponse;
@@ -621,6 +675,9 @@ namespace ET
     [ResponseType(nameof(ObjectGetResponse))]
     public partial class ObjectGetRequest : MessageObject, IRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static ObjectGetRequest Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(ObjectGetRequest), isFromPool) as ObjectGetRequest;
@@ -654,6 +711,9 @@ namespace ET
     [Message(ServerMessage.ObjectGetResponse)]
     public partial class ObjectGetResponse : MessageObject, IResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static ObjectGetResponse Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(ObjectGetResponse), isFromPool) as ObjectGetResponse;
@@ -695,6 +755,9 @@ namespace ET
     [Message(ServerMessage.G2M_SessionDisconnect)]
     public partial class G2M_SessionDisconnect : MessageObject, ILocationMessage
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static G2M_SessionDisconnect Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(G2M_SessionDisconnect), isFromPool) as G2M_SessionDisconnect;
@@ -720,6 +783,9 @@ namespace ET
     [Message(ServerMessage.ObjectQueryResponse)]
     public partial class ObjectQueryResponse : MessageObject, IResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static ObjectQueryResponse Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(ObjectQueryResponse), isFromPool) as ObjectQueryResponse;
@@ -758,6 +824,9 @@ namespace ET
     [ResponseType(nameof(M2M_UnitTransferResponse))]
     public partial class M2M_UnitTransferRequest : MessageObject, IRequest
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static M2M_UnitTransferRequest Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(M2M_UnitTransferRequest), isFromPool) as M2M_UnitTransferRequest;
@@ -795,6 +864,9 @@ namespace ET
     [Message(ServerMessage.M2M_UnitTransferResponse)]
     public partial class M2M_UnitTransferResponse : MessageObject, IResponse
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static M2M_UnitTransferResponse Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(M2M_UnitTransferResponse), isFromPool) as M2M_UnitTransferResponse;
@@ -828,6 +900,9 @@ namespace ET
     [Message(ServerMessage.SceneNodeInfo)]
     public partial class SceneNodeInfo : MessageObject
     {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
         public static SceneNodeInfo Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(SceneNodeInfo), isFromPool) as SceneNodeInfo;

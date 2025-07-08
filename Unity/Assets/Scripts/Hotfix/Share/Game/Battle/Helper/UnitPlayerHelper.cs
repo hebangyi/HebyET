@@ -16,6 +16,7 @@ namespace ET
             UnitEntityInfo unitEntityInfo = unitEntity.GetOrCreateUnitEntityElemData<UnitEntityInfo>();
             unitEntityInfo.UnitEntityTypeEnum = UnitEntityTypeEnum.Player;
             unitEntityInfo.ConfigId = 0;
+            unitEntityInfo.Speed = 50;
         
             var unitEntityPlayerInfo = unitEntity.GetOrCreateUnitEntityElemData<UnitEntityPlayerInfo>();
             unitEntityPlayerInfo.PlayerId = playerId;
@@ -26,6 +27,10 @@ namespace ET
 
             var unitEntityPlayerFrame = unitEntity.GetOrCreateUnitEntityElemData<UnitEntityPlayerFrame>();
             unitEntityPlayerFrame.Frame = world.Frame;
+            
+            
+            var unitEntityPlayerOperationAction = unitEntity.GetOrCreateUnitEntityElemData<UnitEntityPlayerOperationAction>();
+            unitEntityPlayerOperationAction.MoveAngle = -1;
             
             UnitEntity entity = world.CreateEntity(unitEntity);
             return entity;

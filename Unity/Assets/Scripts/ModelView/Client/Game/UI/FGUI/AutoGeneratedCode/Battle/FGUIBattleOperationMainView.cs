@@ -12,6 +12,7 @@ namespace ET.Client
 		public GTextField title;
 		public FGUIBattleButton BattleButton;
 		public FGUIOperateButton OpButton;
+		public GTextField angle;
 
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ET.Server.Data;
+﻿namespace ET.Server;
 
 [MessageClientHandler(SceneType.Battle)]
 public class C2B_PlayerGetAllAOIWorldDataHandler: MessageClientHandler<BattleRole, C2B_PlayerGetAllAOIWorldData, B2C_PlayerGetAllAOIWorldData>

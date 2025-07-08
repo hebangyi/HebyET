@@ -6,8 +6,6 @@
 
     public interface IUnitEntityLogic
     {
-        // 监听的 ComponentId
-        ushort[] WatchComponentIds();
     }
 
     public interface IUnitEntityInitLogic : IUnitEntityLogic
@@ -17,12 +15,15 @@
 
         // 在销毁的时候触发
         void OnDestroy(UnitEntity unitEntity);
+        
+        // 监听的 ComponentId
+        ushort[] WatchComponentIds();
     }
 
     // 数据处理接口 会修改UnitEntity中的数据
     public interface IUnitEntityTickLogic : IUnitEntityLogic
     {
         // 执行更新
-        void OnTick();
+        void OnTick(World world);
     }
 }

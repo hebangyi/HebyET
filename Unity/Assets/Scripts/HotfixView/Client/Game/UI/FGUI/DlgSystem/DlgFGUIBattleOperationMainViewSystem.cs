@@ -58,6 +58,15 @@ namespace ET.Client
             
             // 设置按钮坐标
             self.View.OpButton.YaoGanImg.SetXY(newPoint.x - self.View.OpButton.YaoGanImg.width / 2f, newPoint.y - self.View.OpButton.YaoGanImg.height / 2f);
+            
+            // + (int)self.MainCamera.transform.eulerAngles.y
+            
+            Vector2 indicator = newPoint - self.OnTouchBeginPoint;
+            int angle = (int)(Mathf.Atan2(indicator.y, indicator.x) * Mathf.Rad2Deg);
+            self.View.angle.text = angle.ToString();
+
+
+            self.lastMoveAngle = angle;
         }
 
         public static void OnTouchEnd(this DlgFGUIBattleOperationMainView self, EventContext context)
@@ -74,6 +83,7 @@ namespace ET.Client
             self.View.OpButton.TouchArea.y = self.InitTouchAreaY;
             self.View.OpButton.YaoGanImg.x = self.InitYaoGanX;
             self.View.OpButton.YaoGanImg.y = self.InitYaoGanY;
+            self.lastMoveAngle = -1;
         }
         
         

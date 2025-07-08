@@ -1,0 +1,14 @@
+// 1.玩家移动
+// ResponseType B2C_PlayerMoveOperation
+message C2B_PlayerMoveOperation // IClientRequest
+{
+    int32 RpcId = 1;
+    short MoveAngle = 2;        // 移动角度 
+}
+
+message B2C_PlayerMoveOperation // IClientResponse
+{
+    int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}

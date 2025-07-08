@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ET
 {
@@ -9,6 +10,6 @@ namespace ET
         
         public Dictionary<int, List<IUnitEntityInitLogic>> CompId2InitLogics = new ();
 
-        public Dictionary<int, List<IUnitEntityTickLogic>> CompId2TickLogics = new();
+        public Dictionary<Type, IUnitEntityTickLogic> Type2TickLogics = new ();
     }    
 }

@@ -19,5 +19,7 @@ namespace ET.Client
         public float InitYaoGanY;
 
         public float YaoGanRadius;
+
+        public int lastMoveAngle; // 操作移动的角度
     }
 }

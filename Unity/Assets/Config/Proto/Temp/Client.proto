@@ -46,11 +46,10 @@ message UnitEntityCommonData // IUnitEntityElemData
 
 message UnitEntityPosition // IUnitEntityElemData
 {
-    Unity.Mathematics.int3 Position = 1;
-    Unity.Mathematics.int3 Forward = 2;
+    Unity.Mathematics.float3 Position = 1;
+    Unity.Mathematics.float3 Forward = 2;
+    
 }
-
-
 
 
 // 常规信息
@@ -58,6 +57,7 @@ message UnitEntityInfo // IUnitEntityElemData
 {
     UnitEntityTypeEnum UnitEntityTypeEnum = 1;      // 实体类型
     int32 ConfigId = 2;                             // 配置ID
+    int32 Speed = 3;           // 移动速度
 }
 
 
@@ -75,6 +75,11 @@ message UnitEntityPlayerFrame // IUnitEntityElemData
     uint32 Frame = 1;          // 当前玩家的帧率
 }
 
+// 玩家操作
+message UnitEntityPlayerOperationAction // IUnitEntityElemData
+{
+    short MoveAngle = 1;       // 操作角度
+}
 
 
 //// 通讯协议
@@ -166,6 +171,21 @@ message C2B_PlayerReadyCompleted
 message B2C_PlayerReadyCompleted
 {
 	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
+// 1.玩家移动
+// ResponseType B2C_PlayerMoveOperation
+message C2B_PlayerMoveOperation // IClientRequest
+{
+    int32 RpcId = 1;
+    short MoveAngle = 2;        // 移动角度 
+}
+
+message B2C_PlayerMoveOperation // IClientResponse
+{
+    int32 RpcId = 1;
 	int32 Error = 2;
 	string Message = 3;
 }

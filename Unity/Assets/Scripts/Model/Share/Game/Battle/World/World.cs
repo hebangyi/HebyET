@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ET
 {
@@ -13,16 +14,33 @@ namespace ET
     [ChildOf]
     public partial class World : Entity, IAwake<int>
     {
+        public IDirtyHandler DirtyHandler;
         public WorldMode WorldMode { get; set; } = WorldMode.None;
         // 当前世界逻辑帧
         public uint Frame = 1;
+        // 下一次更新的时间
+        public long NextUpdateMillTime;
+
+        public int Interval = 100;
         // 世界状态
         public WorldStatusEnum WorldStatusEnum = WorldStatusEnum.Init;
         
+        
+        
+        
+        
         public Dictionary<long, UnitEntity> AllEntity = new ();
-        //// 组件存储的数据
+        
+        
+        
+        //// 逻辑端数据
         // 玩家数据 PlayerId 2 Entity
         public Dictionary<long, UnitEntity> AllPlayers = new();
+        // 逻辑帧脏数据
+        // TODO AOI机制
+        public Dictionary<long, SyncDirtyUnitEntity> DirtyUnitEntities = new ();
+        
+        
         
         //// 客户端显示数据
         public UnitEntity MyPlayer;

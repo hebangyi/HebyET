@@ -7,18 +7,16 @@ namespace ET
     {
         public static void Tick(this World self)
         {
-            var comId2Logics = BattleUnitEntityLogicManagerComponent.Instance.CompId2TickLogics;
-            foreach (var comId2LogicsKv in comId2Logics)
+            self.Frame++;
+            Log.Info($"World Id : {self.Id} Tick Frame: {self.Frame}");
+            foreach (var comId2LogicsKv in BattleUnitEntityLogicManagerComponent.Instance.Type2TickLogics)
             {
-                var logicHandlers = comId2LogicsKv.Value;
-                foreach (var logicHandler in logicHandlers)
-                {
-                    logicHandler.OnTick();
-                }
+                var logicHandler = comId2LogicsKv.Value;
+                logicHandler.OnTick(self);
             }
         }
     
-        public static T GetOrCreateUnitEntityElemData<T>(this UnitEntity self, bool addDirty = true) where T : IUnitEntityElemData
+        public static T GetOrCreateUnitEntityElemData<T>(this UnitEntity self) where T : IUnitEntityElemData
         {
             var world = self.GetParent<World>();
             if (world.WorldMode != WorldMode.Logic)
@@ -36,7 +34,7 @@ namespace ET
             }
 
             var methodInfo = type.GetMethod("Create");
-            var obj = methodInfo.Invoke(null, new object[]{true});
+            var obj = methodInfo.Invoke(null, new object[]{self.InsId, world.DirtyHandler ,true});
             T instance = (T)obj;
             self.UnitEntityData[componentId] = instance;
 
