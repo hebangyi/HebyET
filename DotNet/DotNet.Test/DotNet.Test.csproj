@@ -11,4 +11,8 @@
       <ProjectReference Include="..\Model\DotNet.Model.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="VoronoiLib" Version="0.1.0" />
+    </ItemGroup>
+
 </Project>

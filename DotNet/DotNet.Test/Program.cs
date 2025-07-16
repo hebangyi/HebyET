@@ -1,4 +1,5 @@
-﻿using ET;
+﻿using DotNet.Test;
+using ET;
 
 class Program
 {
@@ -16,8 +17,18 @@ class Program
         // rsa.RoleId = testAccount.roleItem.RoleId;
 
 
-        Console.WriteLine(TimeHelper.IsCrossWeek(1751230200, 1751233800, 5));
-        Console.WriteLine(TimeHelper.IsCrossWeek(1751212800, 1751133600, 5));
-        Console.WriteLine(TimeHelper.IsCrossWeek(1750626000, 1751230700, 5));
+        // Console.WriteLine(TimeHelper.IsCrossWeek(1751230200, 1751233800, 5));
+        // Console.WriteLine(TimeHelper.IsCrossWeek(1751212800, 1751133600, 5));
+        // Console.WriteLine(TimeHelper.IsCrossWeek(1750626000, 1751230700, 5));
+
+        /*
+        var edges = BattleMapTest.GenerateRandomPoints();
+        foreach (var edge in edges)
+        {
+            edge.ToString();
+        }*/
+
+        /*using (var game = new VoronoiDemo())
+            game.Run();*/
     }
 }
