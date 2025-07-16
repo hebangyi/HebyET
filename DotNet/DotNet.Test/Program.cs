@@ -30,5 +30,8 @@ class Program
 
         /*using (var game = new VoronoiDemo())
             game.Run();*/
+        
+        PointRandomTest.Test();
+        
     }
 }

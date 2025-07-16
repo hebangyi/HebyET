@@ -23,6 +23,9 @@ public static partial class BattleWorldManagerComponentSystem
         world.InitDirtyHandler(logicDirtyHandler);
         world.InitSyncHandler(syncPlayerDirtyBattleDataHandler);
         
+        // 创建地图
+        
+        
         // 创建玩家
         foreach (var matchOrder in matchRoom.MatchOrders)
         {
