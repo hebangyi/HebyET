@@ -216,6 +216,7 @@ namespace ET
                 }
 
                 FileHelper.CopyDirectory("../Config/Excel/c", clientProtoDir);
+                FileHelper.CopyDirectory("../Config/Excel/cs", clientProtoDir);
 
                 Log.Console("Export Excel Sucess!");
             }

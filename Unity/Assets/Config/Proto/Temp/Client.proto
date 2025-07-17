@@ -29,6 +29,7 @@ message UnitEntityElemData
 }
 
 
+
 //// 常规信息 
 message UnitEntityCommonData // IUnitEntityElemData
 {
@@ -52,7 +53,7 @@ message UnitEntityInfo // IUnitEntityElemData
     int32 Speed = 3;           // 移动速度
 }
 
-
+//// 玩家
 // 玩家信息
 message UnitEntityPlayerInfo // IUnitEntityElemData
 {
@@ -72,6 +73,16 @@ message UnitEntityPlayerOperationAction // IUnitEntityElemData
 {
     short MoveAngle = 1;       // 操作角度
 }
+
+
+//// 地块
+// 地块信息
+message PlantCellInfo // IUnitEntityElemData
+{
+    Unity.Mathematics.float2 Center = 1;            // 中心点
+    repeated Unity.Mathematics.float4 plantEdges = 2;      // 地图边
+}
+
 
 
 //// 通讯协议

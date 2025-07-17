@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ET.Client;
+using Unity.Mathematics;
 
 namespace ET.Server;
 
@@ -24,7 +25,7 @@ public static partial class BattleWorldManagerComponentSystem
         world.InitSyncHandler(syncPlayerDirtyBattleDataHandler);
         
         // 创建地图
-        
+        UnitPlantHelper.GeneratePlant(world, new Random().NextInt());
         
         // 创建玩家
         foreach (var matchOrder in matchRoom.MatchOrders)

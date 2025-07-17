@@ -3,76 +3,105 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Numerics;
+using Unity.Mathematics;
 using VoronoiLib;
 using VoronoiLib.Structures;
+using Random = System.Random;
 
 namespace DotNet.Test;
 
 public class BattleMapTest
 {
     // 生成随机点集
-    public static LinkedList<VEdge> GenerateRandomPoints()
+    public static void Test()
     {
-        var points = new List<FortuneSite>
-        {
-            new FortuneSite(100, 200),
-            new FortuneSite(500, 200),
-            new FortuneSite(300, 300),
-            new FortuneSite(400, 400)
-        };
-        
-        //FortunesAlgorithm.Run(points, min x, min y, max x, max y)
-        var edges = FortunesAlgorithm.Run(points, 0, 0, 800, 800);
-        return edges;
-        //VEdge.Start is a VPoint with location VEdge.Start.X and VEdge.End.Y
-        //VEdge.End is the ending point for the edge
-        //FortuneSite.Neighbors contains the site's neighbors in the Delaunay Triangulation
+        var (pointSite, edges) = GenerateFortuneSites(800, 2000, 4);
+        Console.WriteLine(pointSite);
     }
 
-    /*
-    // 计算Voronoi图
-    static List<FortuneEdge> ComputeVoronoi(List<Vector2> points, double minX, double minY, double maxX, double maxY)
+    public static (List<FortuneSite>, LinkedList<VEdge>) GenerateFortuneSites(int areaWidth, int seed, int pointCount, int pointMinDistance = 5)
     {
-        var sites = new List<Site>();
+        var fortuneSites = new List<FortuneSite>();
+        var points = GenerateRandomPoint(areaWidth, seed, pointCount, pointMinDistance);
         foreach (var point in points)
         {
-            sites.Add(new Site(point.X, point.Y));
+            fortuneSites.Add(new FortuneSite(point.x, point.y));
         }
 
-        // 扩展边界以确保生成完整的Voronoi图
-        double margin = Math.Max(maxX - minX, maxY - minY) * 0.5;
-        var bounds = new Rect(minX - margin, minY - margin, maxX + margin, maxY + margin);
-
-        // 使用Fortune算法计算Voronoi图
-        var voronoi = Fortune.ComputeVoronoiGraph(sites, bounds);
-        return voronoi.Edges;
+        var edges = FortunesAlgorithm.Run(fortuneSites, 0, 0, 800, 800);
+        return (fortuneSites, edges);
     }
 
-    // 可视化并保存Voronoi图
-    static void SaveVoronoiDiagram(List<FortuneEdge> edges, int width, int height, string filePath)
+    /// <summary>
+    /// 在一个 Area 中平均生成 一定数量的点
+    /// </summary>
+    /// <param name="areaWidth">整个地图的宽度</param>
+    /// <param name="seed">随机数的种子</param>
+    /// <param name="pointCount">点的数量</param>
+    /// <param name="pointMinDistance">点之间的最小距离</param>
+    /// <returns></returns>
+    public static List<float2> GenerateRandomPoint(int areaWidth, int seed, int pointCount, int pointMinDistance = 5)
     {
-        using (var bitmap = new Bitmap(width, height))
-        using (var g = Graphics.FromImage(bitmap))
+        var random = new Random(seed);
+        List<float2> points = new List<float2>();
+        List<float2> unitMeshes = new List<float2>();
+        var pointSqrt = Math.Sqrt(pointCount);
+        int divideCount = (int)pointSqrt;
+        if (pointSqrt > (int)pointSqrt)
         {
-            // 清空背景
-            g.Clear(Color.White);
+            divideCount += 1;
+        }
 
-            // 绘制Voronoi边
-            using (var pen = new Pen(Color.Blue, 1))
+        var totalMeshCount = divideCount * divideCount;
+        double area = areaWidth * areaWidth * 1.0f / totalMeshCount;
+        float unitMeshWidth = (float)Math.Sqrt(area);
+
+        for (float x = 0; x <= areaWidth - unitMeshWidth; x += unitMeshWidth)
+        {
+            for (float y = 0; y <= areaWidth - unitMeshWidth; y += unitMeshWidth)
             {
-                foreach (var edge in edges)
+                unitMeshes.Add(new float2(x, y));
+            }
+        }
+
+        // 最多尝试 10000 次 防止死循环
+        for (int i = 0; i < 10000; i++)
+        {
+            if (unitMeshes.Count <= 0)
+            {
+                break;
+            }
+
+            var randomIndex = random.Next(unitMeshes.Count);
+            var unitMesh = unitMeshes[randomIndex];
+            unitMeshes.RemoveAt(randomIndex);
+
+            float newX = (float)random.NextDouble() * unitMeshWidth + unitMesh.x;
+            float newY = (float)random.NextDouble() * unitMeshWidth + unitMesh.y;
+
+            bool tooClose = false;
+            foreach (var point in points)
+            {
+                var distance = Math.Sqrt(Math.Abs(newX - point.x) * Math.Abs(newX - point.x) + Math.Abs(newY - point.y) * Math.Abs(newY - point.y));
+                if (distance < pointMinDistance)
                 {
-                    if (edge.VVertexA != null && edge.VVertexB != null)
-                    {
-                        g.DrawLine(pen,
-                            (float)edge.VVertexA.X, (float)edge.VVertexA.Y,
-                            (float)edge.VVertexB.X, (float)edge.VVertexB.Y);
-                    }
+                    tooClose = true;
+                    break;
                 }
             }
 
-            // 保存图像
-            bitmap.Save(filePath);
+            if (!tooClose)
+            {
+                points.Add(new float2(newX, newY));
+            }
+
+            if (points.Count >= pointCount)
+            {
+                // 生成完成
+                break;
+            }
         }
-    }*/
+
+        return points;
+    }
 }

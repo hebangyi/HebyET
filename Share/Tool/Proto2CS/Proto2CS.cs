@@ -429,7 +429,6 @@ namespace ET
                 
                 sb.AppendLine($"\t\tprivate List<{type}> _{name} = new();\n");
                 sb.Append($"\t\t[MemoryPackOrder({n - 1})]\n");
-                sb.Append($"\t\tpublic List<{type}> {name} {{ get; set; }} = new();\n\n");
                 sb.AppendLine($$"""
                                         public List<{{type}}> {{name}}
                                         {
