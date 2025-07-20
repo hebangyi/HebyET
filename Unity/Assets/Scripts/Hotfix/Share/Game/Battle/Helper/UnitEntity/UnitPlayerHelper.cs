@@ -19,9 +19,14 @@ namespace ET
             var unitEntityPlayerInfo = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerInfo>();
             unitEntityPlayerInfo.PlayerId = playerId;
             
+            
+            // 随机选择一个地块
+            var unitEntityPlant = world.AllPlants[world.RandomGenerator.Next(world.AllPlants.Count)];
+            var planeCellInfo = unitEntityPlant.GetUnitEntityElemData<PlaneCellInfo>();
+            
             var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
-            unitEntityPosition.Forward = new int3(0, 0, 1);
-            unitEntityPosition.Position = new int3(50, 0, 50);
+            unitEntityPosition.Forward = new float3(0, 0, 1);
+            unitEntityPosition.Position = new float3(planeCellInfo.Center.x, 0, planeCellInfo.Center.y);
 
             var unitEntityPlayerFrame = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerFrame>();
             unitEntityPlayerFrame.Frame = world.Frame;
@@ -38,13 +43,13 @@ namespace ET
 
         public static UnitEntity GetPlayerUnitEntityByPlayerId(World world, long playerId)
         {
-            var unitEntity = world.AllPlayers.GetValueOrDefault(playerId);
+            var unitEntity = world.PlayerId2Players.GetValueOrDefault(playerId);
             return unitEntity;
         }
 
         public static void Online(World world, long playerId)
         {
-            var unitEntity = world.AllPlayers.GetValueOrDefault(playerId);
+            var unitEntity = world.PlayerId2Players.GetValueOrDefault(playerId);
             var playerInfo = unitEntity?.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             if (playerInfo == null)
             {
@@ -55,7 +60,7 @@ namespace ET
 
         public static void Offline(World world, long playerId)
         {
-            var unitEntity = world.AllPlayers.GetValueOrDefault(playerId);
+            var unitEntity = world.PlayerId2Players.GetValueOrDefault(playerId);
             var playerInfo = unitEntity?.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             if (playerInfo == null)
             {

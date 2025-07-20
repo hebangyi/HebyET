@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ET.Client;
 using Unity.Mathematics;
 
@@ -17,7 +18,8 @@ public static partial class BattleWorldManagerComponentSystem
     {
         var world = self.AddChild<World, int>((int)WorldMode.Logic);
         world.WorldStatusEnum = WorldStatusEnum.Init;
-
+        world.RandomGenerator = new Random(Guid.NewGuid().GetHashCode());
+        
         var syncPlayerDirtyBattleDataHandler = new SyncPlayerDirtyBattleDataHandler(world, SyncDirtyBattleData);
         var logicDirtyHandler = new LogicDirtyHandler(world);
         
@@ -25,7 +27,7 @@ public static partial class BattleWorldManagerComponentSystem
         world.InitSyncHandler(syncPlayerDirtyBattleDataHandler);
         
         // 创建地图
-        UnitPlantHelper.GeneratePlant(world, new Random().NextInt());
+        UnitPlaneHelper.GeneratePlane(world);
         
         // 创建玩家
         foreach (var matchOrder in matchRoom.MatchOrders)
@@ -54,7 +56,7 @@ public static partial class BattleWorldManagerComponentSystem
             message.DirtyUnitEntities.Add(battleUnitEntity);
         }
 
-        foreach (var playerId in world.AllPlayers.Keys)
+        foreach (var playerId in world.PlayerId2Players.Keys)
         {
             var battleRole = BattleRoleComponent.Instance.GetByRoleId(playerId);
             if (battleRole != null)

@@ -77,7 +77,7 @@ message UnitEntityPlayerOperationAction // IUnitEntityElemData
 
 //// 地块
 // 地块信息
-message PlantCellInfo // IUnitEntityElemData
+message PlaneCellInfo // IUnitEntityElemData
 {
     Unity.Mathematics.float2 Center = 1;            // 中心点
     repeated Unity.Mathematics.float4 plantEdges = 2;      // 地图边

@@ -4,18 +4,18 @@ using System.Collections.Generic;
 namespace ET
 {
     [UnitEntityLogic]
-    public class PlayerDataLogic : IUnitEntityInitLogic
+    public class PlayerDataInitLogic : IUnitEntityInitLogic
     {
         public void OnInit(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
-            unitEntity.World.AllPlayers[playerInfo.PlayerId] = unitEntity;
+            unitEntity.World.PlayerId2Players[playerInfo.PlayerId] = unitEntity;
         }
 
         public void OnDestroy(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
-            unitEntity.World.AllPlayers.Remove(playerInfo.PlayerId);
+            unitEntity.World.PlayerId2Players.Remove(playerInfo.PlayerId);
         }
 
         public ushort WatchComponentId()

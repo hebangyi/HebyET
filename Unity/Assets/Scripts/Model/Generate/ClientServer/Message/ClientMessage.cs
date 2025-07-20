@@ -488,15 +488,15 @@ this._MoveAngle = default;
     /// </summary>
     // 地块信息
     [MemoryPackable]
-    [Message(ClientMessage.PlantCellInfo)]
-    public partial class PlantCellInfo : MessageObject, IUnitEntityElemData
+    [Message(ClientMessage.PlaneCellInfo)]
+    public partial class PlaneCellInfo : MessageObject, IUnitEntityElemData
     {
         private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
-        public static PlantCellInfo Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        public static PlaneCellInfo Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
         {
-            var instance = ObjectPool.Instance.Fetch(typeof(PlantCellInfo), isFromPool) as PlantCellInfo;
+            var instance = ObjectPool.Instance.Fetch(typeof(PlaneCellInfo), isFromPool) as PlaneCellInfo;
             instance.m_DirtyHandler = dirtyHandler;
             instance.m_InstanceId = instanceId;
             return instance;
@@ -1835,7 +1835,7 @@ this._Center = default;
         public const ushort UnitEntityPlayerInfo = 10007;
         public const ushort UnitEntityPlayerFrame = 10008;
         public const ushort UnitEntityPlayerOperationAction = 10009;
-        public const ushort PlantCellInfo = 10010;
+        public const ushort PlaneCellInfo = 10010;
         public const ushort C2B_PlayerGetAllAOIWorldData = 10011;
         public const ushort B2C_PlayerGetAllAOIWorldData = 10012;
         public const ushort C2B_PlayerBattleWorldPing = 10013;

@@ -10,7 +10,7 @@ namespace ET
         
         public void OnTick(World world)
         {
-            var allPlayers = world.AllPlayers;
+            var allPlayers = world.PlayerId2Players;
             foreach (var playerKv in allPlayers)
             {
                 var player = playerKv.Value;

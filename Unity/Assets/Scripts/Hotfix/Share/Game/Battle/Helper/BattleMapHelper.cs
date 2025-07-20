@@ -11,10 +11,10 @@ namespace ET
     public static class BattleMapHelper
     {
         
-        public static (List<FortuneSite>, LinkedList<VEdge>) GenerateFortuneSites(int areaWidth, int seed, int pointCount, int pointMinDistance = 5)
+        public static (List<FortuneSite>, LinkedList<VEdge>) GenerateFortuneSites(int areaWidth, Random random, int pointCount, int pointMinDistance = 5)
         {
             var fortuneSites = new List<FortuneSite>();
-            var points = GenerateRandomPoint(areaWidth, seed, pointCount, pointMinDistance);
+            var points = GenerateRandomPoint(areaWidth, random, pointCount, pointMinDistance);
             foreach (var point in points)
             {
                 fortuneSites.Add(new FortuneSite(point.x, point.y));
@@ -28,13 +28,12 @@ namespace ET
         /// 在一个 Area 中平均生成 一定数量的点
         /// </summary>
         /// <param name="areaWidth">整个地图的宽度</param>
-        /// <param name="seed">随机数的种子</param>
+        /// <param name="random">随机数生成器</param>
         /// <param name="pointCount">点的数量</param>
         /// <param name="pointMinDistance">点之间的最小距离</param>
         /// <returns></returns>
-        public static List<float2> GenerateRandomPoint(int areaWidth, int seed, int pointCount, int pointMinDistance = 5)
+        public static List<float2> GenerateRandomPoint(int areaWidth, Random random, int pointCount, int pointMinDistance = 5)
         {
-            var random = new Random(seed);
             List<float2> points = new List<float2>();
             List<float2> unitMeshes = new List<float2>();
             var pointSqrt = Math.Sqrt(pointCount);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ET
@@ -16,7 +17,7 @@ namespace ET
     {
         public IDirtyHandler DirtyHandler;
         public ISyncHandler SyncHandler;
-        
+        public Random RandomGenerator;
         
         public WorldMode WorldMode { get; set; } = WorldMode.None;
         // 当前世界逻辑帧
