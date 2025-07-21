@@ -1,12 +1,12 @@
 ﻿namespace ET
 {
     [UnitEntityLogic]
-    public class PlantInitLogic : IUnitEntityInitLogic
+    public class PlaneInitLogic : IUnitEntityInitLogic
     {
         public void OnInit(UnitEntity unitEntity)
         {
             var world = unitEntity.World;
-            var plantCellInfo = unitEntity.GetUnitEntityElemData<PlantCellInfo>();
+            var plantCellInfo = unitEntity.GetUnitEntityElemData<PlaneCellInfo>();
             var center = plantCellInfo.Center;
 
             world.AllPlants.Add(unitEntity);
@@ -19,7 +19,7 @@
 
         public ushort WatchComponentId()
         {
-            return OpcodeType.Instance.GetOpcode(typeof(PlantCellInfo));
+            return OpcodeType.Instance.GetOpcode(typeof(PlaneCellInfo));
         }
     }    
 }

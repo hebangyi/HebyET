@@ -10,6 +10,124 @@ namespace ET
 {
     public static class BattleMapHelper
     {
+        // 判断点是否在多边形内部
+        public static bool IsPointInPolygon(float2 targetPoint, List<float4> polygon)
+        {
+            if (polygon == null || polygon.Count < 3)
+                return false;
+
+            if (!IsSimpleFilter(targetPoint, polygon))
+                return false;
+            
+            bool inside = false;
+            int n = polygon.Count;
+            float tx = targetPoint.x;
+            float ty = targetPoint.y;
+        
+            // 遍历所有边
+            foreach (var p in polygon)
+            {
+                float xi = p.x;
+                float yi = p.y;
+                float xj = p.z;
+                float yj = p.w;
+
+                float2 start = new float2(xi, yi);
+                float2 end = new float2(xj, yj);
+                
+                // 检查点是否在多边形的边上
+                if (IsPointOnEdge(targetPoint, start, end))
+                    return true;
+            
+                // 射线法核心判断
+                if (((yi > ty) != (yj > ty)) && 
+                    (tx < (xj - xi) * (ty - yi) / (yj - yi) + xi))
+                {
+                    inside = !inside;
+                }
+            }
+            
+            return inside;
+        }
+
+
+        private static bool IsSimpleFilter(float2 targetPoint, List<float4> polygon)
+        {
+            float minX = float.MaxValue;
+            float minY = float.MaxValue;
+            float maxX = float.MinValue;
+            float maxY = float.MinValue;
+            
+            foreach (var edge in polygon)
+            {
+                if (edge.x > maxX)
+                {
+                    maxX = edge.x;
+                }
+                
+                if (edge.x < minX)
+                {
+                    minX = edge.x;
+                }
+                    
+                if (edge.y > maxY)
+                {
+                    maxY = edge.y;
+                }
+
+                if (edge.y < minY)
+                {
+                    minY = edge.y;
+                }
+
+                if (edge.z > maxX)
+                {
+                    maxX = edge.z;
+                }
+                    
+                if (edge.z < minX)
+                {
+                    minX = edge.z;
+                }
+                    
+                if (edge.w > maxY)
+                {
+                    maxY = edge.w;
+                }
+                    
+                if (edge.w < minY)
+                {
+                    minY = edge.w;
+                }
+            }
+
+            if (targetPoint.x < minX || targetPoint.x > maxX || targetPoint.y < minY || targetPoint.y > maxY)
+            {
+                return false;
+            }
+            
+            return true;
+        }
+        
+        private static bool IsPointOnEdge(float2 p, float2 start, float2 end)
+        {
+            const double epsilon = 1e-10;
+        
+            // 检查点是否在矩形边界内
+            if (p.x < Math.Min(start.x, end.x) - epsilon || 
+                p.x > Math.Max(start.x, end.x) + epsilon || 
+                p.y < Math.Min(start.y, end.y) - epsilon || 
+                p.y > Math.Max(start.y, end.y) + epsilon)
+                return false;
+        
+            // 检查点是否在直线上（叉积接近0）
+            double crossProduct = (p.y - start.y) * (end.x - start.x) - (p.x - start.x) * (end.y - start.y);
+            return Math.Abs(crossProduct) < epsilon;
+        }
+        
+        
+        
+        
         
         public static (List<FortuneSite>, LinkedList<VEdge>) GenerateFortuneSites(int areaWidth, Random random, int pointCount, int pointMinDistance = 5)
         {

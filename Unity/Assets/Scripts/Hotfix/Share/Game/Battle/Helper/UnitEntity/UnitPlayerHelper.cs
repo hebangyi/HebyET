@@ -26,7 +26,7 @@ namespace ET
             
             var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
             unitEntityPosition.Forward = new float3(0, 0, 1);
-            unitEntityPosition.Position = new float3(planeCellInfo.Center.x, 0, planeCellInfo.Center.y);
+            unitEntityPosition.Position = new float2(planeCellInfo.Center.x, planeCellInfo.Center.y);
 
             var unitEntityPlayerFrame = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerFrame>();
             unitEntityPlayerFrame.Frame = world.Frame;
@@ -36,6 +36,8 @@ namespace ET
             unitEntityPlayerOperationAction.MoveAngle = -1;
 
             unitEntity.CreateUnitEntityLogicElemData<UnitEntityPlayerOperation>();
+            var unitEntityPlayerCellInfo = unitEntity.CreateUnitEntityLogicElemData<UnitEntityPlayerCellInfo>();
+            unitEntityPlayerCellInfo.CurrentPlant = unitEntityPlant;
             
             world.CreateEntityFinish(unitEntity);
             return unitEntity;

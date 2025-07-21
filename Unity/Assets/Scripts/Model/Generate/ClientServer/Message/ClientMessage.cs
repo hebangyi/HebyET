@@ -197,10 +197,10 @@ this._UnitEntityType = default;
             return instance;
         }
 
-        private Unity.Mathematics.float3 _Position;
+        private Unity.Mathematics.float2 _Position;
 
         [MemoryPackOrder(0)]
-        public Unity.Mathematics.float3 Position
+        public Unity.Mathematics.float2 Position
         {
             get => _Position;
             set {
@@ -519,14 +519,84 @@ this._MoveAngle = default;
         /// <summary>
         /// 地图边
         /// </summary>
-        private List<Unity.Mathematics.float4> _plantEdges = new();
+        private List<Unity.Mathematics.float4> _PlantEdges = new();
 
         [MemoryPackOrder(1)]
-        public List<Unity.Mathematics.float4> plantEdges
+        public List<Unity.Mathematics.float4> PlantEdges
         {
-            get => _plantEdges;
+            get => _PlantEdges;
             set {
-                _plantEdges = value;
+                _PlantEdges = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        /// <summary>
+        /// 邻近的地块
+        /// </summary>
+        private List<Unity.Mathematics.float2> _NearPlantCells = new();
+
+        [MemoryPackOrder(2)]
+        public List<Unity.Mathematics.float2> NearPlantCells
+        {
+            get => _NearPlantCells;
+            set {
+                _NearPlantCells = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        /// <summary>
+        /// 地块最小的X
+        /// </summary>
+        private float _MinX;
+
+        [MemoryPackOrder(3)]
+        public float MinX
+        {
+            get => _MinX;
+            set {
+                _MinX = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        /// <summary>
+        /// 地块最小的Y
+        /// </summary>
+        private float _MinY;
+
+        [MemoryPackOrder(4)]
+        public float MinY
+        {
+            get => _MinY;
+            set {
+                _MinY = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        /// <summary>
+        /// 地块最大的X
+        /// </summary>
+        private float _MaxX;
+
+        [MemoryPackOrder(5)]
+        public float MaxX
+        {
+            get => _MaxX;
+            set {
+                _MaxX = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        /// <summary>
+        /// 地块最大的Y
+        /// </summary>
+        private float _MaxY;
+
+        [MemoryPackOrder(6)]
+        public float MaxY
+        {
+            get => _MaxY;
+            set {
+                _MaxY = value;
                 this.m_DirtyHandler?.Dirty(m_InstanceId, this);
             }
         }
@@ -541,7 +611,12 @@ this._MoveAngle = default;
             this.m_InstanceId = default;
             
 this._Center = default;
-            this._plantEdges.Clear();
+            this._PlantEdges.Clear();
+            this._NearPlantCells.Clear();
+            this._MinX = default;
+            this._MinY = default;
+            this._MaxX = default;
+            this._MaxY = default;
 
             ObjectPool.Instance.Recycle(this);
         }

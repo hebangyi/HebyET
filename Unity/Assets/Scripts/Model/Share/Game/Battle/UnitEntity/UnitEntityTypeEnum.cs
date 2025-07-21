@@ -3,6 +3,6 @@
     public enum UnitEntityTypeEnum
     {
         Player = 0,      // 玩家
-        Plant = 1,       // 地块
+        Plane = 1,       // 地块
     }
 }

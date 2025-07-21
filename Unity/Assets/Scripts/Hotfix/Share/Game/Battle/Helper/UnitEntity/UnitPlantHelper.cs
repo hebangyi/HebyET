@@ -159,15 +159,68 @@ namespace ET
                 var unitEntity = world.CreateEntity();
                 
                 var unitEntityCommonData = unitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
-                unitEntityCommonData.UnitEntityType = UnitEntityTypeEnum.Plant;
+                unitEntityCommonData.UnitEntityType = UnitEntityTypeEnum.Plane;
                 
                 var planeCellInfo = unitEntity.CreateUnitEntityElemData<PlaneCellInfo>();
                 planeCellInfo.Center = center;
-                planeCellInfo.plantEdges.AddRange(generatedCell.CellEdges);
+                planeCellInfo.PlantEdges.AddRange(generatedCell.CellEdges);
+                planeCellInfo.NearPlantCells.AddRange(generatedCell.NearCells);
+
+                float minX = float.MaxValue;
+                float minY = float.MaxValue;
+                float maxX = float.MinValue;
+                float maxY = float.MinValue;
+
+
+                foreach (var edge in generatedCell.CellEdges)
+                {
+                    if (edge.x > maxX)
+                    {
+                        maxX = edge.x;
+                    }
+                    
+                    if (edge.x < minX)
+                    {
+                        minX = edge.x;
+                    }
+                    
+                    if (edge.y > maxY)
+                    {
+                        maxY = edge.y;
+                    }
+
+                    if (edge.y < minY)
+                    {
+                        minY = edge.y;
+                    }
+
+                    if (edge.z > maxX)
+                    {
+                        maxX = edge.z;
+                    }
+                    
+                    if (edge.z < minX)
+                    {
+                        minX = edge.z;
+                    }
+                    
+                    if (edge.w > maxY)
+                    {
+                        maxY = edge.w;
+                    }
+                    
+                    if (edge.w < minY)
+                    {
+                        minY = edge.w;
+                    }
+                }
                 
+                planeCellInfo.MinX = minX;
+                planeCellInfo.MinY = minY;
+                planeCellInfo.MaxX = maxX;
+                planeCellInfo.MaxY = maxY;
                 world.CreateEntityFinish(unitEntity);
             }
-            
         }
     }
 }

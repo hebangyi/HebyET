@@ -25,9 +25,9 @@ namespace ET.Client
                     CreatePlayer(unitEntity).Coroutine();
                     break;
                 }
-                case UnitEntityTypeEnum.Plant:
+                case UnitEntityTypeEnum.Plane:
                 {
-                    CreatePlant(unitEntity).Coroutine();
+                    this.CreatePlane(unitEntity).Coroutine();
                     break;
                 }
             }
@@ -46,13 +46,13 @@ namespace ET.Client
             var unitEntityGameObjectComponent = unitEntity.TryAddComponent<UnitEntityGameObjectComponent>();
             unitEntityGameObjectComponent.GameObject = go;
             go.name = $"Player_{unitEntity.InsId}";
-            go.transform.position = new Vector3(unitEntityPosition.Position.x, unitEntityPosition.Position.y, unitEntityPosition.Position.z);
+            go.transform.position = new Vector3(unitEntityPosition.Position.x, 0, unitEntityPosition.Position.y);
         }
 
 
-        public async ETTask CreatePlant(UnitEntity unitEntity)
+        public async ETTask CreatePlane(UnitEntity unitEntity)
         {
-            var plantCellInfo = unitEntity.GetUnitEntityElemData<PlantCellInfo>();
+            var plantCellInfo = unitEntity.GetUnitEntityElemData<PlaneCellInfo>();
             if (plantCellInfo == null)
             {
                 return;
@@ -60,8 +60,8 @@ namespace ET.Client
             
             string assetsName = $"Assets/Bundles/Unit/Unit.prefab";
             GameObject bundleGameObject = await unitEntity.Root().GetComponent<ResourcesLoaderComponent>().LoadAssetAsync<GameObject>(assetsName);
-            GameObject plantGameObject = bundleGameObject.Get<GameObject>("Plant");
-            GameObject go = UnityEngine.Object.Instantiate(plantGameObject, GlobalComponent.Instance.Unit, true);
+            GameObject planeGameObject = bundleGameObject.Get<GameObject>("Plane");
+            GameObject go = UnityEngine.Object.Instantiate(planeGameObject, GlobalComponent.Instance.Unit, true);
             var meshFilter = go.GetComponent<MeshFilter>();
             if (meshFilter == null)
             {
@@ -70,13 +70,13 @@ namespace ET.Client
             }
             
             Mesh mesh = new Mesh();
-            int[] triangles = new int[plantCellInfo.plantEdges.Count * 3];
+            int[] triangles = new int[plantCellInfo.PlantEdges.Count * 3];
             // 点
-            Vector3[] vertices = new Vector3[2 * plantCellInfo.plantEdges.Count + 1] ;
-            vertices[2 * plantCellInfo.plantEdges.Count] = new Vector3(plantCellInfo.Center.x, 0, plantCellInfo.Center.y);
-            for (int i = 0; i < plantCellInfo.plantEdges.Count; i++)
+            Vector3[] vertices = new Vector3[2 * plantCellInfo.PlantEdges.Count + 1] ;
+            vertices[2 * plantCellInfo.PlantEdges.Count] = new Vector3(plantCellInfo.Center.x, 0, plantCellInfo.Center.y);
+            for (int i = 0; i < plantCellInfo.PlantEdges.Count; i++)
             {
-                var edge = plantCellInfo.plantEdges[i];
+                var edge = plantCellInfo.PlantEdges[i];
                 vertices[2 * i] = new Vector3(edge.x, 0, edge.y);
                 vertices[2 * i + 1] = new Vector3(edge.z, 0, edge.w);
                 

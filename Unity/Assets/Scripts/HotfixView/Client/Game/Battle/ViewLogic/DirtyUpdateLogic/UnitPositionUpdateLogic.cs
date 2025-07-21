@@ -1,4 +1,6 @@
-﻿namespace ET.Client
+﻿using UnityEngine;
+
+namespace ET.Client
 {
     [UnitEntityViewLogic]
     public class UnitPositionUpdateLogic : IUnitEntityViewElementDataUpdateLogic
@@ -19,7 +21,7 @@
             var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
             if (unitEntityGameObjectComponent != null && unitEntityGameObjectComponent.GameObject)
             {
-                unitEntityGameObjectComponent.GameObject.transform.position = unitEntityPosition.Position;
+                unitEntityGameObjectComponent.GameObject.transform.position = new Vector3(unitEntityPosition.Position.x, 0 , unitEntityPosition.Position.y);
             }
         }
     }    
