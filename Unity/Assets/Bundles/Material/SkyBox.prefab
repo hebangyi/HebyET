@@ -47,3 +47,11 @@ MonoBehaviour:
   data:
   - key: Default
     gameObject: {fileID: 2100000, guid: 89ee9eeeeb0adaf4fbd07ca02f5a3090, type: 2}
+  - key: Night1
+    gameObject: {fileID: 2100000, guid: bbe9494f815f3c340956427c884b72a0, type: 2}
+  - key: Night2
+    gameObject: {fileID: 2100000, guid: 52fcefd712182d743a781fde12426775, type: 2}
+  - key: Night3
+    gameObject: {fileID: 2100000, guid: 135a7036ca1a07b4e9e162d80e6b6e77, type: 2}
+  - key: Night4
+    gameObject: {fileID: 2100000, guid: ed1387202b1349540a5d6464f0f27488, type: 2}
