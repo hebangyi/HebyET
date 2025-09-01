@@ -69,6 +69,7 @@ namespace ET
                 Log.Warning($"生成地图异常 点和边关系不对应 {pointSite.Count} {pointCenter2Cells.Count} ");
             }
             
+            //// 扣除地块逻辑
             // 找到距离中心比较近的地块
             Cell centerCell = null;
             float minDistance = float.MaxValue;

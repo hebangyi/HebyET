@@ -1,4 +1,5 @@
-﻿using Unity.Mathematics;
+﻿using ET;
+using Unity.Mathematics;
 using Random = System.Random;
 
 namespace DotNet.Test;
@@ -22,5 +23,64 @@ public class DictionaryTest
         
         Console.WriteLine((A1 == A2)[0]);
 
+    }
+
+
+    public static void Test2()
+    {
+        HashSet<int> hash = new HashSet<int>();
+        hash.Add(1);
+        hash.Add(2);
+        hash.Add(3);
+        hash.Add(4);
+        hash.Add(5);
+        hash.Add(6);
+        hash.Add(7);
+        hash.Add(8);
+        hash.Add(9);
+        hash.Add(10);
+        hash.Add(11);
+        hash.Add(12);
+        hash.Add(13);
+
+
+        foreach (var h in hash)
+        {
+            Console.WriteLine(h);
+        }
+
+        List<int> newList = new List<int>(hash);
+        Console.WriteLine(JsonHelper.ToJson(newList));
+    }
+    
+    public static void Test4()
+    {
+        HashSet<Person> persons = new HashSet<Person>();
+        persons.Add(new Person(){Name = "1"});
+        persons.Add(new Person(){Name = "2"});
+        persons.Add(new Person(){Name = "3"});
+        persons.Add(new Person(){Name = "4"});
+        persons.Add(new Person(){Name = "5"});
+        persons.Add(new Person(){Name = "6"});
+        persons.Add(new Person(){Name = "7"});
+        persons.Add(new Person(){Name = "8"});
+        persons.Add(new Person(){Name = "9"});
+        persons.Add(new Person(){Name = "10"});
+        persons.Add(new Person(){Name = "11"});
+        
+
+        foreach (var h in persons)
+        {
+            Console.WriteLine(h.Name);
+        }
+
+        List<Person> newList = new List<Person>(persons);
+        Console.WriteLine(JsonHelper.ToJson(newList));
+    }
+    
+    
+    public class Person
+    {
+        public string Name;
     }
 }

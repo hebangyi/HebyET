@@ -1,4 +1,6 @@
-﻿using Unity.Mathematics;
+﻿using System;
+using Unity.Mathematics;
+using UnityEngine;
 
 namespace ET.Client
 {
@@ -9,7 +11,10 @@ namespace ET.Client
         private static void Awake(this UnitySceneCameraComponent self)
         {
             self.MainCamera = GlobalComponent.Instance.MainCamera;
-            self.OffsetPosition = new float3(0, 10f, -6f);
+            float height = 10;
+            float degree = 40;
+            float behind = height / (float)(Math.Tan(degree * Mathf.Deg2Rad)) * -1;
+            self.OffsetPosition = new float3(0, height, behind);
         }
 
 
