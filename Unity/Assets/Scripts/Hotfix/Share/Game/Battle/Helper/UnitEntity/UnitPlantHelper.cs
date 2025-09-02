@@ -153,15 +153,115 @@ namespace ET
                 generatedCells.Add(nextNearCell);
             }
             
+            var plantMessageUnitEntity = world.CreateEntity();
+            
+            var commonData = plantMessageUnitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
+            commonData.UnitEntityType = UnitEntityTypeEnum.PlantMessage;
+            
+            var unitEntityMapMessage = plantMessageUnitEntity.CreateUnitEntityElemData<UnitEntityMapMessage>();
+
+
+            int unitPlantSize = 1;
+            float unitPlantRadius = unitPlantSize * 1.0f / 2;
+            
+            
+            world.CreateEntityFinish(plantMessageUnitEntity);
+
+            float plantMinX = float.MaxValue;
+            float plantMinY = float.MaxValue;
+            float plantMaxX = 0;
+            float plantMaxY = 0;
+            foreach (var generatedCell in generatedCells)
+            {
+                foreach (var edge in generatedCell.CellEdges)
+                {
+                    if (edge.x > plantMaxX)
+                    {
+                        plantMaxX = edge.x;
+                    }
+                    
+                    if (edge.x < plantMinX)
+                    {
+                        plantMinX = edge.x;
+                    }
+                    
+                    if (edge.y > plantMaxY)
+                    {
+                        plantMaxY = edge.y;
+                    }
+
+                    if (edge.y < plantMinY)
+                    {
+                        plantMinY = edge.y;
+                    }
+
+                    if (edge.z > plantMaxX)
+                    {
+                        plantMaxX = edge.z;
+                    }
+                    
+                    if (edge.z < plantMinX)
+                    {
+                        plantMinX = edge.z;
+                    }
+                    
+                    if (edge.w > plantMaxY)
+                    {
+                        plantMaxY = edge.w;
+                    }
+                    
+                    if (edge.w < plantMinY)
+                    {
+                        plantMinY = edge.w;
+                    }
+                }
+            }
+            
+            // 计算总的Cell数量
+            int xPlantCount = (int)(plantMaxX / unitPlantSize) + 1;
+            int yPlantCount = (int)(plantMaxY / unitPlantSize) + 1;
+            int totalPlantCount = xPlantCount * yPlantCount;
+            unitEntityMapMessage.MapData = new bool[totalPlantCount].ToList();
+            unitEntityMapMessage.MapWidth = xPlantCount;
+            unitEntityMapMessage.MapHeight = yPlantCount;
+            unitEntityMapMessage.UnitCellSize = unitPlantSize;
+
+            for (int x = 0; x < xPlantCount; x++)
+            {
+                for (int y = 0; y < yPlantCount; y++)
+                {
+                    // 判断中心点是否在Cell
+                    float centerPlantX = x * unitPlantSize + unitPlantRadius;
+                    float centerPlantY = y * unitPlantSize + unitPlantRadius;
+
+                    bool isPoint = false;
+                    foreach (var generatedCell in generatedCells)
+                    {
+                        if (BattleMapHelper.IsPointInPolygon(new float2(centerPlantX, centerPlantY), generatedCell.CellEdges.ToList()))
+                        {
+                            isPoint = true;
+                            break;
+                        }
+                    }
+
+                    if (isPoint)
+                    {
+                        var target = x * xPlantCount + y;
+                        unitEntityMapMessage.MapData[target] = true;
+                    }
+                }
+            }
+
+
             // 创建地块 UnitEntity
             foreach (var generatedCell in generatedCells)
             {
                 var center = generatedCell.Center;
                 var unitEntity = world.CreateEntity();
-                
+
                 var unitEntityCommonData = unitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
                 unitEntityCommonData.UnitEntityType = UnitEntityTypeEnum.Plane;
-                
+
                 var planeCellInfo = unitEntity.CreateUnitEntityElemData<PlaneCellInfo>();
                 planeCellInfo.Center = center;
                 planeCellInfo.PlantEdges.AddRange(generatedCell.CellEdges);
@@ -179,12 +279,12 @@ namespace ET
                     {
                         maxX = edge.x;
                     }
-                    
+
                     if (edge.x < minX)
                     {
                         minX = edge.x;
                     }
-                    
+
                     if (edge.y > maxY)
                     {
                         maxY = edge.y;
@@ -199,23 +299,23 @@ namespace ET
                     {
                         maxX = edge.z;
                     }
-                    
+
                     if (edge.z < minX)
                     {
                         minX = edge.z;
                     }
-                    
+
                     if (edge.w > maxY)
                     {
                         maxY = edge.w;
                     }
-                    
+
                     if (edge.w < minY)
                     {
                         minY = edge.w;
                     }
                 }
-                
+
                 planeCellInfo.MinX = minX;
                 planeCellInfo.MinY = minY;
                 planeCellInfo.MaxX = maxX;

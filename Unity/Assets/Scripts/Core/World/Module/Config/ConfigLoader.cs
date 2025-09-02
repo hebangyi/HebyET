@@ -35,23 +35,25 @@ namespace ET
         {
             Dictionary<Type, byte[]> configBytes = await EventSystem.Instance.Invoke<GetAllConfigBytes, ETTask<Dictionary<Type, byte[]>>>(new GetAllConfigBytes());
 
-#if DOTNET || UNITY_STANDALONE
+/*#if DOTNET || UNITY_STANDALONE
             using ListComponent<Task> listTasks = ListComponent<Task>.Create();
 
             foreach (Type type in configBytes.Keys)
             {
                 byte[] oneConfigBytes = configBytes[type];
+                // TODO 这里使用这种方式加载会让内存增加
                 Task task = Task.Run(() => LoadOneConfig(type, oneConfigBytes));
                 listTasks.Add(task);
             }
 
             await Task.WhenAll(listTasks.ToArray());
 #else
+#endif
+*/
             foreach (Type type in configBytes.Keys)
             {
                 LoadOneConfig(type, configBytes[type]);
             }
-#endif
         }
 
         private static void LoadOneConfig(Type configType, byte[] oneConfigBytes)

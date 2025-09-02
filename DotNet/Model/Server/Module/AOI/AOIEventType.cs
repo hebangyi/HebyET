@@ -1,4 +1,4 @@
-﻿namespace ET.Server
+﻿/*namespace ET.Server
 {
 	public struct UnitEnterSightRange
 	{
@@ -11,4 +11,4 @@
 		public AOIEntity A;
 		public AOIEntity B;
 	}
-}
+}*/

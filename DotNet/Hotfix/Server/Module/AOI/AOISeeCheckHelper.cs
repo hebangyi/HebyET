@@ -1,4 +1,4 @@
-﻿namespace ET.Server
+﻿/*namespace ET.Server
 {
     public static partial class AOISeeCheckHelper
     {
@@ -7,4 +7,4 @@
             return true;
         }
     }
-}
+}*/

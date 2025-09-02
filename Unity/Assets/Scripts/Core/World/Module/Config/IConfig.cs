@@ -7,4 +7,8 @@
 	{
 		int Id { get; set; }
 	}
+
+	public interface IKeyConfig
+	{
+	}
 }

@@ -51,3 +51,6 @@ MonoBehaviour:
   - key: Plane
     gameObject: {fileID: 6715395822234847660, guid: 66ac11a121a979049a2ccc5a82e59eb1,
       type: 3}
+  - key: PlaneMessage
+    gameObject: {fileID: 8314645215613679698, guid: e7a42edf02a34d34e9566e55f6de5ec0,
+      type: 3}

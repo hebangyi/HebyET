@@ -31,15 +31,17 @@ namespace ET
         public string FieldDesc;
         public string FieldName;
         public string FieldType;
+        public string FieldValue;
         public int FieldIndex;
 
-        public HeadInfo(string cs, string desc, string name, string type, int index)
+        public HeadInfo(string cs, string desc, string name, string type, int index, string fieldValue)
         {
             this.FieldCS = cs;
             this.FieldDesc = desc;
             this.FieldName = name;
             this.FieldType = type;
             this.FieldIndex = index;
+            this.FieldValue = fieldValue;
         }
     }
 
@@ -49,12 +51,20 @@ namespace ET
         public bool C;
         public bool S;
         public int Index;
+        public TableType TableType { get; set; }
         public Dictionary<string, HeadInfo> HeadInfos = new Dictionary<string, HeadInfo>();
+    }
+
+    public enum TableType
+    {
+        IdTable,
+        KeyTable,
     }
 
     public static class ExcelExporter
     {
         private static string template;
+        private static string templateKey;
 
         private const string ClientClassDir = "../Unity/Assets/Scripts/Model/Generate/Client/Config";
 
@@ -103,6 +113,7 @@ namespace ET
             try
             {
                 template = File.ReadAllText("Template.txt");
+                templateKey = File.ReadAllText("Templatekey.txt");
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
                 if (Directory.Exists(ClientClassDir))
@@ -186,15 +197,15 @@ namespace ET
                 {
                     if (kv.Value.C && kv.Value.S)
                     {
-                        ExportClass(kv.Key, kv.Value.HeadInfos, ConfigType.cs);
+                        ExportClass(kv.Key, kv.Value, ConfigType.cs);
                     }
                     else if (kv.Value.C)
                     {
-                        ExportClass(kv.Key, kv.Value.HeadInfos, ConfigType.c);
+                        ExportClass(kv.Key, kv.Value, ConfigType.c);
                     }
                     else
                     {
-                        ExportClass(kv.Key, kv.Value.HeadInfos, ConfigType.s);
+                        ExportClass(kv.Key, kv.Value, ConfigType.s);
                     }
                 }
 
@@ -268,7 +279,7 @@ namespace ET
             }
 
             Table table = GetTable(protoName);
-
+            
             ExcelPackage p = GetPackage(Path.GetFullPath(path));
 
             if (cs == "cs")
@@ -281,7 +292,7 @@ namespace ET
                 ExportExcelJson(p, fileNameWithoutCS, table, ConfigType.c, relativePath);
                 ExportExcelProtobuf(ConfigType.c, protoName, relativePath);
             }
-            else
+            else if(cs.Contains("s"))
             {
                 ExportExcelJson(p, fileNameWithoutCS, table, ConfigType.s, relativePath);
                 ExportExcelProtobuf(ConfigType.s, protoName, relativePath);
@@ -375,63 +386,85 @@ namespace ET
 
         static void ExportExcelClass(ExcelPackage p, string name, Table table)
         {
-            foreach (ExcelWorksheet worksheet in p.Workbook.Worksheets)
-            {
-                ExportSheetClass(worksheet, table);
-            }
+            var worksheet = p.Workbook.Worksheets.FirstOrDefault();
+            ExportSheetClass(worksheet, table);
         }
 
         static void ExportSheetClass(ExcelWorksheet worksheet, Table table)
         {
             const int row = 2;
-            for (int col = 3; col <= worksheet.Dimension.End.Column; ++col)
+
+            TableType tableType = TableType.IdTable;
+            string keyName = worksheet.Cells[row + 2, 3].Text.Trim();
+            if (keyName.ToLower() == "key")
             {
-                if (worksheet.Name.StartsWith("#"))
-                {
-                    continue;
-                }
+                tableType = TableType.KeyTable;
+            }
 
-                string fieldName = worksheet.Cells[row + 2, col].Text.Trim();
-                if (fieldName == "")
-                {
-                    continue;
-                }
+            Console.WriteLine(tableType);
+            var fieldCS = "cs";
 
-                if (table.HeadInfos.ContainsKey(fieldName))
+            table.TableType = tableType;
+            if (tableType == TableType.IdTable)
+            {
+                for (int col = 3; col <= worksheet.Dimension.End.Column; ++col)
                 {
-                    continue;
-                }
-
-                string fieldCS = worksheet.Cells[row, col].Text.Trim().ToLower();
-                if (fieldCS.Contains("#"))
-                {
-                    table.HeadInfos[fieldName] = null;
-                    continue;
-                }
-
-                if (fieldCS == "")
-                {
-                    fieldCS = "cs";
-                }
-
-                if (table.HeadInfos.TryGetValue(fieldName, out var oldClassField))
-                {
-                    if (oldClassField.FieldCS != fieldCS)
+                    string fieldName = worksheet.Cells[row + 2, col].Text.Trim();
+                    if (fieldName == "")
                     {
-                        Log.Console($"field cs not same: {worksheet.Name} {fieldName} oldcs: {oldClassField.FieldCS} {fieldCS}");
+                        continue;
                     }
 
-                    continue;
+                    if (table.HeadInfos.ContainsKey(fieldName))
+                    {
+                        continue;
+                    }
+                    
+                    
+                    string fcs = worksheet.Cells[row, col].Text.Trim();
+                    if (fcs != "")
+                    {
+                        fieldCS = fcs;
+                    }
+                    
+                    string fieldDesc = worksheet.Cells[row + 1, col].Text.Trim();
+                    string fieldType = worksheet.Cells[row + 3, col].Text.Trim();
+
+                    var headInfo = new HeadInfo(fieldCS, fieldDesc, fieldName, fieldType, ++table.Index, "");
+                    table.HeadInfos[fieldName] = headInfo;
                 }
+            }
+            else if (tableType == TableType.KeyTable)
+            {
+                for (int r = row + 4; r <= worksheet.Dimension.End.Row; ++r)
+                {
+                    string fcs = worksheet.Cells[r, 2].Text.Trim();
+                    string key = worksheet.Cells[r, 3].Text.Trim();
+                    string type = worksheet.Cells[r, 4].Text.Trim();
+                    string value = worksheet.Cells[r, 5].Text.Trim();
+                    string desc = worksheet.Cells[r, 6].Text.Trim();
+                    if (key == "")
+                    {
+                        continue;
+                    }
 
-                string fieldDesc = worksheet.Cells[row + 1, col].Text.Trim();
-                string fieldType = worksheet.Cells[row + 3, col].Text.Trim();
+                    if (fcs != "")
+                    {
+                        fieldCS = fcs;
+                    }
 
-                table.HeadInfos[fieldName] = new HeadInfo(fieldCS, fieldDesc, fieldName, fieldType, ++table.Index);
+                    if (table.HeadInfos.ContainsKey(key))
+                    {
+                        continue;
+                    }
+                    
+                    var headInfo = new HeadInfo(fieldCS, desc, key, type, ++table.Index, value);
+                    table.HeadInfos[key] = headInfo;
+                }
             }
         }
 
-        static void ExportClass(string protoName, Dictionary<string, HeadInfo> classField, ConfigType configType)
+        static void ExportClass(string protoName, Table table, ConfigType configType)
         {
             string dir = GetClassDir(configType);
             if (!Directory.Exists(dir))
@@ -439,31 +472,59 @@ namespace ET
                 Directory.CreateDirectory(dir);
             }
 
+            var classField = table.HeadInfos;
+            var tableType = table.TableType;
+            
             string exportPath = Path.Combine(dir, $"{protoName}.cs");
 
             using FileStream txt = new FileStream(exportPath, FileMode.Create);
             using StreamWriter sw = new StreamWriter(txt);
-
-            StringBuilder sb = new StringBuilder();
-            foreach ((string _, HeadInfo headInfo) in classField)
+            
+            if (tableType == TableType.IdTable)
             {
-                if (headInfo == null)
+                StringBuilder sb = new StringBuilder();
+                foreach ((string _, HeadInfo headInfo) in classField)
                 {
-                    continue;
+                    if (headInfo == null)
+                    {
+                        continue;
+                    }
+
+                    if (configType != ConfigType.cs && !headInfo.FieldCS.Contains(configType.ToString()))
+                    {
+                        continue;
+                    }
+
+                    sb.Append($"\t\t/// <summary>{headInfo.FieldDesc}</summary>\n");
+                    string fieldType = headInfo.FieldType;
+                    sb.Append($"\t\tpublic {fieldType} {headInfo.FieldName} {{ get; set; }}\n");
                 }
 
-                if (configType != ConfigType.cs && !headInfo.FieldCS.Contains(configType.ToString()))
-                {
-                    continue;
-                }
-
-                sb.Append($"\t\t/// <summary>{headInfo.FieldDesc}</summary>\n");
-                string fieldType = headInfo.FieldType;
-                sb.Append($"\t\tpublic {fieldType} {headInfo.FieldName} {{ get; set; }}\n");
+                string content = template.Replace("(ConfigName)", protoName).Replace(("(Fields)"), sb.ToString());
+                sw.Write(content);
             }
+            else if (tableType == TableType.KeyTable)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach ((string _, HeadInfo headInfo) in classField)
+                {
+                    if (headInfo == null)
+                    {
+                        continue;
+                    }
 
-            string content = template.Replace("(ConfigName)", protoName).Replace(("(Fields)"), sb.ToString());
-            sw.Write(content);
+                    if (configType != ConfigType.cs && !headInfo.FieldCS.Contains(configType.ToString()))
+                    {
+                        continue;
+                    }
+
+                    sb.Append($"\t\t/// <summary>{headInfo.FieldDesc}</summary>\n");
+                    string fieldType = headInfo.FieldType;
+                    sb.Append($"\t\tpublic {fieldType} {headInfo.FieldName} {{ get; set; }}\n");
+                }
+                string content = templateKey.Replace("(ConfigName)", protoName).Replace(("(Fields)"), sb.ToString());
+                sw.Write(content);
+            }
         }
 
         #endregion
@@ -473,7 +534,7 @@ namespace ET
         static void ExportExcelJson(ExcelPackage p, string name, Table table, ConfigType configType, string relativeDir)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("{\"dict\": [\n");
+            
             foreach (ExcelWorksheet worksheet in p.Workbook.Worksheets)
             {
                 if (worksheet.Name.StartsWith("#"))
@@ -481,10 +542,8 @@ namespace ET
                     continue;
                 }
 
-                ExportSheetJson(worksheet, name, table.HeadInfos, configType, sb);
+                ExportSheetJson(worksheet, name, table, configType, sb);
             }
-
-            sb.Append("]}\n");
 
             string dir = string.Format(jsonDir, configType.ToString(), relativeDir);
             if (!Directory.Exists(dir))
@@ -498,65 +557,111 @@ namespace ET
             sw.Write(sb.ToString());
         }
 
-        static void ExportSheetJson(ExcelWorksheet worksheet, string name,
-        Dictionary<string, HeadInfo> classField, ConfigType configType, StringBuilder sb)
+        static void ExportSheetJson(ExcelWorksheet worksheet, string name, 
+            Table table, ConfigType configType, StringBuilder sb)
         {
+            var classField = table.HeadInfos;
             string configTypeStr = configType.ToString();
-            for (int row = 6; row <= worksheet.Dimension.End.Row; ++row)
+
+            if (table.TableType == TableType.IdTable)
             {
-                string prefix = worksheet.Cells[row, 2].Text.Trim();
-                if (prefix.Contains("#"))
+                sb.Append("{\"dict\": [\n");
+                
+                for (int row = 6; row <= worksheet.Dimension.End.Row; ++row)
                 {
-                    continue;
-                }
-
-                if (prefix == "")
-                {
-                    prefix = "cs";
-                }
-
-                if (configType != ConfigType.cs && !prefix.Contains(configTypeStr))
-                {
-                    continue;
-                }
-
-                if (worksheet.Cells[row, 3].Text.Trim() == "")
-                {
-                    continue;
-                }
-
-                sb.Append($"[{worksheet.Cells[row, 3].Text.Trim()}, {{\"_t\":\"{name}\"");
-                for (int col = 3; col <= worksheet.Dimension.End.Column; ++col)
-                {
-                    string fieldName = worksheet.Cells[4, col].Text.Trim();
-                    if (!classField.ContainsKey(fieldName))
+                    string prefix = worksheet.Cells[row, 2].Text.Trim();
+                    if (prefix.Contains("#"))
                     {
                         continue;
                     }
 
-                    HeadInfo headInfo = classField[fieldName];
+                    if (prefix == "")
+                    {
+                        prefix = "cs";
+                    }
 
+                    if (configType != ConfigType.cs && !prefix.Contains(configTypeStr))
+                    {
+                        continue;
+                    }
+
+                    if (worksheet.Cells[row, 3].Text.Trim() == "")
+                    {
+                        continue;
+                    }
+
+                    sb.Append($"[{worksheet.Cells[row, 3].Text.Trim()}, {{\"_t\":\"{name}\"");
+                    for (int col = 3; col <= worksheet.Dimension.End.Column; ++col)
+                    {
+                        string fieldName = worksheet.Cells[4, col].Text.Trim();
+                        if (!classField.ContainsKey(fieldName))
+                        {
+                            continue;
+                        }
+
+                        HeadInfo headInfo = classField[fieldName];
+
+                        if (headInfo == null)
+                        {
+                            continue;
+                        }
+
+                        if (configType != ConfigType.cs && !headInfo.FieldCS.Contains(configTypeStr))
+                        {
+                            continue;
+                        }
+
+                        string fieldN = headInfo.FieldName;
+                        if (fieldN == "Id")
+                        {
+                            fieldN = "_id";
+                        }
+
+                        sb.Append($",\"{fieldN}\":{Convert(headInfo.FieldType, worksheet.Cells[row, col].Text.Trim())}");
+                    }
+
+                    sb.Append("}],\n");
+                }
+                
+                sb.Append("]}\n");
+            }
+            else if (table.TableType == TableType.KeyTable)
+            {
+                sb.Append("{\"Config\": {");
+                
+                for (int row = 6; row <= worksheet.Dimension.End.Row; ++row)
+                {
+                    string fcs = worksheet.Cells[row, 2].Text.Trim();
+                    string key = worksheet.Cells[row, 3].Text.Trim();
+
+                    var headInfo = classField.GetValueOrDefault(key);
                     if (headInfo == null)
                     {
                         continue;
                     }
-
-                    if (configType != ConfigType.cs && !headInfo.FieldCS.Contains(configTypeStr))
+                    
+                    if (fcs.Contains("#"))
                     {
                         continue;
                     }
 
-                    string fieldN = headInfo.FieldName;
-                    if (fieldN == "Id")
+                    if (fcs == "")
                     {
-                        fieldN = "_id";
+                        fcs = "cs";
                     }
 
-                    sb.Append($",\"{fieldN}\":{Convert(headInfo.FieldType, worksheet.Cells[row, col].Text.Trim())}");
-                }
+                    if (configType != ConfigType.cs && !fcs.Contains(configTypeStr))
+                    {
+                        continue;
+                    }
 
-                sb.Append("}],\n");
+                    sb.Append($",\"{headInfo.FieldName}\":{Convert(headInfo.FieldType, headInfo.FieldValue.Trim())}");
+                }
+                
+                
+                sb.Append("}}");
             }
+            
         }
 
         private static string Convert(string type, string value)

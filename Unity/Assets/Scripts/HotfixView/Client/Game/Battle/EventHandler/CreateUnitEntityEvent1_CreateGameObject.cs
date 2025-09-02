@@ -1,5 +1,6 @@
 ﻿using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace ET.Client
 {
@@ -28,6 +29,11 @@ namespace ET.Client
                 case UnitEntityTypeEnum.Plane:
                 {
                     this.CreatePlane(unitEntity).Coroutine();
+                    break;
+                }
+                case UnitEntityTypeEnum.PlantMessage:
+                {
+                    this.CreatePlantMessage(unitEntity).Coroutine();;
                     break;
                 }
             }
@@ -98,6 +104,43 @@ namespace ET.Client
             
             // go.transform.position = new Vector3(plantCellInfo.Center.x, 0, plantCellInfo.Center.y);
             go.name = $"Plant_{unitEntity.InsId}";
+            go.SetActive(false);
+        }
+
+
+        public async ETTask CreatePlantMessage(UnitEntity unitEntity)
+        {
+            Log.Error("CreatePlantMessage!!!");
+            var plantCellInfo = unitEntity.GetUnitEntityElemData<UnitEntityMapMessage>();
+            if (plantCellInfo == null)
+            {
+                return;
+            }
+            
+            string assetsName = $"Assets/Bundles/Unit/Unit.prefab";
+            GameObject bundleGameObject = await unitEntity.Root().GetComponent<ResourcesLoaderComponent>().LoadAssetAsync<GameObject>(assetsName);
+            GameObject planeGameObject = bundleGameObject.Get<GameObject>("PlaneMessage");
+            GameObject go = UnityEngine.Object.Instantiate(planeGameObject, GlobalComponent.Instance.Unit, true);
+            var unitEntityGameObjectComponent = unitEntity.TryAddComponent<UnitEntityGameObjectComponent>();
+            unitEntityGameObjectComponent.GameObject = go;
+            var groundTile = go.Get<TileBase>("Ground");
+            var tilemap = go.Get<GameObject>("TileMap").GetComponent<Tilemap>();
+
+            for (int x = 0; x < plantCellInfo.MapWidth; x++)
+            {
+                for (int y = 0; y < plantCellInfo.MapHeight; y++)
+                {
+                    var target = x * plantCellInfo.MapWidth + y;
+                    if (plantCellInfo.MapData[target])
+                    {
+                        Vector3Int position = new Vector3Int(x, y, 0);
+                        tilemap.SetTile(position, groundTile);    
+                    }
+                }
+            }
+            tilemap.RefreshAllTiles();
+            // go.transform.position = new Vector3(plantCellInfo.Center.x, 0, plantCellInfo.Center.y);
+            go.name = $"PlantMessage_{unitEntity.InsId}";
         }
     }    
 }

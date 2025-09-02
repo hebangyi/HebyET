@@ -30,7 +30,7 @@ message UnitEntityElemData
 
 
 
-//// 常规信息 
+////>>>>>>>>>>>>>>>>>> 常规信息 
 message UnitEntityCommonData // IUnitEntityElemData
 {
     UnitEntityTypeEnum UnitEntityType = 1;
@@ -52,6 +52,8 @@ message UnitEntityInfo // IUnitEntityElemData
     int32 ConfigId = 2;                             // 配置ID
     int32 Speed = 3;           // 移动速度
 }
+
+////>>>>>>>>>>>>>>>>>>
 
 //// 玩家
 // 玩家信息
@@ -76,6 +78,16 @@ message UnitEntityPlayerOperationAction // IUnitEntityElemData
 
 
 //// 地块
+// 地图信息
+message UnitEntityMapMessage // IUnitEntityElemData
+{
+    repeated bool MapData = 1;          // 地图数据
+    int32 MapWidth = 2;                 // 地图宽 
+    int32 MapHeight = 3;                // 地图高
+    int32 UnitCellSize = 4;             // 单位Cell的长度
+}
+
+
 // 地块信息
 message PlaneCellInfo // IUnitEntityElemData
 {
@@ -86,7 +98,11 @@ message PlaneCellInfo // IUnitEntityElemData
     float MinY = 5;                                        // 地块最小的Y
     float MaxX = 6;                                        // 地块最大的X
     float MaxY = 7;                                        // 地块最大的Y
+    int32 MapWidth 
+
 }
+
+
 
 
 

@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Options;
+using System.ComponentModel;
+
+namespace ET
+{
+    [Config]
+    public partial class (ConfigName)Category : Singleton<(ConfigName)Category>, IMerge
+    {
+        [BsonElement]
+        public GlobalConfig Config;
+        
+        public void Merge(object o)
+        {
+            (ConfigName)Category s = o as (ConfigName)Category;
+            this.Config = s.Config;
+        }
+    }
+
+	public partial class (ConfigName): ProtoObject, IKeyConfig
+	{
+(Fields)
+	}
+}

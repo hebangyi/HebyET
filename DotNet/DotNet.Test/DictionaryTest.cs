@@ -77,6 +77,15 @@ public class DictionaryTest
         List<Person> newList = new List<Person>(persons);
         Console.WriteLine(JsonHelper.ToJson(newList));
     }
+
+    public static void Test5()
+    {
+        bool[] array = new bool[10];
+        foreach (var a in array)
+        {
+            Console.WriteLine(a);
+        }
+    }
     
     
     public class Person

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿/*using System.Collections.Generic;
 using Unity.Mathematics;
 
 namespace ET.Server
@@ -10,9 +10,9 @@ namespace ET.Server
 
         public int ViewDistance;
 
-        private EntityRef<Cell> cell;
+        private EntityRef<Cell1> cell;
 
-        public Cell Cell
+        public Cell1 Cell
         {
             get
             {
@@ -48,4 +48,4 @@ namespace ET.Server
         // 看见我的Player单独放一个Dict，用于广播
         public Dictionary<long, EntityRef<AOIEntity>> BeSeePlayers = new Dictionary<long, EntityRef<AOIEntity>>();
     }
-}
+}*/

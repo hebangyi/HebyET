@@ -11,8 +11,8 @@ namespace ET.Client
         private static void Awake(this UnitySceneCameraComponent self)
         {
             self.MainCamera = GlobalComponent.Instance.MainCamera;
-            float height = 10;
-            float degree = 40;
+            float height = 15;
+            float degree = 45;
             float behind = height / (float)(Math.Tan(degree * Mathf.Deg2Rad)) * -1;
             self.OffsetPosition = new float3(0, height, behind);
         }

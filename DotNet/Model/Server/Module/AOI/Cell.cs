@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿/*using System.Collections.Generic;
 
 namespace ET.Server
 {
     [ChildOf(typeof(AOIManagerComponent))]
-    public class Cell: Entity, IAwake, IDestroy
+    public class Cell1: Entity, IAwake, IDestroy
     {
         // 处在这个cell的单位
         public Dictionary<long, EntityRef<AOIEntity>> AOIUnits = new Dictionary<long, EntityRef<AOIEntity>>();
@@ -14,4 +14,4 @@ namespace ET.Server
         // 订阅了这个Cell的退出事件
         public Dictionary<long, EntityRef<AOIEntity>> SubsLeaveEntities = new Dictionary<long, EntityRef<AOIEntity>>();
     }
-}
+}*/
