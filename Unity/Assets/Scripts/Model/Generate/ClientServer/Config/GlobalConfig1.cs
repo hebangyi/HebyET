@@ -7,19 +7,19 @@ using System.ComponentModel;
 namespace ET
 {
     [Config]
-    public partial class GlobalConfigCategory : Singleton<GlobalConfigCategory>, IMerge
+    public partial class GlobalConfig1Category : Singleton<GlobalConfig1Category>, IMerge
     {
         [BsonElement]
-        public GlobalConfig Config;
+        public GlobalConfig1 Config;
         
         public void Merge(object o)
         {
-            GlobalConfigCategory s = o as GlobalConfigCategory;
+            GlobalConfig1Category s = o as GlobalConfig1Category;
             this.Config = s.Config;
         }
     }
 
-	public partial class GlobalConfig: ProtoObject, IKeyConfig
+	public partial class GlobalConfig1: ProtoObject, IKeyConfig
 	{
 		/// <summary></summary>
 		public int TestKey1 { get; set; }

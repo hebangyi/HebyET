@@ -10,7 +10,7 @@ namespace ET
     public partial class (ConfigName)Category : Singleton<(ConfigName)Category>, IMerge
     {
         [BsonElement]
-        public GlobalConfig Config;
+        public (ConfigName) Config;
         
         public void Merge(object o)
         {
