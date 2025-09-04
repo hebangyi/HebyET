@@ -1,4 +1,5 @@
-﻿using Unity.Mathematics;
+﻿using System;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -33,7 +34,12 @@ namespace ET.Client
                 }
                 case UnitEntityTypeEnum.PlantMessage:
                 {
-                    this.CreatePlantMessage(unitEntity).Coroutine();;
+                    this.CreatePlantMessage(unitEntity).Coroutine();
+                    break;
+                }
+                case UnitEntityTypeEnum.GizmosDebug:
+                {
+                    this.CreateGizmosDebug(unitEntity).Coroutine();
                     break;
                 }
             }
@@ -143,12 +149,38 @@ namespace ET.Client
             go.name = $"PlantMessage_{unitEntity.InsId}";
         }
 
-        public async ETTask CreatePlantGizmosHelper(UnitEntity unitEntity)
+        public async ETTask CreateGizmosDebug(UnitEntity unitEntity)
         {
-            Log.Error("CreatePlantGizmosHelper!!!");
+            Log.Error("CreateGizmosDebug!!!");
             
+            string assetsName = $"Assets/Bundles/Unit/Unit.prefab";
+            GameObject bundleGameObject = await unitEntity.Root().GetComponent<ResourcesLoaderComponent>().LoadAssetAsync<GameObject>(assetsName);
+            GameObject gizmosGameObject = bundleGameObject.Get<GameObject>("GizmosDebug");
+            GameObject go = UnityEngine.Object.Instantiate(gizmosGameObject, GlobalComponent.Instance.Unit, true);
+
+            var gizmosDebug = go.GetComponent<GizmosDebug>();
             
-            
+            var gizmosDebugInfo = unitEntity.GetUnitEntityElemData<GizmosDebugInfo>();
+            if (gizmosDebugInfo == null)
+            {
+                return;
+            }
+
+            foreach (var border in gizmosDebugInfo.Borders)
+            {
+                Vector3 startPoint = new Vector3();
+                Vector3 endPoint = new Vector3();
+                
+                
+                startPoint.x = (float)border.x;
+                startPoint.z = (float)border.y;
+
+                endPoint.x = (float)border.z;
+                endPoint.z = (float)border.w;
+                
+                GizmosLine gizmosLine = new GizmosLine(startPoint, endPoint);
+                gizmosDebug.Lines.Add(gizmosLine);
+            }
         }
         
     }    

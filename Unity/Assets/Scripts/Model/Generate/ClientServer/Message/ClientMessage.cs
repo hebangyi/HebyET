@@ -718,15 +718,15 @@ this._Center = default;
 
     // 地块辅助线信息
     [MemoryPackable]
-    [Message(ClientMessage.PlaneCellGizmosHelper)]
-    public partial class PlaneCellGizmosHelper : MessageObject, IUnitEntityElemData
+    [Message(ClientMessage.GizmosDebugInfo)]
+    public partial class GizmosDebugInfo : MessageObject, IUnitEntityElemData
     {
         private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
-        public static PlaneCellGizmosHelper Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        public static GizmosDebugInfo Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
         {
-            var instance = ObjectPool.Instance.Fetch(typeof(PlaneCellGizmosHelper), isFromPool) as PlaneCellGizmosHelper;
+            var instance = ObjectPool.Instance.Fetch(typeof(GizmosDebugInfo), isFromPool) as GizmosDebugInfo;
             instance.m_DirtyHandler = dirtyHandler;
             instance.m_InstanceId = instanceId;
             return instance;
@@ -2067,7 +2067,7 @@ this._CenterPoint.Clear();
         public const ushort UnitEntityPlayerOperationAction = 10009;
         public const ushort UnitEntityMapMessage = 10010;
         public const ushort PlaneCellInfo = 10011;
-        public const ushort PlaneCellGizmosHelper = 10012;
+        public const ushort GizmosDebugInfo = 10012;
         public const ushort C2B_PlayerGetAllAOIWorldData = 10013;
         public const ushort B2C_PlayerGetAllAOIWorldData = 10014;
         public const ushort C2B_PlayerBattleWorldPing = 10015;

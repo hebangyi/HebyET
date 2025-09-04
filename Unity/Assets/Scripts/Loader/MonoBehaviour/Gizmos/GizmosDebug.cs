@@ -6,10 +6,10 @@ namespace ET
     public class GizmosDebug: MonoBehaviour
     {
         public static GizmosDebug Instance { get; private set; }
-
+        
         public Color lineColor = Color.red;
         
-        public List<Vector3> Path;
+        public List<GizmosLine> Lines = new List<GizmosLine>();
 
         private void Awake()
         {
@@ -18,16 +18,10 @@ namespace ET
 
         private void OnDrawGizmos()
         {
-            if (this.Path.Count < 2)
-            {
-                return;
-            }
-            
             Gizmos.color = lineColor;
-            
-            for (int i = 0; i < Path.Count - 1; ++i)
+            foreach (var line in Lines)
             {
-                Gizmos.DrawLine(Path[i], Path[i + 1]);
+                Gizmos.DrawLine(line.StartPoint, line.EndPoint);
             }
         }
     }

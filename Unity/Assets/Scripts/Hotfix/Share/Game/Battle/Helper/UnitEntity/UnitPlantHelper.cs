@@ -14,13 +14,15 @@ namespace ET
         {
             int areaSize = 1000;
             int totalCellCount = 100;
-            int remainCount = 15;
+            // int remainCount = 15;
             
             // TODO 去除最近地块只有一点点相邻的情况
             // int nearEdgeMinDistance = 5;   // 如果距离小于 不算相邻边
 
             Random r = world.RandomGenerator;
-            var (pointSite, edges) = BattleMapHelper.GenerateFortuneSites(areaSize, r, totalCellCount, 5);
+            var (centerPoints, borders) = BattleMapHelper.GenerateFortuneSites(areaSize, r, totalCellCount, 5);
+            
+            /*
             Dictionary<float2, Cell> pointCenter2Cells = new Dictionary<float2, Cell>();
             List<Cell> allCells = new List<Cell>();
             foreach (VEdge edge in edges)
@@ -54,7 +56,7 @@ namespace ET
                 {
                     leftCell.NearCells.Add(rightPoint);
                     rightCell.NearCells.Add(leftPoint);
-                }*/
+                }
                 
                 
                 leftCell.NearCells.Add(rightPoint);
@@ -152,6 +154,7 @@ namespace ET
                 var nextNearCell = pointCenter2Cells.GetValueOrDefault(nextNearPoint);
                 generatedCells.Add(nextNearCell);
             }
+            
             
             var plantMessageUnitEntity = world.CreateEntity();
             
@@ -251,10 +254,42 @@ namespace ET
                     }
                 }
             }
+            */
 
+            var unitEntityPlaneCellGizmos = world.CreateEntity();
+            var unitEntityCommonData1 = unitEntityPlaneCellGizmos.CreateUnitEntityElemData<UnitEntityCommonData>();
+            unitEntityCommonData1.UnitEntityType = UnitEntityTypeEnum.GizmosDebug;
+            var gizmosDebugInfo = unitEntityPlaneCellGizmos.CreateUnitEntityElemData<GizmosDebugInfo>();
+
+
+            foreach (var centerPoint in centerPoints)
+            {
+                gizmosDebugInfo.CenterPoint.Add(new double2() { x = centerPoint.X, y = centerPoint.Y });
+            }
+
+            foreach (var border in borders)
+            {
+                gizmosDebugInfo.Borders.Add(new double4(border.Start.X, border.Start.Y, border.End.X, border.End.Y));
+            }
+            
+            world.CreateEntityFinish(unitEntityPlaneCellGizmos);
+            
+            var unitEntityPlane = world.CreateEntity();
+            var unitEntityCommonData = unitEntityPlane.CreateUnitEntityElemData<UnitEntityCommonData>();
+            unitEntityCommonData.UnitEntityType = UnitEntityTypeEnum.Plane;
+
+            var planeCellInfo = unitEntityPlane.CreateUnitEntityElemData<PlaneCellInfo>();
+            planeCellInfo.Center = new float2(400, 400);
+            planeCellInfo.MinX = 0;
+            planeCellInfo.MinY = 0;
+            
+            planeCellInfo.MaxX = 1000;
+            planeCellInfo.MaxY = 1000;
+            world.CreateEntityFinish(unitEntityPlane);
 
             // 创建地块 UnitEntity
-            foreach (var generatedCell in generatedCells)
+            /*
+             foreach (var generatedCell in generatedCells)
             {
                 var center = generatedCell.Center;
                 var unitEntity = world.CreateEntity();
@@ -321,7 +356,7 @@ namespace ET
                 planeCellInfo.MaxX = maxX;
                 planeCellInfo.MaxY = maxY;
                 world.CreateEntityFinish(unitEntity);
-            }
+            }*/
         }
     }
 }

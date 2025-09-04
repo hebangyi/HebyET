@@ -20,6 +20,8 @@ namespace ET.Client
             root.AddComponent<BattleUnitEntityLogicManagerComponent>();
             // 战斗显示逻辑
             root.AddComponent<BattleUnitEntityViewLogicManagerComponent>();
+            // root.AddComponent<GizmoDebugComponent>();
+            
             // 战斗事件
             root.AddComponent<BattleEventManagerComponent>();
             // 客户端战斗世界管理器
