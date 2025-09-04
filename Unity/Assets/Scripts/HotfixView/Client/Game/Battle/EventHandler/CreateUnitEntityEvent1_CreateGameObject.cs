@@ -181,7 +181,13 @@ namespace ET.Client
                 GizmosLine gizmosLine = new GizmosLine(startPoint, endPoint);
                 gizmosDebug.Lines.Add(gizmosLine);
             }
+            
+            foreach (var centerPoint in gizmosDebugInfo.CenterPoints)
+            {
+                gizmosDebug.Points.Add(new Vector3(){x = (float)centerPoint.x, z = (float)centerPoint.y});
+            }
+
+            gizmosDebug.AreaSize = gizmosDebugInfo.AreaSize;
         }
-        
     }    
 }

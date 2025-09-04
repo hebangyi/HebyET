@@ -72,6 +72,7 @@ message PlaneCellInfo // IUnitEntityElemData
 // 地块辅助线信息
 message GizmosDebugInfo // IUnitEntityElemData
 {
-    repeated Unity.Mathematics.double2 CenterPoint = 1;     // 点
+    repeated Unity.Mathematics.double2 CenterPoints = 1;     // 点
     repeated Unity.Mathematics.double4 Borders = 2;          // 边
+    int32 AreaSize = 3;                                      // 边宽度
 }

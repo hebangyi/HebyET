@@ -12,8 +12,8 @@ namespace ET
     {
         public static void GeneratePlane(World world)
         {
-            int areaSize = 1000;
-            int totalCellCount = 100;
+            int areaSize = 2000;
+            int totalCellCount = 200;
             // int remainCount = 15;
             
             // TODO 去除最近地块只有一点点相邻的情况
@@ -264,13 +264,15 @@ namespace ET
 
             foreach (var centerPoint in centerPoints)
             {
-                gizmosDebugInfo.CenterPoint.Add(new double2() { x = centerPoint.X, y = centerPoint.Y });
+                gizmosDebugInfo.CenterPoints.Add(new double2() { x = centerPoint.X, y = centerPoint.Y });
             }
 
             foreach (var border in borders)
             {
                 gizmosDebugInfo.Borders.Add(new double4(border.Start.X, border.Start.Y, border.End.X, border.End.Y));
             }
+
+            gizmosDebugInfo.AreaSize = areaSize;
             
             world.CreateEntityFinish(unitEntityPlaneCellGizmos);
             

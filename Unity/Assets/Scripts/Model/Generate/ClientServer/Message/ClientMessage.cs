@@ -735,14 +735,14 @@ this._Center = default;
         /// <summary>
         /// 点
         /// </summary>
-        private List<Unity.Mathematics.double2> _CenterPoint = new();
+        private List<Unity.Mathematics.double2> _CenterPoints = new();
 
         [MemoryPackOrder(0)]
-        public List<Unity.Mathematics.double2> CenterPoint
+        public List<Unity.Mathematics.double2> CenterPoints
         {
-            get => _CenterPoint;
+            get => _CenterPoints;
             set {
-                _CenterPoint = value;
+                _CenterPoints = value;
                 this.m_DirtyHandler?.Dirty(m_InstanceId, this);
             }
         }
@@ -760,6 +760,20 @@ this._Center = default;
                 this.m_DirtyHandler?.Dirty(m_InstanceId, this);
             }
         }
+        /// <summary>
+        /// 边宽度
+        /// </summary>
+        private int _AreaSize;
+
+        [MemoryPackOrder(2)]
+        public int AreaSize
+        {
+            get => _AreaSize;
+            set {
+                _AreaSize = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
         public override void Dispose()
         {
             if (!this.IsFromPool)
@@ -770,8 +784,9 @@ this._Center = default;
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
             
-this._CenterPoint.Clear();
+this._CenterPoints.Clear();
             this._Borders.Clear();
+            this._AreaSize = default;
 
             ObjectPool.Instance.Recycle(this);
         }

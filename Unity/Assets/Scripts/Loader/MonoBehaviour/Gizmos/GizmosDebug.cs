@@ -7,10 +7,13 @@ namespace ET
     {
         public static GizmosDebug Instance { get; private set; }
         
-        public Color lineColor = Color.red;
         
         public List<GizmosLine> Lines = new List<GizmosLine>();
+        public List<Vector3> Points = new List<Vector3>();
 
+        public int AreaSize;
+        
+        
         private void Awake()
         {
             Instance = this;
@@ -18,10 +21,26 @@ namespace ET
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = lineColor;
+            Gizmos.color = Color.red;
             foreach (var line in Lines)
             {
                 Gizmos.DrawLine(line.StartPoint, line.EndPoint);
+            }
+
+            foreach (var point in Points)
+            {
+                Gizmos.DrawWireSphere(point, 1f);
+            }
+            
+            Gizmos.color = Color.green;
+            for (int i = 0; i <= this.AreaSize; i += 100)
+            {
+                Gizmos.DrawLine(new Vector3(i, 0, 0), new Vector3(i, 0, this.AreaSize));
+            }
+            
+            for (int i = 0; i <= this.AreaSize; i += 100)
+            {
+                Gizmos.DrawLine(new Vector3(0, 0, i), new Vector3(this.AreaSize, 0, i));
             }
         }
     }
