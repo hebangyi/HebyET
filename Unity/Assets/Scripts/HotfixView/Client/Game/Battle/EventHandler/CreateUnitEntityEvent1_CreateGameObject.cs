@@ -142,5 +142,14 @@ namespace ET.Client
             // go.transform.position = new Vector3(plantCellInfo.Center.x, 0, plantCellInfo.Center.y);
             go.name = $"PlantMessage_{unitEntity.InsId}";
         }
+
+        public async ETTask CreatePlantGizmosHelper(UnitEntity unitEntity)
+        {
+            Log.Error("CreatePlantGizmosHelper!!!");
+            
+            
+            
+        }
+        
     }    
 }

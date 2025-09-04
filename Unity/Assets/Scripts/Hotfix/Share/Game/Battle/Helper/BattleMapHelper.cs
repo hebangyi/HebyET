@@ -126,9 +126,6 @@ namespace ET
         }
         
         
-        
-        
-        
         public static (List<FortuneSite>, LinkedList<VEdge>) GenerateFortuneSites(int areaWidth, Random random, int pointCount, int pointMinDistance = 5)
         {
             var fortuneSites = new List<FortuneSite>();
@@ -137,7 +134,7 @@ namespace ET
             {
                 fortuneSites.Add(new FortuneSite(point.x, point.y));
             }
-            var edges = FortunesAlgorithm.Run(fortuneSites, 0, 0, 800, 800);
+            var edges = FortunesAlgorithm.Run(fortuneSites, 0, 0, areaWidth, areaWidth);
             return (fortuneSites, edges);
         }
         

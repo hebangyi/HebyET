@@ -7,6 +7,8 @@ namespace ET
     {
         public static GizmosDebug Instance { get; private set; }
 
+        public Color lineColor = Color.red;
+        
         public List<Vector3> Path;
 
         private void Awake()
@@ -20,6 +22,9 @@ namespace ET
             {
                 return;
             }
+            
+            Gizmos.color = lineColor;
+            
             for (int i = 0; i < Path.Count - 1; ++i)
             {
                 Gizmos.DrawLine(Path[i], Path[i + 1]);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Numerics;
+using ET;
 using Unity.Mathematics;
 using VoronoiLib;
 using VoronoiLib.Structures;
@@ -15,8 +16,47 @@ public class BattleMapTest
     // 生成随机点集
     public static void Test()
     {
-        var (pointSite, edges) = GenerateFortuneSites(800, 2000, 4);
-        Console.WriteLine(pointSite);
+        int areaSize = 1000;
+        int totalCellCount = 100;
+        int remainCount = 15;
+        var (pointSite, edges) = GenerateFortuneSites(areaSize, 0, totalCellCount, 5);
+        
+        Console.WriteLine(edges.Count);
+        
+        Dictionary<float2, Cell> pointCenter2Cells = new Dictionary<float2, Cell>();
+        List<Cell> allCells = new List<Cell>();
+        foreach (VEdge edge in edges)
+        {
+            var leftPoint = new float2((float)edge.Left.X, (float)edge.Left.Y);
+            var rightPoint = new float2((float)edge.Right.X, (float)edge.Right.Y);
+                
+            var leftCell = pointCenter2Cells.GetValueOrDefault(leftPoint);
+            if (leftCell == null)
+            {
+                leftCell = new Cell();
+                leftCell.Center = leftPoint;
+                pointCenter2Cells[leftPoint] = leftCell;
+            }
+                
+            leftCell.CellEdges.Add( new float4((float)edge.Start.X, (float)edge.Start.Y, (float)edge.End.X, (float)edge.End.Y));
+                
+            var rightCell = pointCenter2Cells.GetValueOrDefault(rightPoint);
+            if (rightCell == null)
+            {
+                rightCell = new Cell();
+                rightCell.Center = rightPoint;
+                pointCenter2Cells[rightPoint] = rightCell;
+            }
+                
+            rightCell.CellEdges.Add( new float4((float)edge.Start.X, (float)edge.Start.Y, (float)edge.End.X, (float)edge.End.Y));
+                
+            leftCell.NearCells.Add(rightPoint);
+            rightCell.NearCells.Add(leftPoint);
+            allCells.Add(leftCell);
+            allCells.Add(rightCell);
+        }
+        
+        Console.WriteLine($"{pointSite.Count} {pointCenter2Cells.Count} ");
     }
 
     public static (List<FortuneSite>, LinkedList<VEdge>) GenerateFortuneSites(int areaWidth, int seed, int pointCount, int pointMinDistance = 5)
@@ -28,7 +68,7 @@ public class BattleMapTest
             fortuneSites.Add(new FortuneSite(point.x, point.y));
         }
 
-        var edges = FortunesAlgorithm.Run(fortuneSites, 0, 0, 800, 800);
+        var edges = FortunesAlgorithm.Run(fortuneSites, 0, 0, areaWidth, areaWidth);
         return (fortuneSites, edges);
     }
 

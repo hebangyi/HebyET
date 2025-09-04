@@ -98,13 +98,14 @@ message PlaneCellInfo // IUnitEntityElemData
     float MinY = 5;                                        // 地块最小的Y
     float MaxX = 6;                                        // 地块最大的X
     float MaxY = 7;                                        // 地块最大的Y
-    int32 MapWidth 
-
 }
 
-
-
-
+// 地块辅助线信息
+message PlaneCellGizmosHelper // IUnitEntityElemData
+{
+    repeated Unity.Mathematics.double2 CenterPoint = 1;     // 点
+    repeated Unity.Mathematics.double4 Borders = 2;          // 边
+}
 
 //// 通讯协议
 
