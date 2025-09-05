@@ -580,142 +580,6 @@ this._MapData.Clear();
         }
     }
 
-    // 地块信息
-    [MemoryPackable]
-    [Message(ClientMessage.PlaneCellInfo)]
-    public partial class PlaneCellInfo : MessageObject, IUnitEntityElemData
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static PlaneCellInfo Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
-        {
-            var instance = ObjectPool.Instance.Fetch(typeof(PlaneCellInfo), isFromPool) as PlaneCellInfo;
-            instance.m_DirtyHandler = dirtyHandler;
-            instance.m_InstanceId = instanceId;
-            return instance;
-        }
-
-        /// <summary>
-        /// 中心点
-        /// </summary>
-        private Unity.Mathematics.float2 _Center;
-
-        [MemoryPackOrder(0)]
-        public Unity.Mathematics.float2 Center
-        {
-            get => _Center;
-            set {
-                _Center = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 地图边
-        /// </summary>
-        private List<Unity.Mathematics.float4> _PlantEdges = new();
-
-        [MemoryPackOrder(1)]
-        public List<Unity.Mathematics.float4> PlantEdges
-        {
-            get => _PlantEdges;
-            set {
-                _PlantEdges = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 邻近的地块
-        /// </summary>
-        private List<Unity.Mathematics.float2> _NearPlantCells = new();
-
-        [MemoryPackOrder(2)]
-        public List<Unity.Mathematics.float2> NearPlantCells
-        {
-            get => _NearPlantCells;
-            set {
-                _NearPlantCells = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 地块最小的X
-        /// </summary>
-        private float _MinX;
-
-        [MemoryPackOrder(3)]
-        public float MinX
-        {
-            get => _MinX;
-            set {
-                _MinX = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 地块最小的Y
-        /// </summary>
-        private float _MinY;
-
-        [MemoryPackOrder(4)]
-        public float MinY
-        {
-            get => _MinY;
-            set {
-                _MinY = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 地块最大的X
-        /// </summary>
-        private float _MaxX;
-
-        [MemoryPackOrder(5)]
-        public float MaxX
-        {
-            get => _MaxX;
-            set {
-                _MaxX = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 地块最大的Y
-        /// </summary>
-        private float _MaxY;
-
-        [MemoryPackOrder(6)]
-        public float MaxY
-        {
-            get => _MaxY;
-            set {
-                _MaxY = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.m_DirtyHandler = null;
-            this.m_InstanceId = default;
-            
-this._Center = default;
-            this._PlantEdges.Clear();
-            this._NearPlantCells.Clear();
-            this._MinX = default;
-            this._MinY = default;
-            this._MaxX = default;
-            this._MaxY = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
     // 地块辅助线信息
     [MemoryPackable]
     [Message(ClientMessage.GizmosDebugInfo)]
@@ -735,10 +599,10 @@ this._Center = default;
         /// <summary>
         /// 点
         /// </summary>
-        private List<Unity.Mathematics.double2> _CenterPoints = new();
+        private List<Unity.Mathematics.float2> _CenterPoints = new();
 
         [MemoryPackOrder(0)]
-        public List<Unity.Mathematics.double2> CenterPoints
+        public List<Unity.Mathematics.float2> CenterPoints
         {
             get => _CenterPoints;
             set {
@@ -749,10 +613,10 @@ this._Center = default;
         /// <summary>
         /// 边
         /// </summary>
-        private List<Unity.Mathematics.double4> _Borders = new();
+        private List<Unity.Mathematics.float4> _Borders = new();
 
         [MemoryPackOrder(1)]
-        public List<Unity.Mathematics.double4> Borders
+        public List<Unity.Mathematics.float4> Borders
         {
             get => _Borders;
             set {
@@ -2081,40 +1945,39 @@ this._CenterPoints.Clear();
         public const ushort UnitEntityPlayerFrame = 10008;
         public const ushort UnitEntityPlayerOperationAction = 10009;
         public const ushort UnitEntityMapMessage = 10010;
-        public const ushort PlaneCellInfo = 10011;
-        public const ushort GizmosDebugInfo = 10012;
-        public const ushort C2B_PlayerGetAllAOIWorldData = 10013;
-        public const ushort B2C_PlayerGetAllAOIWorldData = 10014;
-        public const ushort C2B_PlayerBattleWorldPing = 10015;
-        public const ushort B2C_PlayerBattleWorldPing = 10016;
-        public const ushort L2C_PlayerAOIWorldDirtyPush = 10017;
-        public const ushort Main2NetBattleLogin = 10018;
-        public const ushort NetBattle2MainLogin = 10019;
-        public const ushort C2B_Login = 10020;
-        public const ushort B2C_Login = 10021;
-        public const ushort C2B_PlayerReadyCompleted = 10022;
-        public const ushort B2C_PlayerReadyCompleted = 10023;
-        public const ushort C2B_PlayerMoveOperationMessage = 10024;
-        public const ushort C2G_Ping = 10025;
-        public const ushort G2C_Ping = 10026;
-        public const ushort C2G_Benchmark = 10027;
-        public const ushort G2C_Benchmark = 10028;
-        public const ushort Main2NetLobbyLogin = 10029;
-        public const ushort NetLobby2MainLogin = 10030;
-        public const ushort C2A_Login = 10031;
-        public const ushort A2C_Login = 10032;
-        public const ushort C2L_LoginLobby = 10033;
-        public const ushort L2C_LoginLobby = 10034;
-        public const ushort G2C_SessionDisconnect = 10035;
-        public const ushort HttpGetRouterResponse = 10036;
-        public const ushort SyncDataUnitStruct = 10037;
-        public const ushort DataUnitBytes = 10038;
-        public const ushort C2L_GetAllDataUnits = 10039;
-        public const ushort L2C_GetAllDataUnits = 10040;
-        public const ushort L2C_SyncDirtyDataUnits = 10041;
-        public const ushort RoleInfoUnitData = 10042;
-        public const ushort C2L_StartMatchBattle = 10043;
-        public const ushort L2C_StartMatchBattle = 10044;
-        public const ushort L2C_MatchBattleSuccess = 10045;
+        public const ushort GizmosDebugInfo = 10011;
+        public const ushort C2B_PlayerGetAllAOIWorldData = 10012;
+        public const ushort B2C_PlayerGetAllAOIWorldData = 10013;
+        public const ushort C2B_PlayerBattleWorldPing = 10014;
+        public const ushort B2C_PlayerBattleWorldPing = 10015;
+        public const ushort L2C_PlayerAOIWorldDirtyPush = 10016;
+        public const ushort Main2NetBattleLogin = 10017;
+        public const ushort NetBattle2MainLogin = 10018;
+        public const ushort C2B_Login = 10019;
+        public const ushort B2C_Login = 10020;
+        public const ushort C2B_PlayerReadyCompleted = 10021;
+        public const ushort B2C_PlayerReadyCompleted = 10022;
+        public const ushort C2B_PlayerMoveOperationMessage = 10023;
+        public const ushort C2G_Ping = 10024;
+        public const ushort G2C_Ping = 10025;
+        public const ushort C2G_Benchmark = 10026;
+        public const ushort G2C_Benchmark = 10027;
+        public const ushort Main2NetLobbyLogin = 10028;
+        public const ushort NetLobby2MainLogin = 10029;
+        public const ushort C2A_Login = 10030;
+        public const ushort A2C_Login = 10031;
+        public const ushort C2L_LoginLobby = 10032;
+        public const ushort L2C_LoginLobby = 10033;
+        public const ushort G2C_SessionDisconnect = 10034;
+        public const ushort HttpGetRouterResponse = 10035;
+        public const ushort SyncDataUnitStruct = 10036;
+        public const ushort DataUnitBytes = 10037;
+        public const ushort C2L_GetAllDataUnits = 10038;
+        public const ushort L2C_GetAllDataUnits = 10039;
+        public const ushort L2C_SyncDirtyDataUnits = 10040;
+        public const ushort RoleInfoUnitData = 10041;
+        public const ushort C2L_StartMatchBattle = 10042;
+        public const ushort L2C_StartMatchBattle = 10043;
+        public const ushort L2C_MatchBattleSuccess = 10044;
     }
 }

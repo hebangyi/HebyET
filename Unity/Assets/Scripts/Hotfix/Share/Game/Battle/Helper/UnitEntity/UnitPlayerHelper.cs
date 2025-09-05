@@ -21,12 +21,9 @@ namespace ET
             
             
             // 随机选择一个地块
-            var unitEntityPlant = world.AllPlants[world.RandomGenerator.Next(world.AllPlants.Count)];
-            var planeCellInfo = unitEntityPlant.GetUnitEntityElemData<PlaneCellInfo>();
-            
             var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
             unitEntityPosition.Forward = new float3(0, 0, 1);
-            unitEntityPosition.Position = new float2(planeCellInfo.Center.x, planeCellInfo.Center.y);
+            unitEntityPosition.Position = new float2(0f, 0f);
 
             var unitEntityPlayerFrame = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerFrame>();
             unitEntityPlayerFrame.Frame = world.Frame;
@@ -37,7 +34,6 @@ namespace ET
 
             unitEntity.CreateUnitEntityLogicElemData<UnitEntityPlayerOperation>();
             var unitEntityPlayerCellInfo = unitEntity.CreateUnitEntityLogicElemData<UnitEntityPlayerCellInfo>();
-            unitEntityPlayerCellInfo.CurrentPlant = unitEntityPlant;
             
             world.CreateEntityFinish(unitEntity);
             return unitEntity;

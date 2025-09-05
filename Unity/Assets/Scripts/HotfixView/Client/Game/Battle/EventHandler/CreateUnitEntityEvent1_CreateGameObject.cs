@@ -27,11 +27,6 @@ namespace ET.Client
                     CreatePlayer(unitEntity).Coroutine();
                     break;
                 }
-                case UnitEntityTypeEnum.Plane:
-                {
-                    this.CreatePlane(unitEntity).Coroutine();
-                    break;
-                }
                 case UnitEntityTypeEnum.PlantMessage:
                 {
                     this.CreatePlantMessage(unitEntity).Coroutine();
@@ -63,7 +58,7 @@ namespace ET.Client
 
 
         public async ETTask CreatePlane(UnitEntity unitEntity)
-        {
+        {/*
             var plantCellInfo = unitEntity.GetUnitEntityElemData<PlaneCellInfo>();
             if (plantCellInfo == null)
             {
@@ -111,6 +106,7 @@ namespace ET.Client
             // go.transform.position = new Vector3(plantCellInfo.Center.x, 0, plantCellInfo.Center.y);
             go.name = $"Plant_{unitEntity.InsId}";
             go.SetActive(false);
+            */
         }
 
 

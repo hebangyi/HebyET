@@ -10,7 +10,6 @@ namespace ET
         public Dictionary<long, UnitEntity> PlayerId2Players = new();
         // 中心坐标2地块
         public Dictionary<float2, UnitEntity> Point2Plants = new ();
-        public List<UnitEntity> AllPlants = new();
         
         // 逻辑帧脏数据
         // TODO AOI机制

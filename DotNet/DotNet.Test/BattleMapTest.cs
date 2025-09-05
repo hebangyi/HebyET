@@ -24,7 +24,6 @@ public class BattleMapTest
         Console.WriteLine(edges.Count);
         
         Dictionary<float2, Cell> pointCenter2Cells = new Dictionary<float2, Cell>();
-        List<Cell> allCells = new List<Cell>();
         foreach (VEdge edge in edges)
         {
             var leftPoint = new float2((float)edge.Left.X, (float)edge.Left.Y);
@@ -38,7 +37,7 @@ public class BattleMapTest
                 pointCenter2Cells[leftPoint] = leftCell;
             }
                 
-            leftCell.CellEdges.Add( new float4((float)edge.Start.X, (float)edge.Start.Y, (float)edge.End.X, (float)edge.End.Y));
+            leftCell.Borders.Add( new float4((float)edge.Start.X, (float)edge.Start.Y, (float)edge.End.X, (float)edge.End.Y));
                 
             var rightCell = pointCenter2Cells.GetValueOrDefault(rightPoint);
             if (rightCell == null)
@@ -48,13 +47,12 @@ public class BattleMapTest
                 pointCenter2Cells[rightPoint] = rightCell;
             }
                 
-            rightCell.CellEdges.Add( new float4((float)edge.Start.X, (float)edge.Start.Y, (float)edge.End.X, (float)edge.End.Y));
-                
-            leftCell.NearCells.Add(rightPoint);
-            rightCell.NearCells.Add(leftPoint);
-            allCells.Add(leftCell);
-            allCells.Add(rightCell);
+            rightCell.Borders.Add( new float4((float)edge.Start.X, (float)edge.Start.Y, (float)edge.End.X, (float)edge.End.Y));
         }
+        
+        // 淘汰没有完整边的Cell
+        
+        
         
         Console.WriteLine($"{pointSite.Count} {pointCenter2Cells.Count} ");
     }
