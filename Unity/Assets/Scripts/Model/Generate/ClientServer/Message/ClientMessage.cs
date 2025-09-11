@@ -506,58 +506,30 @@ this._MoveAngle = default;
         }
 
         /// <summary>
-        /// 地图数据
+        /// 边宽度
         /// </summary>
-        private List<bool> _MapData = new();
+        private int _AreaSize;
 
         [MemoryPackOrder(0)]
-        public List<bool> MapData
+        public int AreaSize
         {
-            get => _MapData;
+            get => _AreaSize;
             set {
-                _MapData = value;
+                _AreaSize = value;
                 this.m_DirtyHandler?.Dirty(m_InstanceId, this);
             }
         }
         /// <summary>
-        /// 地图宽
+        /// 地块信息
         /// </summary>
-        private int _MapWidth;
+        private PlantInfo _PlantInfo;
 
         [MemoryPackOrder(1)]
-        public int MapWidth
+        public PlantInfo PlantInfo
         {
-            get => _MapWidth;
+            get => _PlantInfo;
             set {
-                _MapWidth = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 地图高
-        /// </summary>
-        private int _MapHeight;
-
-        [MemoryPackOrder(2)]
-        public int MapHeight
-        {
-            get => _MapHeight;
-            set {
-                _MapHeight = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 单位Cell的长度
-        /// </summary>
-        private int _UnitCellSize;
-
-        [MemoryPackOrder(3)]
-        public int UnitCellSize
-        {
-            get => _UnitCellSize;
-            set {
-                _UnitCellSize = value;
+                _PlantInfo = value;
                 this.m_DirtyHandler?.Dirty(m_InstanceId, this);
             }
         }
@@ -571,10 +543,74 @@ this._MoveAngle = default;
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
             
-this._MapData.Clear();
-            this._MapWidth = default;
-            this._MapHeight = default;
-            this._UnitCellSize = default;
+this._AreaSize = default;
+            this._PlantInfo = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.PlantInfo)]
+    public partial class PlantInfo : MessageObject
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static PlantInfo Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(PlantInfo), isFromPool) as PlantInfo;
+        }
+
+        /// <summary>
+        /// 网格
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public List<CellInfo> CellInfos { get; set; } = new();
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.CellInfos.Clear();
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.CellInfo)]
+    public partial class CellInfo : MessageObject
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static CellInfo Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(CellInfo), isFromPool) as CellInfo;
+        }
+
+        [MemoryPackOrder(0)]
+        public Unity.Mathematics.float2 CenterPoint { get; set; }
+
+        /// <summary>
+        /// 边
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public List<Unity.Mathematics.float4> Borders { get; set; } = new();
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.CenterPoint = default;
+            this.Borders.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1945,39 +1981,41 @@ this._CenterPoints.Clear();
         public const ushort UnitEntityPlayerFrame = 10008;
         public const ushort UnitEntityPlayerOperationAction = 10009;
         public const ushort UnitEntityMapMessage = 10010;
-        public const ushort GizmosDebugInfo = 10011;
-        public const ushort C2B_PlayerGetAllAOIWorldData = 10012;
-        public const ushort B2C_PlayerGetAllAOIWorldData = 10013;
-        public const ushort C2B_PlayerBattleWorldPing = 10014;
-        public const ushort B2C_PlayerBattleWorldPing = 10015;
-        public const ushort L2C_PlayerAOIWorldDirtyPush = 10016;
-        public const ushort Main2NetBattleLogin = 10017;
-        public const ushort NetBattle2MainLogin = 10018;
-        public const ushort C2B_Login = 10019;
-        public const ushort B2C_Login = 10020;
-        public const ushort C2B_PlayerReadyCompleted = 10021;
-        public const ushort B2C_PlayerReadyCompleted = 10022;
-        public const ushort C2B_PlayerMoveOperationMessage = 10023;
-        public const ushort C2G_Ping = 10024;
-        public const ushort G2C_Ping = 10025;
-        public const ushort C2G_Benchmark = 10026;
-        public const ushort G2C_Benchmark = 10027;
-        public const ushort Main2NetLobbyLogin = 10028;
-        public const ushort NetLobby2MainLogin = 10029;
-        public const ushort C2A_Login = 10030;
-        public const ushort A2C_Login = 10031;
-        public const ushort C2L_LoginLobby = 10032;
-        public const ushort L2C_LoginLobby = 10033;
-        public const ushort G2C_SessionDisconnect = 10034;
-        public const ushort HttpGetRouterResponse = 10035;
-        public const ushort SyncDataUnitStruct = 10036;
-        public const ushort DataUnitBytes = 10037;
-        public const ushort C2L_GetAllDataUnits = 10038;
-        public const ushort L2C_GetAllDataUnits = 10039;
-        public const ushort L2C_SyncDirtyDataUnits = 10040;
-        public const ushort RoleInfoUnitData = 10041;
-        public const ushort C2L_StartMatchBattle = 10042;
-        public const ushort L2C_StartMatchBattle = 10043;
-        public const ushort L2C_MatchBattleSuccess = 10044;
+        public const ushort PlantInfo = 10011;
+        public const ushort CellInfo = 10012;
+        public const ushort GizmosDebugInfo = 10013;
+        public const ushort C2B_PlayerGetAllAOIWorldData = 10014;
+        public const ushort B2C_PlayerGetAllAOIWorldData = 10015;
+        public const ushort C2B_PlayerBattleWorldPing = 10016;
+        public const ushort B2C_PlayerBattleWorldPing = 10017;
+        public const ushort L2C_PlayerAOIWorldDirtyPush = 10018;
+        public const ushort Main2NetBattleLogin = 10019;
+        public const ushort NetBattle2MainLogin = 10020;
+        public const ushort C2B_Login = 10021;
+        public const ushort B2C_Login = 10022;
+        public const ushort C2B_PlayerReadyCompleted = 10023;
+        public const ushort B2C_PlayerReadyCompleted = 10024;
+        public const ushort C2B_PlayerMoveOperationMessage = 10025;
+        public const ushort C2G_Ping = 10026;
+        public const ushort G2C_Ping = 10027;
+        public const ushort C2G_Benchmark = 10028;
+        public const ushort G2C_Benchmark = 10029;
+        public const ushort Main2NetLobbyLogin = 10030;
+        public const ushort NetLobby2MainLogin = 10031;
+        public const ushort C2A_Login = 10032;
+        public const ushort A2C_Login = 10033;
+        public const ushort C2L_LoginLobby = 10034;
+        public const ushort L2C_LoginLobby = 10035;
+        public const ushort G2C_SessionDisconnect = 10036;
+        public const ushort HttpGetRouterResponse = 10037;
+        public const ushort SyncDataUnitStruct = 10038;
+        public const ushort DataUnitBytes = 10039;
+        public const ushort C2L_GetAllDataUnits = 10040;
+        public const ushort L2C_GetAllDataUnits = 10041;
+        public const ushort L2C_SyncDirtyDataUnits = 10042;
+        public const ushort RoleInfoUnitData = 10043;
+        public const ushort C2L_StartMatchBattle = 10044;
+        public const ushort L2C_StartMatchBattle = 10045;
+        public const ushort L2C_MatchBattleSuccess = 10046;
     }
 }

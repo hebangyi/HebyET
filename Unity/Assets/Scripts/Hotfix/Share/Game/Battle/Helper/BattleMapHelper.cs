@@ -124,12 +124,12 @@ namespace ET
             return Math.Abs(crossProduct) < epsilon;
         }
 
-        public static List<Cell> GenerateMapCells(int areaSize, Random random, int totalCellCount,
+        public static List<CellData> GenerateMapCells(int areaSize, Random random, int pointCount,
         int pointMinDistance = 5)
         {
-            var (centerPoints, borders) = GenerateFortuneSites(areaSize, random, totalCellCount, pointMinDistance);
-            Dictionary<float2, Cell> pointCenter2Cells = new Dictionary<float2, Cell>();
-            List<Cell> allCells = new List<Cell>();
+            var (centerPoints, borders) = GenerateFortuneSites(areaSize, random, pointCount, pointMinDistance);
+            Dictionary<float2, CellData> pointCenter2Cells = new Dictionary<float2, CellData>();
+            List<CellData> allCells = new List<CellData>();
 
             foreach (VEdge edge in borders)
             {
@@ -139,7 +139,7 @@ namespace ET
                 var leftCell = pointCenter2Cells.GetValueOrDefault(leftPoint);
                 if (leftCell == null)
                 {
-                    leftCell = new Cell();
+                    leftCell = new CellData();
                     leftCell.Center = leftPoint;
                     pointCenter2Cells[leftPoint] = leftCell;
                 }
@@ -149,7 +149,7 @@ namespace ET
                 var rightCell = pointCenter2Cells.GetValueOrDefault(rightPoint);
                 if (rightCell == null)
                 {
-                    rightCell = new Cell();
+                    rightCell = new CellData();
                     rightCell.Center = rightPoint;
                     pointCenter2Cells[rightPoint] = rightCell;
                 }
@@ -271,6 +271,84 @@ namespace ET
             }
 
             return points;
+        }
+
+
+        public static CellData CreateCellData(CellInfo cellInfo, int unitSize)
+        {
+            CellData cellData = new CellData();
+            
+            float plantMinX = float.MaxValue;
+            float plantMinY = float.MaxValue;
+            float plantMaxX = 0;
+            float plantMaxY = 0;
+            
+            foreach (var edge in cellData.Borders)
+            {
+                if (edge.x > plantMaxX){
+                    plantMaxX = edge.x;
+                }
+                    
+                if (edge.x < plantMinX)
+                {
+                    plantMinX = edge.x;
+                }
+                    
+                if (edge.y > plantMaxY)
+                {
+                    plantMaxY = edge.y;
+                    
+                }
+
+                if (edge.y < plantMinY)
+                {
+                    plantMinY = edge.y;
+                }
+
+                if (edge.z > plantMaxX)
+                {
+                    plantMaxX = edge.z;
+                }
+                    
+                if (edge.z < plantMinX)
+                {
+                    plantMinX = edge.z;
+                }
+                    
+                if (edge.w > plantMaxY)
+                {
+                    plantMaxY = edge.w;
+                }
+                    
+                if (edge.w < plantMinY)
+                {
+                    plantMinY = edge.w;
+                }
+            }
+
+            cellData.plantMinX = plantMinX;
+            cellData.plantMinY = plantMinY;
+            cellData.plantMaxX = plantMaxX;
+            cellData.plantMaxY = plantMaxY;
+
+            return cellData;
+        }
+
+        public static PlantData GenPlantInfo(PlantInfo plantInfo)
+        {
+            PlantData plantData = new PlantData();
+            
+            // 计算存储空间
+            /*
+            foreach (var cellInfo in plantInfo.CellInfos)
+            {
+                var cellData = CreateCellData(cell, unitSize);
+                plantData.Cells.Add(cellData);
+            }
+            */
+            
+            // 计算Cell的值
+            return plantData;
         }
     }
 }

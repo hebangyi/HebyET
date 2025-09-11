@@ -128,16 +128,21 @@ namespace ET.Client
             var groundTile = go.Get<TileBase>("Ground");
             var tilemap = go.Get<GameObject>("TileMap").GetComponent<Tilemap>();
 
-            for (int x = 0; x < plantCellInfo.MapWidth; x++)
+            // var cellInfos = plantCellInfo;
+            // BattleMapHelper.GenPlantInfo(cellInfos,);
+            
+            
+            PlantData plantInfo = BattleMapHelper.GenPlantInfo(plantCellInfo.PlantInfo);
+            for (int x = 0; x < plantInfo.xPlantCount; x++)
             {
-                for (int y = 0; y < plantCellInfo.MapHeight; y++)
+                for (int y = 0; y < plantInfo.yPlantCount; y++)
                 {
-                    var target = x * plantCellInfo.MapWidth + y;
-                    if (plantCellInfo.MapData[target])
+                    var target = x * plantInfo.xPlantCount + y;
+                    /*if (plantInfo.mapData[target])
                     {
                         Vector3Int position = new Vector3Int(x, y, 0);
                         tilemap.SetTile(position, groundTile);    
-                    }
+                    }*/
                 }
             }
             tilemap.RefreshAllTiles();

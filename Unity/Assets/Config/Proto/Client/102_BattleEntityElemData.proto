@@ -50,10 +50,20 @@ message UnitEntityPlayerOperationAction // IUnitEntityElemData
 // 地图信息
 message UnitEntityMapMessage // IUnitEntityElemData
 {
-    repeated bool MapData = 1;          // 地图数据
-    int32 MapWidth = 2;                 // 地图宽 
-    int32 MapHeight = 3;                // 地图高
-    int32 UnitCellSize = 4;             // 单位Cell的长度
+    int32 AreaSize = 1;                                     // 边宽度
+    PlantInfo PlantInfo = 2;                                // 地块信息
+}
+
+message PlantInfo
+{
+    repeated CellInfo CellInfos = 2;                         // 网格
+}
+
+
+message CellInfo
+{
+    Unity.Mathematics.float2 CenterPoint = 1;
+    repeated Unity.Mathematics.float4 Borders = 2;          // 边
 }
 
 
