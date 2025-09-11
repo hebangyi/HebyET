@@ -16,27 +16,27 @@ namespace ET.Client
             foreach (var type in viewTypes)
             {
                 var handler = Activator.CreateInstance(type);
-                if (handler is IUnitEntityViewInitLogic viewInitLogic)
+                if (handler is IUnitEntityClientWorldInitLogic viewInitLogic)
                 {
                     var componentId = viewInitLogic.WatchComponentId();
                     var logics = self.CompId2InitViewLogics.GetValueOrDefault(componentId);
                     if (logics == null)
                     {
-                        logics = new List<IUnitEntityViewInitLogic>();
+                        logics = new List<IUnitEntityClientWorldInitLogic>();
                         self.CompId2InitViewLogics.Add(componentId, logics);
                     }
 
                     logics.Add(viewInitLogic);
                 }
 
-                if (handler is IUnitEntityViewElementDataUpdateLogic dataUpdateLogic)
+                if (handler is IUnitEntityClientWorldElementDataUpdateLogic dataUpdateLogic)
                 {
                     var componentId = dataUpdateLogic.WatchComponentId();
 
                     var logics = self.CompId2ElementDataUpdates.GetValueOrDefault(componentId);
                     if (logics == null)
                     {
-                        logics = new List<IUnitEntityViewElementDataUpdateLogic>();
+                        logics = new List<IUnitEntityClientWorldElementDataUpdateLogic>();
                         self.CompId2ElementDataUpdates.Add(componentId, logics);
                     }
 
@@ -45,13 +45,13 @@ namespace ET.Client
             }
         }
 
-        public static List<IUnitEntityViewInitLogic> GetInitViewLogicByComponentId(this BattleUnitEntityViewLogicManagerComponent self,
+        public static List<IUnitEntityClientWorldInitLogic> GetInitViewLogicByComponentId(this BattleUnitEntityViewLogicManagerComponent self,
         ushort componentId)
         {
             return self.CompId2InitViewLogics.GetValueOrDefault(componentId);
         }
 
-        public static List<IUnitEntityViewElementDataUpdateLogic> GetUpdateLogicByComponentId(this BattleUnitEntityViewLogicManagerComponent self,
+        public static List<IUnitEntityClientWorldElementDataUpdateLogic> GetUpdateLogicByComponentId(this BattleUnitEntityViewLogicManagerComponent self,
         ushort componentId)
         {
             return self.CompId2ElementDataUpdates.GetValueOrDefault(componentId);

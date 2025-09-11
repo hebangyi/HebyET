@@ -21,25 +21,15 @@ namespace ET
                 {
                     throw new Exception($"type not is BattleEvent: {type.Name}");
                 }
-            
-                object[] attrs = type.GetCustomAttributes(typeof(BattleEventAttribute), false);
-                foreach (object attr in attrs)
-                {
-                    var battleEventAttribute = attr as BattleEventAttribute;
                 
-                    Type eventType = obj.Type;
-                    var list = self.AllEvents.GetValueOrDefault(eventType);
-                    if (list == null)
-                    {
-                        list = new List<BattleEventInfo>();
-                        self.AllEvents[eventType] = list;
-                    }
-
-                    BattleEventInfo battleEventInfo = new ();
-                    battleEventInfo.BattleEvent = obj;
-                    battleEventInfo.WorldMode = battleEventAttribute.WorldMode;
-                    list.Add(battleEventInfo);
+                Type eventType = obj.Type;
+                var list = self.AllEvents.GetValueOrDefault(eventType);
+                if (list == null)
+                {
+                    list = new List<IBattleEvent>(); 
+                    self.AllEvents[eventType] = list;
                 }
+                list.Add(obj);
             }
         }
     }

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using ET.Client;
 
 namespace ET
 {
-    [ChildOf(typeof(World))]
+    [ChildOf]
     public class UnitEntity : Entity, IAwake, IDestroy
     {
         public long InsId;
@@ -19,5 +20,14 @@ namespace ET
                 return this.GetParent<World>();
             }
         }
+
+        public ClientWorld ClientWorld
+        {
+            get
+            {
+                return this.GetParent<ClientWorld>();
+            }
+        }
+
     }
 } 

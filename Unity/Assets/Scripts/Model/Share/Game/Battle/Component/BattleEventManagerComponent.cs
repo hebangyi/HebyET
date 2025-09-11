@@ -12,14 +12,7 @@ namespace ET
     {
         public static BattleEventManagerComponent Instance;
         
-        public readonly Dictionary<Type, List<BattleEventInfo>> AllEvents = new();
-    }
-
-
-    public class BattleEventInfo
-    {
-        public IBattleEvent BattleEvent;
-        public WorldMode WorldMode;
+        public readonly Dictionary<Type, List<IBattleEvent>> AllEvents = new();
     }
 }
 

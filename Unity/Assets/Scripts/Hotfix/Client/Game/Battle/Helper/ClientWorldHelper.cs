@@ -4,18 +4,17 @@ namespace ET.Client
 {
     public static class ClientWorldHelper
     {
-        public static void InitWorld(this World world, BattleWorld battleWorld, List<BattleUnitEntity> battleUnitEntities)
+        public static void InitWorld(this ClientWorld world, BattleWorld battleWorld, List<BattleUnitEntity> battleUnitEntities)
         {
-            world.WorldStatusEnum = battleWorld.WorldStatus;
             world.Frame = battleWorld.Frame;
-
+            
             foreach (var battleUnitEntity in battleUnitEntities)
             {
                 world.CreateEntity(battleUnitEntity);
             }
         }
 
-        public static UnitEntity CreateEntity(this World self, BattleUnitEntity battleUnitEntity)
+        public static UnitEntity CreateEntity(this ClientWorld self, BattleUnitEntity battleUnitEntity)
         {
             var unitEntity = self.AddChild<UnitEntity>();
             unitEntity.InsId = battleUnitEntity.InsId;
@@ -34,6 +33,8 @@ namespace ET.Client
                 unitEntity.UnitEntityData[componentId] = unitEntityElemData;
             }
             
+            self.AllEntity[unitEntity.InsId] = unitEntity;
+            
             self.PublishEvent(new CreateUnitEntityEvent0(){UnitEntity = unitEntity});
             self.PublishEvent(new CreateUnitEntityEvent1(){UnitEntity = unitEntity});
             self.PublishEvent(new CreateUnitEntityEvent2(){UnitEntity = unitEntity});
@@ -41,7 +42,38 @@ namespace ET.Client
         }
         
         
-        public static void UpdateDirty(this World self, List<BattleUnitEntity> battleUnitEntities)
+        public static void RemoveEntity(this ClientWorld self, UnitEntity unitEntity)
+        {
+            self.PublishEvent(new RemoveUnitEntity(){UnitEntity = unitEntity});
+            self.AllEntity.Remove(unitEntity.InsId);
+            unitEntity.Dispose();
+        }
+        
+        
+        public static void PublishEvent<T>(this ClientWorld self, T args) where T : struct
+        {
+            var events = ClientWorldEventManagerComponent.Instance.AllEvents.GetValueOrDefault(typeof(T));
+            if (events == null)
+            {
+                return;
+            }
+
+            foreach (var e in events)
+            {
+                if (!(e is AClientWorldEvent<T> aEvent))
+                {
+                    Log.Error($"Battle Event Error: {e.GetType().FullName}");
+                    continue;
+                }
+                
+                aEvent.Handle(self, args);
+            }
+        }
+        
+        
+        
+        
+        public static void UpdateDirty(this ClientWorld self, List<BattleUnitEntity> battleUnitEntities)
         {
             foreach (var battleUnitEntity in battleUnitEntities)
             {

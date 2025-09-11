@@ -19,13 +19,16 @@ namespace ET.Client
             // 战斗数据逻辑管理器
             root.AddComponent<BattleUnitEntityLogicManagerComponent>();
             // 战斗显示逻辑
-            root.AddComponent<BattleUnitEntityViewLogicManagerComponent>();
             // root.AddComponent<GizmoDebugComponent>();
-            
-            // 战斗事件
+            // 战斗逻辑模块
             root.AddComponent<BattleEventManagerComponent>();
+            
+            
+            
             // 客户端战斗世界管理器
-            root.AddComponent<BattleClientWorldManagerComponent>();
+            root.AddComponent<ClientWorldManagerComponent>();
+            root.AddComponent<ClientWorldEventManagerComponent>();
+            root.AddComponent<BattleUnitEntityViewLogicManagerComponent>();
             
             // 数据加载
             root.AddComponent<ResourcesLoaderComponent>();

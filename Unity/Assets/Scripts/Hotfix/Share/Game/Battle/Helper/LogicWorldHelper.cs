@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ET.Client;
 
 namespace ET
 {
@@ -43,12 +44,7 @@ namespace ET
 
             foreach (var e in events)
             {
-                if (e.WorldMode != self.WorldMode)
-                {
-                    continue;
-                }
-                
-                if (!(e.BattleEvent is ABattleEvent<T> aEvent))
+                if (!(e is ABattleEvent<T> aEvent))
                 {
                     Log.Error($"Battle Event Error: {e.GetType().FullName}");
                     continue;

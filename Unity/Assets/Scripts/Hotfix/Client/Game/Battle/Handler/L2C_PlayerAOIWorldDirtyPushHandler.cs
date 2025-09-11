@@ -5,7 +5,7 @@
     {
         protected override async ETTask Run(Scene entity, L2C_PlayerAOIWorldDirtyPush message)
         {
-            World world = BattleClientWorldManagerComponent.Instance.CurrentWorld;
+            ClientWorld world = ClientWorldManagerComponent.Instance.CurrentClientWorld;
             if (world == null)
             {
                 Log.Error("收到 DirtyPush数据 没有找到客户端世界数据");

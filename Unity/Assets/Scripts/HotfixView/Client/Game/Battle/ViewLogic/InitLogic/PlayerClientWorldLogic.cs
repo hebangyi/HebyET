@@ -1,7 +1,7 @@
 ﻿namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class PlayerViewLogic : IUnitEntityViewInitLogic
+    public class PlayerClientWorldLogic : IUnitEntityClientWorldInitLogic
     {
         public ushort WatchComponentId()
         {
@@ -11,13 +11,13 @@
         public void OnInit(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
-            unitEntity.World.ViewAllPlayers[playerInfo.PlayerId] = unitEntity;
+            unitEntity.ClientWorld.ViewAllPlayers[playerInfo.PlayerId] = unitEntity;
         }
 
         public void OnDestroy(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
-            unitEntity.World.ViewAllPlayers.Remove(playerInfo.PlayerId);
+            unitEntity.ClientWorld.ViewAllPlayers.Remove(playerInfo.PlayerId);
         }
     }
 }

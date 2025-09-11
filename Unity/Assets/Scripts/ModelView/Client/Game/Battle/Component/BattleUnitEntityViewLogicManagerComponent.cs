@@ -7,9 +7,9 @@ namespace ET.Client
     {
         public static BattleUnitEntityViewLogicManagerComponent Instance;
         
-        public Dictionary<int, List<IUnitEntityViewInitLogic>> CompId2InitViewLogics = new ();
+        public Dictionary<int, List<IUnitEntityClientWorldInitLogic>> CompId2InitViewLogics = new ();
         
-        public Dictionary<int, List<IUnitEntityViewElementDataUpdateLogic>> CompId2ElementDataUpdates = new ();
+        public Dictionary<int, List<IUnitEntityClientWorldElementDataUpdateLogic>> CompId2ElementDataUpdates = new ();
     }
 }
 

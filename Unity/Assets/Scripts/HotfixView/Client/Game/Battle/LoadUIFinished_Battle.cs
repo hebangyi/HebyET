@@ -17,17 +17,16 @@ namespace ET.Client
             C2B_PlayerGetAllAOIWorldData request = C2B_PlayerGetAllAOIWorldData.Create();
             B2C_PlayerGetAllAOIWorldData response = (B2C_PlayerGetAllAOIWorldData)await clientBattleSenderComponent.Call(request);
             
-            World world = BattleClientWorldManagerComponent.Instance.CreateWorld();
-            world.InitWorld(response.BattleWorld, response.BattleUnitEntity);
+            ClientWorld clientWorld = ClientWorldManagerComponent.Instance.CreateWorld();
+            clientWorld.InitWorld(response.BattleWorld, response.BattleUnitEntity);
 
             var unityScene = UnitySceneManagerComponent.Instance.UnityScene;
             var unitySceneCameraComponent = unityScene.GetComponent<UnitySceneCameraComponent>();
-
             
-            var myPlayerUnitEntity = world.AllEntity.GetValueOrDefault(response.MyPlayerUnitEntity.InsId);
-            world.MyPlayer = myPlayerUnitEntity;
-            
-            unitySceneCameraComponent.SetFlowUnitEntity(world.MyPlayer);
+            // TODO 这个地方的逻辑都写在生命周期函数中
+            var myPlayerUnitEntity = clientWorld.AllEntity.GetValueOrDefault(response.MyPlayerUnitEntity.InsId);
+            clientWorld.MyPlayer = myPlayerUnitEntity;
+            unitySceneCameraComponent.SetFlowUnitEntity(clientWorld.MyPlayer);
             
             FGUIComponent.Instance.CloseWindowAll();
             FGUIComponent.Instance.ShowWindowAsync(WindowID.FGUIBattleOperationMainView).Coroutine();
