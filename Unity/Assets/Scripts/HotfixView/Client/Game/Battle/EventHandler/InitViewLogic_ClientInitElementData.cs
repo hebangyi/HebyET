@@ -1,9 +1,9 @@
 ﻿namespace ET.Client
 {
     [ClientWorldEventHandler]
-    public class CreateUnitEntityElementData_ViewLogic: AClientWorldEvent<CreateUnitEntityElementData>
+    public class InitViewLogic_ClientInitElementData: AClientWorldEvent<ClientInitElementData>
     {
-        protected override async ETTask Run(ClientWorld world, CreateUnitEntityElementData args)
+        protected override async ETTask Run(ClientWorld world, ClientInitElementData args)
         {
             var unitEntity = args.UnitEntity;
             var componentId = args.ComponentId;
