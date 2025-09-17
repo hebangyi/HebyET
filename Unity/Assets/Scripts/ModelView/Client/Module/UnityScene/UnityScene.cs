@@ -1,4 +1,5 @@
-﻿using YooAsset;
+﻿using UnityEngine;
+using YooAsset;
 
 namespace ET.Client
 {
@@ -8,7 +9,7 @@ namespace ET.Client
         // 场景类型
         public UnitySceneType UnitySceneType;
         public object[] ParamList;
-        
+
         // 加载场景的句柄
         public SceneHandle SceneHandle { set; get; }
     }

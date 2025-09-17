@@ -1,6 +1,6 @@
-﻿namespace ET
+﻿namespace ET.Client
 {
-    public struct UpdateUnitEntityElementDirtyData
+    public struct ClientUpdateElementData
     {
         public ushort ComponentId;
         public UnitEntity UnitEntity;

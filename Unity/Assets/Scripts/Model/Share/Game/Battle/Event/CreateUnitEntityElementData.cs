@@ -2,9 +2,8 @@
 {
     public struct CreateUnitEntityElementData
     {
-        public UnitEntity UnitEntity;
-        
         public ushort ComponentId;
+        public UnitEntity UnitEntity;
         public IUnitEntityElemData UnitEntityElemData;
     }
 }

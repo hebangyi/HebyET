@@ -28,7 +28,7 @@ namespace ET.Client
             // 客户端战斗世界管理器
             root.AddComponent<ClientWorldManagerComponent>();
             root.AddComponent<ClientWorldEventManagerComponent>();
-            root.AddComponent<BattleUnitEntityViewLogicManagerComponent>();
+            root.AddComponent<ClientWorldLogicManagerComponent>();
             
             // 数据加载
             root.AddComponent<ResourcesLoaderComponent>();

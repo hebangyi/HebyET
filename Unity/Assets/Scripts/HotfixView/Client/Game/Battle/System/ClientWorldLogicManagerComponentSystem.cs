@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace ET.Client
 {
-    [EntitySystemOf(typeof(BattleUnitEntityViewLogicManagerComponent))]
-    [FriendOf(typeof(BattleUnitEntityViewLogicManagerComponent))]
-    public static partial class BattleUnitEntityViewLogicManagerComponentSystem
+    [EntitySystemOf(typeof(ClientWorldLogicManagerComponent))]
+    [FriendOf(typeof(ClientWorldLogicManagerComponent))]
+    public static partial class ClientWorldLogicManagerComponentSystem
     {
         [EntitySystem]
-        private static void Awake(this BattleUnitEntityViewLogicManagerComponent self)
+        private static void Awake(this ClientWorldLogicManagerComponent self)
         {
-            BattleUnitEntityViewLogicManagerComponent.Instance = self;
+            ClientWorldLogicManagerComponent.Instance = self;
 
             var viewTypes = CodeTypes.Instance.GetAttributeTypes(typeof(UnitEntityViewLogicAttribute));
             foreach (var type in viewTypes)
@@ -45,13 +45,13 @@ namespace ET.Client
             }
         }
 
-        public static List<IUnitEntityClientWorldInitLogic> GetInitViewLogicByComponentId(this BattleUnitEntityViewLogicManagerComponent self,
+        public static List<IUnitEntityClientWorldInitLogic> GetInitViewLogicByComponentId(this ClientWorldLogicManagerComponent self,
         ushort componentId)
         {
             return self.CompId2InitViewLogics.GetValueOrDefault(componentId);
         }
 
-        public static List<IUnitEntityClientWorldElementDataUpdateLogic> GetUpdateLogicByComponentId(this BattleUnitEntityViewLogicManagerComponent self,
+        public static List<IUnitEntityClientWorldElementDataUpdateLogic> GetUpdateLogicByComponentId(this ClientWorldLogicManagerComponent self,
         ushort componentId)
         {
             return self.CompId2ElementDataUpdates.GetValueOrDefault(componentId);

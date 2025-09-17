@@ -1,6 +1,6 @@
 ﻿namespace ET
 {
-    [BattleEvent(WorldMode.Logic)]
+    [BattleEvent]
     public class CreateUnitEntityEvent_InitLogic : ABattleEvent<CreateUnitEntityEvent0>
     {
         protected override void Run(World world, CreateUnitEntityEvent0 args)

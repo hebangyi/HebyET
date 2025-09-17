@@ -4,11 +4,8 @@ namespace ET
 {
     public class BattleEventAttribute : BaseAttribute
     {
-        public WorldMode WorldMode { get; set; }
-
-        public BattleEventAttribute(WorldMode worldMode)
+        public BattleEventAttribute()
         {
-            this.WorldMode = worldMode;
         }
     } 
 

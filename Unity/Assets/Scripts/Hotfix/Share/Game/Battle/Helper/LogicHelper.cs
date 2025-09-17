@@ -21,11 +21,6 @@ namespace ET
         public static T CreateUnitEntityElemData<T>(this UnitEntity self) where T : IUnitEntityElemData
         {
             var world = self.GetParent<World>();
-            if (world.WorldMode != WorldMode.Logic)
-            {
-                Log.Error("this world is not server , can not create entity element data");
-                return default;
-            }
         
             Type type = typeof(T);
             var componentId = OpcodeType.Instance.GetOpcode(type);
@@ -44,12 +39,6 @@ namespace ET
 
         public static T CreateUnitEntityLogicElemData<T>(this UnitEntity self) where T : class, IUnitEntityLogicElemData
         {
-            var world = self.GetParent<World>();
-            if (world.WorldMode != WorldMode.Logic)
-            {
-                Log.Error("this world is not server , can not create entity element data");
-                return default;
-            }
             Type type = typeof(T);
             if (self.UnitEntityLogicData.ContainsKey(type))
             {

@@ -16,7 +16,7 @@ public static partial class BattleWorldManagerComponentSystem
     
     public static World CreateWorld(this BattleWorldManagerComponent self, MatchRoom matchRoom)
     {
-        var world = self.AddChild<World, int>((int)WorldMode.Logic);
+        var world = self.AddChild<World>();
         world.WorldStatusEnum = WorldStatusEnum.Init;
         world.RandomGenerator = new Random(Guid.NewGuid().GetHashCode());
         

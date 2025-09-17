@@ -1,14 +1,14 @@
 ﻿namespace ET.Client
 {
-    [BattleEvent(WorldMode.View)]
-    public class UpdateUnitEntityElementDirtyData_ViewLogic: ABattleEvent<UpdateUnitEntityElementDirtyData>
+    [ClientWorldEventHandler]
+    public class UpdateUnitEntityElementDirtyData_ViewLogic: AClientWorldEvent<ClientUpdateElementData>
     {
-        protected override void Run(World world, UpdateUnitEntityElementDirtyData args)
+        protected override void Run(ClientWorld world, ClientUpdateElementData args)
         {
             var unitEntity = args.UnitEntity;
             var componentId = args.ComponentId;
 
-            var logics = BattleUnitEntityViewLogicManagerComponent.Instance.GetUpdateLogicByComponentId(componentId);
+            var logics = ClientWorldLogicManagerComponent.Instance.GetUpdateLogicByComponentId(componentId);
             if (logics != null)
             {
                 foreach (var logic in logics)

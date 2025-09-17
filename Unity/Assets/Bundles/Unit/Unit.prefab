@@ -45,13 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-  - key: Skeleton
+  - key: Player
     gameObject: {fileID: 1248987324363926, guid: 9e27b0bdab1ad7242a009899d15c0e67,
       type: 3}
   - key: Plane
     gameObject: {fileID: 6715395822234847660, guid: 66ac11a121a979049a2ccc5a82e59eb1,
       type: 3}
-  - key: PlaneMessage
+  - key: PlantMessage
     gameObject: {fileID: 8314645215613679698, guid: e7a42edf02a34d34e9566e55f6de5ec0,
       type: 3}
   - key: GizmosDebug

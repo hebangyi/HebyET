@@ -1,6 +1,6 @@
 ﻿namespace ET
 {
-    [BattleEvent(WorldMode.Logic)]
+    [BattleEvent]
     public class RemoveUnitEntity_DestroyLogic : ABattleEvent<RemoveUnitEntity>
     {
         protected override void Run(World world, RemoveUnitEntity args)

@@ -23,18 +23,19 @@ namespace ET.Client
             }
         }
         
-        protected abstract void Run(ClientWorld world, A a);
+        protected abstract ETTask Run(ClientWorld world, A a);
         
-        public void Handle(ClientWorld world, A a)
+        public async ETTask Handle(ClientWorld world, A a)
         {
             try
             {
-                Run(world, a);
+                await Run(world, a);
             }
             catch (Exception e)
             {
                 Log.Error(e);
             }
         }
+        
     }
 }
