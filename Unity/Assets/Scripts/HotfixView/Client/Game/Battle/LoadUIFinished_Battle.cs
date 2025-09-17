@@ -18,9 +18,8 @@ namespace ET.Client
             B2C_PlayerGetAllAOIWorldData response = (B2C_PlayerGetAllAOIWorldData)await clientBattleSenderComponent.Call(request);
             
             ClientWorld clientWorld = ClientWorldManagerComponent.Instance.CreateWorld();
-            
-            
-            
+            // 加载资源
+            await clientWorld.LoadUnityObject();
             await clientWorld.InitWorld(response.BattleWorld, response.BattleUnitEntity);
 
             var unityScene = UnitySceneManagerComponent.Instance.UnityScene;
