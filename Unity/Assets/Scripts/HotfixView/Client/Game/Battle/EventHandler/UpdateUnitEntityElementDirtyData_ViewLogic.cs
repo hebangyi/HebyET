@@ -3,7 +3,7 @@
     [ClientWorldEventHandler]
     public class UpdateUnitEntityElementDirtyData_ViewLogic: AClientWorldEvent<ClientUpdateElementData>
     {
-        protected override void Run(ClientWorld world, ClientUpdateElementData args)
+        protected override async ETTask Run(ClientWorld world, ClientUpdateElementData args)
         {
             var unitEntity = args.UnitEntity;
             var componentId = args.ComponentId;

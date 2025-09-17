@@ -3,7 +3,7 @@
     [ClientWorldEventHandler]
     public class CreateUnitEntityElementData_ViewLogic: AClientWorldEvent<CreateUnitEntityElementData>
     {
-        protected override void Run(ClientWorld world, CreateUnitEntityElementData args)
+        protected override async ETTask Run(ClientWorld world, CreateUnitEntityElementData args)
         {
             var unitEntity = args.UnitEntity;
             var componentId = args.ComponentId;

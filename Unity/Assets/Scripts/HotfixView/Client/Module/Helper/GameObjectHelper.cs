@@ -48,6 +48,8 @@ namespace ET.Client
 			
 			var unitEntityGameObjectComponent = unitEntity.TryAddComponent<UnitEntityGameObjectComponent>();
 			unitEntityGameObjectComponent.GameObject = ins;
+			
+			Log.Error($"创建 GameObject : {unitEntityType}_{unitEntity.InsId}");
 			return ins;
 		}
 	}
