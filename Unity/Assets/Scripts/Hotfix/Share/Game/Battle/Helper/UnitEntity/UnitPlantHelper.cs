@@ -10,7 +10,9 @@ namespace ET
 {
     public static class UnitPlaneHelper
     {
-        public static void GeneratePlane(World world)
+
+        
+        public static void GeneratePlane(LogicWorld logicWorld)
         {
             int areaSize = 2000;
             int pointCount = 200;
@@ -19,7 +21,7 @@ namespace ET
             // TODO 去除最近地块只有一点点相邻的情况
             // int nearEdgeMinDistance = 5;   // 如果距离小于 不算相邻边
 
-            Random r = world.RandomGenerator;
+            Random r = logicWorld.RandomGenerator;
             var cells = BattleMapHelper.GenerateMapCells(areaSize, r, pointCount, 5);
             
             //// 扣除地块逻辑
@@ -45,7 +47,7 @@ namespace ET
             }
             
             
-            var plantMessageUnitEntity = world.CreateEntity();
+            var plantMessageUnitEntity = logicWorld.CreateEntity();
             var commonData = plantMessageUnitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
             commonData.UnitEntityType = UnitEntityTypeEnum.PlantMessage;
             
@@ -63,7 +65,7 @@ namespace ET
             }
             unitEntityMapMessage.PlantInfo = plantInfo;
             
-            world.CreateEntityFinish(plantMessageUnitEntity);
+            logicWorld.CreateEntityFinish(plantMessageUnitEntity);
 
             
             
@@ -120,7 +122,7 @@ namespace ET
             */
             
             // 计算总的Cell数量
-            var unitEntityPlaneCellGizmos = world.CreateEntity();
+            var unitEntityPlaneCellGizmos = logicWorld.CreateEntity();
             var unitEntityCommonData1 = unitEntityPlaneCellGizmos.CreateUnitEntityElemData<UnitEntityCommonData>();
             unitEntityCommonData1.UnitEntityType = UnitEntityTypeEnum.GizmosDebug;
             var gizmosDebugInfo = unitEntityPlaneCellGizmos.CreateUnitEntityElemData<GizmosDebugInfo>();
@@ -136,7 +138,7 @@ namespace ET
             }
 
             gizmosDebugInfo.AreaSize = areaSize;
-            world.CreateEntityFinish(unitEntityPlaneCellGizmos);
+            logicWorld.CreateEntityFinish(unitEntityPlaneCellGizmos);
             
         }
     }

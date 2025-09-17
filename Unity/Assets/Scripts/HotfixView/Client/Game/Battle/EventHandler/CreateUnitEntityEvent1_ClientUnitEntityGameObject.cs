@@ -10,7 +10,7 @@ namespace ET.Client
     {
         protected override async ETTask Run(ClientWorld world, ClientUnitEntityGameObject args)
         {
-            await GameObjectHelper.CreateGameObjectIns(args.UnitEntity.ClientWorld, args.UnitEntity);
+            await GameObjectHelper.CreateGameObjectIns(args.UnitEntity.ClientWorld(), args.UnitEntity);
         }
         
     }

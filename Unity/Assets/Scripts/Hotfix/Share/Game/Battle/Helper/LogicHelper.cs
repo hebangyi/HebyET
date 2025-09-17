@@ -5,7 +5,7 @@ namespace ET
 {
     public static class LogicHelper
     {
-        public static void Tick(this World self)
+        public static void Tick(this LogicWorld self)
         {
             self.Frame++;
             // Log.Info($"World Id : {self.Id} Tick Frame: {self.Frame}");
@@ -20,7 +20,7 @@ namespace ET
     
         public static T CreateUnitEntityElemData<T>(this UnitEntity self) where T : IUnitEntityElemData
         {
-            var world = self.GetParent<World>();
+            var world = self.GetParent<LogicWorld>();
         
             Type type = typeof(T);
             var componentId = OpcodeType.Instance.GetOpcode(type);

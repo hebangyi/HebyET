@@ -5,26 +5,26 @@ public class C2B_PlayerGetAllAOIWorldDataHandler: MessageClientHandler<BattleRol
 {
     protected override void Run(BattleRole battleRole, C2B_PlayerGetAllAOIWorldData request, B2C_PlayerGetAllAOIWorldData response)
     {
-        World world = battleRole.World();
-        if (world == null)
+        LogicWorld logicWorld = battleRole.World();
+        if (logicWorld == null)
         {
             response.Error = ErrorCode.NotFoundBattleWorld;
             return;
         }
 
-        var unitPlayerEntity = UnitPlayerHelper.GetPlayerUnitEntityByPlayerId(world, battleRole.RoleId);
+        var unitPlayerEntity = UnitPlayerHelper.GetPlayerUnitEntityByPlayerId(logicWorld, battleRole.RoleId);
         if (unitPlayerEntity == null)
         {
             response.Error = ErrorCode.NotFoundWorldPlayer;
             return;
         }
         
-        response.BattleWorld = world.ToBattleWorld();
+        response.BattleWorld = logicWorld.ToBattleWorld();
         response.MyPlayerUnitEntity = unitPlayerEntity.ToBattleUnitEntity();
         
         
         // TODO AOI 机制 
-        foreach (var unitEntityKv in world.AllEntity)
+        foreach (var unitEntityKv in logicWorld.AllEntity)
         {
             BattleUnitEntity battleUnitEntity = unitEntityKv.Value.ToBattleUnitEntity();
             response.BattleUnitEntity.Add(battleUnitEntity);

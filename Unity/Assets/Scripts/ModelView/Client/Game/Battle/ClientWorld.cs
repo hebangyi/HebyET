@@ -1,6 +1,26 @@
-﻿namespace ET.Assets.Scripts.ModelView.Client.Game.Battle;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class ClientWorld
-{
-    
+namespace ET.Client
+{    
+    [ChildOf]
+    public class ClientWorld : World
+    {
+        // AllEntity
+        public Dictionary<long, UnitEntity> AllEntity = new ();
+        
+        // 玩家id-地图UnitEntity
+        public Dictionary<long, UnitEntity> PlayerUnitEntities = new ();
+
+        public uint Frame;
+        
+        // 我的玩家信息
+        public UnitEntity MyPlayer;
+        
+        // 地图 UnitEntity
+        public UnitEntity UnitEntityMap;
+
+        // Unit GameObject 资源
+        public GameObject UnitGameObject;
+    }    
 }

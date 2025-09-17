@@ -3,7 +3,7 @@
     [BattleEvent]
     public class CreateUnitEntityElementData_Logic: ABattleEvent<CreateUnitEntityElementData>
     {
-        protected override void Run(World world, CreateUnitEntityElementData args)
+        protected override void Run(LogicWorld logicWorld, CreateUnitEntityElementData args)
         {
             var unitEntity = args.UnitEntity;
             var componentId = args.ComponentId;

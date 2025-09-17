@@ -6,7 +6,7 @@ namespace ET
     public  static partial class LogicWorldHelper
     {
         public static UnitEntity 
-                CreateEntity(this World self)
+                CreateEntity(this LogicWorld self)
         {
             var unitEntity = self.AddChild<UnitEntity>();
             unitEntity.InsId = unitEntity.InstanceId;
@@ -14,7 +14,7 @@ namespace ET
             return unitEntity;
         }
 
-        public static void CreateEntityFinish(this World self, UnitEntity unitEntity)
+        public static void CreateEntityFinish(this LogicWorld self, UnitEntity unitEntity)
         {
             self.PublishEvent(new CreateUnitEntityEvent0(){UnitEntity = unitEntity});
             self.PublishEvent(new CreateUnitEntityEvent1(){UnitEntity = unitEntity});
@@ -27,14 +27,14 @@ namespace ET
         }
         
         
-        public static void RemoveEntity(this World self, UnitEntity unitEntity)
+        public static void RemoveEntity(this LogicWorld self, UnitEntity unitEntity)
         {
             self.PublishEvent(new RemoveUnitEntity(){UnitEntity = unitEntity});
             self.AllEntity.Remove(unitEntity.InsId);
             unitEntity.Dispose();
         }
         
-        public static void PublishEvent<T>(this World self, T args) where T : struct
+        public static void PublishEvent<T>(this LogicWorld self, T args) where T : struct
         {
             var events = BattleEventManagerComponent.Instance.AllEvents.GetValueOrDefault(typeof(T));
             if (events == null)
@@ -55,11 +55,11 @@ namespace ET
         }
 
         
-        public static BattleWorld ToBattleWorld(this World world)
+        public static BattleWorld ToBattleWorld(this LogicWorld logicWorld)
         {
             BattleWorld battleWorld = BattleWorld.Create();
-            battleWorld.WorldStatus = world.WorldStatusEnum;
-            battleWorld.Frame = world.Frame;
+            battleWorld.WorldStatus = logicWorld.WorldStatusEnum;
+            battleWorld.Frame = logicWorld.Frame;
             return battleWorld;
         }
     }

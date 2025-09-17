@@ -24,6 +24,6 @@
     public interface IUnitEntityTickLogic : IUnitEntityLogic
     {
         // 执行更新
-        void OnTick(World world);
+        void OnTick(LogicWorld logicWorld);
     }
 }

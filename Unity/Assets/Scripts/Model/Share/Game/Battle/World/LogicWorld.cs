@@ -6,7 +6,7 @@ namespace ET
 {
 
     [ChildOf]
-    public partial class World : Entity, IAwake
+    public partial class LogicWorld : World
     {
         public IDirtyHandler DirtyHandler;
         public ISyncHandler SyncHandler;

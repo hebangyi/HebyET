@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace ET
 {
-    public partial class World
+    public partial class LogicWorld
     {
         //// 逻辑端数据
         // 玩家数据 PlayerId 2 Entity

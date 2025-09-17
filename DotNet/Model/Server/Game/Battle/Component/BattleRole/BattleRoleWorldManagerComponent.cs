@@ -3,5 +3,5 @@
 [ComponentOf(typeof(BattleRole))]
 public class BattleRoleWorldManagerComponent: Entity, IAwake, IDestroy
 {
-    public EntityRef<World> World;
+    public EntityRef<LogicWorld> World;
 }

@@ -24,13 +24,13 @@ namespace ET
             }
         }
         
-        protected abstract void Run(World world, A a);
+        protected abstract void Run(LogicWorld logicWorld, A a);
         
-        public void Handle(World world, A a)
+        public void Handle(LogicWorld logicWorld, A a)
         {
             try
             {
-                Run(world, a);
+                Run(logicWorld, a);
             }
             catch (Exception e)
             {

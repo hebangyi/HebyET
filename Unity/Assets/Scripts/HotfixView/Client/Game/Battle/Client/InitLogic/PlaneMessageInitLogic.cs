@@ -8,7 +8,7 @@ namespace ET.Client
     {
         public void OnInit(UnitEntity unitEntity)
         {
-            unitEntity.ClientWorld.UnitPlant = unitEntity;
+            unitEntity.ClientWorld().UnitEntityMap = unitEntity;
 
             var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
             var go = unitEntityGameObjectComponent.GameObject;
@@ -35,7 +35,7 @@ namespace ET.Client
 
         public void OnDestroy(UnitEntity unitEntity)
         {
-            unitEntity.ClientWorld.UnitPlant = null;
+            unitEntity.ClientWorld().UnitEntityMap = null;
         }
 
         public ushort WatchComponentId()

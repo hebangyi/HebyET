@@ -5,21 +5,21 @@ namespace ET
 {
     public class LogicDirtyHandler : IDirtyHandler
     {
-        private World m_World;
+        private LogicWorld mLogicWorld;
 
-        public LogicDirtyHandler(World world)
+        public LogicDirtyHandler(LogicWorld logicWorld)
         {
-            this.m_World = world;
+            this.mLogicWorld = logicWorld;
         }
 
         public void Dirty(long insId, IUnitEntityElemData elemData)
         {
-            var dirtyUnitEntity = m_World.DirtyUnitEntities.GetValueOrDefault(insId);
+            var dirtyUnitEntity = this.mLogicWorld.DirtyUnitEntities.GetValueOrDefault(insId);
             if (dirtyUnitEntity == null)
             {
                 dirtyUnitEntity = new SyncDirtyUnitEntity();
                 dirtyUnitEntity.InsId = insId;
-                m_World.DirtyUnitEntities[insId] = dirtyUnitEntity;
+                this.mLogicWorld.DirtyUnitEntities[insId] = dirtyUnitEntity;
             }
 
             ushort compId = OpcodeType.Instance.GetOpcode(elemData.GetType());

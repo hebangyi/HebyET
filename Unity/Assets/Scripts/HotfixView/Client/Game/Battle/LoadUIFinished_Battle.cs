@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿
+using System.Collections.Generic;
 
 namespace ET.Client
 {
@@ -29,7 +29,7 @@ namespace ET.Client
             // TODO 这个地方的逻辑都写在生命周期函数中
             var myPlayerUnitEntity = clientWorld.AllEntity.GetValueOrDefault(response.MyPlayerUnitEntity.InsId);
             clientWorld.MyPlayer = myPlayerUnitEntity;
-            unitySceneCameraComponent.SetFlowUnitEntity(clientWorld.MyPlayer);
+            unitySceneCameraComponent.SetFlowUnitEntity(myPlayerUnitEntity);
             
             FGUIComponent.Instance.CloseWindowAll();
             FGUIComponent.Instance.ShowWindowAsync(WindowID.FGUIBattleOperationMainView).Coroutine();

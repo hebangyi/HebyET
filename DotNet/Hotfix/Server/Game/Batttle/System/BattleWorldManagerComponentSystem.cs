@@ -9,14 +9,14 @@ namespace ET.Server;
 [FriendOf(typeof(BattleWorldManagerComponent))]
 public static partial class BattleWorldManagerComponentSystem
 {
-    public static World GetWorldById(this BattleWorldManagerComponent self, long worldId)
+    public static LogicWorld GetWorldById(this BattleWorldManagerComponent self, long worldId)
     {
         return self.Worlds.GetValueOrDefault(worldId);
     }
     
-    public static World CreateWorld(this BattleWorldManagerComponent self, MatchRoom matchRoom)
+    public static LogicWorld CreateWorld(this BattleWorldManagerComponent self, MatchRoom matchRoom)
     {
-        var world = self.AddChild<World>();
+        var world = self.AddChild<LogicWorld>();
         world.WorldStatusEnum = WorldStatusEnum.Init;
         world.RandomGenerator = new Random(Guid.NewGuid().GetHashCode());
         
@@ -42,21 +42,21 @@ public static partial class BattleWorldManagerComponentSystem
         return world;
     }
 
-    public static void SyncDirtyBattleData(World world)
+    public static void SyncDirtyBattleData(LogicWorld logicWorld)
     {
-        if (world.DirtyUnitEntities.Count == 0)
+        if (logicWorld.DirtyUnitEntities.Count == 0)
         {
             return;
         }
 
         L2C_PlayerAOIWorldDirtyPush message = L2C_PlayerAOIWorldDirtyPush.Create();
-        foreach (var dirtyUnitEntityKv in world.DirtyUnitEntities)
+        foreach (var dirtyUnitEntityKv in logicWorld.DirtyUnitEntities)
         {
             var battleUnitEntity = dirtyUnitEntityKv.Value.ToBattleUnitEntity();
             message.DirtyUnitEntities.Add(battleUnitEntity);
         }
 
-        foreach (var playerId in world.PlayerId2Players.Keys)
+        foreach (var playerId in logicWorld.PlayerId2Players.Keys)
         {
             var battleRole = BattleRoleComponent.Instance.GetByRoleId(playerId);
             if (battleRole != null)
@@ -65,7 +65,7 @@ public static partial class BattleWorldManagerComponentSystem
             }
         }
 
-        world.DirtyUnitEntities.Clear();
+        logicWorld.DirtyUnitEntities.Clear();
     }
     
     

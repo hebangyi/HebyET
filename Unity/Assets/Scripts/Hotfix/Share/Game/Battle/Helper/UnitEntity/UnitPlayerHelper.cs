@@ -5,9 +5,9 @@ namespace ET
 {
     public  static class UnitPlayerHelper
     {
-        public static UnitEntity Create(World world, long playerId)
+        public static UnitEntity Create(LogicWorld logicWorld, long playerId)
         {
-            var unitEntity = world.CreateEntity();
+            var unitEntity = logicWorld.CreateEntity();
             var unitEntityCommonData = unitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
             unitEntityCommonData.UnitEntityType = UnitEntityTypeEnum.Player;
             
@@ -26,7 +26,7 @@ namespace ET
             unitEntityPosition.Position = new float2(0f, 0f);
 
             var unitEntityPlayerFrame = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerFrame>();
-            unitEntityPlayerFrame.Frame = world.Frame;
+            unitEntityPlayerFrame.Frame = logicWorld.Frame;
             
             
             var unitEntityPlayerOperationAction = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerOperationAction>();
@@ -35,19 +35,19 @@ namespace ET
             unitEntity.CreateUnitEntityLogicElemData<UnitEntityPlayerOperation>();
             var unitEntityPlayerCellInfo = unitEntity.CreateUnitEntityLogicElemData<UnitEntityPlayerCellInfo>();
             
-            world.CreateEntityFinish(unitEntity);
+            logicWorld.CreateEntityFinish(unitEntity);
             return unitEntity;
         }
 
-        public static UnitEntity GetPlayerUnitEntityByPlayerId(World world, long playerId)
+        public static UnitEntity GetPlayerUnitEntityByPlayerId(LogicWorld logicWorld, long playerId)
         {
-            var unitEntity = world.PlayerId2Players.GetValueOrDefault(playerId);
+            var unitEntity = logicWorld.PlayerId2Players.GetValueOrDefault(playerId);
             return unitEntity;
         }
 
-        public static void Online(World world, long playerId)
+        public static void Online(LogicWorld logicWorld, long playerId)
         {
-            var unitEntity = world.PlayerId2Players.GetValueOrDefault(playerId);
+            var unitEntity = logicWorld.PlayerId2Players.GetValueOrDefault(playerId);
             var playerInfo = unitEntity?.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             if (playerInfo == null)
             {
@@ -56,9 +56,9 @@ namespace ET
             }
         }
 
-        public static void Offline(World world, long playerId)
+        public static void Offline(LogicWorld logicWorld, long playerId)
         {
-            var unitEntity = world.PlayerId2Players.GetValueOrDefault(playerId);
+            var unitEntity = logicWorld.PlayerId2Players.GetValueOrDefault(playerId);
             var playerInfo = unitEntity?.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             if (playerInfo == null)
             {

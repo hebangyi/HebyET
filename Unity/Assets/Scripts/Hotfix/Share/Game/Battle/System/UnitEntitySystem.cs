@@ -17,7 +17,7 @@ namespace ET
         [EntitySystem]
         private static void Destroy(this UnitEntity self)
         {
-            var world = self.GetParent<World>();
+            var world = self.GetParent<LogicWorld>();
             if (world != null)
             {
                 world.RemoveEntity(self);

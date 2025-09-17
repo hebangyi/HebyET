@@ -13,21 +13,13 @@ namespace ET
         public Dictionary<Type, IUnitEntityLogicElemData> UnitEntityLogicData;
         
 
-        public World World
-        {
-            get
-            {
-                return this.GetParent<World>();
-            }
-        }
-
-        public ClientWorld ClientWorld
+        /*public ClientWorld ClientWorld
         {
             get
             {
                 return this.GetParent<ClientWorld>();
             }
-        }
+        }*/
 
     }
 } 

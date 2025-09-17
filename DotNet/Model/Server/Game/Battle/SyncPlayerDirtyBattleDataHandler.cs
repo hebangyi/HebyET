@@ -5,17 +5,17 @@ namespace ET.Server;
 
 public class SyncPlayerDirtyBattleDataHandler : ISyncHandler
 {
-    private World m_World;
-    public Action<World> m_DoFunc;
+    private LogicWorld mLogicWorld;
+    public Action<LogicWorld> m_DoFunc;
     
-    public SyncPlayerDirtyBattleDataHandler(World world, Action<World> doFunc)
+    public SyncPlayerDirtyBattleDataHandler(LogicWorld logicWorld, Action<LogicWorld> doFunc)
     {
-        this.m_World = world;
+        this.mLogicWorld = logicWorld;
         this.m_DoFunc = doFunc;
     }
 
     public void Sync()
     {
-        this.m_DoFunc?.Invoke(this.m_World);
+        this.m_DoFunc?.Invoke(this.mLogicWorld);
     }
 }

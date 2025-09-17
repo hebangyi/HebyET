@@ -3,7 +3,7 @@
     [BattleEvent]
     public class RemoveUnitEntity_DestroyLogic : ABattleEvent<RemoveUnitEntity>
     {
-        protected override void Run(World world, RemoveUnitEntity args)
+        protected override void Run(LogicWorld logicWorld, RemoveUnitEntity args)
         {
             var unitEntity = args.UnitEntity;
             foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)

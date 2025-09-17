@@ -5,6 +5,11 @@ namespace ET
 {
     public static class UnitEntityHelper
     {
+        public static LogicWorld LogicWorld(this UnitEntity unitEntity)
+        {
+            return unitEntity.GetParent<LogicWorld>();
+        }
+
         // 是否有 ElementData 数据
         public static bool HasUnitEntityElementData<T>(this UnitEntity self) where T : IUnitEntityElemData
         {

@@ -118,7 +118,7 @@ public static class BattleRoleHelper
         session.AddComponent<SessionAcceptLoginCheckTimeoutComponent>();
     }
 
-    public static World World(this BattleRole role)
+    public static LogicWorld World(this BattleRole role)
     {
         return role.GetComponent<BattleRoleWorldManagerComponent>()?.World;
     }
