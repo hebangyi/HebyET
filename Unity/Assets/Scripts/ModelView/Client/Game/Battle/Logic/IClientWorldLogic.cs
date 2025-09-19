@@ -9,7 +9,7 @@
         
     }
     
-    public interface IUnitEntityClientWorldInitLogic : IClientWorldLogic
+    public interface IClientWorldLogicInitLogic : IClientWorldLogic
     {
         // 创建初始化Entity的时触发
         void OnInit(UnitEntity unitEntity);

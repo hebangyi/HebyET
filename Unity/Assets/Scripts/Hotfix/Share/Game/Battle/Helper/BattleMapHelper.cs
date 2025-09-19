@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Unity.Mathematics;
 using VoronoiLib;
@@ -124,7 +125,37 @@ namespace ET
             return Math.Abs(crossProduct) < epsilon;
         }
 
-        public static List<CellData> GenerateMapCells(int areaSize, Random random, int pointCount,
+        public static List<CellData> GenerateBattleCells(int areaSize, Random random, int pointCount,
+        int pointMinDistance = 5)
+        {
+            // 所有的cells
+            var allCells = GenerateMapAllCells(areaSize, random, pointCount, pointMinDistance);
+            
+            // 找到距离中心比较近的地块
+            CellData centerCellData = null;
+            float minDistance = float.MaxValue;
+            float2 centerPoint = new float2((float)areaSize/ 2, (float)areaSize/2);
+            foreach (var cell in allCells)
+            {
+                if (centerCellData == null)
+                {
+                    centerCellData = cell;
+                    minDistance = (cell.Center.x - centerPoint.x) * (cell.Center.x - centerPoint.x) + (cell.Center.y - centerPoint.y) * (cell.Center.y - centerPoint.y);
+                    continue;
+                }
+                
+                var distance = (cell.Center.x - centerPoint.x) * (cell.Center.x - centerPoint.x) + (cell.Center.y - centerPoint.y) * (cell.Center.y - centerPoint.y);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    centerCellData = cell;
+                }
+            }
+            
+            return allCells;
+        } 
+        
+        public static List<CellData> GenerateMapAllCells(int areaSize, Random random, int pointCount,
         int pointMinDistance = 5)
         {
             var (centerPoints, borders) = GenerateFortuneSites(areaSize, random, pointCount, pointMinDistance);
@@ -155,6 +186,9 @@ namespace ET
                 }
 
                 rightCell.Borders.Add(new float4((float)edge.Start.X, (float)edge.Start.Y, (float)edge.End.X, (float)edge.End.Y));
+
+                leftCell.NearCellDataSet.Add(rightCell);
+                rightCell.NearCellDataSet.Add(leftCell);
             }
 
             // 检查边的闭合性
@@ -274,6 +308,7 @@ namespace ET
         }
 
 
+        /*
         public static CellData CreateCellData(CellInfo cellInfo, int unitSize)
         {
             CellData cellData = new CellData();
@@ -332,9 +367,9 @@ namespace ET
             cellData.plantMaxY = plantMaxY;
 
             return cellData;
-        }
+        }*/
 
-        public static PlantData GenPlantInfo(PlantInfo plantInfo)
+        /*public static PlantData GenPlantInfo(PlantInfo plantInfo)
         {
             PlantData plantData = new PlantData();
             
@@ -345,10 +380,10 @@ namespace ET
                 var cellData = CreateCellData(cell, unitSize);
                 plantData.Cells.Add(cellData);
             }
-            */
+            #1#
             
             // 计算Cell的值
             return plantData;
-        }
+        }*/
     }
 }
