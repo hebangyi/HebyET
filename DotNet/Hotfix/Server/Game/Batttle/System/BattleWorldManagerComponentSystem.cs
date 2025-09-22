@@ -27,7 +27,15 @@ public static partial class BattleWorldManagerComponentSystem
         world.InitSyncHandler(syncPlayerDirtyBattleDataHandler);
         
         // 创建地图
-        UnitPlaneHelper.GeneratePlane(world);
+        PlantGenContext plantGenContext = new ();
+        plantGenContext.InitData.AreaSize = 2000;
+        plantGenContext.InitData.PointCount = 200;
+        plantGenContext.InitData.Random = world.RandomGenerator;
+        plantGenContext.InitData.NearEdgeMinDistance = 5;
+        plantGenContext.InitData.GenCellCount = 25;
+        
+        
+        UnitPlaneHelper.GeneratePlane(world, plantGenContext);
         
         // 创建玩家
         foreach (var matchOrder in matchRoom.MatchOrders)

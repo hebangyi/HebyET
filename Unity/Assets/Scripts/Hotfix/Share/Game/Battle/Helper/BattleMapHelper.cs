@@ -125,43 +125,22 @@ namespace ET
             return Math.Abs(crossProduct) < epsilon;
         }
 
-        public static List<CellData> GenerateBattleCells(int areaSize, Random random, int pointCount,
-        int pointMinDistance = 5)
+        public static void GenerateBattleCells(PlantGenContext plantGenContext)
         {
             // 所有的cells
-            var allCells = GenerateMapAllCells(areaSize, random, pointCount, pointMinDistance);
-            
-            // 找到距离中心比较近的地块
-            CellData centerCellData = null;
-            float minDistance = float.MaxValue;
-            float2 centerPoint = new float2((float)areaSize/ 2, (float)areaSize/2);
-            foreach (var cell in allCells)
-            {
-                if (centerCellData == null)
-                {
-                    centerCellData = cell;
-                    minDistance = (cell.Center.x - centerPoint.x) * (cell.Center.x - centerPoint.x) + (cell.Center.y - centerPoint.y) * (cell.Center.y - centerPoint.y);
-                    continue;
-                }
-                
-                var distance = (cell.Center.x - centerPoint.x) * (cell.Center.x - centerPoint.x) + (cell.Center.y - centerPoint.y) * (cell.Center.y - centerPoint.y);
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    centerCellData = cell;
-                }
-            }
-            
-            return allCells;
+            GenerateMapAllCells(plantGenContext);
+            BattleMapGenerateHelper.GenerateMethods1(plantGenContext);
         } 
         
-        public static List<CellData> GenerateMapAllCells(int areaSize, Random random, int pointCount,
-        int pointMinDistance = 5)
+        public static void GenerateMapAllCells(PlantGenContext plantGenContext)
         {
-            var (centerPoints, borders) = GenerateFortuneSites(areaSize, random, pointCount, pointMinDistance);
+            var initData = plantGenContext.InitData;
+            var plantData = plantGenContext.PlantData;
+            var areaSize = initData.AreaSize;
+            var (centerPoints, borders) = GenerateFortuneSites(initData.AreaSize, initData.Random, initData.PointCount, initData.NearEdgeMinDistance);
             Dictionary<float2, CellData> pointCenter2Cells = new Dictionary<float2, CellData>();
-            List<CellData> allCells = new List<CellData>();
-
+            Dictionary<int, CellData> allCellsDict = new Dictionary<int, CellData>();
+            int idGen = 0;
             foreach (VEdge edge in borders)
             {
                 var leftPoint = new float2((float)edge.Left.X, (float)edge.Left.Y);
@@ -171,6 +150,7 @@ namespace ET
                 if (leftCell == null)
                 {
                     leftCell = new CellData();
+                    leftCell.Id = ++idGen;
                     leftCell.Center = leftPoint;
                     pointCenter2Cells[leftPoint] = leftCell;
                 }
@@ -181,6 +161,7 @@ namespace ET
                 if (rightCell == null)
                 {
                     rightCell = new CellData();
+                    rightCell.Id = ++idGen;
                     rightCell.Center = rightPoint;
                     pointCenter2Cells[rightPoint] = rightCell;
                 }
@@ -213,11 +194,24 @@ namespace ET
 
                 if (isRight)
                 {
-                    allCells.Add(pointCell);
+                    allCellsDict.Add(pointCell.Id, pointCell);
                 }
             }
+            
+            // 临边数据更新
+            foreach (var cellData in allCellsDict.Values)
+            {
+                foreach (var nearCellData in cellData.NearCellDataSet.ToList())
+                {
+                    if (!allCellsDict.ContainsKey(nearCellData.Id))
+                    {
+                        cellData.NearCellDataSet.Remove(nearCellData);
+                    }
+                }
+            }
+            
 
-            return allCells;
+            plantData.AllCells = allCellsDict.Values.ToList();
         }
 
         private static (List<FortuneSite>, LinkedList<VEdge>) GenerateFortuneSites(int areaWidth, Random random, int pointCount,
