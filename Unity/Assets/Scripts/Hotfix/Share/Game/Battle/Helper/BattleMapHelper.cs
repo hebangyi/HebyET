@@ -17,8 +17,8 @@ namespace ET
             if (polygon == null || polygon.Count < 3)
                 return false;
 
-            if (!IsSimpleFilter(targetPoint, polygon))
-                return false;
+            /*if (!IsSimpleFilter(targetPoint, polygon))
+                return false;*/
 
             bool inside = false;
             int n = polygon.Count;
