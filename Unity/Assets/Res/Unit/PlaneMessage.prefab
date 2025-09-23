@@ -56,30 +56,30 @@ Tilemap:
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: 1.0816353e-19
+      e00: -238.68689
       e01: 0
-      e02: -2.0328811e-19
-      e03: -2.0328811e-19
-      e10: 4.5912e-41
+      e02: 2.0328811e-19
+      e03: 2.0328811e-19
+      e10: 1.93e-43
       e11: 0
-      e12: 7.88e-43
-      e13: 7.88e-43
-      e20: -1.8283526e-31
-      e21: -2.534697e+25
-      e22: 2.5105875e-18
-      e23: -1.5858115e+29
-      e30: 4.5905e-41
-      e31: 7.92e-43
-      e32: 7.89e-43
-      e33: 7.9e-43
+      e12: 6.95e-43
+      e13: 6.95e-43
+      e20: -1.3072576e-19
+      e21: -0.0000000029338558
+      e22: -7.0165335e-29
+      e23: 3.807329e+19
+      e30: 4.5904e-41
+      e31: 6.98e-43
+      e32: 6.95e-43
+      e33: 6.98e-43
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: 3.827e-41, g: 3.827e-41, b: 3.827e-41, a: 3.827e-41}
+    m_Data: {r: 3.8368e-41, g: 3.8368e-41, b: 3.8368e-41, a: 3.8368e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -1, y: -1, z: 0}
-  m_Size: {x: 2, y: 2, z: 1}
+  m_Origin: {x: -1, y: -5, z: 0}
+  m_Size: {x: 8, y: 6, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -189,7 +189,7 @@ Grid:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4980267869254385954}
   m_Enabled: 1
-  m_CellSize: {x: 1, y: 1, z: 0}
+  m_CellSize: {x: 10, y: 10, z: 0}
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
@@ -239,7 +239,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-  - key: Ground
-    gameObject: {fileID: 11400000, guid: e68e183584f8d894a9978454fc99629b, type: 2}
   - key: TileMap
     gameObject: {fileID: 4921564484281272999}
+  - key: plant_ground_yellow
+    gameObject: {fileID: 11400000, guid: e68e183584f8d894a9978454fc99629b, type: 2}
+  - key: plant_ground_green
+    gameObject: {fileID: 11400000, guid: ec5162268f211f649aaa6a42afe78bae, type: 2}

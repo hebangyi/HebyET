@@ -14,23 +14,31 @@ namespace ET.Client
             var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
             var go = unitEntityGameObjectComponent.GameObject;
             
-            var groundTile = go.Get<TileBase>("Ground");
+            var plant_ground_green = go.Get<TileBase>("plant_ground_green");
+            var plant_ground_yellow = go.Get<TileBase>("plant_ground_yellow");
             var tilemap = go.Get<GameObject>("TileMap").GetComponent<Tilemap>();
 
             var unitEntityMapMessage = unitEntity.GetUnitEntityElemData<UnitEntityMapMessage>();
             var areaSize = unitEntityMapMessage.AreaSize;
-            var unitSize = 1f;
-            var unitRadius  = unitSize / 2;
+            int unitSize = 10;
+            int unitRadius  = unitSize / 2;
             
             var plantInfo = unitEntityMapMessage.PlantInfo;
             long titleMapCount = 0;
-            
-            /*foreach (var cellInfo in plantInfo.CellInfos)
+
+            for (int i = 0; i < plantInfo.CellInfos.Count; i++)
             {
+                var cellInfo = plantInfo.CellInfos[i];
                 float plantMinX = float.MaxValue;
                 float plantMinY = float.MaxValue;
                 float plantMaxX = 0;
                 float plantMaxY = 0;
+                var current_plant = plant_ground_green;
+                if (i % 2 == 0)
+                {
+                    current_plant = plant_ground_yellow;
+                }
+                
                 
                 foreach (var border in cellInfo.Borders)
                 {
@@ -46,9 +54,8 @@ namespace ET.Client
                     if (border.y > plantMaxY)
                     {
                         plantMaxY = border.y;
-                    
                     }
-
+                    
                     if (border.y < plantMinY)
                     {
                         plantMinY = border.y;
@@ -75,46 +82,30 @@ namespace ET.Client
                     }
                 }
                 
-                var formX = (int)(plantMinX / unitSize) * unitSize + unitRadius;
-                var toX = (int)(plantMaxX / unitSize) * unitSize + unitRadius;
-                var formY = (int)(plantMinY / unitSize) * unitSize + unitRadius;
-                var toY = (int)(plantMaxY / unitSize) * unitSize + unitRadius;
-
-                for (var x = formX; x <= toX; x+= unitSize)
+                var formX = (int)(plantMinX / unitSize);
+                var toX = (int)(plantMaxX / unitSize) + 1;
+                var formY = (int)(plantMinY / unitSize);
+                var toY = (int)(plantMaxY / unitSize) + 1;
+                
+                for (var x = formX; x < toX; x++)
                 {
-                    for (var y = formY; y <= toY; y+= unitSize)
+                    for (var y = formY; y < toY; y++)
                     {
-                        if (BattleMapHelper.IsPointInPolygon(new float2(x, y), cellInfo.Borders))
+                        var centerX = x * unitSize + unitRadius;
+                        var centerY = y * unitSize + unitRadius;
+                        
+                        if (BattleMapHelper.IsPointInPolygon(new float2(centerX, centerY), cellInfo.Borders))
                         {
-                            Vector3Int position = new Vector3Int((int)x, (int)y, 0);
-                            tilemap.SetTile(position, groundTile);
+                            Vector3Int position = new Vector3Int(x, y, 0);
+                            tilemap.SetTile(position, current_plant);
                             titleMapCount++;
                         }
                     }
                 }
-
-                break;
-            }*/
-            
-            Log.Error($"创建 TileMap 数量 : {titleMapCount}");
-            
-            /*
-            PlantData plantInfo = BattleMapHelper.GenPlantInfo(unitEntityMapMessage.PlantInfo);
-            for (int x = 0; x < plantInfo.xPlantCount; x++)
-            {
-                for (int y = 0; y < plantInfo.yPlantCount; y++)
-                {
-                    var target = x * plantInfo.xPlantCount + y;
-                    if (plantInfo.mapData[target])
-                    {
-                        Vector3Int position = new Vector3Int(x, y, 0);
-                        tilemap.SetTile(position, groundTile);
-                    }
-                }
             }
             tilemap.RefreshAllTiles();
-            */
             
+            Log.Error($"创建 TileMap 数量 : {titleMapCount}");
         }
 
         public void OnDestroy(UnitEntity unitEntity)
