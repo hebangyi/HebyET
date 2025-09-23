@@ -1,15 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.Mathematics;
 
 namespace ET
 {
     [UnitEntityLogic]
-    public class PlayerDataInitLogic : IUnitEntityInitLogic
+    public class PlayerDataBattleLogicInit : IBattleLogicInit
     {
         public void OnInit(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             unitEntity.LogicWorld().PlayerId2Players[playerInfo.PlayerId] = unitEntity;
+            
+            // 随机选择一个地块
+            var logicWorld = unitEntity.LogicWorld();
+            var unitEntityMap = logicWorld.UnitEntityMap;
+            
+            var unitEntityMapMessage = unitEntityMap.GetUnitEntityElemData<UnitEntityMapMessage>();
+            var cellInfo = unitEntityMapMessage.PlantInfo.CellInfos.FirstOrDefault();
+            if (cellInfo != null)
+            {
+                var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
+                unitEntityPosition.Forward = new float3(0, 0, 1);
+                unitEntityPosition.Position = cellInfo.CenterPoint;
+            }
         }
 
         public void OnDestroy(UnitEntity unitEntity)

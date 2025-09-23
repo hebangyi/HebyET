@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class PlaneMessageLogicInitLogic  : IClientWorldLogicInitLogic
+    public class PlaneMessageInit  : IClientWorldInit
     {
         public void OnInit(UnitEntity unitEntity)
         {
@@ -104,7 +104,6 @@ namespace ET.Client
                 }
             }
             tilemap.RefreshAllTiles();
-            
             Log.Error($"创建 TileMap 数量 : {titleMapCount}");
         }
 

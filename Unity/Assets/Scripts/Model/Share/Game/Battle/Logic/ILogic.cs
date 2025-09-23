@@ -4,11 +4,11 @@
     {
     }
 
-    public interface IUnitEntityLogic
+    public interface IBattleLogic
     {
     }
 
-    public interface IUnitEntityInitLogic : IUnitEntityLogic
+    public interface IBattleLogicInit : IBattleLogic
     {
         // 创建初始化Entity的时触发
         void OnInit(UnitEntity unitEntity);
@@ -21,7 +21,7 @@
     }
 
     // 数据处理接口 会修改UnitEntity中的数据
-    public interface IUnitEntityTickLogic : IUnitEntityLogic
+    public interface IBattleLogicTick : IBattleLogic
     {
         // 执行更新
         void OnTick(LogicWorld logicWorld);

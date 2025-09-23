@@ -1,6 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
+using Random = System.Random;
 
 namespace ET
 {
@@ -8,19 +9,31 @@ namespace ET
     [ChildOf]
     public partial class LogicWorld : World
     {
+        // 数据同步 
         public IDirtyHandler DirtyHandler;
         public ISyncHandler SyncHandler;
         public Random RandomGenerator;
+        
+        public Dictionary<long, UnitEntity> AllEntity = new ();
+        // 地图 UnitEntity
+        public UnitEntity UnitEntityMap;
         
         // 当前世界逻辑帧
         public uint Frame = 1;
         // 下一次更新的时间
         public long NextUpdateMillTime;
-
         public int Interval = 100;
         // 世界状态
         public WorldStatusEnum WorldStatusEnum = WorldStatusEnum.Init;
         
-        public Dictionary<long, UnitEntity> AllEntity = new ();
+        //// 逻辑端数据
+        // 玩家数据 PlayerId 2 Entity
+        public Dictionary<long, UnitEntity> PlayerId2Players = new();
+        // 中心坐标2地块
+        public Dictionary<float2, UnitEntity> Point2Plants = new ();
+        
+        // 逻辑帧脏数据
+        // TODO AOI机制
+        public Dictionary<long, SyncDirtyUnitEntity> DirtyUnitEntities = new ();
     }
 }

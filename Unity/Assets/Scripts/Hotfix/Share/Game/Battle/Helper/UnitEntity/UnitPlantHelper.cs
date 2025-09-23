@@ -34,8 +34,8 @@ namespace ET
                 cellInfo.Borders.AddRange(cell.Borders);
                 plantInfo.CellInfos.Add(cellInfo);
             }
-            unitEntityMapMessage.PlantInfo = plantInfo;
             
+            unitEntityMapMessage.PlantInfo = plantInfo;
             logicWorld.CreateEntityFinish(plantMessageUnitEntity);
             
             // 计算总的Cell数量

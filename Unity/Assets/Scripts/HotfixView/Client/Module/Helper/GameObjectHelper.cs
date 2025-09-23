@@ -48,6 +48,12 @@ namespace ET.Client
 			
 			var unitEntityGameObjectComponent = unitEntity.TryAddComponent<UnitEntityGameObjectComponent>();
 			unitEntityGameObjectComponent.GameObject = ins;
+
+			var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
+			if (unitEntityPosition != null)
+			{
+				unitEntityGameObjectComponent.GameObject.transform.position = new Vector3(unitEntityPosition.Position.x, 0 , unitEntityPosition.Position.y);
+			}
 			
 			Log.Error($"创建 GameObject : {unitEntityType}_{unitEntity.InsId}");
 			return ins;

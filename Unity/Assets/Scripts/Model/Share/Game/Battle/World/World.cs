@@ -3,5 +3,5 @@
     public abstract class World : Entity, IAwake
     {
     
-    }    
+    }
 }

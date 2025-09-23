@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class GizmosDebugLogicInitLogic: IClientWorldLogicInitLogic
+    public class GizmosDebugInit: IClientWorldInit
     {
         public void OnInit(UnitEntity unitEntity)
         {
