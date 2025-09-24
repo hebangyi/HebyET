@@ -12,7 +12,7 @@ namespace ET
             
             var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
             unitEntityPosition.Position = position;
-
+            
             return unitEntity;
         }
     }
