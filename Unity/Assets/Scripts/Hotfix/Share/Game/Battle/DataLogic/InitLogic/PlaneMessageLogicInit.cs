@@ -1,7 +1,7 @@
 ﻿namespace ET
 {
     [UnitEntityLogic]
-    public class PlaneMessageLogicInit: IBattleLogicInit
+    public class PlaneMessageInit: IBattleInit
     {
         public void OnInit(UnitEntity unitEntity)
         {

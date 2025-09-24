@@ -16,27 +16,27 @@ namespace ET.Client
             foreach (var type in viewTypes)
             {
                 var handler = Activator.CreateInstance(type);
-                if (handler is IClientWorldInit viewInitLogic)
+                if (handler is IClientInit viewInitLogic)
                 {
                     var componentId = viewInitLogic.WatchComponentId();
                     var logics = self.CompId2InitViewLogics.GetValueOrDefault(componentId);
                     if (logics == null)
                     {
-                        logics = new List<IClientWorldInit>();
+                        logics = new List<IClientInit>();
                         self.CompId2InitViewLogics.Add(componentId, logics);
                     }
 
                     logics.Add(viewInitLogic);
                 }
 
-                if (handler is IClientWorldElementDataUpdateLogic dataUpdateLogic)
+                if (handler is IClientEleUpdate dataUpdateLogic)
                 {
                     var componentId = dataUpdateLogic.WatchComponentId();
 
                     var logics = self.CompId2ElementDataUpdates.GetValueOrDefault(componentId);
                     if (logics == null)
                     {
-                        logics = new List<IClientWorldElementDataUpdateLogic>();
+                        logics = new List<IClientEleUpdate>();
                         self.CompId2ElementDataUpdates.Add(componentId, logics);
                     }
 
@@ -45,13 +45,13 @@ namespace ET.Client
             }
         }
 
-        public static List<IClientWorldInit> GetInitViewLogicByComponentId(this ClientWorldLogicManagerComponent self,
+        public static List<IClientInit> GetInitViewLogicByComponentId(this ClientWorldLogicManagerComponent self,
         ushort componentId)
         {
             return self.CompId2InitViewLogics.GetValueOrDefault(componentId);
         }
 
-        public static List<IClientWorldElementDataUpdateLogic> GetUpdateLogicByComponentId(this ClientWorldLogicManagerComponent self,
+        public static List<IClientEleUpdate> GetUpdateLogicByComponentId(this ClientWorldLogicManagerComponent self,
         ushort componentId)
         {
             return self.CompId2ElementDataUpdates.GetValueOrDefault(componentId);

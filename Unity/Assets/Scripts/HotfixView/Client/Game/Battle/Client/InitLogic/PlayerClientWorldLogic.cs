@@ -1,7 +1,7 @@
 ﻿namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class PlayerClientWorld : IClientWorldInit
+    public class PlayerClient : IClientInit
     {
         public void OnInit(UnitEntity unitEntity)
         {

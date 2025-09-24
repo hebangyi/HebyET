@@ -5,7 +5,7 @@ using Unity.Mathematics;
 namespace ET
 {
     [UnitEntityLogic]
-    public class PlayerMoveTickLogic : IBattleLogicTick
+    public class PlayerMoveTick : IBattleTick
     {
         public const float Rad2Deg = 57.29578f;
         

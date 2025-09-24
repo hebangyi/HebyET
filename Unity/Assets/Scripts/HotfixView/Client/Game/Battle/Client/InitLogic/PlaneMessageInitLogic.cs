@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class PlaneMessageInit  : IClientWorldInit
+    public class PlaneMessageInit  : IClientInit
     {
         public void OnInit(UnitEntity unitEntity)
         {

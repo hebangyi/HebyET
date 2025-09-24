@@ -4,12 +4,12 @@
     {
     }
     
-    public interface IClientWorldLogic
+    public interface IClient
     {
         
     }
     
-    public interface IClientWorldInit : IClientWorldLogic
+    public interface IClientInit : IClient
     {
         // 创建初始化Entity的时触发
         void OnInit(UnitEntity unitEntity);
@@ -22,7 +22,7 @@
     }
 
 
-    public interface IClientWorldElementDataUpdateLogic : IClientWorldLogic
+    public interface IClientEleUpdate : IClient
     {
         ushort WatchComponentId();
         public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData);

@@ -17,33 +17,33 @@ namespace ET
             foreach (var type in logicTypes)
             {
                 var handler = Activator.CreateInstance(type);
-                if (handler is IBattleLogicInit dataLogic)
+                if (handler is IBattleInit dataLogic)
                 {
                     var componentId = dataLogic.WatchComponentId();
 
                     var logics = self.CompId2InitLogics.GetValueOrDefault(componentId);
                     if (logics == null)
                     {
-                        logics = new List<IBattleLogicInit>();
+                        logics = new List<IBattleInit>();
                         self.CompId2InitLogics.Add(componentId, logics);
                     }
 
                     logics.Add(dataLogic);
                 }
 
-                if (handler is IBattleLogicTick tickLogic)
+                if (handler is IBattleTick tickLogic)
                 {
                     self.Type2TickLogics[handler.GetType()] = tickLogic;
                 }
             }
         }
 
-        public static List<IBattleLogicInit> GetInitLogicByComponentId(this BattleUnitEntityLogicManagerComponent self, ushort componentId)
+        public static List<IBattleInit> GetInitLogicByComponentId(this BattleUnitEntityLogicManagerComponent self, ushort componentId)
         {
             return self.CompId2InitLogics.GetValueOrDefault(componentId);
         }
 
-        public static IBattleLogicTick GetTickLogicByType(this BattleUnitEntityLogicManagerComponent self, Type logicType)
+        public static IBattleTick GetTickLogicByType(this BattleUnitEntityLogicManagerComponent self, Type logicType)
         {
             return self.Type2TickLogics.GetValueOrDefault(logicType);
         }

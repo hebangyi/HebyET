@@ -8,8 +8,8 @@ namespace ET
     {
         public static BattleUnitEntityLogicManagerComponent Instance;
         
-        public Dictionary<int, List<IBattleLogicInit>> CompId2InitLogics = new ();
+        public Dictionary<int, List<IBattleInit>> CompId2InitLogics = new ();
 
-        public Dictionary<Type, IBattleLogicTick> Type2TickLogics = new ();
+        public Dictionary<Type, IBattleTick> Type2TickLogics = new ();
     }    
 }

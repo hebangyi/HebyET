@@ -3,7 +3,7 @@
 namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class UnitPositionUpdateLogic : IClientWorldElementDataUpdateLogic
+    public class UnitPositionUpdate : IClientEleUpdate
     {
         public ushort WatchComponentId()
         {
