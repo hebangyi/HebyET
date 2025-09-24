@@ -208,17 +208,6 @@ this._UnitEntityType = default;
                 this.m_DirtyHandler?.Dirty(m_InstanceId, this);
             }
         }
-        private Unity.Mathematics.float3 _Forward;
-
-        [MemoryPackOrder(1)]
-        public Unity.Mathematics.float3 Forward
-        {
-            get => _Forward;
-            set {
-                _Forward = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
         public override void Dispose()
         {
             if (!this.IsFromPool)
@@ -230,7 +219,6 @@ this._UnitEntityType = default;
             this.m_InstanceId = default;
             
 this._Position = default;
-            this._Forward = default;
 
             ObjectPool.Instance.Recycle(this);
         }

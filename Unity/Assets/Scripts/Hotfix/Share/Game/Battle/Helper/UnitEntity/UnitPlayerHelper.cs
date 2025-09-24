@@ -20,7 +20,6 @@ namespace ET
             unitEntityPlayerInfo.PlayerId = playerId;
             
             var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
-            unitEntityPosition.Forward = new float3(0, 0, 1);
             unitEntityPosition.Position = new float2(0f, 0f);
 
             var unitEntityPlayerFrame = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerFrame>();

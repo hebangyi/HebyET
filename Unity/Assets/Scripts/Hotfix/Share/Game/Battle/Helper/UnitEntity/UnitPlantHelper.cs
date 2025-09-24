@@ -10,7 +10,7 @@ namespace ET
 {
     public static class UnitPlaneHelper
     {
-        public static void GeneratePlane(LogicWorld logicWorld, PlantGenContext plantGenContext)
+        public static UnitEntity GeneratePlane(LogicWorld logicWorld, PlantGenContext plantGenContext)
         {
             // int generateCount = 30;
             // TODO 去除最近地块只有一点点相邻的情况
@@ -19,11 +19,11 @@ namespace ET
             Random r = logicWorld.RandomGenerator;
             BattleMapHelper.GenerateBattleCells(plantGenContext);
             
-            var plantMessageUnitEntity = logicWorld.CreateEntity();
-            var commonData = plantMessageUnitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
+            var unitEntity = logicWorld.CreateEntity();
+            var commonData = unitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
             commonData.UnitEntityType = UnitEntityTypeEnum.PlantMessage;
             
-            var unitEntityMapMessage = plantMessageUnitEntity.CreateUnitEntityElemData<UnitEntityMapMessage>();
+            var unitEntityMapMessage = unitEntity.CreateUnitEntityElemData<UnitEntityMapMessage>();
             unitEntityMapMessage.AreaSize = plantGenContext.InitData.AreaSize;
             
             PlantInfo plantInfo = PlantInfo.Create();
@@ -36,7 +36,7 @@ namespace ET
             }
             
             unitEntityMapMessage.PlantInfo = plantInfo;
-            logicWorld.CreateEntityFinish(plantMessageUnitEntity);
+            logicWorld.CreateEntityFinish(unitEntity);
             
             // 计算总的Cell数量
             var unitEntityPlaneCellGizmos = logicWorld.CreateEntity();
@@ -56,6 +56,7 @@ namespace ET
 
             gizmosDebugInfo.AreaSize = plantGenContext.InitData.AreaSize;
             logicWorld.CreateEntityFinish(unitEntityPlaneCellGizmos);
+            return unitEntity;
         }
     }
 }

@@ -54,3 +54,6 @@ MonoBehaviour:
   - key: GizmosDebug
     gameObject: {fileID: 3651240091661784585, guid: 28f2d60e103acf44a843dfda0600a784,
       type: 3}
+  - key: tree_1
+    gameObject: {fileID: 685129619502933465, guid: cec13efed406e4642a24769f023c9a83,
+      type: 3}

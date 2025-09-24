@@ -41,7 +41,6 @@ message UnitEntityCommonData // IUnitEntityElemData
 message UnitEntityPosition // IUnitEntityElemData
 {
     Unity.Mathematics.float2 Position = 1;
-    Unity.Mathematics.float3 Forward = 2;
 }
 
 

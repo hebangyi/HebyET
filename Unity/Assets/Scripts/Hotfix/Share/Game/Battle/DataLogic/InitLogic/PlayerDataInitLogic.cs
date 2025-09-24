@@ -22,7 +22,6 @@ namespace ET
             if (cellInfo != null)
             {
                 var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
-                unitEntityPosition.Forward = new float3(0, 0, 1);
                 unitEntityPosition.Position = cellInfo.CenterPoint;
             }
         }

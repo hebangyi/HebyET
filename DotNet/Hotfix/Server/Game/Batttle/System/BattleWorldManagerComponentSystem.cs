@@ -35,13 +35,21 @@ public static partial class BattleWorldManagerComponentSystem
         plantGenContext.InitData.GenCellCount = 25;
         
         
-        UnitPlaneHelper.GeneratePlane(world, plantGenContext);
+        UnitEntity unitEntityPlant = UnitPlaneHelper.GeneratePlane(world, plantGenContext);
         
         // 创建玩家
         foreach (var matchOrder in matchRoom.MatchOrders)
         {
             UnitPlayerHelper.Create(world, matchOrder.PlayerId);
         }
+        
+        // 创建环境
+        var unitEntityMapMessage = unitEntityPlant.GetUnitEntityElemData<UnitEntityMapMessage>();
+        foreach (var cellInfo in unitEntityMapMessage.PlantInfo.CellInfos)
+        {
+            UnitEnvHelper.Create(world, cellInfo.CenterPoint);
+        }
+        
         
         self.Worlds[world.Id] = world;
         
