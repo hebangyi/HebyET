@@ -141,10 +141,10 @@ namespace ET
             return instance;
         }
 
-        private UnitEntityTypeEnum _UnitEntityType;
+        private UETypeEnum _UnitEntityType;
 
         [MemoryPackOrder(0)]
-        public UnitEntityTypeEnum UnitEntityType
+        public UETypeEnum UnitEntityType
         {
             get => _UnitEntityType;
             set {
@@ -152,10 +152,21 @@ namespace ET
                 this.m_DirtyHandler?.Dirty(m_InstanceId, this);
             }
         }
+        private UEShowTypeEnum _UEShowTypeEnum;
+
+        [MemoryPackOrder(1)]
+        public UEShowTypeEnum UEShowTypeEnum
+        {
+            get => _UEShowTypeEnum;
+            set {
+                _UEShowTypeEnum = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
         private Dictionary<string, string> _Datas = new();
 
         [MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(2)]
         public Dictionary<string, string> Datas 
         {
             get => _Datas;
@@ -175,6 +186,7 @@ namespace ET
             this.m_InstanceId = default;
             
 this._UnitEntityType = default;
+            this._UEShowTypeEnum = default;
             this._Datas.Clear();
             
 
@@ -241,25 +253,11 @@ this._Position = default;
         }
 
         /// <summary>
-        /// 实体类型
-        /// </summary>
-        private UnitEntityTypeEnum _UnitEntityTypeEnum;
-
-        [MemoryPackOrder(0)]
-        public UnitEntityTypeEnum UnitEntityTypeEnum
-        {
-            get => _UnitEntityTypeEnum;
-            set {
-                _UnitEntityTypeEnum = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
         /// 配置ID
         /// </summary>
         private int _ConfigId;
 
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(0)]
         public int ConfigId
         {
             get => _ConfigId;
@@ -273,7 +271,7 @@ this._Position = default;
         /// </summary>
         private int _Speed;
 
-        [MemoryPackOrder(2)]
+        [MemoryPackOrder(1)]
         public int Speed
         {
             get => _Speed;
@@ -292,8 +290,7 @@ this._Position = default;
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
             
-this._UnitEntityTypeEnum = default;
-            this._ConfigId = default;
+this._ConfigId = default;
             this._Speed = default;
 
             ObjectPool.Instance.Recycle(this);

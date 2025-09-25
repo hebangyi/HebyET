@@ -21,7 +21,7 @@ namespace ET
             
             var unitEntity = logicWorld.CreateEntity();
             var commonData = unitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
-            commonData.UnitEntityType = UnitEntityTypeEnum.PlantMessage;
+            commonData.UnitEntityType = UETypeEnum.PlantMessage;
             
             var unitEntityMapMessage = unitEntity.CreateUnitEntityElemData<UnitEntityMapMessage>();
             unitEntityMapMessage.AreaSize = plantGenContext.InitData.AreaSize;
@@ -41,7 +41,7 @@ namespace ET
             // 计算总的Cell数量
             var unitEntityPlaneCellGizmos = logicWorld.CreateEntity();
             var unitEntityCommonData1 = unitEntityPlaneCellGizmos.CreateUnitEntityElemData<UnitEntityCommonData>();
-            unitEntityCommonData1.UnitEntityType = UnitEntityTypeEnum.GizmosDebug;
+            unitEntityCommonData1.UnitEntityType = UETypeEnum.GizmosDebug;
             var gizmosDebugInfo = unitEntityPlaneCellGizmos.CreateUnitEntityElemData<GizmosDebugInfo>();
             
             foreach (var cell in plantGenContext.PlantData.GenCells)

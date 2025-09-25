@@ -2,8 +2,9 @@
 ////>>>>>>>>>>>>>>>>>> 常规信息 
 message UnitEntityCommonData // IUnitEntityElemData
 {
-    UnitEntityTypeEnum UnitEntityType = 1;
-    map<string, string> Datas = 2;
+    UETypeEnum UnitEntityType = 1;
+    UEShowTypeEnum UEShowTypeEnum = 2;
+    map<string, string> Datas = 3;
 }
 
 
@@ -16,9 +17,8 @@ message UnitEntityPosition // IUnitEntityElemData
 // 常规信息
 message UnitEntityInfo // IUnitEntityElemData
 {
-    UnitEntityTypeEnum UnitEntityTypeEnum = 1;      // 实体类型
-    int32 ConfigId = 2;                             // 配置ID
-    int32 Speed = 3;           // 移动速度
+    int32 ConfigId = 1;        // 配置ID
+    int32 Speed = 2;           // 移动速度
 }
 
 ////>>>>>>>>>>>>>>>>>>

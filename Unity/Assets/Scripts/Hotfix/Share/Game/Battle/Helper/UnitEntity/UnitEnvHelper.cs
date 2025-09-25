@@ -8,7 +8,7 @@ namespace ET
         {
             var unitEntity = logicWorld.CreateEntity();
             var unitEntityCommonData = unitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
-            unitEntityCommonData.UnitEntityType = UnitEntityTypeEnum.tree_1;
+            unitEntityCommonData.UnitEntityType = UETypeEnum.tree_1;
             
             var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
             unitEntityPosition.Position = position;
