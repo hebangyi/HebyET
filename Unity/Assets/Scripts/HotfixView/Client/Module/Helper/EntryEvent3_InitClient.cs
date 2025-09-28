@@ -11,7 +11,6 @@ namespace ET.Client
         {
             GlobalComponent globalComponent = root.AddComponent<GlobalComponent>();
             root.AddComponent<PlayerComponent>();
-            root.AddComponent<CurrentScenesComponent>();
             root.AddComponent<ClientLobbyDataComponent>(); // 客户端 - Lobby 数据同步组件
             
             
@@ -34,6 +33,8 @@ namespace ET.Client
             root.AddComponent<ResourcesLoaderComponent>();
             // 场景管理
             root.AddComponent<UnitySceneManagerComponent>();
+            // 输入
+            root.AddComponent<ClientInputComponent>();
             
             //// FGUI 
             // FGUI 包管理器组件

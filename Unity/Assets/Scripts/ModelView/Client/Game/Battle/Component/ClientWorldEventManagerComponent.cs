@@ -8,8 +8,6 @@ namespace ET.Client
     {
         public static ClientWorldEventManagerComponent Instance;
         
-        
         public readonly Dictionary<Type, List<IClientWorldEvent>> AllEvents = new();
     }
 }
-

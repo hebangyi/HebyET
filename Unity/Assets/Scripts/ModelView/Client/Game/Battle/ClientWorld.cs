@@ -11,7 +11,9 @@ namespace ET.Client
         
         // 玩家id-地图UnitEntity
         public Dictionary<long, UnitEntity> PlayerUnitEntities = new ();
-
+        
+        public Dictionary<long, UnitEntity> EvnUnitEntities = new ();
+        
         public uint Frame;
         
         // 我的玩家信息

@@ -10,7 +10,8 @@
     
     public enum UEShowTypeEnum
     {
-        ENV = 0,        // 环境
-        Player = 1,     // 玩家
+        Plant = 0,
+        ENV = 1,        // 环境
+        Player = 2,     // 玩家
     }
 }

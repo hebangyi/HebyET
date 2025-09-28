@@ -15,13 +15,14 @@ namespace ET.Client
         private static void Update(this OperaComponent self)
         {
             // TODO  控制发送频率
-            if (self.targetAngel != self.lastAngel)
+            if (self.operaAngel != self.lastAngel)
             {
                 C2B_PlayerMoveOperationMessage message = C2B_PlayerMoveOperationMessage.Create();
-                message.MoveAngle = self.targetAngel;
-                ClientBattleSenderComponent.Instance.Send(message);
+                int moveAngle =  self.operaAngel != -1000 ? self.operaAngel - self.CameraAngelOffset : self.operaAngel;
                 
-                self.lastAngel = self.targetAngel;
+                message.MoveAngle = moveAngle;
+                ClientBattleSenderComponent.Instance.Send(message);
+                self.lastAngel = self.operaAngel;
             }
             
             
@@ -36,9 +37,44 @@ namespace ET.Client
             }
         }
 
+        /// <summary>
+        /// 设置操作的角度
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="angle"></param>
         public static void SetOperaMoveAngle(this OperaComponent self, int angle)
         {
-            self.targetAngel = angle;
+            self.operaAngel = angle;
+        }
+
+
+        public static void AddCameraAngelOffset(this OperaComponent self, int angle)
+        {
+            self.CameraAngelOffset += angle;
+            self.CameraAngelOffset %= 360;
+
+            var unityScene = self.GetParent<UnityScene>();
+            if (unityScene != null)
+            {
+                // 相机移动
+                var unitySceneCameraComponent = unityScene.GetComponent<UnitySceneCameraComponent>();
+                if (unitySceneCameraComponent != null)
+                {
+                    unitySceneCameraComponent.SetCameraRotate(self.CameraAngelOffset);
+                }
+            }
+
+            var clientWorld = ClientWorldManagerComponent.Instance.CurrentClientWorld;
+            if (clientWorld != null)
+            {
+                foreach (var unitEntity in clientWorld.EvnUnitEntities.Values)
+                {
+                    var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
+                    var gameObject = unitEntityGameObjectComponent.GameObject;
+                    
+                    gameObject.transform.rotation = Quaternion.Euler(45, self.CameraAngelOffset, 0);
+                }
+            }
         }
     }
 }

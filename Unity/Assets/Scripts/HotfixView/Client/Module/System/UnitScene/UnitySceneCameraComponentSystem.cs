@@ -11,10 +11,16 @@ namespace ET.Client
         private static void Awake(this UnitySceneCameraComponent self)
         {
             self.MainCamera = GlobalComponent.Instance.MainCamera;
+            self.CameraPack = GlobalComponent.Instance.CameraPack;
+            
             float height = 15;
             float degree = 45;
             float behind = height / (float)(Math.Tan(degree * Mathf.Deg2Rad)) * -1;
             self.OffsetPosition = new float3(0, height, behind);
+            
+            self.MainCamera.transform.position = self.OffsetPosition;
+            self.MainCamera.transform.rotation = Quaternion.identity;
+            self.MainCamera.transform.transform.Rotate(new Vector3(45, 0, 0));
         }
 
 
@@ -28,15 +34,30 @@ namespace ET.Client
                 var unitEntityGameObjectComponent = flowUnitEntity.GetComponent<UnitEntityGameObjectComponent>();
                 if (unitEntityGameObjectComponent != null && unitEntityGameObjectComponent.Transform)
                 {
-                    self.MainCamera.transform.position = new float3(unitEntityGameObjectComponent.Transform.position) + self.OffsetPosition;
-                    self.MainCamera.transform.LookAt(unitEntityGameObjectComponent.Transform.position);
+                    self.CameraPack.transform.position = new float3(unitEntityGameObjectComponent.Transform.position);
+                    // self.MainCamera.transform.LookAt(unitEntityGameObjectComponent.Transform.position);
                 }
             }
+            
+            var nowSec = TimeInfo.Instance.NowSec();
+            if (nowSec == self.LastUpdateTime)
+            {
+                return;
+            }
+
+            // self.LastUpdateTime = nowSec;
+            // Log.Info($"LastUpdateTime : {nowSec}");
+            // self.CameraPack.transform.Rotate(new Vector3(0, 10, 0));
         }
 
         public static void SetFlowUnitEntity(this UnitySceneCameraComponent self, UnitEntity unitEntity)
         {
             self.FlowUnitEntity = unitEntity;
+        }
+        
+        public static void SetCameraRotate(this UnitySceneCameraComponent self, int yAngle)
+        {
+            self.CameraPack.transform.rotation = Quaternion.Euler(0, yAngle, 0);
         }
     }
 }

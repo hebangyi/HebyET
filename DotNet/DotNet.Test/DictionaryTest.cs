@@ -86,6 +86,13 @@ public class DictionaryTest
             Console.WriteLine(a);
         }
     }
+
+    public static void Test6()
+    {
+        int a = -400;
+        var num = a % 360;
+        Console.WriteLine(num);
+    }
     
     
     public class Person

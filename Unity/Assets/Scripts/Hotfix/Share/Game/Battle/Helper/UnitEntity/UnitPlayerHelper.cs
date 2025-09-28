@@ -10,6 +10,7 @@ namespace ET
             var unitEntity = logicWorld.CreateEntity();
             var unitEntityCommonData = unitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
             unitEntityCommonData.UnitEntityType = UETypeEnum.Player;
+            unitEntityCommonData.UEShowTypeEnum = UEShowTypeEnum.Player;
             
             UnitEntityInfo unitEntityInfo = unitEntity.CreateUnitEntityElemData<UnitEntityInfo>();
             unitEntityInfo.ConfigId = 0;

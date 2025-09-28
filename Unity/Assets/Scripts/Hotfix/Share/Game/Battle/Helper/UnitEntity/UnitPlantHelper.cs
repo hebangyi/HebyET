@@ -42,6 +42,8 @@ namespace ET
             var unitEntityPlaneCellGizmos = logicWorld.CreateEntity();
             var unitEntityCommonData1 = unitEntityPlaneCellGizmos.CreateUnitEntityElemData<UnitEntityCommonData>();
             unitEntityCommonData1.UnitEntityType = UETypeEnum.GizmosDebug;
+            unitEntityCommonData1.UEShowTypeEnum = UEShowTypeEnum.Plant;
+            
             var gizmosDebugInfo = unitEntityPlaneCellGizmos.CreateUnitEntityElemData<GizmosDebugInfo>();
             
             foreach (var cell in plantGenContext.PlantData.GenCells)
