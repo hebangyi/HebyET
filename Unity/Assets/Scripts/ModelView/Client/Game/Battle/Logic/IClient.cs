@@ -9,7 +9,7 @@
         
     }
     
-    public interface IClientInit : IClient
+    public interface IClientEleInit : IClient
     {
         // 创建初始化Entity的时触发
         void OnInit(UnitEntity unitEntity);

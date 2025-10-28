@@ -16,13 +16,13 @@ namespace ET.Client
             foreach (var type in viewTypes)
             {
                 var handler = Activator.CreateInstance(type);
-                if (handler is IClientInit viewInitLogic)
+                if (handler is IClientEleInit viewInitLogic)
                 {
                     var componentId = viewInitLogic.WatchComponentId();
                     var logics = self.CompId2InitViewLogics.GetValueOrDefault(componentId);
                     if (logics == null)
                     {
-                        logics = new List<IClientInit>();
+                        logics = new List<IClientEleInit>();
                         self.CompId2InitViewLogics.Add(componentId, logics);
                     }
 
@@ -45,7 +45,7 @@ namespace ET.Client
             }
         }
 
-        public static List<IClientInit> GetInitViewLogicByComponentId(this ClientWorldLogicManagerComponent self,
+        public static List<IClientEleInit> GetInitViewLogicByComponentId(this ClientWorldLogicManagerComponent self,
         ushort componentId)
         {
             return self.CompId2InitViewLogics.GetValueOrDefault(componentId);
