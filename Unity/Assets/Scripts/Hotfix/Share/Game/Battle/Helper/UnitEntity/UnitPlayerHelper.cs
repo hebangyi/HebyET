@@ -18,15 +18,15 @@ namespace ET
         
             var unitEntityPlayerInfo = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerInfo>();
             unitEntityPlayerInfo.PlayerId = playerId;
+
+            var unitEntityPlayerData = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerData>();
+            
             
             var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
             unitEntityPosition.Position = new float2(0f, 0f);
 
             var unitEntityPlayerFrame = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerFrame>();
             unitEntityPlayerFrame.Frame = logicWorld.Frame;
-            
-            var unitEntityPlayerOperationAction = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerOperationAction>();
-            unitEntityPlayerOperationAction.MoveAngle = -1;
 
             unitEntity.CreateUnitEntityLogicElemData<UnitEntityPlayerOperation>();
             var unitEntityPlayerCellInfo = unitEntity.CreateUnitEntityLogicElemData<UnitEntityPlayerCellInfo>();

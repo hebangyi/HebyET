@@ -9,9 +9,6 @@
         
         public const int HttpSessionTimeoutTime = 30 * 1000;
 
-
-
-
         public const int OneDayHour = 24;
         public const int OneHourMinute = 60;
         
@@ -27,5 +24,3 @@
         public const int GameOperaAngle = 45;  // 操作角度
     }
 }
-
-

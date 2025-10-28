@@ -41,7 +41,7 @@ message UnitEntityCommonData // IUnitEntityElemData
 
 message UnitEntityPosition // IUnitEntityElemData
 {
-    Unity.Mathematics.float2 Position = 1;
+    Unity.Mathematics.float2 Position = 1;  // 位置
 }
 
 
@@ -50,60 +50,6 @@ message UnitEntityInfo // IUnitEntityElemData
 {
     int32 ConfigId = 1;        // 配置ID
     int32 Speed = 2;           // 移动速度
-}
-
-////>>>>>>>>>>>>>>>>>>
-
-//// 玩家
-// 玩家信息
-message UnitEntityPlayerInfo // IUnitEntityElemData
-{
-    int64 PlayerId = 1;        // 玩家ID
-    bool IsOnline = 2;         // 是否在线
-    int64 LastLoginTime = 3;   // 上次登录时间
-}
-
-// 玩家帧信息
-message UnitEntityPlayerFrame // IUnitEntityElemData
-{
-    uint32 Frame = 1;          // 当前玩家的帧率
-}
-
-// 玩家操作
-message UnitEntityPlayerOperationAction // IUnitEntityElemData
-{
-    short MoveAngle = 1;       // 操作角度
-}
-
-
-
-//// 地块
-// 地图信息
-message UnitEntityMapMessage // IUnitEntityElemData
-{
-    int32 AreaSize = 1;                                     // 边宽度
-    PlantInfo PlantInfo = 2;                                // 地块信息
-}
-
-message PlantInfo
-{
-    repeated CellInfo CellInfos = 2;                         // 网格
-}
-
-
-message CellInfo
-{
-    Unity.Mathematics.float2 CenterPoint = 1;
-    repeated Unity.Mathematics.float4 Borders = 2;          // 边
-}
-
-
-// 地块辅助线信息
-message GizmosDebugInfo // IUnitEntityElemData
-{
-    repeated Unity.Mathematics.float2 CenterPoints = 1;     // 点
-    repeated Unity.Mathematics.float4 Borders = 2;          // 边
-    int32 AreaSize = 3;                                     // 边宽度
 }
 
 //// 通讯协议
@@ -149,6 +95,59 @@ message L2C_PlayerAOIWorldDirtyPush // IMessage
     uint32 startFrame = 1;                              // 开始帧数
     uint32 endFrame = 2;                                // 解锁帧数
     repeated BattleUnitEntity DirtyUnitEntities = 3;    // 脏数据
+}
+
+//// 玩家
+// 玩家信息
+message UnitEntityPlayerInfo // IUnitEntityElemData
+{
+    int64 PlayerId = 1;        // 玩家ID
+    bool IsOnline = 2;         // 是否在线
+    int64 LastLoginTime = 3;   // 上次登录时间
+}
+
+// 玩家数据
+message UnitEntityPlayerData // IUnitEntityElemData
+{
+    short MoveAngle = 1;                    // 朝向 -180-180
+    short CameraAngleOffSet = 2;            // 相机偏移角度
+    PlayerAnimateStatusEnum status = 3;     // 玩家状态
+}
+
+// 玩家帧信息
+message UnitEntityPlayerFrame // IUnitEntityElemData
+{
+    uint32 Frame = 1;          // 当前玩家的帧率
+}
+
+
+//// 地块
+// 地图信息
+message UnitEntityMapMessage // IUnitEntityElemData
+{
+    int32 AreaSize = 1;                                     // 边宽度
+    PlantInfo PlantInfo = 2;                                // 地块信息
+}
+
+message PlantInfo
+{
+    repeated CellInfo CellInfos = 2;                         // 网格
+}
+
+
+message CellInfo
+{
+    Unity.Mathematics.float2 CenterPoint = 1;
+    repeated Unity.Mathematics.float4 Borders = 2;          // 边
+}
+
+
+// 地块辅助线信息
+message GizmosDebugInfo // IUnitEntityElemData
+{
+    repeated Unity.Mathematics.float2 CenterPoints = 1;     // 点
+    repeated Unity.Mathematics.float4 Borders = 2;          // 边
+    int32 AreaSize = 3;                                     // 边宽度
 }
 
 //// 客户端Main向网络线程发送消息

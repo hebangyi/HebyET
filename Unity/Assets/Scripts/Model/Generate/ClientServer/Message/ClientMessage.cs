@@ -209,6 +209,9 @@ this._UnitEntityType = default;
             return instance;
         }
 
+        /// <summary>
+        /// 位置
+        /// </summary>
         private Unity.Mathematics.float2 _Position;
 
         [MemoryPackOrder(0)]
@@ -292,386 +295,6 @@ this._Position = default;
             
 this._ConfigId = default;
             this._Speed = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    /// <summary>
-    /// >>>>>>>>>>>>>>>>>>
-    /// </summary>
-    /// <summary>
-    /// 玩家
-    /// </summary>
-    // 玩家信息
-    [MemoryPackable]
-    [Message(ClientMessage.UnitEntityPlayerInfo)]
-    public partial class UnitEntityPlayerInfo : MessageObject, IUnitEntityElemData
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static UnitEntityPlayerInfo Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
-        {
-            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerInfo), isFromPool) as UnitEntityPlayerInfo;
-            instance.m_DirtyHandler = dirtyHandler;
-            instance.m_InstanceId = instanceId;
-            return instance;
-        }
-
-        /// <summary>
-        /// 玩家ID
-        /// </summary>
-        private long _PlayerId;
-
-        [MemoryPackOrder(0)]
-        public long PlayerId
-        {
-            get => _PlayerId;
-            set {
-                _PlayerId = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 是否在线
-        /// </summary>
-        private bool _IsOnline;
-
-        [MemoryPackOrder(1)]
-        public bool IsOnline
-        {
-            get => _IsOnline;
-            set {
-                _IsOnline = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 上次登录时间
-        /// </summary>
-        private long _LastLoginTime;
-
-        [MemoryPackOrder(2)]
-        public long LastLoginTime
-        {
-            get => _LastLoginTime;
-            set {
-                _LastLoginTime = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.m_DirtyHandler = null;
-            this.m_InstanceId = default;
-            
-this._PlayerId = default;
-            this._IsOnline = default;
-            this._LastLoginTime = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    // 玩家帧信息
-    [MemoryPackable]
-    [Message(ClientMessage.UnitEntityPlayerFrame)]
-    public partial class UnitEntityPlayerFrame : MessageObject, IUnitEntityElemData
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static UnitEntityPlayerFrame Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
-        {
-            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerFrame), isFromPool) as UnitEntityPlayerFrame;
-            instance.m_DirtyHandler = dirtyHandler;
-            instance.m_InstanceId = instanceId;
-            return instance;
-        }
-
-        /// <summary>
-        /// 当前玩家的帧率
-        /// </summary>
-        private uint _Frame;
-
-        [MemoryPackOrder(0)]
-        public uint Frame
-        {
-            get => _Frame;
-            set {
-                _Frame = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.m_DirtyHandler = null;
-            this.m_InstanceId = default;
-            
-this._Frame = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    // 玩家操作
-    [MemoryPackable]
-    [Message(ClientMessage.UnitEntityPlayerOperationAction)]
-    public partial class UnitEntityPlayerOperationAction : MessageObject, IUnitEntityElemData
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static UnitEntityPlayerOperationAction Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
-        {
-            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerOperationAction), isFromPool) as UnitEntityPlayerOperationAction;
-            instance.m_DirtyHandler = dirtyHandler;
-            instance.m_InstanceId = instanceId;
-            return instance;
-        }
-
-        /// <summary>
-        /// 操作角度
-        /// </summary>
-        private short _MoveAngle;
-
-        [MemoryPackOrder(0)]
-        public short MoveAngle
-        {
-            get => _MoveAngle;
-            set {
-                _MoveAngle = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.m_DirtyHandler = null;
-            this.m_InstanceId = default;
-            
-this._MoveAngle = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    /// <summary>
-    /// 地块
-    /// </summary>
-    // 地图信息
-    [MemoryPackable]
-    [Message(ClientMessage.UnitEntityMapMessage)]
-    public partial class UnitEntityMapMessage : MessageObject, IUnitEntityElemData
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static UnitEntityMapMessage Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
-        {
-            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityMapMessage), isFromPool) as UnitEntityMapMessage;
-            instance.m_DirtyHandler = dirtyHandler;
-            instance.m_InstanceId = instanceId;
-            return instance;
-        }
-
-        /// <summary>
-        /// 边宽度
-        /// </summary>
-        private int _AreaSize;
-
-        [MemoryPackOrder(0)]
-        public int AreaSize
-        {
-            get => _AreaSize;
-            set {
-                _AreaSize = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 地块信息
-        /// </summary>
-        private PlantInfo _PlantInfo;
-
-        [MemoryPackOrder(1)]
-        public PlantInfo PlantInfo
-        {
-            get => _PlantInfo;
-            set {
-                _PlantInfo = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.m_DirtyHandler = null;
-            this.m_InstanceId = default;
-            
-this._AreaSize = default;
-            this._PlantInfo = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.PlantInfo)]
-    public partial class PlantInfo : MessageObject
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static PlantInfo Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(PlantInfo), isFromPool) as PlantInfo;
-        }
-
-        /// <summary>
-        /// 网格
-        /// </summary>
-        [MemoryPackOrder(1)]
-        public List<CellInfo> CellInfos { get; set; } = new();
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.CellInfos.Clear();
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.CellInfo)]
-    public partial class CellInfo : MessageObject
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static CellInfo Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(CellInfo), isFromPool) as CellInfo;
-        }
-
-        [MemoryPackOrder(0)]
-        public Unity.Mathematics.float2 CenterPoint { get; set; }
-
-        /// <summary>
-        /// 边
-        /// </summary>
-        [MemoryPackOrder(1)]
-        public List<Unity.Mathematics.float4> Borders { get; set; } = new();
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.CenterPoint = default;
-            this.Borders.Clear();
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    // 地块辅助线信息
-    [MemoryPackable]
-    [Message(ClientMessage.GizmosDebugInfo)]
-    public partial class GizmosDebugInfo : MessageObject, IUnitEntityElemData
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static GizmosDebugInfo Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
-        {
-            var instance = ObjectPool.Instance.Fetch(typeof(GizmosDebugInfo), isFromPool) as GizmosDebugInfo;
-            instance.m_DirtyHandler = dirtyHandler;
-            instance.m_InstanceId = instanceId;
-            return instance;
-        }
-
-        /// <summary>
-        /// 点
-        /// </summary>
-        private List<Unity.Mathematics.float2> _CenterPoints = new();
-
-        [MemoryPackOrder(0)]
-        public List<Unity.Mathematics.float2> CenterPoints
-        {
-            get => _CenterPoints;
-            set {
-                _CenterPoints = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 边
-        /// </summary>
-        private List<Unity.Mathematics.float4> _Borders = new();
-
-        [MemoryPackOrder(1)]
-        public List<Unity.Mathematics.float4> Borders
-        {
-            get => _Borders;
-            set {
-                _Borders = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 边宽度
-        /// </summary>
-        private int _AreaSize;
-
-        [MemoryPackOrder(2)]
-        public int AreaSize
-        {
-            get => _AreaSize;
-            set {
-                _AreaSize = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.m_DirtyHandler = null;
-            this.m_InstanceId = default;
-            
-this._CenterPoints.Clear();
-            this._Borders.Clear();
-            this._AreaSize = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -880,6 +503,413 @@ this._CenterPoints.Clear();
             this.startFrame = default;
             this.endFrame = default;
             this.DirtyUnitEntities.Clear();
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    /// <summary>
+    /// 玩家
+    /// </summary>
+    // 玩家信息
+    [MemoryPackable]
+    [Message(ClientMessage.UnitEntityPlayerInfo)]
+    public partial class UnitEntityPlayerInfo : MessageObject, IUnitEntityElemData
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static UnitEntityPlayerInfo Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        {
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerInfo), isFromPool) as UnitEntityPlayerInfo;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
+        }
+
+        /// <summary>
+        /// 玩家ID
+        /// </summary>
+        private long _PlayerId;
+
+        [MemoryPackOrder(0)]
+        public long PlayerId
+        {
+            get => _PlayerId;
+            set {
+                _PlayerId = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        /// <summary>
+        /// 是否在线
+        /// </summary>
+        private bool _IsOnline;
+
+        [MemoryPackOrder(1)]
+        public bool IsOnline
+        {
+            get => _IsOnline;
+            set {
+                _IsOnline = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        /// <summary>
+        /// 上次登录时间
+        /// </summary>
+        private long _LastLoginTime;
+
+        [MemoryPackOrder(2)]
+        public long LastLoginTime
+        {
+            get => _LastLoginTime;
+            set {
+                _LastLoginTime = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+            
+this._PlayerId = default;
+            this._IsOnline = default;
+            this._LastLoginTime = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 玩家数据
+    [MemoryPackable]
+    [Message(ClientMessage.UnitEntityPlayerData)]
+    public partial class UnitEntityPlayerData : MessageObject, IUnitEntityElemData
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static UnitEntityPlayerData Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        {
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerData), isFromPool) as UnitEntityPlayerData;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
+        }
+
+        /// <summary>
+        /// 朝向 -180-180
+        /// </summary>
+        private short _MoveAngle;
+
+        [MemoryPackOrder(0)]
+        public short MoveAngle
+        {
+            get => _MoveAngle;
+            set {
+                _MoveAngle = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        /// <summary>
+        /// 相机偏移角度
+        /// </summary>
+        private short _CameraAngleOffSet;
+
+        [MemoryPackOrder(1)]
+        public short CameraAngleOffSet
+        {
+            get => _CameraAngleOffSet;
+            set {
+                _CameraAngleOffSet = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        /// <summary>
+        /// 玩家状态
+        /// </summary>
+        private PlayerAnimateStatusEnum _status;
+
+        [MemoryPackOrder(2)]
+        public PlayerAnimateStatusEnum status
+        {
+            get => _status;
+            set {
+                _status = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+            
+this._MoveAngle = default;
+            this._CameraAngleOffSet = default;
+            this._status = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 玩家帧信息
+    [MemoryPackable]
+    [Message(ClientMessage.UnitEntityPlayerFrame)]
+    public partial class UnitEntityPlayerFrame : MessageObject, IUnitEntityElemData
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static UnitEntityPlayerFrame Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        {
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerFrame), isFromPool) as UnitEntityPlayerFrame;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
+        }
+
+        /// <summary>
+        /// 当前玩家的帧率
+        /// </summary>
+        private uint _Frame;
+
+        [MemoryPackOrder(0)]
+        public uint Frame
+        {
+            get => _Frame;
+            set {
+                _Frame = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+            
+this._Frame = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    /// <summary>
+    /// 地块
+    /// </summary>
+    // 地图信息
+    [MemoryPackable]
+    [Message(ClientMessage.UnitEntityMapMessage)]
+    public partial class UnitEntityMapMessage : MessageObject, IUnitEntityElemData
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static UnitEntityMapMessage Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        {
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityMapMessage), isFromPool) as UnitEntityMapMessage;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
+        }
+
+        /// <summary>
+        /// 边宽度
+        /// </summary>
+        private int _AreaSize;
+
+        [MemoryPackOrder(0)]
+        public int AreaSize
+        {
+            get => _AreaSize;
+            set {
+                _AreaSize = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        /// <summary>
+        /// 地块信息
+        /// </summary>
+        private PlantInfo _PlantInfo;
+
+        [MemoryPackOrder(1)]
+        public PlantInfo PlantInfo
+        {
+            get => _PlantInfo;
+            set {
+                _PlantInfo = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+            
+this._AreaSize = default;
+            this._PlantInfo = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.PlantInfo)]
+    public partial class PlantInfo : MessageObject
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static PlantInfo Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(PlantInfo), isFromPool) as PlantInfo;
+        }
+
+        /// <summary>
+        /// 网格
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public List<CellInfo> CellInfos { get; set; } = new();
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.CellInfos.Clear();
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.CellInfo)]
+    public partial class CellInfo : MessageObject
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static CellInfo Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(CellInfo), isFromPool) as CellInfo;
+        }
+
+        [MemoryPackOrder(0)]
+        public Unity.Mathematics.float2 CenterPoint { get; set; }
+
+        /// <summary>
+        /// 边
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public List<Unity.Mathematics.float4> Borders { get; set; } = new();
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.CenterPoint = default;
+            this.Borders.Clear();
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 地块辅助线信息
+    [MemoryPackable]
+    [Message(ClientMessage.GizmosDebugInfo)]
+    public partial class GizmosDebugInfo : MessageObject, IUnitEntityElemData
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static GizmosDebugInfo Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        {
+            var instance = ObjectPool.Instance.Fetch(typeof(GizmosDebugInfo), isFromPool) as GizmosDebugInfo;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
+        }
+
+        /// <summary>
+        /// 点
+        /// </summary>
+        private List<Unity.Mathematics.float2> _CenterPoints = new();
+
+        [MemoryPackOrder(0)]
+        public List<Unity.Mathematics.float2> CenterPoints
+        {
+            get => _CenterPoints;
+            set {
+                _CenterPoints = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        /// <summary>
+        /// 边
+        /// </summary>
+        private List<Unity.Mathematics.float4> _Borders = new();
+
+        [MemoryPackOrder(1)]
+        public List<Unity.Mathematics.float4> Borders
+        {
+            get => _Borders;
+            set {
+                _Borders = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        /// <summary>
+        /// 边宽度
+        /// </summary>
+        private int _AreaSize;
+
+        [MemoryPackOrder(2)]
+        public int AreaSize
+        {
+            get => _AreaSize;
+            set {
+                _AreaSize = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+            
+this._CenterPoints.Clear();
+            this._Borders.Clear();
+            this._AreaSize = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1962,18 +1992,18 @@ this._CenterPoints.Clear();
         public const ushort UnitEntityCommonData = 10004;
         public const ushort UnitEntityPosition = 10005;
         public const ushort UnitEntityInfo = 10006;
-        public const ushort UnitEntityPlayerInfo = 10007;
-        public const ushort UnitEntityPlayerFrame = 10008;
-        public const ushort UnitEntityPlayerOperationAction = 10009;
-        public const ushort UnitEntityMapMessage = 10010;
-        public const ushort PlantInfo = 10011;
-        public const ushort CellInfo = 10012;
-        public const ushort GizmosDebugInfo = 10013;
-        public const ushort C2B_PlayerGetAllAOIWorldData = 10014;
-        public const ushort B2C_PlayerGetAllAOIWorldData = 10015;
-        public const ushort C2B_PlayerBattleWorldPing = 10016;
-        public const ushort B2C_PlayerBattleWorldPing = 10017;
-        public const ushort L2C_PlayerAOIWorldDirtyPush = 10018;
+        public const ushort C2B_PlayerGetAllAOIWorldData = 10007;
+        public const ushort B2C_PlayerGetAllAOIWorldData = 10008;
+        public const ushort C2B_PlayerBattleWorldPing = 10009;
+        public const ushort B2C_PlayerBattleWorldPing = 10010;
+        public const ushort L2C_PlayerAOIWorldDirtyPush = 10011;
+        public const ushort UnitEntityPlayerInfo = 10012;
+        public const ushort UnitEntityPlayerData = 10013;
+        public const ushort UnitEntityPlayerFrame = 10014;
+        public const ushort UnitEntityMapMessage = 10015;
+        public const ushort PlantInfo = 10016;
+        public const ushort CellInfo = 10017;
+        public const ushort GizmosDebugInfo = 10018;
         public const ushort Main2NetBattleLogin = 10019;
         public const ushort NetBattle2MainLogin = 10020;
         public const ushort C2B_Login = 10021;
