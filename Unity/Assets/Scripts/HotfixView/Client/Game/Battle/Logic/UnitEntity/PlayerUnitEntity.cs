@@ -1,7 +1,7 @@
 ﻿namespace ET.Client
 {
     [ClientLifeCycle(UeTypeEnum = UETypeEnum.Player)]
-    public class PlayerUnitEntity : BaseUnitEntity
+    public class PlayerUnitEntityContext : BaseUnitEntityContext
     {
         public override void Init(UnitEntity unitEntity)
         {

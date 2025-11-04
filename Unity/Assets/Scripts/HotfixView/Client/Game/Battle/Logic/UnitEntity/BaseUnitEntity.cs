@@ -1,6 +1,6 @@
 ﻿namespace ET.Client
 {
-    public abstract class BaseUnitEntity : IClientLifeCycle
+    public abstract class BaseUnitEntityContext : IClientUnitEntityContext
     {
         public virtual void Init(UnitEntity unitEntity)
         {

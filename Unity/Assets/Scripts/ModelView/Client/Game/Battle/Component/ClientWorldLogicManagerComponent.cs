@@ -11,7 +11,7 @@ namespace ET.Client
         
         public Dictionary<int, List<IClientEleUpdate>> CompId2ElementDataUpdates = new ();
         
-        public Dictionary<UETypeEnum, IClientLifeCycle> UnitEntityLifeCycles = new ();
+        public Dictionary<UETypeEnum, IClientUnitEntityContext> UnitEntityContexts = new ();
     }
 }
 

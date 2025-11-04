@@ -8,7 +8,7 @@
             var unitEntity = args.UnitEntity;
             var componentId = args.ComponentId;
 
-            var logics = ClientWorldLogicManagerComponent.Instance.GetUpdateLogicByComponentId(componentId);
+            var logics = ClientWorldLogicManagerComponent.Instance.GetUpdateLogic(componentId);
             if (logics != null)
             {
                 foreach (var logic in logics)

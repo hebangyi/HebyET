@@ -29,7 +29,7 @@
     }
     
     
-    public interface IClientLifeCycle
+    public interface IClientUnitEntityContext
     {
         void Init(UnitEntity unitEntity);
         void CreateView(UnitEntity unitEntity);

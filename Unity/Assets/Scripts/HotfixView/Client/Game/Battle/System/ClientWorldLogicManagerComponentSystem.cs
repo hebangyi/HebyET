@@ -49,25 +49,31 @@ namespace ET.Client
             foreach (var type in cycleAttributeTypes)
             {
                 var cycleUnitEntity = Activator.CreateInstance(type);
-                if (cycleUnitEntity is IClientLifeCycle clientLifeCycle)
+                if (cycleUnitEntity is IClientUnitEntityContext clientLifeCycle)
                 {
                     var clientLifeCycleAttribute = type.GetCustomAttribute(typeof(ClientLifeCycleAttribute)) as ClientLifeCycleAttribute;
                     var ueTypeEnum = clientLifeCycleAttribute.UeTypeEnum;
-                    self.UnitEntityLifeCycles[ueTypeEnum] = clientLifeCycle;
+                    self.UnitEntityContexts[ueTypeEnum] = clientLifeCycle;
                 }
             }
         }
 
-        public static List<IClientEleInit> GetInitViewLogicByComponentId(this ClientWorldLogicManagerComponent self,
+        public static List<IClientEleInit> GetInitViewLogic(this ClientWorldLogicManagerComponent self,
         ushort componentId)
         {
             return self.CompId2InitViewLogics.GetValueOrDefault(componentId);
         }
 
-        public static List<IClientEleUpdate> GetUpdateLogicByComponentId(this ClientWorldLogicManagerComponent self,
+        public static List<IClientEleUpdate> GetUpdateLogic(this ClientWorldLogicManagerComponent self,
         ushort componentId)
         {
             return self.CompId2ElementDataUpdates.GetValueOrDefault(componentId);
+        }
+
+        public static IClientUnitEntityContext GetClientUnitEntityContext(this ClientWorldLogicManagerComponent self,
+        UETypeEnum ueTypeEnum)
+        {
+            return self.UnitEntityContexts.GetValueOrDefault(ueTypeEnum);
         }
     }
 }
