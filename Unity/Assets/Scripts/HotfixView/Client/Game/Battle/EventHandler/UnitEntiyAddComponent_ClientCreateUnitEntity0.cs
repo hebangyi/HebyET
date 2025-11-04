@@ -1,11 +1,12 @@
-﻿namespace ET.Client;
-
-[ClientWorldEventHandler]
-public class UnitEntiyAddComponent_ClientCreateUnitEntity0: AClientWorldEvent<ClientUnitEntityGameObject>
+﻿namespace ET.Client
 {
-    protected override async ETTask Run(ClientWorld world, ClientUnitEntityGameObject args)
+    [ClientWorldEventHandler]
+    public class UnitEntiyAddComponent_ClientCreateUnitEntity0: AClientWorldEvent<ClientUnitEntityGameObject>
     {
-        var unitEntity = args.UnitEntity;
+        protected override async ETTask Run(ClientWorld world, ClientUnitEntityGameObject args)
+        {
+            var unitEntity = args.UnitEntity;
         
+        }
     }
 }
