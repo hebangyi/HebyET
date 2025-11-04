@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace ET.Client
 {
@@ -41,6 +42,18 @@ namespace ET.Client
                     }
 
                     logics.Add(dataUpdateLogic);
+                }
+            }
+            
+            var cycleAttributeTypes = CodeTypes.Instance.GetAttributeTypes(typeof(ClientLifeCycleAttribute));
+            foreach (var type in cycleAttributeTypes)
+            {
+                var cycleUnitEntity = Activator.CreateInstance(type);
+                if (cycleUnitEntity is IClientLifeCycle clientLifeCycle)
+                {
+                    var clientLifeCycleAttribute = type.GetCustomAttribute(typeof(ClientLifeCycleAttribute)) as ClientLifeCycleAttribute;
+                    var ueTypeEnum = clientLifeCycleAttribute.UeTypeEnum;
+                    self.UnitEntityLifeCycles[ueTypeEnum] = clientLifeCycle;
                 }
             }
         }

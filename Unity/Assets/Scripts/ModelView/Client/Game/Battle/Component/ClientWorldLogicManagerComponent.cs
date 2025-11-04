@@ -10,6 +10,8 @@ namespace ET.Client
         public Dictionary<int, List<IClientEleInit>> CompId2InitViewLogics = new ();
         
         public Dictionary<int, List<IClientEleUpdate>> CompId2ElementDataUpdates = new ();
+        
+        public Dictionary<UETypeEnum, IClientLifeCycle> UnitEntityLifeCycles = new ();
     }
 }
 

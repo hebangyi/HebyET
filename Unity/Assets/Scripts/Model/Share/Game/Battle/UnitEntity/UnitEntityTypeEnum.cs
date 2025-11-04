@@ -2,10 +2,11 @@
 {
     public enum UETypeEnum
     {
-        Player = 0,      // 玩家
-        PlantMessage = 1, // 所有地块
-        GizmosDebug = 2,    // 地图辅助线
-        tree_1 = 3, // 树
+        None = 0,
+        Player = 1,      // 玩家
+        PlantMessage = 2, // 所有地块
+        GizmosDebug = 3,    // 地图辅助线
+        tree_1 = 4, // 树
     }
     
     public enum UEShowTypeEnum

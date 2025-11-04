@@ -85,6 +85,11 @@ namespace ET.Analyzer
                     return true;
                 }
 
+                if (typeSymbol.IsAbstract)
+                {
+                    return true;
+                }
+                
                 typeSymbol = typeSymbol.BaseType;
             }
 

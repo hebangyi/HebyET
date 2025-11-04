@@ -28,4 +28,16 @@
         public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData);
     }
     
+    
+    public interface IClientLifeCycle
+    {
+        void Init(UnitEntity unitEntity);
+        void CreateView(UnitEntity unitEntity);
+        void Destroy(UnitEntity unitEntity);
+    }
+
+    public class ClientLifeCycleAttribute : BaseAttribute
+    {
+        public UETypeEnum UeTypeEnum;
+    }
 }

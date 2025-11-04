@@ -24,7 +24,7 @@ namespace ET.Client
 			clientWorld.UnitGameObject = gameObject;
 		}
 
-		public static async ETTask<GameObject> CreateGameObjectIns(ClientWorld clientWorld, UnitEntity unitEntity)
+		public static GameObject CreateGameObjectIns(ClientWorld clientWorld, UnitEntity unitEntity)
 		{
 			var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
 
@@ -44,8 +44,8 @@ namespace ET.Client
 				return null;
 			}
 			
+			// TODO 异步创建?
 			GameObject ins = UnityEngine.Object.Instantiate(toGameObject, GlobalComponent.Instance.Unit, true);
-			
 			var unitEntityGameObjectComponent = unitEntity.TryAddComponent<UnitEntityGameObjectComponent>();
 			unitEntityGameObjectComponent.GameObject = ins;
 
