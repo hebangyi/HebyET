@@ -1,7 +1,7 @@
 ﻿namespace ET.Client
 {
     [ClientWorldEventHandler]
-    public class InitViewLogic_ClientInitElementData: AClientWorldEvent<ClientInitElementData>
+    public class UnitEntityElementInit_ClientInitElementData: AClientWorldEvent<ClientInitElementData>
     {
         protected override async ETTask Run(ClientWorld world, ClientInitElementData args)
         {

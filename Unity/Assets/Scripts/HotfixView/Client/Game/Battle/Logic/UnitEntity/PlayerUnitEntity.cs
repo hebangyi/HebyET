@@ -5,13 +5,11 @@
     {
         public override void Init(UnitEntity unitEntity)
         {
-            unitEntity.AddComponent<PlayerCacheInfoComponent>();
+            unitEntity.AddComponent<PlayerCacheDataComponent>();
 
             var clientWorld = unitEntity.ClientWorld();
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             clientWorld.PlayerUnitEntities[playerInfo.PlayerId] = unitEntity;
-            
-            
         }
 
         public override void Destroy(UnitEntity unitEntity)

@@ -20,15 +20,6 @@ namespace ET.Client
                 unitEntities.Add(createUnitEntity);
             }
             
-            // 创建 UnitGameObject
-            using ListComponent<ETTask> allUnitEntities = ListComponent<ETTask>.Create();
-            foreach (var unitEntity in unitEntities)
-            {
-                allUnitEntities.Add(world.PublishEventAsync(new ClientUnitEntityGameObject() { UnitEntity = unitEntity }));
-            }
-            
-            await ETTaskHelper.WaitAll(allUnitEntities);
-            
             // 抛出事件
             foreach (var unitEntity in unitEntities)
             {
@@ -61,10 +52,12 @@ namespace ET.Client
 
         public static UnitEntity PublishUnitEntityCreateEvent(this ClientWorld self, UnitEntity unitEntity)
         {
+            // 初始化 UnitEntity
             self.PublishEvent(new ClientCreateUnitEntity0() { UnitEntity = unitEntity });
             self.PublishEvent(new ClientCreateUnitEntity1() { UnitEntity = unitEntity });
             self.PublishEvent(new ClientCreateUnitEntity2() { UnitEntity = unitEntity });
 
+            // 初始化 Element
             foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
             {
                 self.PublishEvent(new ClientInitElementData()

@@ -9,7 +9,7 @@
             
             
             unitEntity.ClientWorld().PlayerUnitEntities[playerInfo.PlayerId] = unitEntity;
-            var playerCacheInfoComponent = unitEntity.AddComponent<PlayerCacheInfoComponent>();
+            var playerCacheInfoComponent = unitEntity.AddComponent<PlayerCacheDataComponent>();
             
             // 初始化 player Cache中的数据
             

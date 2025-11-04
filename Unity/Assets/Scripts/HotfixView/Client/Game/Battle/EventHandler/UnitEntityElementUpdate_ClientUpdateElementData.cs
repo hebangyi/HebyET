@@ -1,7 +1,7 @@
 ﻿namespace ET.Client
 {
     [ClientWorldEventHandler]
-    public class UpdateUnitEntityElementDirtyData_ViewLogic: AClientWorldEvent<ClientUpdateElementData>
+    public class UnitEntityElementUpdate_ClientUpdateElementData: AClientWorldEvent<ClientUpdateElementData>
     {
         protected override async ETTask Run(ClientWorld world, ClientUpdateElementData args)
         {
