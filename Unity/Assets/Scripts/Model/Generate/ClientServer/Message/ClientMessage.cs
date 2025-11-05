@@ -604,44 +604,16 @@ this._PlayerId = default;
         }
 
         /// <summary>
-        /// 朝向 -180-180
-        /// </summary>
-        private short _MoveAngle;
-
-        [MemoryPackOrder(0)]
-        public short MoveAngle
-        {
-            get => _MoveAngle;
-            set {
-                _MoveAngle = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
         /// 相机偏移角度
         /// </summary>
         private short _CameraAngleOffSet;
 
-        [MemoryPackOrder(1)]
+        [MemoryPackOrder(0)]
         public short CameraAngleOffSet
         {
             get => _CameraAngleOffSet;
             set {
                 _CameraAngleOffSet = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 玩家状态
-        /// </summary>
-        private PlayerAnimateStatusEnum _status;
-
-        [MemoryPackOrder(2)]
-        public PlayerAnimateStatusEnum status
-        {
-            get => _status;
-            set {
-                _status = value;
                 this.m_DirtyHandler?.Dirty(m_InstanceId, this);
             }
         }
@@ -655,9 +627,7 @@ this._PlayerId = default;
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
             
-this._MoveAngle = default;
-            this._CameraAngleOffSet = default;
-            this._status = default;
+this._CameraAngleOffSet = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -704,6 +674,67 @@ this._MoveAngle = default;
             this.m_InstanceId = default;
             
 this._Frame = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 朝向角度
+    [MemoryPackable]
+    [Message(ClientMessage.UnitEntityTowardAngle)]
+    public partial class UnitEntityTowardAngle : MessageObject, IUnitEntityElemData
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static UnitEntityTowardAngle Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        {
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityTowardAngle), isFromPool) as UnitEntityTowardAngle;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
+        }
+
+        /// <summary>
+        /// 朝向 -180-180
+        /// </summary>
+        private short _TowardAngle;
+
+        [MemoryPackOrder(0)]
+        public short TowardAngle
+        {
+            get => _TowardAngle;
+            set {
+                _TowardAngle = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        /// <summary>
+        /// 玩家状态
+        /// </summary>
+        private PlayerAnimateStatusEnum _status;
+
+        [MemoryPackOrder(1)]
+        public PlayerAnimateStatusEnum status
+        {
+            get => _status;
+            set {
+                _status = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+            
+this._TowardAngle = default;
+            this._status = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -2000,37 +2031,38 @@ this._CenterPoints.Clear();
         public const ushort UnitEntityPlayerInfo = 10012;
         public const ushort UnitEntityPlayerData = 10013;
         public const ushort UnitEntityPlayerFrame = 10014;
-        public const ushort UnitEntityMapMessage = 10015;
-        public const ushort PlantInfo = 10016;
-        public const ushort CellInfo = 10017;
-        public const ushort GizmosDebugInfo = 10018;
-        public const ushort Main2NetBattleLogin = 10019;
-        public const ushort NetBattle2MainLogin = 10020;
-        public const ushort C2B_Login = 10021;
-        public const ushort B2C_Login = 10022;
-        public const ushort C2B_PlayerReadyCompleted = 10023;
-        public const ushort B2C_PlayerReadyCompleted = 10024;
-        public const ushort C2B_PlayerMoveOperationMessage = 10025;
-        public const ushort C2G_Ping = 10026;
-        public const ushort G2C_Ping = 10027;
-        public const ushort C2G_Benchmark = 10028;
-        public const ushort G2C_Benchmark = 10029;
-        public const ushort Main2NetLobbyLogin = 10030;
-        public const ushort NetLobby2MainLogin = 10031;
-        public const ushort C2A_Login = 10032;
-        public const ushort A2C_Login = 10033;
-        public const ushort C2L_LoginLobby = 10034;
-        public const ushort L2C_LoginLobby = 10035;
-        public const ushort G2C_SessionDisconnect = 10036;
-        public const ushort HttpGetRouterResponse = 10037;
-        public const ushort SyncDataUnitStruct = 10038;
-        public const ushort DataUnitBytes = 10039;
-        public const ushort C2L_GetAllDataUnits = 10040;
-        public const ushort L2C_GetAllDataUnits = 10041;
-        public const ushort L2C_SyncDirtyDataUnits = 10042;
-        public const ushort RoleInfoUnitData = 10043;
-        public const ushort C2L_StartMatchBattle = 10044;
-        public const ushort L2C_StartMatchBattle = 10045;
-        public const ushort L2C_MatchBattleSuccess = 10046;
+        public const ushort UnitEntityTowardAngle = 10015;
+        public const ushort UnitEntityMapMessage = 10016;
+        public const ushort PlantInfo = 10017;
+        public const ushort CellInfo = 10018;
+        public const ushort GizmosDebugInfo = 10019;
+        public const ushort Main2NetBattleLogin = 10020;
+        public const ushort NetBattle2MainLogin = 10021;
+        public const ushort C2B_Login = 10022;
+        public const ushort B2C_Login = 10023;
+        public const ushort C2B_PlayerReadyCompleted = 10024;
+        public const ushort B2C_PlayerReadyCompleted = 10025;
+        public const ushort C2B_PlayerMoveOperationMessage = 10026;
+        public const ushort C2G_Ping = 10027;
+        public const ushort G2C_Ping = 10028;
+        public const ushort C2G_Benchmark = 10029;
+        public const ushort G2C_Benchmark = 10030;
+        public const ushort Main2NetLobbyLogin = 10031;
+        public const ushort NetLobby2MainLogin = 10032;
+        public const ushort C2A_Login = 10033;
+        public const ushort A2C_Login = 10034;
+        public const ushort C2L_LoginLobby = 10035;
+        public const ushort L2C_LoginLobby = 10036;
+        public const ushort G2C_SessionDisconnect = 10037;
+        public const ushort HttpGetRouterResponse = 10038;
+        public const ushort SyncDataUnitStruct = 10039;
+        public const ushort DataUnitBytes = 10040;
+        public const ushort C2L_GetAllDataUnits = 10041;
+        public const ushort L2C_GetAllDataUnits = 10042;
+        public const ushort L2C_SyncDirtyDataUnits = 10043;
+        public const ushort RoleInfoUnitData = 10044;
+        public const ushort C2L_StartMatchBattle = 10045;
+        public const ushort L2C_StartMatchBattle = 10046;
+        public const ushort L2C_MatchBattleSuccess = 10047;
     }
 }

@@ -17,7 +17,9 @@ namespace ET.Client
         public uint Frame;
         
         // 我的玩家信息
-        public UnitEntity MyPlayer;
+        public UnitEntity MainPlayer;
+        
+        public long MainPlayerId;
         
         // 地图 UnitEntity
         public UnitEntity UnitEntityMap;

@@ -17,10 +17,18 @@ namespace ET.Client
             {
                 return;
             }
+
+            // 自己的玩家ID 不更新
+            var clientWorld = unitEntity.ClientWorld();
+            if (clientWorld.MainPlayerId == unitEntity.Id)
+            {
+                return;
+            }
             
             var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
             if (unitEntityGameObjectComponent != null && unitEntityGameObjectComponent.GameObject)
             {
+                // TODO 平移更新
                 unitEntityGameObjectComponent.GameObject.transform.position = new Vector3(unitEntityPosition.Position.x, 0 , unitEntityPosition.Position.y);
             }
         }

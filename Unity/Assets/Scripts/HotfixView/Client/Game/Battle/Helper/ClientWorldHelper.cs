@@ -29,7 +29,7 @@ namespace ET.Client
 
         public static UnitEntity DeserializeUnitEntity(this ClientWorld self, BattleUnitEntity battleUnitEntity)
         {
-            var unitEntity = self.AddChild<UnitEntity>();
+            var unitEntity = self.AddChildWithId<UnitEntity>(battleUnitEntity.InsId);
             unitEntity.InsId = battleUnitEntity.InsId;
             self.AllEntity[unitEntity.InsId] = unitEntity;
             foreach (var elemData in battleUnitEntity.EleDatas)

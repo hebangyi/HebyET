@@ -35,7 +35,6 @@ namespace ET.Client
                 if (unitEntityGameObjectComponent != null && unitEntityGameObjectComponent.Transform)
                 {
                     self.CameraPack.transform.position = new float3(unitEntityGameObjectComponent.Transform.position);
-                    // self.MainCamera.transform.LookAt(unitEntityGameObjectComponent.Transform.position);
                 }
             }
             
@@ -44,10 +43,6 @@ namespace ET.Client
             {
                 return;
             }
-
-            // self.LastUpdateTime = nowSec;
-            // Log.Info($"LastUpdateTime : {nowSec}");
-            // self.CameraPack.transform.Rotate(new Vector3(0, 10, 0));
         }
 
         public static void SetFlowUnitEntity(this UnitySceneCameraComponent self, UnitEntity unitEntity)

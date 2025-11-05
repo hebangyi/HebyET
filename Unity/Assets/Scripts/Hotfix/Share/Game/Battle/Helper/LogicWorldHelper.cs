@@ -9,7 +9,7 @@ namespace ET
                 CreateEntity(this LogicWorld self)
         {
             var unitEntity = self.AddChild<UnitEntity>();
-            unitEntity.InsId = unitEntity.InstanceId;
+            unitEntity.InsId = unitEntity.Id;
             self.AllEntity[unitEntity.InsId] = unitEntity;
             return unitEntity;
         }

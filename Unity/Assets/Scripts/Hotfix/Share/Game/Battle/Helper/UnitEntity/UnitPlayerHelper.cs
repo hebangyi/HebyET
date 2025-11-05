@@ -19,8 +19,9 @@ namespace ET
             var unitEntityPlayerInfo = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerInfo>();
             unitEntityPlayerInfo.PlayerId = playerId;
 
-            var unitEntityPlayerData = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerData>();
+            unitEntity.CreateUnitEntityElemData<UnitEntityPlayerData>();
             
+            unitEntity.CreateUnitEntityElemData<UnitEntityTowardAngle>();
             
             var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
             unitEntityPosition.Position = new float2(0f, 0f);

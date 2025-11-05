@@ -15,14 +15,14 @@ namespace ET.Client
         private static void Update(this OperaComponent self)
         {
             // TODO  控制发送频率
-            if (self.operaAngel != self.lastAngel)
+            if (self.OperaAngel != self.lastAngel)
             {
                 C2B_PlayerMoveOperationMessage message = C2B_PlayerMoveOperationMessage.Create();
-                int moveAngle =  self.operaAngel != -1000 ? self.operaAngel - self.CameraAngelOffset : self.operaAngel;
+                int moveAngle =  self.OperaAngel != -1000 ? self.OperaAngel - self.CameraAngelOffset : self.OperaAngel;
                 
                 message.MoveAngle = moveAngle;
                 ClientBattleSenderComponent.Instance.Send(message);
-                self.lastAngel = self.operaAngel;
+                self.lastAngel = self.OperaAngel;
             }
             
             
@@ -44,7 +44,7 @@ namespace ET.Client
         /// <param name="angle"></param>
         public static void SetOperaMoveAngle(this OperaComponent self, int angle)
         {
-            self.operaAngel = angle;
+            self.OperaAngel = angle;
         }
 
 

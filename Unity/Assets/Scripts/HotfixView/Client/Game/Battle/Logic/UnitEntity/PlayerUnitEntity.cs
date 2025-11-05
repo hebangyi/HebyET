@@ -8,6 +8,14 @@
             unitEntity.AddComponent<PlayerCacheDataComponent>();
 
             var clientWorld = unitEntity.ClientWorld();
+            if (unitEntity.InsId == clientWorld.MainPlayerId)
+            {
+                clientWorld.MainPlayer = unitEntity;
+                var unityScene = UnitySceneManagerComponent.Instance.UnityScene;
+                var unitySceneCameraComponent = unityScene.GetComponent<UnitySceneCameraComponent>();
+                unitySceneCameraComponent.SetFlowUnitEntity(unitEntity);
+            }
+            
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             clientWorld.PlayerUnitEntities[playerInfo.PlayerId] = unitEntity;
         }
