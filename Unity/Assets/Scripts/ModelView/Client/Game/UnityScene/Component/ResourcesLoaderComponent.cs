@@ -90,13 +90,17 @@ namespace ET.Client
             return dictionary;
         }
 
-        public static ETTask<SceneHandle> LoadSceneAsync(this ResourcesLoaderComponent self, string location, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
+        public static (ETTask<SceneHandle>, SceneHandle) LoadScene(this ResourcesLoaderComponent self, string location, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
         {
             var handler = self.package.LoadSceneAsync(location, loadSceneMode);
             ETTask<SceneHandle> tcs = ETTask<SceneHandle>.Create();
-            UnitySceneManagerComponent.Instance.UnityScene.SceneHandle = handler;
-            handler.Completed += (h) => { tcs.SetResult(h); };
-            return tcs;
+            UnitySceneManagerComponent.Instance.UnityScene.LoadingSceneHandle = handler;
+            handler.Completed += (h) =>
+            {
+                tcs.SetResult(h);
+                handler.UnloadAsync();
+            };
+            return (tcs, handler);
         }
     }
 

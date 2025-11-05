@@ -36,8 +36,13 @@
         void Destroy(UnitEntity unitEntity);
     }
 
-    public class ClientLifeCycleAttribute : BaseAttribute
+    public class ClientUnitEntityContext : BaseAttribute
     {
         public UETypeEnum UeTypeEnum;
+
+        public ClientUnitEntityContext(UETypeEnum UeTypeEnum)
+        {
+            this.UeTypeEnum = UeTypeEnum;
+        }
     }
 }

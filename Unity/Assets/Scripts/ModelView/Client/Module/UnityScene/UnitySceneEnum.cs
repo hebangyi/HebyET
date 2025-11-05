@@ -1,8 +1,8 @@
 ﻿namespace ET.Client
 {
-    public enum UnitySceneType
+    public enum UnitySceneEnum
     {
-        Test = 0,
+        None = 0,
         Login = 1,
         Lobby = 2,  // 大厅
         Battle = 3, // 战斗

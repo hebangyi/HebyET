@@ -11,7 +11,8 @@
         [EntitySystem]
         private static void Update(this DlgFGUILoadingUIView self)
         {
-            var sceneHandle = UnitySceneManagerComponent.Instance.UnityScene.SceneHandle;
+            //  监控加载资源的进度条
+            var sceneHandle = UnitySceneManagerComponent.Instance.UnityScene.LoadingSceneHandle;
             if (sceneHandle == null)
             {
                 return;

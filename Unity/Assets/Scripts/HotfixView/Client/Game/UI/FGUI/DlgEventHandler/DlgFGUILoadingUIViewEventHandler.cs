@@ -2,18 +2,6 @@
 
 namespace ET.Client
 {
-    [Event(SceneType.Game)]
-    public class AfterCreateCurrentUnityScene_ShowLoadingUI: AEvent<Scene, AfterCreateCurrentUnityScene>
-    {
-        protected override async ETTask Run(Scene scene, AfterCreateCurrentUnityScene args)
-        {
-            FGUIComponent.Instance.CloseWindowAll();
-            await FGUIComponent.Instance.ShowWindowAsync(WindowID.FGUILoadingUIView);
-            await ETTask.CompletedTask;
-        }
-    }
-    
-    
     [FGUIEvent(typeof(FGUILoadingUIView))]
     public class DlgFGUILoadingUIViewEventHandler: IFGUIEventHandler
     {

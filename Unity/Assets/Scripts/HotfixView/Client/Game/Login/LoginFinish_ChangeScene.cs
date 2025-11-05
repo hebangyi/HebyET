@@ -6,7 +6,7 @@
     {
         protected override async ETTask Run(Scene scene, LoginFinish a)
         {
-            SceneChangeHelper.SceneChangeTo(scene, UnitySceneType.Lobby).Coroutine();
+            SceneChangeHelper.SceneChangeTo(scene, UnitySceneEnum.Lobby).Coroutine();
             await ETTask.CompletedTask;
         }
     }

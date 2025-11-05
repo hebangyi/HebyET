@@ -5,7 +5,7 @@
     {
         protected override async ETTask Run(Scene scene, MatchBattleSuccess args)
         {            
-            SceneChangeHelper.SceneChangeTo(scene, UnitySceneType.Battle, args).Coroutine();
+            SceneChangeHelper.SceneChangeTo(scene, UnitySceneEnum.Battle, args).Coroutine();
             await ETTask.CompletedTask;
         }
     }

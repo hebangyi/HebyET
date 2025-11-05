@@ -17,7 +17,7 @@
         }
     }
 
-    [ClientLifeCycle(UeTypeEnum = UETypeEnum.None)]
+    [ClientUnitEntityContext(UETypeEnum.None)]
     public class DefaultEntityContext : BaseUnitEntityContext
     {
         

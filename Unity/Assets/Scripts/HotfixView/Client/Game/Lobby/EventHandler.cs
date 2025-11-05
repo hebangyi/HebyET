@@ -5,7 +5,7 @@
     {
         protected override async ETTask Run(Scene scene, LoadUIFinished args)
         {
-            if (args.UnityScene.UnitySceneType != UnitySceneType.Lobby)
+            if (args.UnityScene.UnitySceneEnum != UnitySceneEnum.Lobby)
             {
                 return;
             }

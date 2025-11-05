@@ -8,7 +8,7 @@ namespace ET.Client
     {
         protected override async ETTask Run(Scene scene, LoadUIFinished args)
         {
-            if (args.UnityScene.UnitySceneType != UnitySceneType.Battle)
+            if (args.UnityScene.UnitySceneEnum != UnitySceneEnum.Battle)
             {
                 return;
             }

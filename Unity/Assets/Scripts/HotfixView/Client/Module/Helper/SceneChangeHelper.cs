@@ -1,5 +1,6 @@
 ﻿
 
+using System.Collections.Generic;
 using dnlib.DotNet;
 
 namespace ET.Client
@@ -7,26 +8,29 @@ namespace ET.Client
     public static partial class SceneChangeHelper
     {
         // 场景切换协程
-        public static async ETTask SceneChangeTo(Scene root, UnitySceneType unitySceneType, params object[] ParamList)
+        public static async ETTask SceneChangeTo(Scene root, UnitySceneEnum unitySceneEnum, params object[] ParamList)
         {
-            UnitySceneManagerComponent unitySceneManagerComponent = root.GetComponent<UnitySceneManagerComponent>();
-            unitySceneManagerComponent.UnityScene?.Dispose(); // 删除之前的CurrentScene，创建新的
+            var unitySceneContext = UnitySceneManagerComponent.Instance.UnitySceneContexts.GetValueOrDefault(unitySceneEnum);
+            if (unitySceneContext == null)
+            {
+                Log.Error($"Not Found Unity Scene Context, UnitySceneEnum {unitySceneEnum}");
+                return;
+            }
             
-            var unityScene = unitySceneManagerComponent.AddChild<UnityScene>();
-            unityScene.UnitySceneType = unitySceneType;
-            unityScene.ParamList = ParamList;
-            unitySceneManagerComponent.UnityScene = unityScene;
+            // 卸载 UnityScene
+            UnitySceneManagerComponent.Instance.UnityScene?.Dispose(); // 删除之前的CurrentScene，创建新的
             
-            var afterCreateCurrentUnityScene = new AfterCreateCurrentUnityScene();
-            afterCreateCurrentUnityScene.UnityScene = unityScene;
-            await EventSystem.Instance.PublishAsync(root, afterCreateCurrentUnityScene);
-
-            var unitySceneChangeStart = new UnitySceneLoadStart();
-            unitySceneChangeStart.UnityScene = unityScene;
-            await EventSystem.Instance.PublishAsync(root, unitySceneChangeStart);
+            var newUnityScene = UnitySceneManagerComponent.Instance.AddChild<UnityScene>();
+            newUnityScene.UnitySceneEnum = unitySceneEnum;
+            newUnityScene.ParamList = ParamList;
+            UnitySceneManagerComponent.Instance.UnityScene = newUnityScene;
             
-            // 通知等待场景切换的协程
-            // root.GetComponent<ObjectWait>().Notify(new Wait_SceneChangeFinish());
+            // 开启加载界面界面
+            unitySceneContext.OpenLoadingUI(newUnityScene);
+            // 初始化组件
+            unitySceneContext.InitComponent(newUnityScene);
+            // 开始加载场景资源
+            unitySceneContext.StartLoading(newUnityScene);
         }
     }
 }

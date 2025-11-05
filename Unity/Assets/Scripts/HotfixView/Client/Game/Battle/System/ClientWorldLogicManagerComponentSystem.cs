@@ -45,13 +45,13 @@ namespace ET.Client
                 }
             }
             
-            var cycleAttributeTypes = CodeTypes.Instance.GetAttributeTypes(typeof(ClientLifeCycleAttribute));
+            var cycleAttributeTypes = CodeTypes.Instance.GetAttributeTypes(typeof(ClientUnitEntityContext));
             foreach (var type in cycleAttributeTypes)
             {
                 var cycleUnitEntity = Activator.CreateInstance(type);
                 if (cycleUnitEntity is IClientUnitEntityContext clientLifeCycle)
                 {
-                    var clientLifeCycleAttribute = type.GetCustomAttribute(typeof(ClientLifeCycleAttribute)) as ClientLifeCycleAttribute;
+                    var clientLifeCycleAttribute = type.GetCustomAttribute(typeof(ClientUnitEntityContext)) as ClientUnitEntityContext;
                     var ueTypeEnum = clientLifeCycleAttribute.UeTypeEnum;
                     self.UnitEntityContexts[ueTypeEnum] = clientLifeCycle;
                 }
