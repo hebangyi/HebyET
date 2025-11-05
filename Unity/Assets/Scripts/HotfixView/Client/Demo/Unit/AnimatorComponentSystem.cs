@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using UnityEngine;
 
 namespace ET.Client
@@ -199,4 +199,4 @@ namespace ET.Client
 			self.Animator.speed = self.stopSpeed;
 		}
 	}
-}
+}*/

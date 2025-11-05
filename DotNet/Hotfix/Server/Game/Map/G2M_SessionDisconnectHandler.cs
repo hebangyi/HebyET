@@ -1,5 +1,6 @@
 ﻿
 
+/*
 namespace ET.Server
 {
 	[MessageLocationHandler(SceneType.Battle)]
@@ -10,4 +11,4 @@ namespace ET.Server
 			await ETTask.CompletedTask;
 		}
 	}
-}
+}*/

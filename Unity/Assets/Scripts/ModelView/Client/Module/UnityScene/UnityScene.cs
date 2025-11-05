@@ -13,4 +13,14 @@ namespace ET.Client
         // 加载场景的句柄
         public SceneHandle SceneHandle { set; get; }
     }
+
+
+    public interface IUnitySceneContext
+    {
+        public void InitComponent();
+
+        public void StartLoading();
+
+        public void LoadingFinished();
+    }
 }
