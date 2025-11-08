@@ -11,24 +11,15 @@
         [EntitySystem]
         private static void Update(this DlgFGUILoadingUIView self)
         {
-            //  监控加载资源的进度条
-            var sceneHandle = UnitySceneManagerComponent.Instance.UnityScene.LoadingSceneHandle;
-            if (sceneHandle == null)
+            var unityScene = UnitySceneManagerComponent.Instance.UnityScene;
+            if (unityScene == null)
             {
+                self.ShowProgress(0);
                 return;
             }
- 
-            if (sceneHandle.Progress < 1)
-            {
-                self.ShowProgress(sceneHandle.Progress - 0.3f);
-                return;
-            }
-            
-            // TODO 预加载GameObject的进度
-            // TODO 时间伪加载
-            
-            EventSystem.Instance.PublishAsync(self.Root(), new LoadUIFinished(){UnityScene = UnitySceneManagerComponent.Instance.UnityScene}).Coroutine();
-            FGUIComponent.Instance.CloseWindow(WindowID.FGUILoadingUIView);
+
+            var process = unityScene.GetLoadProcessPercent();
+            self.ShowProgress(process * 1.0f / 100);
         }
 
 

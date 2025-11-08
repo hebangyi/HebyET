@@ -90,15 +90,23 @@ namespace ET.Client
             return dictionary;
         }
 
+        /// <summary>
+        /// 加载切换句柄 
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="location"></param>
+        /// <param name="loadSceneMode">
+        /// LoadSceneMode.Single 时 Unity 会自动卸载当前所有已加载的场景
+        /// LoadSceneMode.Additive 时 不会自动卸载上一个场景
+        /// </param>
+        /// <returns>(task,场景加载句柄)</returns>
         public static (ETTask<SceneHandle>, SceneHandle) LoadScene(this ResourcesLoaderComponent self, string location, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
         {
             var handler = self.package.LoadSceneAsync(location, loadSceneMode);
             ETTask<SceneHandle> tcs = ETTask<SceneHandle>.Create();
-            UnitySceneManagerComponent.Instance.UnityScene.LoadingSceneHandle = handler;
             handler.Completed += (h) =>
             {
                 tcs.SetResult(h);
-                handler.UnloadAsync();
             };
             return (tcs, handler);
         }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CommandLine;
 
 namespace ET.Client
@@ -52,22 +53,13 @@ namespace ET.Client
             self.Root().GetComponent<ProcessInnerSender>().Send(self.netClientActorId, a2NetClientMessage);
         }
 
-        public static async ETTask<IResponse> Call(this ClientLobbySenderComponent self, IRequest request, bool needException = false)
+        public static async ETTask<IResponse> Call(this ClientLobbySenderComponent self, IRequest request)
         {
             A2NetClient_Request a2NetClientRequest = A2NetClient_Request.Create();
             a2NetClientRequest.MessageObject = request;
             using A2NetClient_Response a2NetClientResponse = await self.Root().GetComponent<ProcessInnerSender>().Call(self.netClientActorId, a2NetClientRequest) as A2NetClient_Response;
             IResponse response = a2NetClientResponse.MessageObject;
-                        
-            if (response.Error == ErrorCore.ERR_MessageTimeout)
-            {
-                throw new RpcException(response.Error, $"Rpc error: request, 注意Actor消息超时，请注意查看是否死锁或者没有reply: {request}, response: {response}");
-            }
 
-            if (needException && ErrorCore.IsRpcNeedThrowException(response.Error))
-            {
-                throw new RpcException(response.Error, $"Rpc error: {request}, response: {response}");
-            }
             return response;
         }
 

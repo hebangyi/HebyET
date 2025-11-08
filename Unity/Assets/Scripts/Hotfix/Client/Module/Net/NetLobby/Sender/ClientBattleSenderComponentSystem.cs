@@ -1,4 +1,6 @@
-﻿namespace ET.Client
+﻿using System;
+
+namespace ET.Client
 {
     [EntitySystemOf(typeof(ClientBattleSenderComponent))]
     [FriendOf(typeof(ClientBattleSenderComponent))]
@@ -53,21 +55,19 @@
         }
         
         
-        public static async ETTask<IResponse> Call(this ClientBattleSenderComponent self, IRequest request, bool needException = false)
+        public static async ETTask<IResponse> Call(this ClientBattleSenderComponent self, IRequest request)
         {
             A2NetClient_Request a2NetClientRequest = A2NetClient_Request.Create();
             a2NetClientRequest.MessageObject = request;
+
             using A2NetClient_Response a2NetClientResponse = await self.Root().GetComponent<ProcessInnerSender>().Call(self.netClientActorId, a2NetClientRequest) as A2NetClient_Response;
             IResponse response = a2NetClientResponse.MessageObject;
-                        
-            if (response.Error == ErrorCore.ERR_MessageTimeout)
+            
+            if (response == null)
             {
-                throw new RpcException(response.Error, $"Rpc error: request, 注意Actor消息超时，请注意查看是否死锁或者没有reply: {request}, response: {response}");
-            }
-
-            if (needException && ErrorCore.IsRpcNeedThrowException(response.Error))
-            {
-                throw new RpcException(response.Error, $"Rpc error: {request}, response: {response}");
+                Type responseType = OpcodeType.Instance.GetResponseType(request.GetType());
+                response = Activator.CreateInstance(responseType) as IResponse;
+                response.Error = a2NetClientResponse.Error;
             }
             return response;
         }

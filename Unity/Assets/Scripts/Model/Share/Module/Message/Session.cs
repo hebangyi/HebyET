@@ -132,8 +132,12 @@ namespace ET
                     {
                         return;
                     }
-                    
-                    action.SetException(new Exception($"session call timeout: {action.RequestType.FullName} {time}"));
+
+                    var requestType = action.RequestType;
+                    Type responseType = OpcodeType.Instance.GetResponseType(requestType);
+                    IResponse response = (IResponse) Activator.CreateInstance(responseType);
+                    response.Error = ErrorCore.ERR_Timeout;
+                    action.SetResult(response);
                 }
                 
                 Timeout().Coroutine();

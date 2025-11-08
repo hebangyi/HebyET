@@ -3,26 +3,26 @@ using System.Linq;
 
 namespace ET.Client
 {
-    [UnitySceneContext(UnitySceneEnum.Lobby)]
-    [UnitySceneContext(UnitySceneEnum.Battle)]
-    [UnitySceneContext(UnitySceneEnum.Login)]
+    [UnitySceneContext(UnitySceneEnum.None)]
     public class BaseUnityScene : IUnitySceneContext
     {
-        public virtual void InitComponent(UnityScene unityScene)
+        public virtual async ETTask InitComponent(UnityScene unityScene)
         {
             unityScene.AddComponent<ResourcesLoaderComponent>();
             unityScene.AddComponent<GameObjectPoolComponent>();
             unityScene.AddComponent<UnitySceneCameraComponent>();
             unityScene.AddComponent<OperaComponent>();
+            await ETTask.CompletedTask;
         }
         
-        public void OpenLoadingUI(UnityScene unityScene)
+        public virtual async ETTask OpenLoadingUI(UnityScene unityScene)
         {
             FGUIComponent.Instance.CloseWindowAll();
             FGUIComponent.Instance.ShowWindowAsync(WindowID.FGUILoadingUIView).Coroutine();
+            await ETTask.CompletedTask;
         }
 
-        public void StartLoading(UnityScene unityScene)
+        public virtual async ETTask StartLoading(UnityScene unityScene)
         {
             try
             {
@@ -44,25 +44,37 @@ namespace ET.Client
                     }
                 }
                 Log.Info($"场景地址 : {scenePath}");
+                
+                
                 // 加载场景资源
-                resourcesLoaderComponent.LoadScene(scenePath);
-                // TODO 场景加载完成
+                var (task, handler) = resourcesLoaderComponent.LoadScene(scenePath);
+                unityScene.LoadingSceneHandle = handler;
+                UnitySceneManagerComponent.Instance.UnityScene.LoadingSuccessCallBack = () =>
+                {
+                    this.LoadingCompleted(unityScene).Coroutine();
+                };
+
+                await task;
+                unityScene.LoadingSuccessCallBack.Invoke();
             }
             catch (Exception e)
             {
                 Log.Error(e);
             }
+            await ETTask.CompletedTask;
         }
 
-        public void LoadingFinished(UnityScene unityScene)
+        public virtual async ETTask LoadingCompleted(UnityScene unityScene)
         {
             // 关闭
             FGUIComponent.Instance.CloseWindow(WindowID.FGUILoadingUIView);
+            await ETTask.CompletedTask;
         }
 
-        public void Close(UnityScene unityScene)
+        public virtual async ETTask Close(UnityScene unityScene)
         {
             UnitySceneManagerComponent.Instance.UnityScene?.Dispose();
+            await ETTask.CompletedTask;
         }
     } 
 }

@@ -1,7 +1,7 @@
 ﻿namespace ET.Client
 {
-    public struct LoadUIFinished
+    /*public struct LoadUIFinished
     {
         public UnityScene UnityScene;
-    }
+    }*/
 }

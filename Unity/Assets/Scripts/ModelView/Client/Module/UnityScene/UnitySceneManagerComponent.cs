@@ -11,6 +11,10 @@ namespace ET.Client
         
         private EntityRef<UnityScene> unityScene;
 
+        public Queue<UnitySceneChangeContext> UnitySceneChangeQueue = new();
+        
+        public bool IsExecuting = false;
+        
         public UnityScene UnityScene
         {
             get
@@ -22,7 +26,12 @@ namespace ET.Client
                 this.unityScene = value;
             }
         }
-    
+
+        public class UnitySceneChangeContext
+        {
+            public UnitySceneEnum unitySceneEnum;
+            public object[] ParamList;
+        }
     }
 }
 
