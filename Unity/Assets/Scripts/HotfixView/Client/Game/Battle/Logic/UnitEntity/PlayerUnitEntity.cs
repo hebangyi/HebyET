@@ -5,11 +5,22 @@
     {
         public override void Init(UnitEntity unitEntity)
         {
-            unitEntity.AddComponent<PlayerCacheDataComponent>();
-
+            var playerCacheDataComponent = unitEntity.AddComponent<PlayerCacheDataComponent>();
             var clientWorld = unitEntity.ClientWorld();
             if (unitEntity.InsId == clientWorld.MainPlayerId)
             {
+                var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
+                playerCacheDataComponent.Position = unitEntityPosition.Position;
+                
+                var unitEntityPlayerData = unitEntity.GetUnitEntityElemData<UnitEntityCameraData>();
+                playerCacheDataComponent.CameraAngleOffSet = unitEntityPlayerData.CameraAngleOffSet; 
+                
+                var unitEntityPlayerAnimateStatus = unitEntity.GetUnitEntityElemData<UnitEntityPlayerAnimateStatus>();
+                playerCacheDataComponent.PlayerAnimateStatusEnum = unitEntityPlayerAnimateStatus.Status;
+                
+                var unitEntityTowardAngle = unitEntity.GetUnitEntityElemData<UnitEntityTowardAngle>();
+                playerCacheDataComponent.TowardAngle = unitEntityTowardAngle.TowardAngle;
+                
                 clientWorld.MainPlayer = unitEntity;
                 var unityScene = UnitySceneManagerComponent.Instance.UnityScene;
                 var unitySceneCameraComponent = unityScene.GetComponent<UnitySceneCameraComponent>();

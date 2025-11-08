@@ -8,7 +8,7 @@ message UnitEntityPlayerInfo // IUnitEntityElemData
 }
 
 // 玩家数据
-message UnitEntityPlayerData // IUnitEntityElemData
+message UnitEntityCameraData // IUnitEntityElemData
 {
     short CameraAngleOffSet = 1;            // 相机偏移角度
 }
@@ -19,11 +19,10 @@ message UnitEntityPlayerFrame // IUnitEntityElemData
     uint32 Frame = 1;          // 当前玩家的帧率
 }
 
-// 朝向角度
-message UnitEntityTowardAngle // IUnitEntityElemData
+// 玩家状态
+message UnitEntityPlayerAnimateStatus // IUnitEntityElemData
 {
-    short TowardAngle = 1;                  // 朝向 -180-180
-    PlayerAnimateStatusEnum status = 2;     // 玩家状态
+    PlayerAnimateStatusEnum Status = 1;     // 玩家状态
 }
 
 

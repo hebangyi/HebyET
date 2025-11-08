@@ -20,3 +20,9 @@ message UnitEntityInfo // IUnitEntityElemData
     int32 ConfigId = 1;        // 配置ID
     int32 Speed = 2;           // 移动速度
 }
+
+// 朝向角度
+message UnitEntityTowardAngle // IUnitEntityElemData
+{
+    short TowardAngle = 1;                  // 朝向 -180-180
+}
