@@ -37,12 +37,6 @@ namespace ET.Client
                     self.CameraPack.transform.position = new float3(unitEntityGameObjectComponent.Transform.position);
                 }
             }
-            
-            var nowSec = TimeInfo.Instance.NowSec();
-            if (nowSec == self.LastUpdateTime)
-            {
-                return;
-            }
         }
 
         public static void SetFlowUnitEntity(this UnitySceneCameraComponent self, UnitEntity unitEntity)
@@ -53,6 +47,20 @@ namespace ET.Client
         public static void SetCameraRotate(this UnitySceneCameraComponent self, int yAngle)
         {
             self.CameraPack.transform.rotation = Quaternion.Euler(0, yAngle, 0);
+            var clientWorld = ClientWorldManagerComponent.Instance.CurrentClientWorld;
+            if (clientWorld == null)
+            {
+                return;
+            }
+            
+            // 所有的 环境 UnitEntity 朝向移动
+            foreach (var unitEntity in clientWorld.EvnUnitEntities.Values)
+            {
+                var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
+                var gameObject = unitEntityGameObjectComponent.GameObject;
+                gameObject.transform.rotation = Quaternion.Euler(GameConstant.GameOperaAngle, yAngle, 0);
+            }
+            
         }
     }
 }

@@ -14,7 +14,7 @@ namespace ET
             
             UnitEntityInfo unitEntityInfo = unitEntity.CreateUnitEntityElemData<UnitEntityInfo>();
             unitEntityInfo.ConfigId = 0;
-            unitEntityInfo.Speed = 3;
+            unitEntityInfo.Speed = 30;
         
             var unitEntityPlayerInfo = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerInfo>();
             unitEntityPlayerInfo.PlayerId = playerId;

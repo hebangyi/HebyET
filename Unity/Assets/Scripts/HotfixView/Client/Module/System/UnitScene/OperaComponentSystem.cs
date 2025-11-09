@@ -14,18 +14,33 @@ namespace ET.Client
         [EntitySystem]
         private static void Update(this OperaComponent self)
         {
-            // TODO  控制发送频率
-            if (self.OperaAngel != self.lastAngel)
+            var clientWorld = ClientWorldManagerComponent.Instance.CurrentClientWorld;
+            if (clientWorld == null)
             {
-                C2B_PlayerMoveOperationMessage message = C2B_PlayerMoveOperationMessage.Create();
-                int moveAngle =  self.OperaAngel != -1000 ? self.OperaAngel - self.CameraAngelOffset : self.OperaAngel;
-                
-                message.MoveAngle = moveAngle;
+                return;
+            }
+
+            var mainPlayer = clientWorld.MainPlayer;
+            if (mainPlayer == null)
+            {
+                return;
+            }
+
+            /*if (self.OperaAngel != self.lastAngel)
+            {
+                var playerCacheDataComponent = mainPlayer.GetComponent<MyPlayerCacheDataComponent>();
+                if (playerCacheDataComponent == null)
+                {
+                    return;
+                }
+
+                int moveAngle = self.OperaAngel != -1000 ? self.OperaAngel - playerCacheDataComponent.CameraAngleOffSet : self.OperaAngel;
+                playerCacheDataComponent.TowardAngle = moveAngle;
+
                 ClientBattleSenderComponent.Instance.Send(message);
                 self.lastAngel = self.OperaAngel;
-            }
-            
-            
+            }*/
+
             if (Input.GetMouseButtonDown(1))
             {
                 /*if (Physics.Raycast(ray, out hit, 1000, self.mapMask))
@@ -44,14 +59,73 @@ namespace ET.Client
         /// <param name="angle"></param>
         public static void SetOperaMoveAngle(this OperaComponent self, int angle)
         {
-            self.OperaAngel = angle;
+            var clientWorld = ClientWorldManagerComponent.Instance.CurrentClientWorld;
+            if (clientWorld == null)
+            {
+                return;
+            }
+
+            var mainPlayer = clientWorld.MainPlayer;
+            if (mainPlayer == null)
+            {
+                return;
+            }
+
+            var playerCacheDataComponent = mainPlayer.GetComponent<MyPlayerCacheDataComponent>();
+            if (playerCacheDataComponent == null)
+            {
+                return;
+            }
+
+            playerCacheDataComponent.IsMoving = true;
+            playerCacheDataComponent.OperaAngel = angle;
         }
 
+        public static void SetEndMoving(this OperaComponent self)
+        {
+            var clientWorld = ClientWorldManagerComponent.Instance.CurrentClientWorld;
+            if (clientWorld == null)
+            {
+                return;
+            }
+
+            var mainPlayer = clientWorld.MainPlayer;
+            if (mainPlayer == null)
+            {
+                return;
+            }
+
+            var playerCacheDataComponent = mainPlayer.GetComponent<MyPlayerCacheDataComponent>();
+            if (playerCacheDataComponent == null)
+            {
+                return;
+            }
+
+            playerCacheDataComponent.IsMoving = false;
+        }
 
         public static void AddCameraAngelOffset(this OperaComponent self, int angle)
         {
-            self.CameraAngelOffset += angle;
-            self.CameraAngelOffset %= 360;
+            var clientWorld = ClientWorldManagerComponent.Instance.CurrentClientWorld;
+            if (clientWorld == null)
+            {
+                return;
+            }
+
+            var mainPlayer = clientWorld.MainPlayer;
+            if (mainPlayer == null)
+            {
+                return;
+            }
+
+            var playerCacheDataComponent = mainPlayer.GetComponent<MyPlayerCacheDataComponent>();
+            if (playerCacheDataComponent == null)
+            {
+                return;
+            }
+
+            playerCacheDataComponent.CameraAngleOffSet += angle;
+            playerCacheDataComponent.CameraAngleOffSet %= 360;
 
             var unityScene = self.GetParent<UnityScene>();
             if (unityScene != null)
@@ -60,19 +134,7 @@ namespace ET.Client
                 var unitySceneCameraComponent = unityScene.GetComponent<UnitySceneCameraComponent>();
                 if (unitySceneCameraComponent != null)
                 {
-                    unitySceneCameraComponent.SetCameraRotate(self.CameraAngelOffset);
-                }
-            }
-
-            var clientWorld = ClientWorldManagerComponent.Instance.CurrentClientWorld;
-            if (clientWorld != null)
-            {
-                foreach (var unitEntity in clientWorld.EvnUnitEntities.Values)
-                {
-                    var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
-                    var gameObject = unitEntityGameObjectComponent.GameObject;
-                    
-                    gameObject.transform.rotation = Quaternion.Euler(GameConstant.GameOperaAngle, self.CameraAngelOffset, 0);
+                    unitySceneCameraComponent.SetCameraRotate(playerCacheDataComponent.CameraAngleOffSet);
                 }
             }
         }

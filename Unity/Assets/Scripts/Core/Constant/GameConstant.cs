@@ -22,5 +22,8 @@
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
         public const int GameOperaAngle = 45;  // 操作角度
+        
+        
+        public const float Rad2Deg = 57.29578f;
     }
 }

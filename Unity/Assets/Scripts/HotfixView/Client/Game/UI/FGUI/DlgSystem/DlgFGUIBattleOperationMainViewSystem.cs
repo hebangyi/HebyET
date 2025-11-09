@@ -85,7 +85,13 @@ namespace ET.Client
             self.View.OpButton.YaoGanImg.y = self.InitYaoGanY;
             self.lastMoveAngle = -1000;
             
-            self.SetOperation(self.lastMoveAngle);
+            self.SetEndMoving();
+        }
+
+        public static void SetEndMoving(this DlgFGUIBattleOperationMainView self)
+        {
+            var operaComponent = UnitySceneManagerComponent.Instance.UnityScene?.GetComponent<OperaComponent>();
+            operaComponent?.SetEndMoving();
         }
 
         public static void SetOperation(this DlgFGUIBattleOperationMainView self, int angle)

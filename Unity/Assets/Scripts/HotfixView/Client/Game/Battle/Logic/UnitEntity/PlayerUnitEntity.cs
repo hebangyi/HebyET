@@ -5,10 +5,11 @@
     {
         public override void Init(UnitEntity unitEntity)
         {
-            var playerCacheDataComponent = unitEntity.AddComponent<PlayerCacheDataComponent>();
             var clientWorld = unitEntity.ClientWorld();
             if (unitEntity.InsId == clientWorld.MainPlayerId)
             {
+                var playerCacheDataComponent = unitEntity.AddComponent<MyPlayerCacheDataComponent>();
+                
                 var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
                 playerCacheDataComponent.Position = unitEntityPosition.Position;
                 
@@ -24,7 +25,11 @@
                 clientWorld.MainPlayer = unitEntity;
                 var unityScene = UnitySceneManagerComponent.Instance.UnityScene;
                 var unitySceneCameraComponent = unityScene.GetComponent<UnitySceneCameraComponent>();
+                
+                // 设置相机跟随物体
                 unitySceneCameraComponent.SetFlowUnitEntity(unitEntity);
+                // 设置相机朝向
+                unitySceneCameraComponent.SetCameraRotate(playerCacheDataComponent.CameraAngleOffSet);
             }
             
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
