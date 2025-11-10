@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace ET.Client
 {
@@ -8,7 +9,10 @@ namespace ET.Client
     {
         public long LastUpdateTime = TimeInfo.Instance.NowMillTime();
         
-        public  List<Action<long>> FixedUpdateHandlers = new List<Action<long>>();
+        public long LastFixedUpdateTime = TimeInfo.Instance.NowMillTime();
+        
+        public  List<Action<long>> UpdateHandlers = new ();
+        public  List<Action<long>> FixedUpdateHandlers = new ();
         
         public static ClientUpdateLogicComponent Instance;
     }

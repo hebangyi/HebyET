@@ -15,6 +15,7 @@
                 
                 var unitEntityPlayerData = unitEntity.GetUnitEntityElemData<UnitEntityCameraData>();
                 playerCacheDataComponent.CameraAngleOffSet = unitEntityPlayerData.CameraAngleOffSet; 
+                playerCacheDataComponent.TargetCameraAngleOffSet = unitEntityPlayerData.CameraAngleOffSet; 
                 
                 var unitEntityPlayerAnimateStatus = unitEntity.GetUnitEntityElemData<UnitEntityPlayerAnimateStatus>();
                 playerCacheDataComponent.PlayerAnimateStatusEnum = unitEntityPlayerAnimateStatus.Status;
@@ -29,7 +30,7 @@
                 // 设置相机跟随物体
                 unitySceneCameraComponent.SetFlowUnitEntity(unitEntity);
                 // 设置相机朝向
-                unitySceneCameraComponent.SetCameraRotate(playerCacheDataComponent.CameraAngleOffSet);
+                unitySceneCameraComponent.InitCameraRotate(playerCacheDataComponent.CameraAngleOffSet);
             }
             
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();

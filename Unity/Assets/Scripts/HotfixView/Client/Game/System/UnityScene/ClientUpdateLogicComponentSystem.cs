@@ -11,6 +11,7 @@ namespace ET.Client
         private static void Awake(this ClientUpdateLogicComponent self)
         {
             ClientUpdateLogicComponent.Instance = self;
+            ClientUpdateLogicComponent.Instance.LastFixedUpdateTime = TimeInfo.Instance.NowMillTime();
             ClientUpdateLogicComponent.Instance.LastUpdateTime = TimeInfo.Instance.NowMillTime();
         }
 
@@ -18,13 +19,20 @@ namespace ET.Client
         private static void Update(this ClientUpdateLogicComponent self)
         {
             long time = TimeInfo.Instance.NowMillTime();
+            var lastFixedUpdateTime = ClientUpdateLogicComponent.Instance.LastFixedUpdateTime;
             var lastUpdateTime = ClientUpdateLogicComponent.Instance.LastUpdateTime;
 
-            long subTime = time - lastUpdateTime;
+            long subTime = time - lastFixedUpdateTime;
             if (subTime >= GameConstant.FixedUpdateDeltaTime)
             {
-                ClientUpdateLogicComponent.Instance.LastUpdateTime += GameConstant.FixedUpdateDeltaTime;
-                self.DoFixedUpdate();
+                self.DoFixedUpdate(GameConstant.FixedUpdateDeltaTime);
+                ClientUpdateLogicComponent.Instance.LastFixedUpdateTime += GameConstant.FixedUpdateDeltaTime;
+            }
+
+            if (time > lastUpdateTime)
+            {
+                self.DoUpdate(time - lastUpdateTime);
+                ClientUpdateLogicComponent.Instance.LastUpdateTime = time;
             }
         }
 
@@ -34,18 +42,31 @@ namespace ET.Client
             ClientUpdateLogicComponent.Instance = null;
         }
         
-        private static void DoFixedUpdate(this ClientUpdateLogicComponent self)
+        private static void DoFixedUpdate(this ClientUpdateLogicComponent self, long deltaTime)
         {
             foreach (var fixedUpdateHandler in self.FixedUpdateHandlers)
             {
-                fixedUpdateHandler.Invoke(GameConstant.FixedUpdateDeltaTime);
+                fixedUpdateHandler.Invoke(deltaTime);
             }
         }
 
+        private static void DoUpdate(this ClientUpdateLogicComponent self, long deltaTime)
+        {
+            foreach (var updateHandler in self.UpdateHandlers)
+            {
+                updateHandler.Invoke(deltaTime);
+            }
+        }
+        
 
         public static void AddFixedUpdateHandler(this ClientUpdateLogicComponent self, Action<long> func)
         {
             self.FixedUpdateHandlers.Add(func);
+        }
+
+        public static void AddUpdateHandler(this ClientUpdateLogicComponent self, Action<long> func)
+        {
+            self.UpdateHandlers.Add(func);
         }
     }
 }

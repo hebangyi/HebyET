@@ -22,8 +22,8 @@
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
         public const int GameOperaAngle = 45;  // 操作角度
-        public const int FixedUpdateDeltaTime = 20;
-        
+        public const int FixedUpdateDeltaTime = 20; // 固定更新 20ms FixedUpdate
+        public const int CameraRotationSpeed = 300; // 300ms 旋转90度
         
         public const float Rad2Deg = 57.29578f;
     }

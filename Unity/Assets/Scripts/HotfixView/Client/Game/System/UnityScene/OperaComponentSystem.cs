@@ -106,27 +106,6 @@ namespace ET.Client
 
         public static void AddCameraAngelOffset(this OperaComponent self, int angle)
         {
-            var clientWorld = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
-            if (clientWorld == null)
-            {
-                return;
-            }
-
-            var mainPlayer = clientWorld.MainPlayer;
-            if (mainPlayer == null)
-            {
-                return;
-            }
-
-            var playerCacheDataComponent = mainPlayer.GetComponent<MyPlayerCacheDataComponent>();
-            if (playerCacheDataComponent == null)
-            {
-                return;
-            }
-
-            playerCacheDataComponent.CameraAngleOffSet += angle;
-            playerCacheDataComponent.CameraAngleOffSet %= 360;
-
             var unityScene = self.GetParent<UnityScene>();
             if (unityScene != null)
             {
@@ -134,7 +113,7 @@ namespace ET.Client
                 var unitySceneCameraComponent = unityScene.GetComponent<UnitySceneCameraComponent>();
                 if (unitySceneCameraComponent != null)
                 {
-                    unitySceneCameraComponent.SetCameraRotate(playerCacheDataComponent.CameraAngleOffSet);
+                    unitySceneCameraComponent.AddTargetCameraRotate(angle);
                 }
             }
         }

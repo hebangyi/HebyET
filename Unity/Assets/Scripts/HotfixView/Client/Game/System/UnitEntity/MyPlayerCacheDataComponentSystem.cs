@@ -12,23 +12,31 @@ namespace ET.Client
         private static void Awake(this MyPlayerCacheDataComponent self)
         {
             var clientUpdateLogicComponent = ClientUpdateLogicComponent.Instance;
-            clientUpdateLogicComponent.AddFixedUpdateHandler(self.DoFixedUpdate);
         }
 
         [EntitySystem]
         private static void Update(this MyPlayerCacheDataComponent self)
         {
+            self.UpdateLogic();
             self.UpdateView();
         }
 
-        private static void DoFixedUpdate(this MyPlayerCacheDataComponent self, long deltaTime)
+        private static void UpdateLogic(this MyPlayerCacheDataComponent self)
         {
-            var unitEntity = self.GetParent<UnitEntity>();
+            long nowTime = TimeInfo.Instance.NowMillTime();
+            if (self.LastUpdateTime == nowTime)
+            {
+                return;
+            }
+
+            long subTime = nowTime - self.LastUpdateTime;
+            self.LastUpdateTime = nowTime;
             
-            Log.Info($"DoFixedUpdate : {deltaTime}");
             if (self.IsMoving)
             {
-                int towardAngle = self.OperaAngel - self.CameraAngleOffSet;
+                var unitEntity = self.GetParent<UnitEntity>();
+                
+                float towardAngle = self.OperaAngel - self.CameraAngleOffSet % 360;
                 self.TowardAngle = towardAngle;
 
                 var unitEntityInfo = unitEntity.GetUnitEntityElemData<UnitEntityInfo>();
@@ -38,13 +46,14 @@ namespace ET.Client
                 var deltaX = Math.Cos(atan2) * speed;
                 var deltaY = Math.Sin(atan2) * speed;
                 
-                deltaX = deltaX * deltaTime / 1000;
-                deltaY = deltaY * deltaTime / 1000;
+                deltaX = deltaX * subTime / 1000;
+                deltaY = deltaY * subTime / 1000;
                 
                 self.Position += new float2((float)deltaX, (float)deltaY);
             }
         }
-
+        
+        
         private static void UpdateView(this MyPlayerCacheDataComponent self)
         {
             var unitEntity = self.GetParent<UnitEntity>();

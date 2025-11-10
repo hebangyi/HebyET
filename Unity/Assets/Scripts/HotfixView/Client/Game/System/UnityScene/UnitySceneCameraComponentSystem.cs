@@ -21,8 +21,12 @@ namespace ET.Client
             self.MainCamera.transform.position = self.OffsetPosition;
             self.MainCamera.transform.rotation = Quaternion.identity;
             self.MainCamera.transform.transform.Rotate(new Vector3(45, 0, 0));
+            
+            
+            ClientUpdateLogicComponent.Instance.AddUpdateHandler(self.CameraRotateUpdate);
         }
 
+        
 
         [EntitySystem]
         private static void LateUpdate(this UnitySceneCameraComponent self)
@@ -43,8 +47,13 @@ namespace ET.Client
         {
             self.FlowUnitEntity = unitEntity;
         }
+
+        public static void InitCameraRotate(this UnitySceneCameraComponent self, float yAngle)
+        {
+            self.SetCameraRotate(yAngle);
+        }
         
-        public static void SetCameraRotate(this UnitySceneCameraComponent self, int yAngle)
+        public static void SetCameraRotate(this UnitySceneCameraComponent self, float yAngle)
         {
             self.CameraPack.transform.rotation = Quaternion.Euler(0, yAngle, 0);
             var clientWorld = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
@@ -60,7 +69,72 @@ namespace ET.Client
                 var gameObject = unitEntityGameObjectComponent.GameObject;
                 gameObject.transform.rotation = Quaternion.Euler(GameConstant.GameOperaAngle, yAngle, 0);
             }
+        }
+        
+        
+        public static void AddTargetCameraRotate(this UnitySceneCameraComponent self, int yAngle)
+        {
+            var clientWorld = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
+            if (clientWorld == null)
+            {
+                return;
+            }
             
+            
+            var mainPlayer = clientWorld.MainPlayer;
+            if (mainPlayer == null)
+            {
+                return;
+            }
+            
+            var playerCacheDataComponent = mainPlayer.GetComponent<MyPlayerCacheDataComponent>();
+            if (playerCacheDataComponent == null)
+            {
+                return;
+            }
+
+
+            playerCacheDataComponent.TargetCameraAngleOffSet += yAngle;
+        }
+
+
+        public static void CameraRotateUpdate(this UnitySceneCameraComponent self, long deleteTime)
+        {
+            var clientWorld = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
+            if (clientWorld == null)
+            {
+                return;
+            }
+            
+            var mainPlayer = clientWorld.MainPlayer;
+            if (mainPlayer == null)
+            {
+                return;
+            }
+            
+            var playerCacheDataComponent = mainPlayer.GetComponent<MyPlayerCacheDataComponent>();
+            if (playerCacheDataComponent == null)
+            {
+                return;
+            }
+            
+            if (Mathf.Approximately(playerCacheDataComponent.TargetCameraAngleOffSet, playerCacheDataComponent.CameraAngleOffSet))
+            {
+                return;
+            }
+            
+            // 0.5s 转 90度
+            var angle = deleteTime * 1.0f / GameConstant.CameraRotationSpeed * 90;
+            if (playerCacheDataComponent.CameraAngleOffSet < playerCacheDataComponent.TargetCameraAngleOffSet)
+            {
+                playerCacheDataComponent.CameraAngleOffSet = Math.Min(playerCacheDataComponent.CameraAngleOffSet + angle, playerCacheDataComponent.TargetCameraAngleOffSet);
+            }
+            else
+            {
+                playerCacheDataComponent.CameraAngleOffSet = Math.Max(playerCacheDataComponent.CameraAngleOffSet - angle, playerCacheDataComponent.TargetCameraAngleOffSet);
+            }
+
+            self.SetCameraRotate(playerCacheDataComponent.CameraAngleOffSet);
         }
     }
 }

@@ -14,8 +14,6 @@ namespace ET.Client
         public float3 OffsetPosition;
         // 跟踪对象
         public EntityRef<UnitEntity> FlowUnitEntity;
-        // 上一次更新的时间
-        public long LastUpdateTime;
-
+        
     }
 }
