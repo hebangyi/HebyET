@@ -12,6 +12,10 @@ namespace ET.Client
             unityScene.AddComponent<GameObjectPoolComponent>();
             unityScene.AddComponent<UnitySceneCameraComponent>();
             unityScene.AddComponent<OperaComponent>();
+            unityScene.AddComponent<UnitySceneClientWorldManagerComponent>();
+            unityScene.AddComponent<ClientInputComponent>(); //  输入
+            unityScene.AddComponent<ClientUpdateLogicComponent>();
+            
             await ETTask.CompletedTask;
         }
         

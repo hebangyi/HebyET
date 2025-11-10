@@ -17,7 +17,7 @@ namespace ET.Client
                 return;
             }
             
-            ClientWorld clientWorld = ClientWorldManagerComponent.Instance.CreateWorld();
+            ClientWorld clientWorld = UnitySceneClientWorldManagerComponent.Instance.CreateWorld();
             clientWorld.MainPlayerId = response.MyPlayerUnitEntity.InsId;
             
             // 加载资源

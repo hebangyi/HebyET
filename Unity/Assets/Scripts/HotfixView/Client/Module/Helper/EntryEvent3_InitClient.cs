@@ -25,7 +25,6 @@ namespace ET.Client
             
             
             // 客户端战斗世界管理器
-            root.AddComponent<ClientWorldManagerComponent>();
             root.AddComponent<ClientWorldEventManagerComponent>();
             root.AddComponent<ClientWorldLogicManagerComponent>();
             
@@ -33,8 +32,6 @@ namespace ET.Client
             root.AddComponent<ResourcesLoaderComponent>();
             // 场景管理
             root.AddComponent<UnitySceneManagerComponent>();
-            // 输入
-            root.AddComponent<ClientInputComponent>();
             
             //// FGUI 
             // FGUI 包管理器组件
