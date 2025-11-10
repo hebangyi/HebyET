@@ -11,8 +11,9 @@ namespace ET.Client
         [EntitySystem]
         private static void Awake(this MyPlayerCacheDataComponent self)
         {
+            // self.GetParent<UnitEntity>()
         }
-
+        
         [EntitySystem]
         private static void Update(this MyPlayerCacheDataComponent self)
         {
@@ -46,14 +47,20 @@ namespace ET.Client
                 deltaY = deltaY * subTime / 1000;
                 
                 self.Position += new float2((float)deltaX, (float)deltaY);
-
-                // 设置 MyPlayer的位置
-                Log.Info($"MyPlayerCacheDataComponent Update ... {self.Position}");
             }
-
+            
+            
             self.LastExecuteClientTime = time;
             self.UpdateView();
         }
+
+        private static void FixedUpdate(this MyPlayerCacheDataComponent self, long deltaTime)
+        {
+            
+            
+            
+        }
+        
 
         private static void UpdateView(this MyPlayerCacheDataComponent self)
         {

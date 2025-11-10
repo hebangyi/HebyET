@@ -26,5 +26,5 @@ namespace ET.Client
 
         // Unit GameObject 资源
         public GameObject UnitGameObject;
-    }    
+    }
 }
