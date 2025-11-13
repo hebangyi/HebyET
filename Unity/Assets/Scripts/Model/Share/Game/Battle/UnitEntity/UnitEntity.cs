@@ -11,15 +11,5 @@ namespace ET
         // componentId 对应的 组件数据
         public Dictionary<ushort, IUnitEntityElemData> UnitEntityData;
         public Dictionary<Type, IUnitEntityLogicElemData> UnitEntityLogicData;
-        
-
-        /*public ClientWorld ClientWorld
-        {
-            get
-            {
-                return this.GetParent<ClientWorld>();
-            }
-        }*/
-
     }
 } 
