@@ -63,6 +63,17 @@ namespace ET
             T elemData = self.UnitEntityLogicData.GetValueOrDefault(type) as T;
             return elemData;
         }
-        
+
+
+        public static void Dirty(this UnitEntity self, IUnitEntityElemData elemData)
+        {
+            var logicWorld = self.LogicWorld();
+            if (logicWorld == null)
+            {
+                return;
+            }
+            
+            logicWorld.DirtyHandler?.Dirty(self.InsId, elemData);
+        }
     }
 }

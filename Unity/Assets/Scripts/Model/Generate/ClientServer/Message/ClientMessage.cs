@@ -1206,43 +1206,7 @@ this._CenterPoints.Clear();
         }
     }
 
-    // 1.玩家移动
-    [MemoryPackable]
-    [Message(ClientMessage.C2B_PlayerMoveOperationMessage)]
-    public partial class C2B_PlayerMoveOperationMessage : MessageObject, IClientMessage
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static C2B_PlayerMoveOperationMessage Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(C2B_PlayerMoveOperationMessage), isFromPool) as C2B_PlayerMoveOperationMessage;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        /// <summary>
-        /// 移动角度
-        /// </summary>
-        [MemoryPackOrder(1)]
-        public int MoveAngle { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.MoveAngle = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    // 2.玩家操作脏数据
+    // 1.玩家操作脏数据
     [MemoryPackable]
     [Message(ClientMessage.C2B_PlayerUpdateDirtyElemData)]
     public partial class C2B_PlayerUpdateDirtyElemData : MessageObject, IClientRequest
@@ -2147,29 +2111,28 @@ this._CenterPoints.Clear();
         public const ushort B2C_Login = 10024;
         public const ushort C2B_PlayerReadyCompleted = 10025;
         public const ushort B2C_PlayerReadyCompleted = 10026;
-        public const ushort C2B_PlayerMoveOperationMessage = 10027;
-        public const ushort C2B_PlayerUpdateDirtyElemData = 10028;
-        public const ushort B2C_PlayerUpdateDirtyElemData = 10029;
-        public const ushort C2G_Ping = 10030;
-        public const ushort G2C_Ping = 10031;
-        public const ushort C2G_Benchmark = 10032;
-        public const ushort G2C_Benchmark = 10033;
-        public const ushort Main2NetLobbyLogin = 10034;
-        public const ushort NetLobby2MainLogin = 10035;
-        public const ushort C2A_Login = 10036;
-        public const ushort A2C_Login = 10037;
-        public const ushort C2L_LoginLobby = 10038;
-        public const ushort L2C_LoginLobby = 10039;
-        public const ushort G2C_SessionDisconnect = 10040;
-        public const ushort HttpGetRouterResponse = 10041;
-        public const ushort SyncDataUnitStruct = 10042;
-        public const ushort DataUnitBytes = 10043;
-        public const ushort C2L_GetAllDataUnits = 10044;
-        public const ushort L2C_GetAllDataUnits = 10045;
-        public const ushort L2C_SyncDirtyDataUnits = 10046;
-        public const ushort RoleInfoUnitData = 10047;
-        public const ushort C2L_StartMatchBattle = 10048;
-        public const ushort L2C_StartMatchBattle = 10049;
-        public const ushort L2C_MatchBattleSuccess = 10050;
+        public const ushort C2B_PlayerUpdateDirtyElemData = 10027;
+        public const ushort B2C_PlayerUpdateDirtyElemData = 10028;
+        public const ushort C2G_Ping = 10029;
+        public const ushort G2C_Ping = 10030;
+        public const ushort C2G_Benchmark = 10031;
+        public const ushort G2C_Benchmark = 10032;
+        public const ushort Main2NetLobbyLogin = 10033;
+        public const ushort NetLobby2MainLogin = 10034;
+        public const ushort C2A_Login = 10035;
+        public const ushort A2C_Login = 10036;
+        public const ushort C2L_LoginLobby = 10037;
+        public const ushort L2C_LoginLobby = 10038;
+        public const ushort G2C_SessionDisconnect = 10039;
+        public const ushort HttpGetRouterResponse = 10040;
+        public const ushort SyncDataUnitStruct = 10041;
+        public const ushort DataUnitBytes = 10042;
+        public const ushort C2L_GetAllDataUnits = 10043;
+        public const ushort L2C_GetAllDataUnits = 10044;
+        public const ushort L2C_SyncDirtyDataUnits = 10045;
+        public const ushort RoleInfoUnitData = 10046;
+        public const ushort C2L_StartMatchBattle = 10047;
+        public const ushort L2C_StartMatchBattle = 10048;
+        public const ushort L2C_MatchBattleSuccess = 10049;
     }
 }

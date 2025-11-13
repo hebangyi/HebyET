@@ -1,12 +1,4 @@
-// 1.玩家移动
-message C2B_PlayerMoveOperationMessage // IClientMessage
-{
-    int32 RpcId = 1;
-    int32 MoveAngle = 2;        // 移动角度 
-}
-
-
-// 2.玩家操作脏数据
+// 1.玩家操作脏数据
 message C2B_PlayerUpdateDirtyElemData // IClientRequest
 {
     int32 RpcId = 1;

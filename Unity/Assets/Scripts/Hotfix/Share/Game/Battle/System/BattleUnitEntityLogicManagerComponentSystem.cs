@@ -35,6 +35,12 @@ namespace ET
                 {
                     self.Type2TickLogics[handler.GetType()] = tickLogic;
                 }
+
+                if (handler is ILogicClientInput clientInput)
+                {
+                    var componentId = clientInput.WatchComponentId();
+                    self.ClientInputLogics[componentId] = clientInput;
+                }
             }
         }
 
@@ -46,6 +52,12 @@ namespace ET
         public static ILogicTick GetTickLogicByType(this BattleUnitEntityLogicManagerComponent self, Type logicType)
         {
             return self.Type2TickLogics.GetValueOrDefault(logicType);
+        }
+
+
+        public static ILogicClientInput GetClientInputByComponentId(this BattleUnitEntityLogicManagerComponent self, ushort componentId)
+        {
+            return self.ClientInputLogics.GetValueOrDefault(componentId);
         }
     }
 }

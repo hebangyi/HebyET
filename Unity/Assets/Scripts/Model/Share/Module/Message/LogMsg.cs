@@ -12,7 +12,7 @@ namespace ET
             ClientMessage.C2G_Benchmark, 
             ClientMessage.G2C_Benchmark,
             ClientMessage.L2C_PlayerAOIWorldDirtyPush,
-            ClientMessage.C2B_PlayerMoveOperationMessage,
+            ClientMessage.C2B_PlayerUpdateDirtyElemData,
         };
 
         public void Awake()

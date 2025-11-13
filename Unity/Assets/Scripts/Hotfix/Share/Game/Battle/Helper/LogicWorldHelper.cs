@@ -54,6 +54,60 @@ namespace ET
             }
         }
 
+        public static void ClientInput(UnitEntity unitEntity, BattleUnitEntity battleUnitEntity)
+        {
+            var elementList = battleUnitEntity.EleDatas;
+            foreach (var element in elementList)
+            {
+                var compId = element.CompId;
+                var unitElemType = OpcodeType.Instance.GetType(compId);
+
+                if (unitElemType == null)
+                {
+                    Log.Error($"ClientInput 没有找到UnitEntity 组件 {compId} 对应的数据类型");
+                    continue;
+                }
+                
+                var newUnitEntityElemData =
+                        MemoryPackHelper.Deserialize(unitElemType, element.ElemDatas, 0, element.ElemDatas.Length) as IUnitEntityElemData;
+
+                if (newUnitEntityElemData == null)
+                {
+                    Log.Error($"ClientInput 反序列化 UnitEntity Element 组件 {compId} 失败!");
+                    continue;
+                }
+                
+                var oleUnitEntityElemData = unitEntity.UnitEntityData.GetValueOrDefault(compId);
+                if (oleUnitEntityElemData == null)
+                {
+                    Log.Error($"ClientInput 没有 UnitEntity Element 组件 {compId} 失败!");
+                    continue;
+                }
+
+                var elementLogic = BattleUnitEntityLogicManagerComponent.Instance.ClientInputLogics.GetValueOrDefault(compId);
+                if (elementLogic == null)
+                {
+                    return;
+                }
+
+                bool canInput = elementLogic.CanInput(unitEntity, newUnitEntityElemData);
+                // TODO 做操作回退
+                if (!canInput)
+                {
+                    continue;
+                }
+                
+                // 更新数据
+                unitEntity.UnitEntityData[compId] = newUnitEntityElemData;
+                
+                // 记录Dirty
+                unitEntity.Dirty(newUnitEntityElemData);
+                
+                // 
+                elementLogic.Updated(unitEntity);
+            }
+        }
+        
         
         public static BattleWorld ToBattleWorld(this LogicWorld logicWorld)
         {

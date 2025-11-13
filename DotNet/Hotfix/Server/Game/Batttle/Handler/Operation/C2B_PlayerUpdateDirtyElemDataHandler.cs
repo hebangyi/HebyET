@@ -30,28 +30,6 @@ public class C2B_PlayerUpdateDirtyElemDataHandler: MessageClientHandler<BattleRo
             return;
         }
         
-        
-        var elementList = request.BattleUnitEntity.EleDatas;
-        foreach (var element in elementList)
-        {
-            var compId = element.CompId;
-            var unitElemType = OpcodeType.Instance.GetType(compId);
-            
-            if (unitElemType == null)
-            {
-                Log.Error($"没有找到UnitEntity 组件 {compId} 对应的数据类型");
-                continue;
-            }
-            
-            var newUnitEntityElemData =
-                    MemoryPackHelper.Deserialize(unitElemType, element.ElemDatas, 0, element.ElemDatas.Length) as IUnitEntityElemData;
-
-            var oleUnitEntityElemData = unitPlayerEntity.UnitEntityData.GetValueOrDefault(compId);
-            
-            
-            world.PublishEvent();
-            
-        }
-        
+        LogicWorldHelper.ClientInput(unitPlayerEntity, request.BattleUnitEntity);
     }
 }

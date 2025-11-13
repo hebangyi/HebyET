@@ -21,10 +21,45 @@
         ushort WatchComponentId();
     }
 
-    // 数据处理接口 会修改UnitEntity中的数据
+    // 数据处理接口 Tick 逻辑执行
     public interface ILogicTick : IBattle
     {
         // 执行更新
         void OnTick(LogicWorld logicWorld);
+    }
+
+    public interface ILogicClientInput : IBattle
+    {
+        // 是否能输入
+        bool CanInput(UnitEntity unitEntity, object newElementData);
+
+        // 更新成功
+        bool Updated(UnitEntity unitEntity);
+        
+        // 监听的组件ID
+        ushort WatchComponentId();
+    }
+
+    public abstract class BaseLogicClientInput<T> : ILogicClientInput where T : class, IUnitEntityElemData
+    {
+        public bool CanInput(UnitEntity unitEntity, object newElementData)
+        {
+            var t = newElementData as T;
+            if (t == null)
+            {
+                return false;
+            }
+
+            return CanInput(t);
+        }
+
+        public abstract bool CanInput(T elementData);
+        
+        public abstract bool Updated(UnitEntity unitEntity);
+
+        public ushort WatchComponentId()
+        {
+            return OpcodeType.Instance.GetOpcode(typeof(T));
+        }
     }
 }
