@@ -5,12 +5,11 @@
     {
         public override bool CanInput(UnitEntityPosition elementData)
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
-        public override bool Updated(UnitEntity unitEntity)
+        public override void Updated(UnitEntity unitEntity)
         {
-            throw new System.NotImplementedException();
         }
     }
 }

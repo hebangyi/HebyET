@@ -34,7 +34,7 @@
         bool CanInput(UnitEntity unitEntity, object newElementData);
 
         // 更新成功
-        bool Updated(UnitEntity unitEntity);
+        void Updated(UnitEntity unitEntity);
         
         // 监听的组件ID
         ushort WatchComponentId();
@@ -55,7 +55,7 @@
 
         public abstract bool CanInput(T elementData);
         
-        public abstract bool Updated(UnitEntity unitEntity);
+        public abstract void Updated(UnitEntity unitEntity);
 
         public ushort WatchComponentId()
         {

@@ -13,11 +13,6 @@ message UnitEntityCameraData // IUnitEntityElemData
     short CameraAngleOffSet = 1;            // 相机偏移角度
 }
 
-// 玩家帧信息
-message UnitEntityPlayerFrame // IUnitEntityElemData
-{
-    uint32 Frame = 1;          // 当前玩家的帧率
-}
 
 // 玩家状态
 message UnitEntityPlayerAnimateStatus // IUnitEntityElemData
