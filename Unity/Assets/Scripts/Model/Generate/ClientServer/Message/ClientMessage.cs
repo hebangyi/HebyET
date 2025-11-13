@@ -1242,6 +1242,79 @@ this._CenterPoints.Clear();
         }
     }
 
+    // 2.玩家操作脏数据
+    [MemoryPackable]
+    [Message(ClientMessage.C2B_PlayerUpdateDirtyElemData)]
+    public partial class C2B_PlayerUpdateDirtyElemData : MessageObject, IClientRequest
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static C2B_PlayerUpdateDirtyElemData Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2B_PlayerUpdateDirtyElemData), isFromPool) as C2B_PlayerUpdateDirtyElemData;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        /// <summary>
+        /// 玩家用户UnitEntity 脏数据
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public BattleUnitEntity BattleUnitEntity { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.BattleUnitEntity = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.B2C_PlayerUpdateDirtyElemData)]
+    [ResponseType(nameof(C2B_PlayerUpdateDirtyElemData))]
+    public partial class B2C_PlayerUpdateDirtyElemData : MessageObject, IClientResponse
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static B2C_PlayerUpdateDirtyElemData Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(B2C_PlayerUpdateDirtyElemData), isFromPool) as B2C_PlayerUpdateDirtyElemData;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
     // 未登录的常规协议
     /// <summary>
     /// 网络
@@ -2075,26 +2148,28 @@ this._CenterPoints.Clear();
         public const ushort C2B_PlayerReadyCompleted = 10025;
         public const ushort B2C_PlayerReadyCompleted = 10026;
         public const ushort C2B_PlayerMoveOperationMessage = 10027;
-        public const ushort C2G_Ping = 10028;
-        public const ushort G2C_Ping = 10029;
-        public const ushort C2G_Benchmark = 10030;
-        public const ushort G2C_Benchmark = 10031;
-        public const ushort Main2NetLobbyLogin = 10032;
-        public const ushort NetLobby2MainLogin = 10033;
-        public const ushort C2A_Login = 10034;
-        public const ushort A2C_Login = 10035;
-        public const ushort C2L_LoginLobby = 10036;
-        public const ushort L2C_LoginLobby = 10037;
-        public const ushort G2C_SessionDisconnect = 10038;
-        public const ushort HttpGetRouterResponse = 10039;
-        public const ushort SyncDataUnitStruct = 10040;
-        public const ushort DataUnitBytes = 10041;
-        public const ushort C2L_GetAllDataUnits = 10042;
-        public const ushort L2C_GetAllDataUnits = 10043;
-        public const ushort L2C_SyncDirtyDataUnits = 10044;
-        public const ushort RoleInfoUnitData = 10045;
-        public const ushort C2L_StartMatchBattle = 10046;
-        public const ushort L2C_StartMatchBattle = 10047;
-        public const ushort L2C_MatchBattleSuccess = 10048;
+        public const ushort C2B_PlayerUpdateDirtyElemData = 10028;
+        public const ushort B2C_PlayerUpdateDirtyElemData = 10029;
+        public const ushort C2G_Ping = 10030;
+        public const ushort G2C_Ping = 10031;
+        public const ushort C2G_Benchmark = 10032;
+        public const ushort G2C_Benchmark = 10033;
+        public const ushort Main2NetLobbyLogin = 10034;
+        public const ushort NetLobby2MainLogin = 10035;
+        public const ushort C2A_Login = 10036;
+        public const ushort A2C_Login = 10037;
+        public const ushort C2L_LoginLobby = 10038;
+        public const ushort L2C_LoginLobby = 10039;
+        public const ushort G2C_SessionDisconnect = 10040;
+        public const ushort HttpGetRouterResponse = 10041;
+        public const ushort SyncDataUnitStruct = 10042;
+        public const ushort DataUnitBytes = 10043;
+        public const ushort C2L_GetAllDataUnits = 10044;
+        public const ushort L2C_GetAllDataUnits = 10045;
+        public const ushort L2C_SyncDirtyDataUnits = 10046;
+        public const ushort RoleInfoUnitData = 10047;
+        public const ushort C2L_StartMatchBattle = 10048;
+        public const ushort L2C_StartMatchBattle = 10049;
+        public const ushort L2C_MatchBattleSuccess = 10050;
     }
 }

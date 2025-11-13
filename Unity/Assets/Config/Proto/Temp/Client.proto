@@ -215,6 +215,22 @@ message C2B_PlayerMoveOperationMessage // IClientMessage
     int32 MoveAngle = 2;        // 移动角度 
 }
 
+
+// 2.玩家操作脏数据
+message C2B_PlayerUpdateDirtyElemData // IClientRequest
+{
+    int32 RpcId = 1;
+    BattleUnitEntity BattleUnitEntity = 2; // 玩家用户UnitEntity 脏数据
+}
+
+// ResponseType C2B_PlayerUpdateDirtyElemData
+message B2C_PlayerUpdateDirtyElemData // IClientResponse
+{
+    int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
 // 未登录的常规协议
 
 //// 网络

@@ -9,6 +9,7 @@
         
     }
     
+    // 元素初始化调用
     public interface IClientEleInit : IClient
     {
         // 创建初始化Entity的时触发

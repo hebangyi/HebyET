@@ -8,7 +8,8 @@
     {
     }
 
-    public interface IBattleInit : IBattle
+    // 元素初始化调用
+    public interface ILogicEleInit : IBattle
     {
         // 创建初始化Entity的时触发
         void OnInit(UnitEntity unitEntity);
@@ -21,7 +22,7 @@
     }
 
     // 数据处理接口 会修改UnitEntity中的数据
-    public interface IBattleTick : IBattle
+    public interface ILogicTick : IBattle
     {
         // 执行更新
         void OnTick(LogicWorld logicWorld);

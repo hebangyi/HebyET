@@ -6,7 +6,7 @@ using Unity.Mathematics;
 namespace ET
 {
     [UnitEntityLogic]
-    public class PlayerDataBattleInit : IBattleInit
+    public class PlayerDataLogicEleInit : ILogicEleInit
     {
         public void OnInit(UnitEntity unitEntity)
         {
