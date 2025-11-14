@@ -228,7 +228,10 @@ namespace ET
                     {
                         sbDispose.Clear();
                         sb.Append("\t{\n");
-                        sb.AppendLine("\t\tprivate IDirtyHandler m_DirtyHandler;");
+                        if (isUnitElementData)
+                        {
+                            sb.AppendLine("\t\tprivate IDirtyHandler m_DirtyHandler;");    
+                        }
                         sb.AppendLine("\t\tprivate long m_InstanceId;");
                         sb.Append("\n");
                         
