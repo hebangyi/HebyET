@@ -4,10 +4,6 @@
     [ComponentOf(typeof(UnitEntity))]
     public class MyPlayerCacheDataComponent: Entity, IAwake, IUpdate
     {
-        // 
-        public bool IsSyncing;
-        
-        
         // 位置
         public Unity.Mathematics.float2 Position { get; set; }
         

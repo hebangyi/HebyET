@@ -11,6 +11,7 @@ namespace ET.Client
         [EntitySystem]
         private static void Awake(this MyPlayerCacheDataComponent self)
         {
+            UpdateLogicManagerComponent.Instance.AddTaskUpdateFunc(self.SyncData);
         }
 
         [EntitySystem]
@@ -18,7 +19,6 @@ namespace ET.Client
         {
             self.UpdateLogic();
             self.UpdateView();
-            self.CheckAndSync();
         }
 
         private static void UpdateLogic(this MyPlayerCacheDataComponent self)
@@ -69,19 +69,7 @@ namespace ET.Client
                     new Vector3(self.Position.x, 0, self.Position.y);
             
         }
-
-
-        public static void CheckAndSync(this MyPlayerCacheDataComponent self)
-        {
-            if (self.IsSyncing)
-            {
-                return;
-            }
-
-
-            self.SyncData().Coroutine();
-        }
-
+        
         private static async ETTask SyncData(this MyPlayerCacheDataComponent self)
         {
             try
@@ -122,10 +110,6 @@ namespace ET.Client
             catch (Exception e)
             {
                 Log.Error(e);
-            }
-            finally
-            {
-                self.IsSyncing = false;
             }
         }
     }

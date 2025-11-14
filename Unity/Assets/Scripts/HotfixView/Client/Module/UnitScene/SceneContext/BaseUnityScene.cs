@@ -8,7 +8,7 @@ namespace ET.Client
     {
         public virtual async ETTask InitComponent(UnityScene unityScene)
         {
-            unityScene.AddComponent<ClientUpdateLogicComponent>();
+            unityScene.AddComponent<UpdateLogicManagerComponent>();
             unityScene.AddComponent<ResourcesLoaderComponent>();
             unityScene.AddComponent<GameObjectPoolComponent>();
             unityScene.AddComponent<UnitySceneCameraComponent>();

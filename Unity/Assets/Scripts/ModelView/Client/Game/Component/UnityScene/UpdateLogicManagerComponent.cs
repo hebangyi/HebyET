@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ET.Client
 {
     [ComponentOf(typeof(UnityScene))]
-    public class ClientUpdateLogicComponent: Entity, IAwake, IUpdate, IDestroy
+    public class UpdateLogicManagerComponent: Entity, IAwake, IUpdate, IDestroy
     {
         public long LastUpdateTime = TimeInfo.Instance.NowMillTime();
         
@@ -14,8 +14,16 @@ namespace ET.Client
         public  List<Action<long>> UpdateHandlers = new ();
         public  List<Action<long>> FixedUpdateHandlers = new ();
 
-        public Queue<Func<ETTask>> Queues = new ();
+        public Queue<ClientTaskUpdateContext> TaskUpdateQueues = new ();
         
-        public static ClientUpdateLogicComponent Instance;
+        public static UpdateLogicManagerComponent Instance;
+        
+        
+        public class ClientTaskUpdateContext
+        {
+            public Func<ETTask> Func;
+            public long MinInterval;
+        }
     }
+    
 }

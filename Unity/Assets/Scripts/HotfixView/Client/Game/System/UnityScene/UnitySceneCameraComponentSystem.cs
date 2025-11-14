@@ -23,7 +23,7 @@ namespace ET.Client
             self.MainCamera.transform.transform.Rotate(new Vector3(45, 0, 0));
             
             
-            ClientUpdateLogicComponent.Instance.AddUpdateHandler(self.CameraRotateUpdate);
+            UpdateLogicManagerComponent.Instance.AddUpdateFunc(self.CameraRotateUpdate);
         }
 
         
@@ -124,6 +124,7 @@ namespace ET.Client
             }
             
             // 0.5s 转 90度
+            // TODO 相机平移
             var angle = deleteTime * 1.0f / GameConstant.CameraRotationSpeed * 90;
             if (playerCacheDataComponent.CameraAngleOffSet < playerCacheDataComponent.TargetCameraAngleOffSet)
             {
