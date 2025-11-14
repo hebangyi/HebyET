@@ -78,24 +78,43 @@ namespace ET.Client
 
                 var unitEntity = self.GetParent<UnitEntity>();
                 battleUnitEntity.InsId = unitEntity.InsId;
-
-
+                
                 var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
                 var unitEntityCameraData = unitEntity.GetUnitEntityElemData<UnitEntityCameraData>();
                 var unitEntityPlayerAnimateStatus = unitEntity.GetUnitEntityElemData<UnitEntityPlayerAnimateStatus>();
 
-                var pos1 = unitEntityPosition.Position;
-                var pos2 = self.Position;
-
-                if (!pos1.Equals(pos2))
+                if (!unitEntityPosition.Position.Equals(self.Position))
                 {
                     // 将缓存坐标更新到ElemData
-                    unitEntityPosition.Position = pos2;
+                    unitEntityPosition.Position = self.Position;
                     
                     ushort compId = OpcodeType.Instance.GetOpcode(typeof(UnitEntityPosition));
                     var unitEntityElemData = UnitEntityElemData.Create();
                     unitEntityElemData.CompId = compId;
                     unitEntityElemData.ElemDatas = MemoryPackHelper.Serialize(unitEntityPosition);
+                    battleUnitEntity.EleDatas.Add(unitEntityElemData);
+                }
+
+                if (unitEntityCameraData.CameraAngleOffSet != (short)self.CameraAngleOffSet)
+                {
+                    // 将缓存坐标更新到ElemData
+                    unitEntityCameraData.CameraAngleOffSet = (short)self.CameraAngleOffSet;
+                    
+                    ushort compId = OpcodeType.Instance.GetOpcode(typeof(UnitEntityCameraData));
+                    var unitEntityElemData = UnitEntityElemData.Create();
+                    unitEntityElemData.CompId = compId;
+                    unitEntityElemData.ElemDatas = MemoryPackHelper.Serialize(unitEntityCameraData);
+                    battleUnitEntity.EleDatas.Add(unitEntityElemData);
+                }
+                
+                if (unitEntityPlayerAnimateStatus.Status != self.PlayerAnimateStatusEnum)
+                {
+                    unitEntityPlayerAnimateStatus.Status = self.PlayerAnimateStatusEnum;
+                    
+                    ushort compId = OpcodeType.Instance.GetOpcode(typeof(UnitEntityPlayerAnimateStatus));
+                    var unitEntityElemData = UnitEntityElemData.Create();
+                    unitEntityElemData.CompId = compId;
+                    unitEntityElemData.ElemDatas = MemoryPackHelper.Serialize(unitEntityCameraData);
                     battleUnitEntity.EleDatas.Add(unitEntityElemData);
                 }
 
@@ -106,6 +125,8 @@ namespace ET.Client
                     request.BattleUnitEntity = battleUnitEntity;
                     B2C_PlayerUpdateDirtyElemData response = (B2C_PlayerUpdateDirtyElemData)await clientBattleSenderComponent.Call(request);
                 }
+                
+                battleUnitEntity.Dispose();
             }
             catch (Exception e)
             {
