@@ -34,6 +34,8 @@ namespace ET.Client
                 self.DoUpdate(time - lastUpdateTime);
                 ClientUpdateLogicComponent.Instance.LastUpdateTime = time;
             }
+
+            self.DoOneUpdate();
         }
 
         [EntitySystem]
@@ -56,6 +58,25 @@ namespace ET.Client
             {
                 updateHandler.Invoke(deltaTime);
             }
+        }
+        
+        /// <summary>
+        /// 方法只能同时执行一次
+        /// </summary>
+        /// <param name="self"></param>
+        private static void DoOneUpdate(this ClientUpdateLogicComponent self)
+        {
+            if (self.Queues.TryDequeue(out var func))
+            { 
+                DoOneCeUpdate0(self, func).Coroutine();
+            }
+        }
+
+
+        private static async ETTask DoOneCeUpdate0(this ClientUpdateLogicComponent self, Func<ETTask> func)
+        {
+            await func.Invoke();
+            self.Queues.Enqueue(func);
         }
         
 

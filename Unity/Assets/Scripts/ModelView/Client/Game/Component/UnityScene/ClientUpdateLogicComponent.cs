@@ -13,6 +13,8 @@ namespace ET.Client
         
         public  List<Action<long>> UpdateHandlers = new ();
         public  List<Action<long>> FixedUpdateHandlers = new ();
+
+        public Queue<Func<ETTask>> Queues = new ();
         
         public static ClientUpdateLogicComponent Instance;
     }

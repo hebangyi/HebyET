@@ -8,7 +8,6 @@ namespace ET
     [ResponseType(nameof(B2L_PlayerStartMatch))]
     public partial class L2B_PlayerStartMatch : MessageObject, IRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static L2B_PlayerStartMatch Create(bool isFromPool = false)
@@ -35,9 +34,9 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.PlayerId = default;
-            this.ActorId = default;
+                    this.RpcId = default;
+                    this.PlayerId = default;
+                    this.ActorId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -47,7 +46,6 @@ namespace ET
     [Message(ServerMessage.B2L_PlayerStartMatch)]
     public partial class B2L_PlayerStartMatch : MessageObject, IResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static B2L_PlayerStartMatch Create(bool isFromPool = false)
@@ -71,9 +69,9 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -83,7 +81,6 @@ namespace ET
     [Message(ServerMessage.L2B_PlayerMatchSuccessNotify)]
     public partial class L2B_PlayerMatchSuccessNotify : MessageObject, IMessage
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static L2B_PlayerMatchSuccessNotify Create(bool isFromPool = false)
@@ -104,7 +101,7 @@ namespace ET
                 return;
             }
 
-            this.worldId = default;
+                    this.worldId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -115,7 +112,6 @@ namespace ET
     [ResponseType(nameof(ObjectQueryResponse))]
     public partial class ObjectQueryRequest : MessageObject, IRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static ObjectQueryRequest Create(bool isFromPool = false)
@@ -139,9 +135,9 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Key = default;
-            this.InstanceId = default;
+                    this.RpcId = default;
+                    this.Key = default;
+                    this.InstanceId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -152,7 +148,6 @@ namespace ET
     [ResponseType(nameof(A2M_Reload))]
     public partial class M2A_Reload : MessageObject, IRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static M2A_Reload Create(bool isFromPool = false)
@@ -170,7 +165,7 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
+                    this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -180,7 +175,6 @@ namespace ET
     [Message(ServerMessage.A2M_Reload)]
     public partial class A2M_Reload : MessageObject, IResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static A2M_Reload Create(bool isFromPool = false)
@@ -204,9 +198,9 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -217,7 +211,6 @@ namespace ET
     [ResponseType(nameof(G2G_LockResponse))]
     public partial class G2G_LockRequest : MessageObject, IRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static G2G_LockRequest Create(bool isFromPool = false)
@@ -241,9 +234,9 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Id = default;
-            this.Address = default;
+                    this.RpcId = default;
+                    this.Id = default;
+                    this.Address = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -253,7 +246,6 @@ namespace ET
     [Message(ServerMessage.G2G_LockResponse)]
     public partial class G2G_LockResponse : MessageObject, IResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static G2G_LockResponse Create(bool isFromPool = false)
@@ -277,9 +269,9 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -290,7 +282,6 @@ namespace ET
     [ResponseType(nameof(G2G_LockReleaseResponse))]
     public partial class G2G_LockReleaseRequest : MessageObject, IRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static G2G_LockReleaseRequest Create(bool isFromPool = false)
@@ -314,9 +305,9 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Id = default;
-            this.Address = default;
+                    this.RpcId = default;
+                    this.Id = default;
+                    this.Address = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -326,7 +317,6 @@ namespace ET
     [Message(ServerMessage.G2G_LockReleaseResponse)]
     public partial class G2G_LockReleaseResponse : MessageObject, IResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static G2G_LockReleaseResponse Create(bool isFromPool = false)
@@ -350,9 +340,9 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -363,7 +353,6 @@ namespace ET
     [ResponseType(nameof(ObjectAddResponse))]
     public partial class ObjectAddRequest : MessageObject, IRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static ObjectAddRequest Create(bool isFromPool = false)
@@ -390,10 +379,10 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Type = default;
-            this.Key = default;
-            this.ActorId = default;
+                    this.RpcId = default;
+                    this.Type = default;
+                    this.Key = default;
+                    this.ActorId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -403,7 +392,6 @@ namespace ET
     [Message(ServerMessage.ObjectAddResponse)]
     public partial class ObjectAddResponse : MessageObject, IResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static ObjectAddResponse Create(bool isFromPool = false)
@@ -427,9 +415,9 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -440,7 +428,6 @@ namespace ET
     [ResponseType(nameof(ObjectLockResponse))]
     public partial class ObjectLockRequest : MessageObject, IRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static ObjectLockRequest Create(bool isFromPool = false)
@@ -470,11 +457,11 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Type = default;
-            this.Key = default;
-            this.ActorId = default;
-            this.Time = default;
+                    this.RpcId = default;
+                    this.Type = default;
+                    this.Key = default;
+                    this.ActorId = default;
+                    this.Time = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -484,7 +471,6 @@ namespace ET
     [Message(ServerMessage.ObjectLockResponse)]
     public partial class ObjectLockResponse : MessageObject, IResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static ObjectLockResponse Create(bool isFromPool = false)
@@ -508,9 +494,9 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -521,7 +507,6 @@ namespace ET
     [ResponseType(nameof(ObjectUnLockResponse))]
     public partial class ObjectUnLockRequest : MessageObject, IRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static ObjectUnLockRequest Create(bool isFromPool = false)
@@ -551,11 +536,11 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Type = default;
-            this.Key = default;
-            this.OldActorId = default;
-            this.NewActorId = default;
+                    this.RpcId = default;
+                    this.Type = default;
+                    this.Key = default;
+                    this.OldActorId = default;
+                    this.NewActorId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -565,7 +550,6 @@ namespace ET
     [Message(ServerMessage.ObjectUnLockResponse)]
     public partial class ObjectUnLockResponse : MessageObject, IResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static ObjectUnLockResponse Create(bool isFromPool = false)
@@ -589,9 +573,9 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -602,7 +586,6 @@ namespace ET
     [ResponseType(nameof(ObjectRemoveResponse))]
     public partial class ObjectRemoveRequest : MessageObject, IRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static ObjectRemoveRequest Create(bool isFromPool = false)
@@ -626,9 +609,9 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Type = default;
-            this.Key = default;
+                    this.RpcId = default;
+                    this.Type = default;
+                    this.Key = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -638,7 +621,6 @@ namespace ET
     [Message(ServerMessage.ObjectRemoveResponse)]
     public partial class ObjectRemoveResponse : MessageObject, IResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static ObjectRemoveResponse Create(bool isFromPool = false)
@@ -662,9 +644,9 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -675,7 +657,6 @@ namespace ET
     [ResponseType(nameof(ObjectGetResponse))]
     public partial class ObjectGetRequest : MessageObject, IRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static ObjectGetRequest Create(bool isFromPool = false)
@@ -699,9 +680,9 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Type = default;
-            this.Key = default;
+                    this.RpcId = default;
+                    this.Type = default;
+                    this.Key = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -711,7 +692,6 @@ namespace ET
     [Message(ServerMessage.ObjectGetResponse)]
     public partial class ObjectGetResponse : MessageObject, IResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static ObjectGetResponse Create(bool isFromPool = false)
@@ -741,11 +721,11 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-            this.Type = default;
-            this.ActorId = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
+                    this.Type = default;
+                    this.ActorId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -755,7 +735,6 @@ namespace ET
     [Message(ServerMessage.G2M_SessionDisconnect)]
     public partial class G2M_SessionDisconnect : MessageObject, ILocationMessage
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static G2M_SessionDisconnect Create(bool isFromPool = false)
@@ -773,7 +752,7 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
+                    this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -783,7 +762,6 @@ namespace ET
     [Message(ServerMessage.ObjectQueryResponse)]
     public partial class ObjectQueryResponse : MessageObject, IResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static ObjectQueryResponse Create(bool isFromPool = false)
@@ -810,10 +788,10 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-            this.Entity = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
+                    this.Entity = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -824,7 +802,6 @@ namespace ET
     [ResponseType(nameof(M2M_UnitTransferResponse))]
     public partial class M2M_UnitTransferRequest : MessageObject, IRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static M2M_UnitTransferRequest Create(bool isFromPool = false)
@@ -851,10 +828,10 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.OldActorId = default;
-            this.Unit = default;
-            this.Entitys.Clear();
+                    this.RpcId = default;
+                    this.OldActorId = default;
+                    this.Unit = default;
+                    this.Entitys.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -864,7 +841,6 @@ namespace ET
     [Message(ServerMessage.M2M_UnitTransferResponse)]
     public partial class M2M_UnitTransferResponse : MessageObject, IResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static M2M_UnitTransferResponse Create(bool isFromPool = false)
@@ -888,9 +864,9 @@ namespace ET
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -900,7 +876,6 @@ namespace ET
     [Message(ServerMessage.SceneNodeInfo)]
     public partial class SceneNodeInfo : MessageObject
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static SceneNodeInfo Create(bool isFromPool = false)
@@ -948,16 +923,16 @@ namespace ET
                 return;
             }
 
-            this.SceneType = default;
-            this.ProcessId = default;
-            this.FiberId = default;
-            this.SceneId = default;
-            this.SceneName = default;
-            this.OuterIp = default;
-            this.InnerIp = default;
-            this.InnerPort = default;
-            this.OuterPort = default;
-            this.Status = default;
+                    this.SceneType = default;
+                    this.ProcessId = default;
+                    this.FiberId = default;
+                    this.SceneId = default;
+                    this.SceneName = default;
+                    this.OuterIp = default;
+                    this.InnerIp = default;
+                    this.InnerPort = default;
+                    this.OuterPort = default;
+                    this.Status = default;
 
             ObjectPool.Instance.Recycle(this);
         }

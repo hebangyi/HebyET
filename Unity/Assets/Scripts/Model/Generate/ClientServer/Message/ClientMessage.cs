@@ -10,7 +10,6 @@ namespace ET
     [Message(ClientMessage.BattleWorld)]
     public partial class BattleWorld : MessageObject
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static BattleWorld Create(bool isFromPool = false)
@@ -40,8 +39,8 @@ namespace ET
                 return;
             }
 
-            this.Frame = default;
-            this.WorldStatus = default;
+                    this.Frame = default;
+                    this.WorldStatus = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -51,7 +50,6 @@ namespace ET
     [Message(ClientMessage.BattleUnitEntity)]
     public partial class BattleUnitEntity : MessageObject
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static BattleUnitEntity Create(bool isFromPool = false)
@@ -78,8 +76,8 @@ namespace ET
                 return;
             }
 
-            this.InsId = default;
-            this.EleDatas.Clear();
+                    this.InsId = default;
+                    this.EleDatas.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -89,7 +87,6 @@ namespace ET
     [Message(ClientMessage.UnitEntityElemData)]
     public partial class UnitEntityElemData : MessageObject
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static UnitEntityElemData Create(bool isFromPool = false)
@@ -116,8 +113,8 @@ namespace ET
                 return;
             }
 
-            this.CompId = default;
-            this.ElemDatas = default;
+                    this.CompId = default;
+                    this.ElemDatas = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -185,9 +182,9 @@ namespace ET
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
             
-this._UnitEntityType = default;
-            this._UEShowTypeEnum = default;
-            this._Datas.Clear();
+        this._UnitEntityType = default;
+                    this._UEShowTypeEnum = default;
+                    this._Datas.Clear();
             
 
             ObjectPool.Instance.Recycle(this);
@@ -233,7 +230,7 @@ this._UnitEntityType = default;
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
             
-this._Position = default;
+        this._Position = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -293,8 +290,8 @@ this._Position = default;
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
             
-this._ConfigId = default;
-            this._Speed = default;
+        this._ConfigId = default;
+                    this._Speed = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -340,7 +337,7 @@ this._ConfigId = default;
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
             
-this._TowardAngle = default;
+        this._TowardAngle = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -355,7 +352,6 @@ this._TowardAngle = default;
     [ResponseType(nameof(B2C_PlayerGetAllAOIWorldData))]
     public partial class C2B_PlayerGetAllAOIWorldData : MessageObject, IClientRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static C2B_PlayerGetAllAOIWorldData Create(bool isFromPool = false)
@@ -373,7 +369,7 @@ this._TowardAngle = default;
                 return;
             }
 
-            this.RpcId = default;
+                    this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -383,7 +379,6 @@ this._TowardAngle = default;
     [Message(ClientMessage.B2C_PlayerGetAllAOIWorldData)]
     public partial class B2C_PlayerGetAllAOIWorldData : MessageObject, IClientResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static B2C_PlayerGetAllAOIWorldData Create(bool isFromPool = false)
@@ -416,12 +411,12 @@ this._TowardAngle = default;
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-            this.BattleWorld = default;
-            this.BattleUnitEntity.Clear();
-            this.MyPlayerUnitEntity = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
+                    this.BattleWorld = default;
+                    this.BattleUnitEntity.Clear();
+                    this.MyPlayerUnitEntity = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -433,7 +428,6 @@ this._TowardAngle = default;
     [ResponseType(nameof(B2C_PlayerBattleWorldPing))]
     public partial class C2B_PlayerBattleWorldPing : MessageObject, IClientRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static C2B_PlayerBattleWorldPing Create(bool isFromPool = false)
@@ -454,8 +448,8 @@ this._TowardAngle = default;
                 return;
             }
 
-            this.RpcId = default;
-            this.ClientTime = default;
+                    this.RpcId = default;
+                    this.ClientTime = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -465,7 +459,6 @@ this._TowardAngle = default;
     [Message(ClientMessage.B2C_PlayerBattleWorldPing)]
     public partial class B2C_PlayerBattleWorldPing : MessageObject, IClientResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static B2C_PlayerBattleWorldPing Create(bool isFromPool = false)
@@ -498,11 +491,11 @@ this._TowardAngle = default;
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-            this.SendClientTime = default;
-            this.PlayerCurFrame = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
+                    this.SendClientTime = default;
+                    this.PlayerCurFrame = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -513,7 +506,6 @@ this._TowardAngle = default;
     [Message(ClientMessage.L2C_PlayerAOIWorldDirtyPush)]
     public partial class L2C_PlayerAOIWorldDirtyPush : MessageObject, IMessage
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static L2C_PlayerAOIWorldDirtyPush Create(bool isFromPool = false)
@@ -546,9 +538,303 @@ this._TowardAngle = default;
                 return;
             }
 
-            this.startFrame = default;
-            this.endFrame = default;
-            this.DirtyUnitEntities.Clear();
+                    this.startFrame = default;
+                    this.endFrame = default;
+                    this.DirtyUnitEntities.Clear();
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 4.玩家操作脏数据
+    [MemoryPackable]
+    [Message(ClientMessage.C2B_PlayerUpdateDirtyElemData)]
+    public partial class C2B_PlayerUpdateDirtyElemData : MessageObject, IClientRequest
+    {
+        private long m_InstanceId;
+
+        public static C2B_PlayerUpdateDirtyElemData Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2B_PlayerUpdateDirtyElemData), isFromPool) as C2B_PlayerUpdateDirtyElemData;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        /// <summary>
+        /// 玩家用户UnitEntity 脏数据
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public BattleUnitEntity BattleUnitEntity { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+                    this.RpcId = default;
+                    this.BattleUnitEntity = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.B2C_PlayerUpdateDirtyElemData)]
+    [ResponseType(nameof(C2B_PlayerUpdateDirtyElemData))]
+    public partial class B2C_PlayerUpdateDirtyElemData : MessageObject, IClientResponse
+    {
+        private long m_InstanceId;
+
+        public static B2C_PlayerUpdateDirtyElemData Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(B2C_PlayerUpdateDirtyElemData), isFromPool) as B2C_PlayerUpdateDirtyElemData;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    /// <summary>
+    /// 客户端Main向网络线程发送消息
+    /// </summary>
+    [MemoryPackable]
+    [Message(ClientMessage.Main2NetBattleLogin)]
+    [ResponseType(nameof(NetBattle2MainLogin))]
+    public partial class Main2NetBattleLogin : MessageObject, IRequest
+    {
+        private long m_InstanceId;
+
+        public static Main2NetBattleLogin Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(Main2NetBattleLogin), isFromPool) as Main2NetBattleLogin;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int OwnerFiberId { get; set; }
+
+        /// <summary>
+        /// 路由地址
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public string RouterAddress { get; set; }
+
+        /// <summary>
+        /// 地址
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public string Address { get; set; }
+
+        /// <summary>
+        /// Token 令牌
+        /// </summary>
+        [MemoryPackOrder(3)]
+        public string Token { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+                    this.RpcId = default;
+                    this.OwnerFiberId = default;
+                    this.RouterAddress = default;
+                    this.Address = default;
+                    this.Token = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.NetBattle2MainLogin)]
+    public partial class NetBattle2MainLogin : MessageObject, IResponse
+    {
+        private long m_InstanceId;
+
+        public static NetBattle2MainLogin Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(NetBattle2MainLogin), isFromPool) as NetBattle2MainLogin;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 3.玩家进入战斗 对Session 进行登录验证
+    [MemoryPackable]
+    [Message(ClientMessage.C2B_Login)]
+    [ResponseType(nameof(B2C_Login))]
+    public partial class C2B_Login : MessageObject, ISessionRequest
+    {
+        private long m_InstanceId;
+
+        public static C2B_Login Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2B_Login), isFromPool) as C2B_Login;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public string Token { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+                    this.RpcId = default;
+                    this.Token = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.B2C_Login)]
+    public partial class B2C_Login : MessageObject, ISessionResponse
+    {
+        private long m_InstanceId;
+
+        public static B2C_Login Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(B2C_Login), isFromPool) as B2C_Login;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 4.玩家通知准备完成
+    [MemoryPackable]
+    [Message(ClientMessage.C2B_PlayerReadyCompleted)]
+    [ResponseType(nameof(B2C_PlayerReadyCompleted))]
+    public partial class C2B_PlayerReadyCompleted : MessageObject
+    {
+        private long m_InstanceId;
+
+        public static C2B_PlayerReadyCompleted Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2B_PlayerReadyCompleted), isFromPool) as C2B_PlayerReadyCompleted;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+                    this.RpcId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.B2C_PlayerReadyCompleted)]
+    public partial class B2C_PlayerReadyCompleted : MessageObject
+    {
+        private long m_InstanceId;
+
+        public static B2C_PlayerReadyCompleted Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(B2C_PlayerReadyCompleted), isFromPool) as B2C_PlayerReadyCompleted;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -625,9 +911,9 @@ this._TowardAngle = default;
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
             
-this._PlayerId = default;
-            this._IsOnline = default;
-            this._LastLoginTime = default;
+        this._PlayerId = default;
+                    this._IsOnline = default;
+                    this._LastLoginTime = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -673,53 +959,7 @@ this._PlayerId = default;
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
             
-this._CameraAngleOffSet = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    // 玩家帧信息
-    [MemoryPackable]
-    [Message(ClientMessage.UnitEntityPlayerFrame)]
-    public partial class UnitEntityPlayerFrame : MessageObject, IUnitEntityElemData
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static UnitEntityPlayerFrame Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
-        {
-            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerFrame), isFromPool) as UnitEntityPlayerFrame;
-            instance.m_DirtyHandler = dirtyHandler;
-            instance.m_InstanceId = instanceId;
-            return instance;
-        }
-
-        /// <summary>
-        /// 当前玩家的帧率
-        /// </summary>
-        private uint _Frame;
-
-        [MemoryPackOrder(0)]
-        public uint Frame
-        {
-            get => _Frame;
-            set {
-                _Frame = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.m_DirtyHandler = null;
-            this.m_InstanceId = default;
-            
-this._Frame = default;
+        this._CameraAngleOffSet = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -765,7 +1005,7 @@ this._Frame = default;
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
             
-this._Status = default;
+        this._Status = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -828,8 +1068,8 @@ this._Status = default;
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
             
-this._AreaSize = default;
-            this._PlantInfo = default;
+        this._AreaSize = default;
+                    this._PlantInfo = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -839,7 +1079,6 @@ this._AreaSize = default;
     [Message(ClientMessage.PlantInfo)]
     public partial class PlantInfo : MessageObject
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static PlantInfo Create(bool isFromPool = false)
@@ -860,7 +1099,7 @@ this._AreaSize = default;
                 return;
             }
 
-            this.CellInfos.Clear();
+                    this.CellInfos.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -870,7 +1109,6 @@ this._AreaSize = default;
     [Message(ClientMessage.CellInfo)]
     public partial class CellInfo : MessageObject
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static CellInfo Create(bool isFromPool = false)
@@ -894,8 +1132,8 @@ this._AreaSize = default;
                 return;
             }
 
-            this.CenterPoint = default;
-            this.Borders.Clear();
+                    this.CenterPoint = default;
+                    this.Borders.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -969,311 +1207,9 @@ this._AreaSize = default;
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
             
-this._CenterPoints.Clear();
-            this._Borders.Clear();
-            this._AreaSize = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    /// <summary>
-    /// 客户端Main向网络线程发送消息
-    /// </summary>
-    [MemoryPackable]
-    [Message(ClientMessage.Main2NetBattleLogin)]
-    [ResponseType(nameof(NetBattle2MainLogin))]
-    public partial class Main2NetBattleLogin : MessageObject, IRequest
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static Main2NetBattleLogin Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(Main2NetBattleLogin), isFromPool) as Main2NetBattleLogin;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public int OwnerFiberId { get; set; }
-
-        /// <summary>
-        /// 路由地址
-        /// </summary>
-        [MemoryPackOrder(2)]
-        public string RouterAddress { get; set; }
-
-        /// <summary>
-        /// 地址
-        /// </summary>
-        [MemoryPackOrder(2)]
-        public string Address { get; set; }
-
-        /// <summary>
-        /// Token 令牌
-        /// </summary>
-        [MemoryPackOrder(3)]
-        public string Token { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.OwnerFiberId = default;
-            this.RouterAddress = default;
-            this.Address = default;
-            this.Token = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.NetBattle2MainLogin)]
-    public partial class NetBattle2MainLogin : MessageObject, IResponse
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static NetBattle2MainLogin Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(NetBattle2MainLogin), isFromPool) as NetBattle2MainLogin;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public int Error { get; set; }
-
-        [MemoryPackOrder(2)]
-        public string Message { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    // 3.玩家进入战斗 对Session 进行登录验证
-    [MemoryPackable]
-    [Message(ClientMessage.C2B_Login)]
-    [ResponseType(nameof(B2C_Login))]
-    public partial class C2B_Login : MessageObject, ISessionRequest
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static C2B_Login Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(C2B_Login), isFromPool) as C2B_Login;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public string Token { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.Token = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.B2C_Login)]
-    public partial class B2C_Login : MessageObject, ISessionResponse
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static B2C_Login Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(B2C_Login), isFromPool) as B2C_Login;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public int Error { get; set; }
-
-        [MemoryPackOrder(2)]
-        public string Message { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    // 4.玩家通知准备完成
-    [MemoryPackable]
-    [Message(ClientMessage.C2B_PlayerReadyCompleted)]
-    [ResponseType(nameof(B2C_PlayerReadyCompleted))]
-    public partial class C2B_PlayerReadyCompleted : MessageObject
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static C2B_PlayerReadyCompleted Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(C2B_PlayerReadyCompleted), isFromPool) as C2B_PlayerReadyCompleted;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.B2C_PlayerReadyCompleted)]
-    public partial class B2C_PlayerReadyCompleted : MessageObject
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static B2C_PlayerReadyCompleted Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(B2C_PlayerReadyCompleted), isFromPool) as B2C_PlayerReadyCompleted;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public int Error { get; set; }
-
-        [MemoryPackOrder(2)]
-        public string Message { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    // 1.玩家操作脏数据
-    [MemoryPackable]
-    [Message(ClientMessage.C2B_PlayerUpdateDirtyElemData)]
-    public partial class C2B_PlayerUpdateDirtyElemData : MessageObject, IClientRequest
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static C2B_PlayerUpdateDirtyElemData Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(C2B_PlayerUpdateDirtyElemData), isFromPool) as C2B_PlayerUpdateDirtyElemData;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        /// <summary>
-        /// 玩家用户UnitEntity 脏数据
-        /// </summary>
-        [MemoryPackOrder(1)]
-        public BattleUnitEntity BattleUnitEntity { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.BattleUnitEntity = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    [MemoryPackable]
-    [Message(ClientMessage.B2C_PlayerUpdateDirtyElemData)]
-    [ResponseType(nameof(C2B_PlayerUpdateDirtyElemData))]
-    public partial class B2C_PlayerUpdateDirtyElemData : MessageObject, IClientResponse
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static B2C_PlayerUpdateDirtyElemData Create(bool isFromPool = false)
-        {
-            return ObjectPool.Instance.Fetch(typeof(B2C_PlayerUpdateDirtyElemData), isFromPool) as B2C_PlayerUpdateDirtyElemData;
-        }
-
-        [MemoryPackOrder(0)]
-        public int RpcId { get; set; }
-
-        [MemoryPackOrder(1)]
-        public int Error { get; set; }
-
-        [MemoryPackOrder(2)]
-        public string Message { get; set; }
-
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
+        this._CenterPoints.Clear();
+                    this._Borders.Clear();
+                    this._AreaSize = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1288,7 +1224,6 @@ this._CenterPoints.Clear();
     [ResponseType(nameof(G2C_Ping))]
     public partial class C2G_Ping : MessageObject, ISessionRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static C2G_Ping Create(bool isFromPool = false)
@@ -1306,7 +1241,7 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.RpcId = default;
+                    this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1316,7 +1251,6 @@ this._CenterPoints.Clear();
     [Message(ClientMessage.G2C_Ping)]
     public partial class G2C_Ping : MessageObject, ISessionResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static G2C_Ping Create(bool isFromPool = false)
@@ -1343,10 +1277,10 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-            this.Time = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
+                    this.Time = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1357,7 +1291,6 @@ this._CenterPoints.Clear();
     [ResponseType(nameof(G2C_Benchmark))]
     public partial class C2G_Benchmark : MessageObject, ISessionRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static C2G_Benchmark Create(bool isFromPool = false)
@@ -1375,7 +1308,7 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.RpcId = default;
+                    this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1385,7 +1318,6 @@ this._CenterPoints.Clear();
     [Message(ClientMessage.G2C_Benchmark)]
     public partial class G2C_Benchmark : MessageObject, ISessionResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static G2C_Benchmark Create(bool isFromPool = false)
@@ -1409,9 +1341,9 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1425,7 +1357,6 @@ this._CenterPoints.Clear();
     [ResponseType(nameof(NetLobby2MainLogin))]
     public partial class Main2NetLobbyLogin : MessageObject, IRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static Main2NetLobbyLogin Create(bool isFromPool = false)
@@ -1458,10 +1389,10 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.RpcId = default;
-            this.OwnerFiberId = default;
-            this.Account = default;
-            this.Password = default;
+                    this.RpcId = default;
+                    this.OwnerFiberId = default;
+                    this.Account = default;
+                    this.Password = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1471,7 +1402,6 @@ this._CenterPoints.Clear();
     [Message(ClientMessage.NetLobby2MainLogin)]
     public partial class NetLobby2MainLogin : MessageObject, IResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static NetLobby2MainLogin Create(bool isFromPool = false)
@@ -1498,10 +1428,10 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-            this.PlayerId = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
+                    this.PlayerId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1513,7 +1443,6 @@ this._CenterPoints.Clear();
     [ResponseType(nameof(A2C_Login))]
     public partial class C2A_Login : MessageObject, ISessionRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static C2A_Login Create(bool isFromPool = false)
@@ -1543,9 +1472,9 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.RpcId = default;
-            this.Account = default;
-            this.Password = default;
+                    this.RpcId = default;
+                    this.Account = default;
+                    this.Password = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1555,7 +1484,6 @@ this._CenterPoints.Clear();
     [Message(ClientMessage.A2C_Login)]
     public partial class A2C_Login : MessageObject, ISessionResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static A2C_Login Create(bool isFromPool = false)
@@ -1591,11 +1519,11 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-            this.Address = default;
-            this.Token = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
+                    this.Address = default;
+                    this.Token = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1607,7 +1535,6 @@ this._CenterPoints.Clear();
     [ResponseType(nameof(L2C_LoginLobby))]
     public partial class C2L_LoginLobby : MessageObject, ISessionRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static C2L_LoginLobby Create(bool isFromPool = false)
@@ -1631,8 +1558,8 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.RpcId = default;
-            this.Token = default;
+                    this.RpcId = default;
+                    this.Token = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1642,7 +1569,6 @@ this._CenterPoints.Clear();
     [Message(ClientMessage.L2C_LoginLobby)]
     public partial class L2C_LoginLobby : MessageObject, ISessionResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static L2C_LoginLobby Create(bool isFromPool = false)
@@ -1669,10 +1595,10 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-            this.PlayerId = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
+                    this.PlayerId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1683,7 +1609,6 @@ this._CenterPoints.Clear();
     [Message(ClientMessage.G2C_SessionDisconnect)]
     public partial class G2C_SessionDisconnect : MessageObject, IMessage
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static G2C_SessionDisconnect Create(bool isFromPool = false)
@@ -1704,7 +1629,7 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.Error = default;
+                    this.Error = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1714,7 +1639,6 @@ this._CenterPoints.Clear();
     [Message(ClientMessage.HttpGetRouterResponse)]
     public partial class HttpGetRouterResponse : MessageObject
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static HttpGetRouterResponse Create(bool isFromPool = false)
@@ -1735,8 +1659,8 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.Routers.Clear();
-            this.Accounts.Clear();
+                    this.Routers.Clear();
+                    this.Accounts.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1749,7 +1673,6 @@ this._CenterPoints.Clear();
     [Message(ClientMessage.SyncDataUnitStruct)]
     public partial class SyncDataUnitStruct : MessageObject
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static SyncDataUnitStruct Create(bool isFromPool = false)
@@ -1776,8 +1699,8 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.Frame = default;
-            this.DataUnitBytes.Clear();
+                    this.Frame = default;
+                    this.DataUnitBytes.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1788,7 +1711,6 @@ this._CenterPoints.Clear();
     [Message(ClientMessage.DataUnitBytes)]
     public partial class DataUnitBytes : MessageObject
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static DataUnitBytes Create(bool isFromPool = false)
@@ -1815,8 +1737,8 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.UnitId = default;
-            this.UnitBytes = default;
+                    this.UnitId = default;
+                    this.UnitBytes = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1832,7 +1754,6 @@ this._CenterPoints.Clear();
     [ResponseType(nameof(L2C_GetAllDataUnits))]
     public partial class C2L_GetAllDataUnits : MessageObject, IClientRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static C2L_GetAllDataUnits Create(bool isFromPool = false)
@@ -1850,7 +1771,7 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.RpcId = default;
+                    this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1860,7 +1781,6 @@ this._CenterPoints.Clear();
     [Message(ClientMessage.L2C_GetAllDataUnits)]
     public partial class L2C_GetAllDataUnits : MessageObject, IClientResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static L2C_GetAllDataUnits Create(bool isFromPool = false)
@@ -1890,10 +1810,10 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
-            this.UnitStructData = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
+                    this.UnitStructData = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1903,7 +1823,6 @@ this._CenterPoints.Clear();
     [Message(ClientMessage.L2C_SyncDirtyDataUnits)]
     public partial class L2C_SyncDirtyDataUnits : MessageObject, IMessage
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static L2C_SyncDirtyDataUnits Create(bool isFromPool = false)
@@ -1924,7 +1843,7 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.UnitStructData = default;
+                    this.UnitStructData = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1938,7 +1857,6 @@ this._CenterPoints.Clear();
     [Message(ClientMessage.RoleInfoUnitData)]
     public partial class RoleInfoUnitData : MessageObject, IUnitData
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static RoleInfoUnitData Create(bool isFromPool = false)
@@ -1959,7 +1877,7 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.NickName = default;
+                    this.NickName = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1974,7 +1892,6 @@ this._CenterPoints.Clear();
     [ResponseType(nameof(L2C_StartMatchBattle))]
     public partial class C2L_StartMatchBattle : MessageObject, IClientRequest
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static C2L_StartMatchBattle Create(bool isFromPool = false)
@@ -1995,7 +1912,7 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.RpcId = default;
+                    this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -2005,7 +1922,6 @@ this._CenterPoints.Clear();
     [Message(ClientMessage.L2C_StartMatchBattle)]
     public partial class L2C_StartMatchBattle : MessageObject, IClientResponse
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static L2C_StartMatchBattle Create(bool isFromPool = false)
@@ -2029,9 +1945,9 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.RpcId = default;
-            this.Error = default;
-            this.Message = default;
+                    this.RpcId = default;
+                    this.Error = default;
+                    this.Message = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -2042,7 +1958,6 @@ this._CenterPoints.Clear();
     [Message(ClientMessage.L2C_MatchBattleSuccess)]
     public partial class L2C_MatchBattleSuccess : MessageObject, IMessage
     {
-        private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
         public static L2C_MatchBattleSuccess Create(bool isFromPool = false)
@@ -2075,9 +1990,9 @@ this._CenterPoints.Clear();
                 return;
             }
 
-            this.RouterAddress = default;
-            this.BattleAddress = default;
-            this.Token = default;
+                    this.RouterAddress = default;
+                    this.BattleAddress = default;
+                    this.Token = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -2097,42 +2012,41 @@ this._CenterPoints.Clear();
         public const ushort C2B_PlayerBattleWorldPing = 10010;
         public const ushort B2C_PlayerBattleWorldPing = 10011;
         public const ushort L2C_PlayerAOIWorldDirtyPush = 10012;
-        public const ushort UnitEntityPlayerInfo = 10013;
-        public const ushort UnitEntityCameraData = 10014;
-        public const ushort UnitEntityPlayerFrame = 10015;
-        public const ushort UnitEntityPlayerAnimateStatus = 10016;
-        public const ushort UnitEntityMapMessage = 10017;
-        public const ushort PlantInfo = 10018;
-        public const ushort CellInfo = 10019;
-        public const ushort GizmosDebugInfo = 10020;
-        public const ushort Main2NetBattleLogin = 10021;
-        public const ushort NetBattle2MainLogin = 10022;
-        public const ushort C2B_Login = 10023;
-        public const ushort B2C_Login = 10024;
-        public const ushort C2B_PlayerReadyCompleted = 10025;
-        public const ushort B2C_PlayerReadyCompleted = 10026;
-        public const ushort C2B_PlayerUpdateDirtyElemData = 10027;
-        public const ushort B2C_PlayerUpdateDirtyElemData = 10028;
-        public const ushort C2G_Ping = 10029;
-        public const ushort G2C_Ping = 10030;
-        public const ushort C2G_Benchmark = 10031;
-        public const ushort G2C_Benchmark = 10032;
-        public const ushort Main2NetLobbyLogin = 10033;
-        public const ushort NetLobby2MainLogin = 10034;
-        public const ushort C2A_Login = 10035;
-        public const ushort A2C_Login = 10036;
-        public const ushort C2L_LoginLobby = 10037;
-        public const ushort L2C_LoginLobby = 10038;
-        public const ushort G2C_SessionDisconnect = 10039;
-        public const ushort HttpGetRouterResponse = 10040;
-        public const ushort SyncDataUnitStruct = 10041;
-        public const ushort DataUnitBytes = 10042;
-        public const ushort C2L_GetAllDataUnits = 10043;
-        public const ushort L2C_GetAllDataUnits = 10044;
-        public const ushort L2C_SyncDirtyDataUnits = 10045;
-        public const ushort RoleInfoUnitData = 10046;
-        public const ushort C2L_StartMatchBattle = 10047;
-        public const ushort L2C_StartMatchBattle = 10048;
-        public const ushort L2C_MatchBattleSuccess = 10049;
+        public const ushort C2B_PlayerUpdateDirtyElemData = 10013;
+        public const ushort B2C_PlayerUpdateDirtyElemData = 10014;
+        public const ushort Main2NetBattleLogin = 10015;
+        public const ushort NetBattle2MainLogin = 10016;
+        public const ushort C2B_Login = 10017;
+        public const ushort B2C_Login = 10018;
+        public const ushort C2B_PlayerReadyCompleted = 10019;
+        public const ushort B2C_PlayerReadyCompleted = 10020;
+        public const ushort UnitEntityPlayerInfo = 10021;
+        public const ushort UnitEntityCameraData = 10022;
+        public const ushort UnitEntityPlayerAnimateStatus = 10023;
+        public const ushort UnitEntityMapMessage = 10024;
+        public const ushort PlantInfo = 10025;
+        public const ushort CellInfo = 10026;
+        public const ushort GizmosDebugInfo = 10027;
+        public const ushort C2G_Ping = 10028;
+        public const ushort G2C_Ping = 10029;
+        public const ushort C2G_Benchmark = 10030;
+        public const ushort G2C_Benchmark = 10031;
+        public const ushort Main2NetLobbyLogin = 10032;
+        public const ushort NetLobby2MainLogin = 10033;
+        public const ushort C2A_Login = 10034;
+        public const ushort A2C_Login = 10035;
+        public const ushort C2L_LoginLobby = 10036;
+        public const ushort L2C_LoginLobby = 10037;
+        public const ushort G2C_SessionDisconnect = 10038;
+        public const ushort HttpGetRouterResponse = 10039;
+        public const ushort SyncDataUnitStruct = 10040;
+        public const ushort DataUnitBytes = 10041;
+        public const ushort C2L_GetAllDataUnits = 10042;
+        public const ushort L2C_GetAllDataUnits = 10043;
+        public const ushort L2C_SyncDirtyDataUnits = 10044;
+        public const ushort RoleInfoUnitData = 10045;
+        public const ushort C2L_StartMatchBattle = 10046;
+        public const ushort L2C_StartMatchBattle = 10047;
+        public const ushort L2C_MatchBattleSuccess = 10048;
     }
 }

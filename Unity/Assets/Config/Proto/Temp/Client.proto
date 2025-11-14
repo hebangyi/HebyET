@@ -103,61 +103,20 @@ message L2C_PlayerAOIWorldDirtyPush // IMessage
     repeated BattleUnitEntity DirtyUnitEntities = 3;    // 脏数据
 }
 
-//// 玩家
-// 玩家信息
-message UnitEntityPlayerInfo // IUnitEntityElemData
+
+// 4.玩家操作脏数据
+message C2B_PlayerUpdateDirtyElemData // IClientRequest
 {
-    int64 PlayerId = 1;        // 玩家ID
-    bool IsOnline = 2;         // 是否在线
-    int64 LastLoginTime = 3;   // 上次登录时间
+    int32 RpcId = 1;
+    BattleUnitEntity BattleUnitEntity = 2; // 玩家用户UnitEntity 脏数据
 }
 
-// 玩家数据
-message UnitEntityCameraData // IUnitEntityElemData
+// ResponseType C2B_PlayerUpdateDirtyElemData
+message B2C_PlayerUpdateDirtyElemData // IClientResponse
 {
-    short CameraAngleOffSet = 1;            // 相机偏移角度
-}
-
-// 玩家帧信息
-message UnitEntityPlayerFrame // IUnitEntityElemData
-{
-    uint32 Frame = 1;          // 当前玩家的帧率
-}
-
-// 玩家状态
-message UnitEntityPlayerAnimateStatus // IUnitEntityElemData
-{
-    PlayerAnimateStatusEnum Status = 1;     // 玩家状态
-}
-
-
-//// 地块
-// 地图信息
-message UnitEntityMapMessage // IUnitEntityElemData
-{
-    int32 AreaSize = 1;                                     // 边宽度
-    PlantInfo PlantInfo = 2;                                // 地块信息
-}
-
-message PlantInfo
-{
-    repeated CellInfo CellInfos = 2;                         // 网格
-}
-
-
-message CellInfo
-{
-    Unity.Mathematics.float2 CenterPoint = 1;
-    repeated Unity.Mathematics.float4 Borders = 2;          // 边
-}
-
-
-// 地块辅助线信息
-message GizmosDebugInfo // IUnitEntityElemData
-{
-    repeated Unity.Mathematics.float2 CenterPoints = 1;     // 点
-    repeated Unity.Mathematics.float4 Borders = 2;          // 边
-    int32 AreaSize = 3;                                     // 边宽度
+    int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
 }
 
 //// 客户端Main向网络线程发送消息
@@ -208,19 +167,56 @@ message B2C_PlayerReadyCompleted
 	string Message = 3;
 }
 
-// 1.玩家操作脏数据
-message C2B_PlayerUpdateDirtyElemData // IClientRequest
+//// 玩家
+// 玩家信息
+message UnitEntityPlayerInfo // IUnitEntityElemData
 {
-    int32 RpcId = 1;
-    BattleUnitEntity BattleUnitEntity = 2; // 玩家用户UnitEntity 脏数据
+    int64 PlayerId = 1;        // 玩家ID
+    bool IsOnline = 2;         // 是否在线
+    int64 LastLoginTime = 3;   // 上次登录时间
 }
 
-// ResponseType C2B_PlayerUpdateDirtyElemData
-message B2C_PlayerUpdateDirtyElemData // IClientResponse
+// 玩家数据
+message UnitEntityCameraData // IUnitEntityElemData
 {
-    int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
+    short CameraAngleOffSet = 1;            // 相机偏移角度
+}
+
+
+// 玩家状态
+message UnitEntityPlayerAnimateStatus // IUnitEntityElemData
+{
+    PlayerAnimateStatusEnum Status = 1;     // 玩家状态
+}
+
+
+//// 地块
+// 地图信息
+message UnitEntityMapMessage // IUnitEntityElemData
+{
+    int32 AreaSize = 1;                                     // 边宽度
+    PlantInfo PlantInfo = 2;                                // 地块信息
+}
+
+message PlantInfo
+{
+    repeated CellInfo CellInfos = 2;                         // 网格
+}
+
+
+message CellInfo
+{
+    Unity.Mathematics.float2 CenterPoint = 1;
+    repeated Unity.Mathematics.float4 Borders = 2;          // 边
+}
+
+
+// 地块辅助线信息
+message GizmosDebugInfo // IUnitEntityElemData
+{
+    repeated Unity.Mathematics.float2 CenterPoints = 1;     // 点
+    repeated Unity.Mathematics.float4 Borders = 2;          // 边
+    int32 AreaSize = 3;                                     // 边宽度
 }
 
 // 未登录的常规协议

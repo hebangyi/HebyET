@@ -11,7 +11,6 @@ namespace ET.Client
         [EntitySystem]
         private static void Awake(this MyPlayerCacheDataComponent self)
         {
-            var clientUpdateLogicComponent = ClientUpdateLogicComponent.Instance;
         }
 
         [EntitySystem]
@@ -19,6 +18,7 @@ namespace ET.Client
         {
             self.UpdateLogic();
             self.UpdateView();
+            self.CheckAndSync();
         }
 
         private static void UpdateLogic(this MyPlayerCacheDataComponent self)
@@ -68,6 +68,65 @@ namespace ET.Client
             gameObject.transform.position =
                     new Vector3(self.Position.x, 0, self.Position.y);
             
+        }
+
+
+        public static void CheckAndSync(this MyPlayerCacheDataComponent self)
+        {
+            if (self.IsSyncing)
+            {
+                return;
+            }
+
+
+            self.SyncData().Coroutine();
+        }
+
+        private static async ETTask SyncData(this MyPlayerCacheDataComponent self)
+        {
+            try
+            {
+                BattleUnitEntity battleUnitEntity = BattleUnitEntity.Create(true);
+
+                var unitEntity = self.GetParent<UnitEntity>();
+                battleUnitEntity.InsId = unitEntity.InsId;
+
+
+                var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
+                var unitEntityCameraData = unitEntity.GetUnitEntityElemData<UnitEntityCameraData>();
+                var unitEntityPlayerAnimateStatus = unitEntity.GetUnitEntityElemData<UnitEntityPlayerAnimateStatus>();
+
+                var pos1 = unitEntityPosition.Position;
+                var pos2 = self.Position;
+
+                if (!pos1.Equals(pos2))
+                {
+                    // 将缓存坐标更新到ElemData
+                    unitEntityPosition.Position = pos2;
+                    
+                    ushort compId = OpcodeType.Instance.GetOpcode(typeof(UnitEntityPosition));
+                    var unitEntityElemData = UnitEntityElemData.Create();
+                    unitEntityElemData.CompId = compId;
+                    unitEntityElemData.ElemDatas = MemoryPackHelper.Serialize(unitEntityPosition);
+                    battleUnitEntity.EleDatas.Add(unitEntityElemData);
+                }
+
+                if (battleUnitEntity.EleDatas.Count > 0)
+                {
+                    var clientBattleSenderComponent = ClientBattleSenderComponent.Instance;
+                    C2B_PlayerUpdateDirtyElemData request = C2B_PlayerUpdateDirtyElemData.Create();
+                    request.BattleUnitEntity = battleUnitEntity;
+                    B2C_PlayerUpdateDirtyElemData response = (B2C_PlayerUpdateDirtyElemData)await clientBattleSenderComponent.Call(request);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+            }
+            finally
+            {
+                self.IsSyncing = false;
+            }
         }
     }
 }

@@ -1,13 +1,15 @@
-﻿using Unity.Mathematics;
-
-namespace ET.Client
+﻿namespace ET.Client
 {
     // 玩家缓存信息
     [ComponentOf(typeof(UnitEntity))]
     public class MyPlayerCacheDataComponent: Entity, IAwake, IUpdate
     {
+        // 
+        public bool IsSyncing;
+        
+        
         // 位置
-        public float2 Position { get; set; }
+        public Unity.Mathematics.float2 Position { get; set; }
         
         // 操作角度
         public int OperaAngel { get; set; }

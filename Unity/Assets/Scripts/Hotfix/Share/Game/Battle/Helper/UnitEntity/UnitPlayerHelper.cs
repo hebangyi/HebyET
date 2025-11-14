@@ -27,10 +27,7 @@ namespace ET
             
             var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
             unitEntityPosition.Position = new float2(0f, 0f);
-
-            var unitEntityPlayerFrame = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerFrame>();
-            unitEntityPlayerFrame.Frame = logicWorld.Frame;
-
+            
             unitEntity.CreateUnitEntityLogicElemData<UnitEntityPlayerOperation>();
             var unitEntityPlayerCellInfo = unitEntity.CreateUnitEntityLogicElemData<UnitEntityPlayerCellInfo>();
             
