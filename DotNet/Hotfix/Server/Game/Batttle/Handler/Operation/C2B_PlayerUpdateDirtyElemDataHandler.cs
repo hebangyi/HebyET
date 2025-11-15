@@ -3,9 +3,9 @@
 namespace ET.Server;
 
 [MessageClientHandler(SceneType.Battle)]
-public class C2B_PlayerUpdateDirtyElemDataHandler: MessageClientHandler<BattleRole, C2B_PlayerUpdateDirtyElemData, B2C_PlayerUpdateDirtyElemData>
+public class C2B_PlayerUpdateDirtyElemDataHandler: MessageClientHandler<BattleRole, C2B_PlayerUploadDirtyElemData, B2C_PlayerUploadDirtyElemData>
 {
-    protected override void Run(BattleRole battleRole, C2B_PlayerUpdateDirtyElemData request, B2C_PlayerUpdateDirtyElemData response)
+    protected override void Run(BattleRole battleRole, C2B_PlayerUploadDirtyElemData request, B2C_PlayerUploadDirtyElemData response)
     {
         var world = battleRole.World();
 

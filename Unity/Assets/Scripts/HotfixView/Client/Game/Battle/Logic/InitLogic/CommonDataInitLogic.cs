@@ -17,7 +17,6 @@ namespace ET.Client
                 var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
                 var gameObject = unitEntityGameObjectComponent.GameObject;
                 gameObject.transform.rotation = Quaternion.Euler(GameConstant.GameOperaAngle, 0, 0);
-                // 
             }
         }
 

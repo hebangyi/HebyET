@@ -45,14 +45,14 @@ message L2C_PlayerAOIWorldDirtyPush // IMessage
 
 
 // 4.玩家操作脏数据
-message C2B_PlayerUpdateDirtyElemData // IClientRequest
+// ResponseType B2C_PlayerUploadDirtyElemData
+message C2B_PlayerUploadDirtyElemData // IClientRequest
 {
     int32 RpcId = 1;
     BattleUnitEntity BattleUnitEntity = 2; // 玩家用户UnitEntity 脏数据
 }
 
-// ResponseType C2B_PlayerUpdateDirtyElemData
-message B2C_PlayerUpdateDirtyElemData // IClientResponse
+message B2C_PlayerUploadDirtyElemData // IClientResponse
 {
     int32 RpcId = 1;
 	int32 Error = 2;

@@ -4,5 +4,7 @@
     public class ClientInputComponent: Entity, IAwake, IUpdate, IDestroy
     {
         public static ClientInputComponent Instance;
+
+        public bool IsKeyDown;
     }
 }

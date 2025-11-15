@@ -32,7 +32,7 @@ namespace ET.Client
             long subTime = nowTime - self.LastUpdateTime;
             self.LastUpdateTime = nowTime;
             
-            if (self.IsMoving)
+            if (self.IsDragging)
             {
                 var unitEntity = self.GetParent<UnitEntity>();
                 
@@ -68,6 +68,9 @@ namespace ET.Client
             gameObject.transform.position =
                     new Vector3(self.Position.x, 0, self.Position.y);
             
+            
+            
+            gameObject.transform.rotation = Quaternion.Euler(0, -self.TowardAngle, 0);
         }
         
         private static async ETTask SyncData(this MyPlayerCacheDataComponent self)
@@ -121,9 +124,9 @@ namespace ET.Client
                 if (battleUnitEntity.EleDatas.Count > 0)
                 {
                     var clientBattleSenderComponent = ClientBattleSenderComponent.Instance;
-                    C2B_PlayerUpdateDirtyElemData request = C2B_PlayerUpdateDirtyElemData.Create();
+                    C2B_PlayerUploadDirtyElemData request = C2B_PlayerUploadDirtyElemData.Create();
                     request.BattleUnitEntity = battleUnitEntity;
-                    B2C_PlayerUpdateDirtyElemData response = (B2C_PlayerUpdateDirtyElemData)await clientBattleSenderComponent.Call(request);
+                    B2C_PlayerUploadDirtyElemData response = (B2C_PlayerUploadDirtyElemData)await clientBattleSenderComponent.Call(request);
                 }
                 
                 battleUnitEntity.Dispose();

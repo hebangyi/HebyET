@@ -77,7 +77,7 @@ namespace ET.Client
                 return;
             }
 
-            playerCacheDataComponent.IsMoving = true;
+            playerCacheDataComponent.IsDragging = true;
             playerCacheDataComponent.OperaAngel = angle;
         }
 
@@ -101,7 +101,7 @@ namespace ET.Client
                 return;
             }
 
-            playerCacheDataComponent.IsMoving = false;
+            playerCacheDataComponent.IsDragging = false;
         }
 
         public static void AddCameraAngelOffset(this OperaComponent self, int angle)

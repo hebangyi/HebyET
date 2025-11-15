@@ -20,7 +20,7 @@
         public float TowardAngle { get; set; }
 
         // 是否拖拽正在移动
-        public bool IsMoving { get; set; }
+        public bool IsDragging { get; set; }
         
         // 上次更新时间
         public long LastUpdateTime { get; set; }
