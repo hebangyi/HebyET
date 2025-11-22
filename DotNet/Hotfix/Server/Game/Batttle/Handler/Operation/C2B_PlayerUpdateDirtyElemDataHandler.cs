@@ -30,7 +30,7 @@ public class C2B_PlayerUpdateDirtyElemDataHandler: MessageClientHandler<BattleRo
             return;
         }
         
-        Log.Info("ClientInput...");
+        Log.Info($"ClientInput: \n {JsonHelper.ToJson(request)}");
         
         LogicWorldHelper.ClientInput(unitPlayerEntity, request.BattleUnitEntity);
     }

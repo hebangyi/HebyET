@@ -16,7 +16,7 @@ namespace ET.Client
                 clientWorld.EvnUnitEntities[unitEntity.Id] = unitEntity;
                 var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
                 var gameObject = unitEntityGameObjectComponent.GameObject;
-                gameObject.transform.rotation = Quaternion.Euler(GameConstant.GameOperaAngle, 0, 0);
+                gameObject.transform.rotation = Quaternion.Euler(-GameConstant.GameOperaAngle, 0, 0);
             }
         }
 

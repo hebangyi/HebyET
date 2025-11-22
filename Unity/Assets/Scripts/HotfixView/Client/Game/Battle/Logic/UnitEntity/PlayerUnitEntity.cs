@@ -1,4 +1,6 @@
-﻿namespace ET.Client
+﻿using UnityEngine;
+
+namespace ET.Client
 {
     [ClientUnitEntityContext(UETypeEnum.Player)]
     public class PlayerUnitEntityContext : BaseUnitEntityContext
@@ -11,8 +13,6 @@
                 var playerCacheDataComponent = unitEntity.AddComponent<MyPlayerCacheDataComponent>();
                 
                 var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
-                Log.Error($"location {unitEntityPosition.Position}");
-                
                 
                 playerCacheDataComponent.Position = unitEntityPosition.Position;
                 
@@ -38,6 +38,14 @@
             
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             clientWorld.PlayerUnitEntities[playerInfo.PlayerId] = unitEntity;
+        }
+
+        public override void CreateView(UnitEntity unitEntity)
+        {
+            base.CreateView(unitEntity);
+            var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
+            var gameObject = unitEntityGameObjectComponent.GameObject;
+            gameObject.transform.rotation = Quaternion.Euler(-GameConstant.GameOperaAngle, 0, 0);
         }
 
         public override void Destroy(UnitEntity unitEntity)

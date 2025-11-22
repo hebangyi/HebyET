@@ -32,24 +32,29 @@ namespace ET.Client
             long subTime = nowTime - self.LastUpdateTime;
             self.LastUpdateTime = nowTime;
             
+            var unitEntity = self.GetParent<UnitEntity>();
             if (self.IsDragging)
             {
-                var unitEntity = self.GetParent<UnitEntity>();
-                
-                float towardAngle = self.OperaAngel - self.CameraAngleOffSet % 360;
+                float towardAngle = self.OperaAngel + self.CameraAngleOffSet % 360;
                 self.TowardAngle = towardAngle;
 
                 var unitEntityInfo = unitEntity.GetUnitEntityElemData<UnitEntityInfo>();
                 var speed = unitEntityInfo.Speed;
-
                 var atan2 = towardAngle / GameConstant.Rad2Deg;
-                var deltaX = Math.Cos(atan2) * speed;
-                var deltaY = Math.Sin(atan2) * speed;
-                
-                deltaX = deltaX * subTime / 1000;
-                deltaY = deltaY * subTime / 1000;
+                var deltaX = Math.Cos(atan2) * 10000;
+                var deltaY = Math.Sin(atan2) * 10000;
                 
                 self.Position += new float2((float)deltaX, (float)deltaY);
+
+                var gameObject = unitEntity.GetComponent<UnitEntityGameObjectComponent>().GameObject;
+                var r = gameObject.GetComponent<Rigidbody2D>();
+                r.velocity = new Vector2((int)deltaX, (int)deltaY).normalized * speed;
+            }
+            else
+            {
+                var gameObject = unitEntity.GetComponent<UnitEntityGameObjectComponent>().GameObject;
+                var r = gameObject.GetComponent<Rigidbody2D>();
+                r.velocity = Vector2.zero;
             }
         }
         
@@ -65,12 +70,6 @@ namespace ET.Client
             }
 
             var gameObject = unitEntityGameObjectComponent.GameObject;
-            gameObject.transform.position =
-                    new Vector3(self.Position.x, 0, self.Position.y);
-            
-            
-            
-            gameObject.transform.rotation = Quaternion.Euler(0, -self.TowardAngle, 0);
         }
         
         private static async ETTask SyncData(this MyPlayerCacheDataComponent self)

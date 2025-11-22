@@ -23,12 +23,12 @@ namespace ET.Client
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                operaComponent.AddCameraAngelOffset(-GameConstant.GameOperaAngle);
+                operaComponent.AddCameraAngelOffset(GameConstant.GameOperaAngle);
             }
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                operaComponent.AddCameraAngelOffset(GameConstant.GameOperaAngle);
+                operaComponent.AddCameraAngelOffset(-GameConstant.GameOperaAngle);
             }
 
             if (Input.GetKeyDown(KeyCode.W) && Input.GetKeyDown(KeyCode.D))

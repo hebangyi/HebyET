@@ -55,7 +55,6 @@ namespace ET.Client
 				unitEntityGameObjectComponent.GameObject.transform.position = new Vector3(unitEntityPosition.Position.x, unitEntityPosition.Position.y, 0);
 			}
 			
-			Log.Error($"创建 GameObject : {unitEntityType}_{unitEntity.InsId}");
 			return ins;
 		}
 	}
