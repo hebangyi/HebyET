@@ -31,12 +31,6 @@ namespace ET.Client
                 operaComponent.AddCameraAngelOffset(-GameConstant.GameOperaAngle);
             }
 
-            if (Input.GetKeyDown(KeyCode.W) && Input.GetKeyDown(KeyCode.D))
-            {
-                operaComponent.SetOperaMoveAngle(45);
-                return;
-            }
-
             var clientWorld = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
             if (clientWorld == null)
             {
@@ -55,6 +49,11 @@ namespace ET.Client
                 return;
             }
             
+            if (Input.GetKeyDown(KeyCode.W) && Input.GetKeyDown(KeyCode.D))
+            {
+                operaComponent.SetOperaMoveAngle(45);
+                return;
+            }
             
             if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
             {
@@ -62,17 +61,17 @@ namespace ET.Client
                 self.IsKeyDown = true;
                 return;
             }
-
-            if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.S))
-            {
-                operaComponent.SetOperaMoveAngle(-135);
-                self.IsKeyDown = true;
-                return;
-            }
-
+            
             if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
             {
                 operaComponent.SetOperaMoveAngle(-45);
+                self.IsKeyDown = true;
+                return;
+            }
+            
+            if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.S))
+            {
+                operaComponent.SetOperaMoveAngle(-135);
                 self.IsKeyDown = true;
                 return;
             }
