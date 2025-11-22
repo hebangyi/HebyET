@@ -16,11 +16,11 @@ namespace ET.Client
             float height = 15;
             float degree = 45;
             float behind = height / (float)(Math.Tan(degree * Mathf.Deg2Rad)) * -1;
-            self.OffsetPosition = new float3(0, height, behind);
+            self.OffsetPosition = new float3(0, behind, -height);
             
             self.MainCamera.transform.position = self.OffsetPosition;
             self.MainCamera.transform.rotation = Quaternion.identity;
-            self.MainCamera.transform.transform.Rotate(new Vector3(45, 0, 0));
+            self.MainCamera.transform.transform.Rotate(new Vector3(-45, 0, 0));
             
             
             UpdateLogicManagerComponent.Instance.AddUpdateFunc(self.CameraRotateUpdate);
@@ -55,7 +55,7 @@ namespace ET.Client
         
         public static void SetCameraRotate(this UnitySceneCameraComponent self, float yAngle)
         {
-            self.CameraPack.transform.rotation = Quaternion.Euler(0, yAngle, 0);
+            self.CameraPack.transform.rotation = Quaternion.Euler(0, 0, yAngle);
             var clientWorld = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
             if (clientWorld == null)
             {

@@ -11,6 +11,9 @@
                 var playerCacheDataComponent = unitEntity.AddComponent<MyPlayerCacheDataComponent>();
                 
                 var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
+                Log.Error($"location {unitEntityPosition.Position}");
+                
+                
                 playerCacheDataComponent.Position = unitEntityPosition.Position;
                 
                 var unitEntityPlayerData = unitEntity.GetUnitEntityElemData<UnitEntityCameraData>();

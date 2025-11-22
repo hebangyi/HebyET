@@ -21,7 +21,7 @@ namespace ET.Client
         
         public long MainPlayerId;
         
-        // 地图 UnitEntity
+        // 地图 PlantMessage
         public UnitEntity UnitEntityMap;
 
         // Unit GameObject 资源

@@ -31,7 +31,7 @@ namespace ET.Client
             {
                 // TODO 平移更新
                 unitEntityGameObjectComponent.GameObject.transform.position =
-                        new Vector3(unitEntityPosition.Position.x, 0, unitEntityPosition.Position.y);
+                        new Vector3(unitEntityPosition.Position.x, unitEntityPosition.Position.y, 0);
             }
         }
     }
