@@ -35,12 +35,12 @@ namespace ET
             Gizmos.color = Color.green;
             for (int i = 0; i <= this.AreaSize; i += 100)
             {
-                Gizmos.DrawLine(new Vector3(i, 0, 0), new Vector3(i, 0, this.AreaSize));
+                Gizmos.DrawLine(new Vector3(i, 0, 0), new Vector3(i, this.AreaSize, 0));
             }
             
             for (int i = 0; i <= this.AreaSize; i += 100)
             {
-                Gizmos.DrawLine(new Vector3(0, 0, i), new Vector3(this.AreaSize, 0, i));
+                Gizmos.DrawLine(new Vector3(0, i, 0), new Vector3(this.AreaSize, i, 0));
             }
         }
     }
