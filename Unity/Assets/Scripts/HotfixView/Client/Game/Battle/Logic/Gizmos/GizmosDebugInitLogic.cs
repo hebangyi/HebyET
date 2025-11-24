@@ -3,14 +3,14 @@
 namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class GizmosDebugEleInit : IClientEleInit
+    public class GizmosDebug : IClientEleInit
     {
         public void OnInit(UnitEntity unitEntity)
         {
             var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
             var go = unitEntityGameObjectComponent.GameObject;
 
-            var gizmosDebug = go.GetComponent<GizmosDebug>();
+            var gizmosDebug = go.GetComponent<ET.GizmosDebug>();
             var gizmosDebugInfo = unitEntity.GetUnitEntityElemData<GizmosDebugInfo>();
             if (gizmosDebugInfo == null)
             {

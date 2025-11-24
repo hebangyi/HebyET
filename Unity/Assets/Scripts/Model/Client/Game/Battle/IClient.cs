@@ -6,7 +6,8 @@
     
     public interface IClient
     {
-        
+        // 监听的 ComponentId
+        ushort WatchComponentId();
     }
     
     // 元素初始化调用
@@ -17,15 +18,12 @@
 
         // 在销毁的时候触发
         void OnDestroy(UnitEntity unitEntity);
-        
-        // 监听的 ComponentId
-        ushort WatchComponentId();
     }
 
 
     public interface IClientEleUpdate : IClient
     {
-        ushort WatchComponentId();
+  
         public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData);
     }
     

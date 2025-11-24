@@ -9,7 +9,9 @@ namespace ET
         
         
         public List<GizmosLine> Lines = new List<GizmosLine>();
+        public List<GizmosWireSphere> Spheres = new List<GizmosWireSphere>();
         public List<Vector3> Points = new List<Vector3>();
+        
 
         public int AreaSize;
         
@@ -17,6 +19,12 @@ namespace ET
         private void Awake()
         {
             Instance = this;
+            
+            GizmosWireSphere wireSphere = new();
+            wireSphere.center = new Vector3(0, 0, 0f);
+            wireSphere.radius = GameConstant.AOIWatchRadius;
+            
+            Spheres.Add(wireSphere);
         }
 
         private void OnDrawGizmos()
@@ -27,18 +35,20 @@ namespace ET
                 Gizmos.DrawLine(line.StartPoint, line.EndPoint);
             }
 
-            foreach (var point in Points)
+            Gizmos.color = Color.blue;
+            foreach (var sphere in Spheres)
             {
-                Gizmos.DrawWireSphere(point, 1f);
+                UnityEngine.Debug.LogError($"sphere cneter : {sphere.center}, sphere radius : {sphere.radius}");
+                Gizmos.DrawWireSphere(sphere.center, sphere.radius);    
             }
             
             Gizmos.color = Color.green;
-            for (int i = 0; i <= this.AreaSize; i += 100)
+            for (int i = 0; i <= this.AreaSize; i += GameConstant.AOICellSize)
             {
                 Gizmos.DrawLine(new Vector3(i, 0, 0), new Vector3(i, this.AreaSize, 0));
             }
             
-            for (int i = 0; i <= this.AreaSize; i += 100)
+            for (int i = 0; i <= this.AreaSize; i += GameConstant.AOICellSize)
             {
                 Gizmos.DrawLine(new Vector3(0, i, 0), new Vector3(this.AreaSize, i, 0));
             }

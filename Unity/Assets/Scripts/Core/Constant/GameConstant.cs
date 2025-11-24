@@ -21,9 +21,13 @@
         public const int OneWeekSecond = 7 * 24 * 60 * 60;
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-        public const int GameOperaAngle = 45;  // 操作角度
+        public const int GameOperaAngle = 45;  // 相机与地面角度
         public const int FixedUpdateDeltaTime = 20; // 固定更新 20ms FixedUpdate
         public const int CameraRotationSpeed = 300; // 300ms 旋转90度
+        
+        
+        public const int AOICellSize = 10;  // AOI 网格
+        public const int AOIWatchRadius = 50; // AOI 监听半径
         
         public const float Rad2Deg = 57.29578f;
     }

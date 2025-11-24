@@ -44,11 +44,10 @@ namespace ET.Client
                 var deltaX = Math.Cos(atan2) * 10000;
                 var deltaY = Math.Sin(atan2) * 10000;
                 
-                self.Position += new float2((float)deltaX, (float)deltaY);
-
                 var gameObject = unitEntity.GetComponent<UnitEntityGameObjectComponent>().GameObject;
                 var r = gameObject.GetComponent<Rigidbody2D>();
                 r.velocity = new Vector2((int)deltaX, (int)deltaY).normalized * speed;
+                self.Position = new float2(gameObject.transform.position.x, gameObject.transform.position.y);
             }
             else
             {
