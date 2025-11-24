@@ -26,8 +26,8 @@
         public const int CameraRotationSpeed = 300; // 300ms 旋转90度
         
         
-        public const int AOICellSize = 10;  // AOI 网格
-        public const int AOIWatchRadius = 50; // AOI 监听半径
+        public const int AOICellSize = 50;  // AOI 网格
+        public const int AOIWatchRadius = 100; // AOI 监听半径
         
         public const float Rad2Deg = 57.29578f;
     }
