@@ -17,6 +17,10 @@ public static partial class BattleWorldManagerComponentSystem
     public static LogicWorld CreateWorld(this BattleWorldManagerComponent self, MatchRoom matchRoom)
     {
         var world = self.AddChild<LogicWorld>();
+        
+        // 添加组件
+        world.AddComponent<AOIManagerComponent>();
+        
         world.WorldStatusEnum = WorldStatusEnum.Init;
         world.RandomGenerator = new Random(Guid.NewGuid().GetHashCode());
         

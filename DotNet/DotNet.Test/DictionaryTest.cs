@@ -93,6 +93,30 @@ public class DictionaryTest
         var num = a % 360;
         Console.WriteLine(num);
     }
+
+
+    public static void Test7()
+    {
+        int x = 1234;
+        int y = 4567;
+        var cellId = CreateCellId(x, y);
+        Console.WriteLine(cellId);
+        Console.WriteLine($"{x}, {y}");
+    }
+    
+    public static long CreateCellId(long x, long y)
+    {
+        return (long) ((ulong) x << 32) | y;
+    }
+
+    public static Tuple<long, long> GetCellXY(long cellId)
+    {
+        long x = cellId >> 32;
+        long y = cellId & 0xFFFF;
+        return new Tuple<long, long>(x, y);
+    }
+
+    
     
     
     public class Person

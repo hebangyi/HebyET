@@ -38,7 +38,6 @@ namespace ET
             Gizmos.color = Color.blue;
             foreach (var sphere in Spheres)
             {
-                UnityEngine.Debug.LogError($"sphere cneter : {sphere.center}, sphere radius : {sphere.radius}");
                 Gizmos.DrawWireSphere(sphere.center, sphere.radius);    
             }
             
