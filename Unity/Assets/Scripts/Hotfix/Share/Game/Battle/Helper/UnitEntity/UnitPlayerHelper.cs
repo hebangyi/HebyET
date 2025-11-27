@@ -27,7 +27,7 @@ namespace ET
             unitEntityPosition.Position = new float2(0f, 0f);
             
             unitEntity.CreateUnitEntityLogicElemData<UnitEntityPlayerOperation>();
-            var unitEntityPlayerCellInfo = unitEntity.CreateUnitEntityLogicElemData<UnitEntityPlayerCellInfo>();
+            unitEntity.CreateUnitEntityLogicElemData<UnitEntityPlayerCellInfo>();
             
             logicWorld.CreateEntityFinish(unitEntity);
             return unitEntity;

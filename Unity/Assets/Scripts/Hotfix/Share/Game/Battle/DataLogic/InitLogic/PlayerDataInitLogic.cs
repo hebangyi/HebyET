@@ -24,6 +24,8 @@ namespace ET
                 var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
                 unitEntityPosition.Position = cellInfo.CenterPoint;
                 unitEntityPosition.Position += new float2(10, 10);
+                
+                unitEntity.AddComponent<AOIUnitEntity, float2>(unitEntityPosition.Position);
             }
         }
 

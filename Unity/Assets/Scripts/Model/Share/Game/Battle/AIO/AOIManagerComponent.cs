@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.Mathematics;
 
 namespace ET
 {
@@ -9,7 +10,7 @@ namespace ET
         public Dictionary<long, AIOCell> Cells { get; set; } = new();
     }
 
-
+    
     public class AIOCell
     {
         public long CellId { get; set; }
@@ -23,7 +24,7 @@ namespace ET
     
     
     [ComponentOf(typeof(UnitEntity))]
-    public class AOIUnitEntity : Entity, IAwake<long>, IDestroy
+    public class AOIUnitEntity : Entity, IAwake<float2>, IDestroy
     {
         public long CellId;
     }

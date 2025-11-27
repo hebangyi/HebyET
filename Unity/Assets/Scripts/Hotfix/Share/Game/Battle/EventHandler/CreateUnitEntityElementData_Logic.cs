@@ -1,4 +1,5 @@
-﻿namespace ET
+﻿/*
+namespace ET
 {
     [BattleEvent]
     public class CreateUnitEntityElementData_Logic: ABattleEvent<CreateUnitEntityElementData>
@@ -19,4 +20,5 @@
         }
     }
 }
+*/
 

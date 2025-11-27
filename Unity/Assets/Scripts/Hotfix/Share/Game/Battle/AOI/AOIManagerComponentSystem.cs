@@ -34,8 +34,8 @@ namespace ET
                 return cellData;
             }
 
-            AIOCell aioCellData = ObjectPool.Instance.Fetch<AIOCell>();
-            cellData.CellId = cellId;
+            var aioCellData = ObjectPool.Instance.Fetch<AIOCell>();
+            aioCellData.CellId = cellId;
             aoiManagerComponent.Cells[cellId] = aioCellData;
             return aioCellData;
         }
@@ -90,11 +90,11 @@ namespace ET
             var (newX, newY) = AOIHelper.GetCellXY(newCellId);
 
             aoiManagerComponent.UnBindUnitEntity(aoiUnitEntity);
-            for (long x = oldX - 1; x <= oldX + 1; x++)
+            for (long x = oldX - GameConstant.AOIWatchCellRadius; x <= oldX + GameConstant.AOIWatchCellRadius; x++)
             {
-                for (long y = oldY - 1; y <= oldY + 1; y++)
+                for (long y = oldY - GameConstant.AOIWatchCellRadius; y <= oldY + GameConstant.AOIWatchCellRadius; y++)
                 {
-                    if (x < newX - 1 && x > newX + 1 && y < newY - 1 && y > newY + 1)
+                    if (x < newX - GameConstant.AOIWatchCellRadius || x > newX + GameConstant.AOIWatchCellRadius || y < newY - GameConstant.AOIWatchCellRadius || y > newY + GameConstant.AOIWatchCellRadius)
                     {
                         long cellId = AOIHelper.GetCellId((int)x, (int)y);
                         var leaveCellData = aoiManagerComponent.GetCellData(cellId);
@@ -106,15 +106,19 @@ namespace ET
                 }
             }
 
-            for (long x = newX - 1; x <= newX + 1; x++)
+            for (long x = newX - GameConstant.AOIWatchCellRadius; x <= newX + GameConstant.AOIWatchCellRadius; x++)
             {
-                for (long y = newY - 1; y <= newY + 1; y++)
+                for (long y = newY - GameConstant.AOIWatchCellRadius; y <= newY + GameConstant.AOIWatchCellRadius; y++)
                 {
-                    if (x < oldX - 1 && x > oldX + 1 && y < oldY - 1 && y > oldY + 1)
+                    if (x < oldX - GameConstant.AOIWatchCellRadius || x > oldX + GameConstant.AOIWatchCellRadius || y < oldY - GameConstant.AOIWatchCellRadius || y > oldY + GameConstant.AOIWatchCellRadius)
                     {
                         long cellId = AOIHelper.GetCellId((int)x, (int)y);
-                        var enterCellData = aoiManagerComponent.GetOrCreateCellData(cellId);
-                        aoiManagerComponent.EnterCellScope(enterCellData, aoiUnitEntity);
+                        var enterCellData = aoiManagerComponent.GetCellData(cellId);
+
+                        if (enterCellData != null)
+                        {
+                            aoiManagerComponent.EnterCellScope(enterCellData, aoiUnitEntity);    
+                        }
                     }
                 }
             }
@@ -130,9 +134,9 @@ namespace ET
             aoiManagerComponent.UnBindUnitEntity(aoiUnitEntity);
             
             var (oldX, oldY) = AOIHelper.GetCellXY(centerCellId);
-            for (long x = oldX - 1; x <= oldX + 1; x++)
+            for (long x = oldX - GameConstant.AOIWatchCellRadius; x <= oldX + GameConstant.AOIWatchCellRadius; x++)
             {
-                for (long y = oldY - 1; y <= oldY + 1; y++)
+                for (long y = oldY - GameConstant.AOIWatchCellRadius; y <= oldY + GameConstant.AOIWatchCellRadius; y++)
                 {
                     long cellId = AOIHelper.GetCellId((int)x, (int)y);
                     var leaveCellData = aoiManagerComponent.GetCellData(cellId);
@@ -152,9 +156,9 @@ namespace ET
             var (newX, newY) = AOIHelper.GetCellXY(centerCellId);
             
             List<AOIUnitEntity> watchUnitEntities = new List<AOIUnitEntity>();
-            for (long x = newX - 1; x <= newX + 1; x++)
+            for (long x = newX - GameConstant.AOIWatchCellRadius; x <= newX + GameConstant.AOIWatchCellRadius; x++)
             {
-                for (long y = newY - 1; y <= newY + 1; y++)
+                for (long y = newY - GameConstant.AOIWatchCellRadius; y <= newY + GameConstant.AOIWatchCellRadius; y++)
                 {
                     long cellId = AOIHelper.GetCellId((int)x, (int)y);
                     var cellData = aoiManagerComponent.Cells.GetValueOrDefault(cellId);

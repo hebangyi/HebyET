@@ -14,6 +14,7 @@ namespace ET
             var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
             unitEntityPosition.Position = position;
             
+            unitEntity.AddComponent<AOIUnitEntity, float2>(unitEntityPosition.Position);
             return unitEntity;
         }
     }

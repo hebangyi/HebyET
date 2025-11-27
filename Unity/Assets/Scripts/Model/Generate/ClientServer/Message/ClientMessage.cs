@@ -399,9 +399,18 @@ this._TowardAngle = default;
         public BattleWorld BattleWorld { get; set; }
 
         [MemoryPackOrder(4)]
-        public List<BattleUnitEntity> BattleUnitEntity { get; set; } = new();
+        public List<BattleUnitEntity> AOIBattleUnitEntity { get; set; } = new();
 
+        /// <summary>
+        /// 环境相关的UnitEntity 变化
+        /// </summary>
         [MemoryPackOrder(5)]
+        public List<BattleUnitEntity> BattleFieldUnitEntity { get; set; } = new();
+
+        /// <summary>
+        /// 我的UnitEntity
+        /// </summary>
+        [MemoryPackOrder(6)]
         public BattleUnitEntity MyPlayerUnitEntity { get; set; }
 
         public override void Dispose()
@@ -415,7 +424,8 @@ this._TowardAngle = default;
             this.Error = default;
             this.Message = default;
             this.BattleWorld = default;
-            this.BattleUnitEntity.Clear();
+            this.AOIBattleUnitEntity.Clear();
+            this.BattleFieldUnitEntity.Clear();
             this.MyPlayerUnitEntity = default;
 
             ObjectPool.Instance.Recycle(this);
