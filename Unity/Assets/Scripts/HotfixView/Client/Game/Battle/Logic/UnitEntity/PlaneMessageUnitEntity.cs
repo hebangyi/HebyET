@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 namespace ET.Client
 {
     [ClientUnitEntityContext(UETypeEnum.PlantMessage)]
-    public class PlaneMessageUnitEntity : BaseUnitEntityContext
+    public class PlaneMessageClientUnitEntity : BaseClientUnitEntityContext
     {
         public override void CreateView(UnitEntity unitEntity)
         {

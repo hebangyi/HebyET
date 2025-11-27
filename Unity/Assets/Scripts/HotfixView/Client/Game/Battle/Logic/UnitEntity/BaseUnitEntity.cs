@@ -1,6 +1,6 @@
 ﻿namespace ET.Client
 {
-    public abstract class BaseUnitEntityContext : IClientUnitEntityContext
+    public abstract class BaseClientUnitEntityContext : IClientUnitEntityContext
     {
         public virtual void Init(UnitEntity unitEntity)
         {
@@ -18,7 +18,7 @@
     }
 
     [ClientUnitEntityContext(UETypeEnum.None)]
-    public class DefaultEntityContext : BaseUnitEntityContext
+    public class DefaultClientEntityContext : BaseClientUnitEntityContext
     {
         
     }
