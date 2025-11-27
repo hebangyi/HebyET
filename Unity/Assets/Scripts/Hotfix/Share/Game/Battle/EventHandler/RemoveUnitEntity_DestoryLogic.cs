@@ -9,7 +9,7 @@
             foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
             {
                 var elemId = unitEntityElemDataKv.Key;
-                var logics = BattleUnitEntityLogicManagerComponent.Instance.GetInitLogicByComponentId(elemId);
+                var logics = LogicWorldLogicManagerComponent.Instance.GetInitLogicByComponentId(elemId);
                 if (logics != null)
                 {
                     foreach (var logic in logics)

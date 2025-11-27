@@ -84,7 +84,7 @@ namespace ET
                     continue;
                 }
 
-                var elementLogic = BattleUnitEntityLogicManagerComponent.Instance.ClientInputLogics.GetValueOrDefault(compId);
+                var elementLogic = LogicWorldLogicManagerComponent.Instance.ClientInputLogics.GetValueOrDefault(compId);
                 if (elementLogic == null)
                 {
                     return;

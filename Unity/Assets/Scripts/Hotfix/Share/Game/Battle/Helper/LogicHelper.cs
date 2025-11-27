@@ -9,7 +9,7 @@ namespace ET
         {
             self.Frame++;
             // Log.Info($"World Id : {self.Id} Tick Frame: {self.Frame}");
-            foreach (var comId2LogicsKv in BattleUnitEntityLogicManagerComponent.Instance.Type2TickLogics)
+            foreach (var comId2LogicsKv in LogicWorldLogicManagerComponent.Instance.Type2TickLogics)
             {
                 var logicHandler = comId2LogicsKv.Value;
                 logicHandler.OnTick(self);

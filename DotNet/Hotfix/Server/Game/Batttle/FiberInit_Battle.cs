@@ -17,7 +17,7 @@ namespace ET.Server
             
             //// 战斗
             // 战斗数据逻辑管理器
-            root.AddComponent<BattleUnitEntityLogicManagerComponent>();
+            root.AddComponent<LogicWorldLogicManagerComponent>();
             root.AddComponent<BattleEventManagerComponent>();
             
             // 业务相关
