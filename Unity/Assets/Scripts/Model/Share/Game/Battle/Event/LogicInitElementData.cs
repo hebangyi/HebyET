@@ -1,6 +1,6 @@
 ﻿namespace ET
 {
-    public struct CreateUnitEntityElementData
+    public struct LogicInitElementData
     {
         public ushort ComponentId;
         public UnitEntity UnitEntity;

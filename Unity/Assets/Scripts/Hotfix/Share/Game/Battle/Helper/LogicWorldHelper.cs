@@ -22,7 +22,7 @@ namespace ET
 
             foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
             {
-                self.PublishEvent(new CreateUnitEntityElementData(){UnitEntity = unitEntity, UnitEntityElemData = unitEntityElemDataKv.Value, ComponentId = unitEntityElemDataKv.Key});
+                self.PublishEvent(new LogicInitElementData(){UnitEntity = unitEntity, UnitEntityElemData = unitEntityElemDataKv.Value, ComponentId = unitEntityElemDataKv.Key});
             }
         }
         

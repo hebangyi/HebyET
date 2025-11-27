@@ -1,4 +1,6 @@
-﻿namespace ET
+﻿using System.Collections.Generic;
+
+namespace ET
 {
     [BattleEvent]
     public class RemoveUnitEntity_DestroyLogic : ABattleEvent<RemoveUnitEntity>
@@ -18,6 +20,14 @@
                     }
                 }
             }
+            
+            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
+            var unitEntityContext = LogicWorldLogicManagerComponent.Instance.UnitEntityContexts.GetValueOrDefault(unitEntityCommonData.UnitEntityType);
+            if (unitEntityContext == null)
+            {
+                unitEntityContext = LogicWorldLogicManagerComponent.Instance.UnitEntityContexts.GetValueOrDefault(UETypeEnum.None);
+            }
+            unitEntityContext.Destroy(unitEntity);
         }
     }
 }

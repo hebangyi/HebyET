@@ -1,24 +1,24 @@
-﻿/*
+﻿using System.Collections.Generic;
+
 namespace ET
 {
     [BattleEvent]
-    public class CreateUnitEntityElementData_Logic: ABattleEvent<CreateUnitEntityElementData>
+    public class CreateUnitEntityElementData_Logic: ABattleEvent<CreateUnitEntityEvent0>
     {
-        protected override void Run(LogicWorld logicWorld, CreateUnitEntityElementData args)
+        protected override void Run(LogicWorld logicWorld, CreateUnitEntityEvent0 args)
         {
             var unitEntity = args.UnitEntity;
-            var componentId = args.ComponentId;
             
-            var logics = BattleUnitEntityLogicManagerComponent.Instance.GetInitLogicByComponentId(componentId);
-            if (logics != null)
+            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
+            var unitEntityContext = LogicWorldLogicManagerComponent.Instance.UnitEntityContexts.GetValueOrDefault(unitEntityCommonData.UnitEntityType);
+            if (unitEntityContext == null)
             {
-                foreach (var logic in logics)
-                {
-                    logic.OnInit(unitEntity);
-                }
+                unitEntityContext = LogicWorldLogicManagerComponent.Instance.UnitEntityContexts.GetValueOrDefault(UETypeEnum.None);
             }
+            
+            unitEntityContext.Init(unitEntity);
         }
     }
 }
-*/
+
 

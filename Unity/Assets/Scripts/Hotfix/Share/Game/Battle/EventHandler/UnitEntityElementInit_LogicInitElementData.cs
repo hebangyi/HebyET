@@ -1,9 +1,9 @@
 ﻿namespace ET
 {
     [BattleEvent]
-    public class CreateUnitEntityEvent_InitLogic : ABattleEvent<CreateUnitEntityEvent0>
+    public class UnitEntityElementInit_LogicInitElementData : ABattleEvent<LogicInitElementData>
     {
-        protected override void Run(LogicWorld logicWorld, CreateUnitEntityEvent0 args)
+        protected override void Run(LogicWorld logicWorld, LogicInitElementData args)
         {
             var unitEntity = args.UnitEntity;
             foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
