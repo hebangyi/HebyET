@@ -4,14 +4,14 @@
     {
     }
     
-    public interface IClient
+    public interface IClientElem
     {
         // 监听的 ComponentId
         ushort WatchComponentId();
     }
     
     // 元素初始化调用
-    public interface IClientEleInit : IClient
+    public interface IClientElemEleInit : IClientElem
     {
         // 创建初始化Entity的时触发
         void OnInit(UnitEntity unitEntity);
@@ -21,7 +21,7 @@
     }
 
 
-    public interface IClientEleUpdate : IClient
+    public interface IClientElemEleUpdate : IClientElem
     {
   
         public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData);

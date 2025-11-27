@@ -4,41 +4,54 @@
     {
     }
 
-    public interface IBattle
+    public interface IBattleElem
     {
+        // 监听的 ComponentId
+        ushort WatchComponentId();
     }
 
     // 元素初始化调用
-    public interface ILogicEleInit : IBattle
+    public interface ILogicEleInit : IBattleElem
     {
         // 创建初始化Entity的时触发
         void OnInit(UnitEntity unitEntity);
 
         // 在销毁的时候触发
         void OnDestroy(UnitEntity unitEntity);
-        
-        // 监听的 ComponentId
-        ushort WatchComponentId();
     }
 
     // 数据处理接口 Tick 逻辑执行
-    public interface ILogicTick : IBattle
+    public interface ILogicTickUpdate : IBattleElem
     {
         // 执行更新
         void OnTick(LogicWorld logicWorld);
     }
 
-    public interface ILogicClientInput : IBattle
+    public interface ILogicClientInput : IBattleElem
     {
         // 是否能输入
         bool CanInput(UnitEntity unitEntity, object newElementData);
 
         // 更新成功
         void Updated(UnitEntity unitEntity);
-        
-        // 监听的组件ID
-        ushort WatchComponentId();
     }
+    
+    public class LogicUnitEntityContext : BaseAttribute
+    {
+        public UETypeEnum UeTypeEnum;
+
+        public LogicUnitEntityContext(UETypeEnum UeTypeEnum)
+        {
+            this.UeTypeEnum = UeTypeEnum;
+        }
+    }
+    
+    public interface ILogicUnitEntityContext
+    {
+        void Init(UnitEntity unitEntity);
+        void Destroy(UnitEntity unitEntity);
+    }
+
 
     public abstract class BaseLogicClientInput<T> : ILogicClientInput where T : class, IUnitEntityElemData
     {

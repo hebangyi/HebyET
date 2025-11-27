@@ -3,7 +3,7 @@
 namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class GizmosDebugUpdatePositionLogic : IClientEleUpdate
+    public class GizmosDebugUpdatePositionLogic : IClientElemEleUpdate
     {
         public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData)
         {

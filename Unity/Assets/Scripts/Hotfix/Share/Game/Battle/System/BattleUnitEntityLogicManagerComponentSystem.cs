@@ -31,7 +31,7 @@ namespace ET
                     logics.Add(dataLogic);
                 }
 
-                if (handler is ILogicTick tickLogic)
+                if (handler is ILogicTickUpdate tickLogic)
                 {
                     self.Type2TickLogics[handler.GetType()] = tickLogic;
                 }
@@ -49,7 +49,7 @@ namespace ET
             return self.CompId2InitLogics.GetValueOrDefault(componentId);
         }
 
-        public static ILogicTick GetTickLogicByType(this BattleUnitEntityLogicManagerComponent self, Type logicType)
+        public static ILogicTickUpdate GetTickLogicByType(this BattleUnitEntityLogicManagerComponent self, Type logicType)
         {
             return self.Type2TickLogics.GetValueOrDefault(logicType);
         }

@@ -3,7 +3,7 @@
 namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class CommonDataEleInitLogic: IClientEleInit
+    public class CommonDataElemEleInitLogic: IClientElemEleInit
     {
         public void OnInit(UnitEntity unitEntity)
         {

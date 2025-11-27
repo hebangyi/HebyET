@@ -3,7 +3,7 @@
 namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class GizmosDebug : IClientEleInit
+    public class GizmosDebug : IClientElemEleInit
     {
         public void OnInit(UnitEntity unitEntity)
         {

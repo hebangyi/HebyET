@@ -10,7 +10,7 @@ namespace ET
         
         public Dictionary<int, List<ILogicEleInit>> CompId2InitLogics = new ();
 
-        public Dictionary<Type, ILogicTick> Type2TickLogics = new ();
+        public Dictionary<Type, ILogicTickUpdate> Type2TickLogics = new ();
 
         public Dictionary<int, ILogicClientInput> ClientInputLogics = new();
     }    
