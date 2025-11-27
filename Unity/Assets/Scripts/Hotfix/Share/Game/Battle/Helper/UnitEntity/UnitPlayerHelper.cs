@@ -20,9 +20,7 @@ namespace ET
             unitEntityPlayerInfo.PlayerId = playerId;
 
             unitEntity.CreateUnitEntityElemData<UnitEntityCameraData>();
-            
             unitEntity.CreateUnitEntityElemData<UnitEntityTowardAngle>();
-            
             unitEntity.CreateUnitEntityElemData<UnitEntityPlayerAnimateStatus>();
             
             var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();

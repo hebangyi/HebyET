@@ -15,10 +15,10 @@ namespace ET
         public long CellId { get; set; }
         
         // 所有UnitEntity
-        public Dictionary<long, EntityRef<AOIUnitEntity>> AllUnitEntities = new ();
+        public Dictionary<long, AOIUnitEntity> AllUnitEntities = new ();
         
         // 玩家
-        public Dictionary<long, EntityRef<AOIUnitEntity>> PlayerUnitEntities = new();
+        public Dictionary<long, AOIUnitEntity> PlayerUnitEntities = new();
     }
     
     

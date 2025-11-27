@@ -5,16 +5,16 @@ namespace ET
 {
     public static partial class AOIHelper
     {
-        public static long CreateCellId(long x, long y)
+        public static long GetCellId(int x, int y)
         {
-            return (long) ((ulong) x << 32) | y;
+            return ((long) x << 32) | (uint)y;
         }
 
-        public static Tuple<long, long> GetCellXY(long cellId)
+        public static (int, int) GetCellXY(long cellId)
         {
-            long x = cellId >> 32;
-            long y = cellId & 0xFFFF;
-            return new Tuple<long, long>(x, y);
+            int x = (int)(cellId >> 32);
+            int y = (int)cellId & 0xFFFF;
+            return (x, y);
         }
         
         

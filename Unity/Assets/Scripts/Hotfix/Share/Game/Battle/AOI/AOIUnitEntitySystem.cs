@@ -8,12 +8,11 @@
         [EntitySystem]
         private static void Awake(this AOIUnitEntity self, long cellId)
         {
-            self.CellId = cellId;
-
             var unitEntity = self.GetParent<UnitEntity>();
             var logicWorld = unitEntity.LogicWorld();
             var aoiManagerComponent = logicWorld.GetComponent<AOIManagerComponent>();
-            aoiManagerComponent.BindUnitEntity(self);
+            
+            aoiManagerComponent.AwakeCellUnitEntity(self, cellId);
         }
         
         [EntitySystem]
@@ -21,8 +20,7 @@
         {
             var logicWorld = self.GetParent<UnitEntity>().LogicWorld();
             var aoiManagerComponent = logicWorld.GetComponent<AOIManagerComponent>();
-            aoiManagerComponent.UnBindUnitEntity(self);
-            self.CellId = 0;
+            aoiManagerComponent.DestroyCellUnitEntity(self);
         }
     }
 }
