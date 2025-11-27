@@ -11,8 +11,6 @@
         }
     }
     
-    
-    
     [LogicUnitEntityContext(UETypeEnum.None)]
     public class DefaultLogicEntityContext : BaseLogicUnitEntityContext
     {

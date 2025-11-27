@@ -17,27 +17,27 @@ namespace ET.Client
             foreach (var type in viewTypes)
             {
                 var handler = Activator.CreateInstance(type);
-                if (handler is IClientElemEleInit viewInitLogic)
+                if (handler is IClientEleInit viewInitLogic)
                 {
                     var componentId = viewInitLogic.WatchComponentId();
                     var logics = self.CompId2InitViewLogics.GetValueOrDefault(componentId);
                     if (logics == null)
                     {
-                        logics = new List<IClientElemEleInit>();
+                        logics = new List<IClientEleInit>();
                         self.CompId2InitViewLogics.Add(componentId, logics);
                     }
 
                     logics.Add(viewInitLogic);
                 }
 
-                if (handler is IClientElemEleUpdate dataUpdateLogic)
+                if (handler is IClientEleUpdate dataUpdateLogic)
                 {
                     var componentId = dataUpdateLogic.WatchComponentId();
 
                     var logics = self.CompId2ElementDataUpdates.GetValueOrDefault(componentId);
                     if (logics == null)
                     {
-                        logics = new List<IClientElemEleUpdate>();
+                        logics = new List<IClientEleUpdate>();
                         self.CompId2ElementDataUpdates.Add(componentId, logics);
                     }
 
@@ -58,13 +58,13 @@ namespace ET.Client
             }
         }
 
-        public static List<IClientElemEleInit> GetInitViewLogic(this ClientWorldLogicManagerComponent self,
+        public static List<IClientEleInit> GetInitViewLogic(this ClientWorldLogicManagerComponent self,
         ushort componentId)
         {
             return self.CompId2InitViewLogics.GetValueOrDefault(componentId);
         }
 
-        public static List<IClientElemEleUpdate> GetUpdateLogic(this ClientWorldLogicManagerComponent self,
+        public static List<IClientEleUpdate> GetUpdateLogic(this ClientWorldLogicManagerComponent self,
         ushort componentId)
         {
             return self.CompId2ElementDataUpdates.GetValueOrDefault(componentId);

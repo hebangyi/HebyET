@@ -1,4 +1,5 @@
-﻿namespace ET
+﻿/*
+namespace ET
 {
     [UnitEntityLogic]
     public class PlaneMessageInit: ILogicEleInit
@@ -18,3 +19,4 @@
         }
     }
 }
+*/

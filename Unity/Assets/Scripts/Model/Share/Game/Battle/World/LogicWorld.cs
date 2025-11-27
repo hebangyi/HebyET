@@ -16,7 +16,7 @@ namespace ET
         
         public Dictionary<long, UnitEntity> AllEntity = new ();
         // 地图 UnitEntity
-        public UnitEntity UnitEntityMap;
+  
         
         // 当前世界逻辑帧
         public uint Frame = 1;
@@ -27,6 +27,7 @@ namespace ET
         public WorldStatusEnum WorldStatusEnum = WorldStatusEnum.Init;
         
         //// 逻辑端数据
+        public UnitEntity UnitEntityMap;
         // 玩家数据 PlayerId 2 Entity
         public Dictionary<long, UnitEntity> PlayerId2Players = new();
         

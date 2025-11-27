@@ -7,9 +7,9 @@ namespace ET.Client
     {
         public static ClientWorldLogicManagerComponent Instance;
         
-        public Dictionary<int, List<IClientElemEleInit>> CompId2InitViewLogics = new ();
+        public Dictionary<int, List<IClientEleInit>> CompId2InitViewLogics = new ();
         
-        public Dictionary<int, List<IClientElemEleUpdate>> CompId2ElementDataUpdates = new ();
+        public Dictionary<int, List<IClientEleUpdate>> CompId2ElementDataUpdates = new ();
         
         public Dictionary<UETypeEnum, IClientUnitEntityContext> UnitEntityContexts = new ();
     }

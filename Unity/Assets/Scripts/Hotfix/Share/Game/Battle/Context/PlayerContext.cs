@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Unity.Mathematics;
 
 namespace ET
 {
-    [UnitEntityLogic]
-    public class PlayerDataLogicEleInit : ILogicEleInit
+    [LogicUnitEntityContext(UETypeEnum.Player)]
+    public class PlayerContext : ILogicUnitEntityContext
     {
-        public void OnInit(UnitEntity unitEntity)
+        public void Init(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             unitEntity.LogicWorld().PlayerId2Players[playerInfo.PlayerId] = unitEntity;
@@ -29,15 +27,11 @@ namespace ET
             }
         }
 
-        public void OnDestroy(UnitEntity unitEntity)
+        public void Destroy(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             unitEntity.LogicWorld().PlayerId2Players.Remove(playerInfo.PlayerId);
         }
-
-        public ushort WatchComponentId()
-        {
-            return OpcodeType.Instance.GetOpcode(typeof(UnitEntityPlayerInfo));
-        }
     }
 }
+
