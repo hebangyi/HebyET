@@ -44,7 +44,7 @@ namespace ET
             unitEntityCommonData1.UnitEntityType = UETypeEnum.GizmosDebug;
             unitEntityCommonData1.UEShowTypeEnum = UEShowTypeEnum.Plant;
             
-            var gizmosDebugInfo = unitEntityPlaneCellGizmos.CreateUnitEntityElemData<GizmosDebugInfo>();
+            var gizmosDebugInfo = unitEntityPlaneCellGizmos.CreateUnitEntityElemData<GizmosPlantInfo>();
             
             foreach (var cell in plantGenContext.PlantData.GenCells)
             {

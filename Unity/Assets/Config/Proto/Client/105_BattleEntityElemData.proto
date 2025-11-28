@@ -43,9 +43,15 @@ message CellInfo
 
 
 // 地块辅助线信息
-message GizmosDebugInfo // IUnitEntityElemData
+message GizmosPlantInfo // IUnitEntityElemData
 {
     repeated Unity.Mathematics.float2 CenterPoints = 1;     // 点
     repeated Unity.Mathematics.float4 Borders = 2;          // 边
     int32 AreaSize = 3;                                     // 边宽度
+}
+
+// 玩家AOI辅助线
+message GizmosPlayerAOICell // IUnitEntityElemData
+{
+    repeated int64 CellIds = 1;                             // Cell Ids
 }

@@ -27,8 +27,10 @@
         
         
         public const int AOICellSize = 50;  // AOI 网格
-        public const int AOIWatchRadius = 100; // AOI 监听半径
         public const int AOIWatchCellRadius = 1; // AOI 监听的Cell半径数
+        
+        
+        public const int AOIWatchRadius = 100; // AOI 监听半径
         
         
         public const float Rad2Deg = 57.29578f;

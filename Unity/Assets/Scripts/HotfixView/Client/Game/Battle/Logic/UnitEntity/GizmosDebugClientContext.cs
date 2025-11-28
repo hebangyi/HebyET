@@ -15,7 +15,7 @@ namespace ET.Client
             var go = unitEntityGameObjectComponent.GameObject;
 
             var gizmosDebug = go.GetComponent<ET.GizmosDebug>();
-            var gizmosDebugInfo = unitEntity.GetUnitEntityElemData<GizmosDebugInfo>();
+            var gizmosDebugInfo = unitEntity.GetUnitEntityElemData<GizmosPlantInfo>();
             if (gizmosDebugInfo == null)
             {
                 return;

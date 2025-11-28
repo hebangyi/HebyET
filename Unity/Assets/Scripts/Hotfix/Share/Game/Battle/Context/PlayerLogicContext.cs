@@ -9,6 +9,8 @@ namespace ET
         public void Init(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
+            var gizmosPlayerAOICell = unitEntity.GetUnitEntityElemData<GizmosPlayerAOICell>();
+            var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             unitEntity.LogicWorld().PlayerId2Players[playerInfo.PlayerId] = unitEntity;
             
             // 随机选择一个地块
@@ -19,12 +21,13 @@ namespace ET
             var cellInfo = unitEntityMapMessage.PlantInfo.CellInfos.FirstOrDefault();
             if (cellInfo != null)
             {
-                var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
                 unitEntityPosition.Position = cellInfo.CenterPoint;
                 unitEntityPosition.Position += new float2(10, 10);
-                
                 unitEntity.AddComponent<AOIUnitEntity, float2>(unitEntityPosition.Position);
             }
+            
+            var cellIds = AOIHelper.GetAOICellIds(unitEntityPosition.Position);
+            gizmosPlayerAOICell.CellIds.AddRange(cellIds);
         }
 
         public void Destroy(UnitEntity unitEntity)

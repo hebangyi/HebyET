@@ -1151,15 +1151,15 @@ this._AreaSize = default;
 
     // 地块辅助线信息
     [MemoryPackable]
-    [Message(ClientMessage.GizmosDebugInfo)]
-    public partial class GizmosDebugInfo : MessageObject, IUnitEntityElemData
+    [Message(ClientMessage.GizmosPlantInfo)]
+    public partial class GizmosPlantInfo : MessageObject, IUnitEntityElemData
     {
         private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
-        public static GizmosDebugInfo Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        public static GizmosPlantInfo Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
         {
-            var instance = ObjectPool.Instance.Fetch(typeof(GizmosDebugInfo), isFromPool) as GizmosDebugInfo;
+            var instance = ObjectPool.Instance.Fetch(typeof(GizmosPlantInfo), isFromPool) as GizmosPlantInfo;
             instance.m_DirtyHandler = dirtyHandler;
             instance.m_InstanceId = instanceId;
             return instance;
@@ -1220,6 +1220,52 @@ this._AreaSize = default;
 this._CenterPoints.Clear();
             this._Borders.Clear();
             this._AreaSize = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 玩家AOI辅助线
+    [MemoryPackable]
+    [Message(ClientMessage.GizmosPlayerAOICell)]
+    public partial class GizmosPlayerAOICell : MessageObject, IUnitEntityElemData
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static GizmosPlayerAOICell Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        {
+            var instance = ObjectPool.Instance.Fetch(typeof(GizmosPlayerAOICell), isFromPool) as GizmosPlayerAOICell;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
+        }
+
+        /// <summary>
+        /// Cell Ids
+        /// </summary>
+        private List<long> _CellIds = new();
+
+        [MemoryPackOrder(0)]
+        public List<long> CellIds
+        {
+            get => _CellIds;
+            set {
+                _CellIds = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+            
+this._CellIds.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -2036,27 +2082,28 @@ this._CenterPoints.Clear();
         public const ushort UnitEntityMapMessage = 10024;
         public const ushort PlantInfo = 10025;
         public const ushort CellInfo = 10026;
-        public const ushort GizmosDebugInfo = 10027;
-        public const ushort C2G_Ping = 10028;
-        public const ushort G2C_Ping = 10029;
-        public const ushort C2G_Benchmark = 10030;
-        public const ushort G2C_Benchmark = 10031;
-        public const ushort Main2NetLobbyLogin = 10032;
-        public const ushort NetLobby2MainLogin = 10033;
-        public const ushort C2A_Login = 10034;
-        public const ushort A2C_Login = 10035;
-        public const ushort C2L_LoginLobby = 10036;
-        public const ushort L2C_LoginLobby = 10037;
-        public const ushort G2C_SessionDisconnect = 10038;
-        public const ushort HttpGetRouterResponse = 10039;
-        public const ushort SyncDataUnitStruct = 10040;
-        public const ushort DataUnitBytes = 10041;
-        public const ushort C2L_GetAllDataUnits = 10042;
-        public const ushort L2C_GetAllDataUnits = 10043;
-        public const ushort L2C_SyncDirtyDataUnits = 10044;
-        public const ushort RoleInfoUnitData = 10045;
-        public const ushort C2L_StartMatchBattle = 10046;
-        public const ushort L2C_StartMatchBattle = 10047;
-        public const ushort L2C_MatchBattleSuccess = 10048;
+        public const ushort GizmosPlantInfo = 10027;
+        public const ushort GizmosPlayerAOICell = 10028;
+        public const ushort C2G_Ping = 10029;
+        public const ushort G2C_Ping = 10030;
+        public const ushort C2G_Benchmark = 10031;
+        public const ushort G2C_Benchmark = 10032;
+        public const ushort Main2NetLobbyLogin = 10033;
+        public const ushort NetLobby2MainLogin = 10034;
+        public const ushort C2A_Login = 10035;
+        public const ushort A2C_Login = 10036;
+        public const ushort C2L_LoginLobby = 10037;
+        public const ushort L2C_LoginLobby = 10038;
+        public const ushort G2C_SessionDisconnect = 10039;
+        public const ushort HttpGetRouterResponse = 10040;
+        public const ushort SyncDataUnitStruct = 10041;
+        public const ushort DataUnitBytes = 10042;
+        public const ushort C2L_GetAllDataUnits = 10043;
+        public const ushort L2C_GetAllDataUnits = 10044;
+        public const ushort L2C_SyncDirtyDataUnits = 10045;
+        public const ushort RoleInfoUnitData = 10046;
+        public const ushort C2L_StartMatchBattle = 10047;
+        public const ushort L2C_StartMatchBattle = 10048;
+        public const ushort L2C_MatchBattleSuccess = 10049;
     }
 }

@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+﻿/*using UnityEngine;
 
 namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class GizmosDebugUpdatePositionLogic : IClientEleInit
+    public class GizmosDebugUpdatePositionLogic : IClientEleUpdate, IClientEleInit
     {
         public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData)
         {
@@ -16,17 +16,17 @@ namespace ET.Client
                 return;
             }
             gizmosDebug.Spheres.Clear();
-
-            foreach (var player in players)
-            {
-                GizmosWireSphere wireSphere = new();
-                var unitEntityPosition = player.GetUnitEntityElemData<UnitEntityPosition>();
-                
-                wireSphere.center = new Vector3(unitEntityPosition.Position.x, unitEntityPosition.Position.y, 0f);
-                wireSphere.radius = GameConstant.AOIWatchRadius;
-                gizmosDebug.Spheres.Add(wireSphere);
-            }
             
+            if (unitEntity.InsId != clientWorld.MainPlayerId)
+            {
+                return;
+            }
+
+            GizmosWireSphere wireSphere = new();
+            var unitEntityPosition = clientWorld.MainPlayer.GetUnitEntityElemData<UnitEntityPosition>();
+            wireSphere.center = new Vector3(unitEntityPosition.Position.x, unitEntityPosition.Position.y, 0f);
+            wireSphere.radius = GameConstant.AOIWatchRadius;
+            gizmosDebug.Spheres.Add(wireSphere);
         }
 
         public void OnInit(UnitEntity unitEntity)
@@ -40,18 +40,18 @@ namespace ET.Client
                 return;
             }
             
-            
             gizmosDebug.Spheres.Clear();
 
-            foreach (var player in players)
+            if (clientWorld.MainPlayer == null)
             {
-                GizmosWireSphere wireSphere = new();
-                var unitEntityPosition = player.GetUnitEntityElemData<UnitEntityPosition>();
-                
-                wireSphere.center = new Vector3(unitEntityPosition.Position.x, unitEntityPosition.Position.y, 0f);
-                wireSphere.radius = GameConstant.AOIWatchRadius;
-                gizmosDebug.Spheres.Add(wireSphere);
+                return;
             }
+            
+            GizmosWireSphere wireSphere = new();
+            var unitEntityPosition = clientWorld.MainPlayer.GetUnitEntityElemData<UnitEntityPosition>();
+            wireSphere.center = new Vector3(unitEntityPosition.Position.x, unitEntityPosition.Position.y, 0f);
+            wireSphere.radius = GameConstant.AOIWatchRadius;
+            gizmosDebug.Spheres.Add(wireSphere);
 
         }
 
@@ -61,7 +61,7 @@ namespace ET.Client
 
         public ushort WatchComponentId()
         {
-            return OpcodeType.Instance.GetOpcode(typeof(GizmosDebugInfo));
+            return OpcodeType.Instance.GetOpcode(typeof(UnitEntityPosition));
         }
     }
-}
+}*/

@@ -19,6 +19,10 @@ namespace ET
             var unitEntityPlayerInfo = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerInfo>();
             unitEntityPlayerInfo.PlayerId = playerId;
 
+
+            unitEntity.CreateUnitEntityElemData<GizmosPlayerAOICell>();
+
+            
             unitEntity.CreateUnitEntityElemData<UnitEntityCameraData>();
             unitEntity.CreateUnitEntityElemData<UnitEntityTowardAngle>();
             unitEntity.CreateUnitEntityElemData<UnitEntityPlayerAnimateStatus>();
@@ -32,7 +36,8 @@ namespace ET
             logicWorld.CreateEntityFinish(unitEntity);
             return unitEntity;
         }
-
+        
+        
         public static UnitEntity GetPlayerUnitEntityByPlayerId(LogicWorld logicWorld, long playerId)
         {
             var unitEntity = logicWorld.PlayerId2Players.GetValueOrDefault(playerId);

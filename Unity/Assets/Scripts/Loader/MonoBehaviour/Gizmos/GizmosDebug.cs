@@ -9,9 +9,8 @@ namespace ET
         
         
         public List<GizmosLine> Lines = new List<GizmosLine>();
-        public List<GizmosWireSphere> Spheres = new List<GizmosWireSphere>();
         public List<Vector3> Points = new List<Vector3>();
-        
+        public List<Vector3> AOICells = new List<Vector3>();
 
         public int AreaSize;
         
@@ -19,12 +18,6 @@ namespace ET
         private void Awake()
         {
             Instance = this;
-            
-            GizmosWireSphere wireSphere = new();
-            wireSphere.center = new Vector3(0, 0, 0f);
-            wireSphere.radius = GameConstant.AOIWatchRadius;
-            
-            Spheres.Add(wireSphere);
         }
 
         private void OnDrawGizmos()
@@ -33,12 +26,6 @@ namespace ET
             foreach (var line in Lines)
             {
                 Gizmos.DrawLine(line.StartPoint, line.EndPoint);
-            }
-
-            Gizmos.color = Color.blue;
-            foreach (var sphere in Spheres)
-            {
-                Gizmos.DrawWireSphere(sphere.center, sphere.radius);    
             }
             
             Gizmos.color = Color.green;
@@ -50,6 +37,13 @@ namespace ET
             for (int i = 0; i <= this.AreaSize; i += GameConstant.AOICellSize)
             {
                 Gizmos.DrawLine(new Vector3(0, i, 0), new Vector3(this.AreaSize, i, 0));
+            }
+            
+            
+            Gizmos.color = Color.magenta;
+            foreach (var aoiCell in AOICells)
+            {
+                Gizmos.DrawWireCube(aoiCell, new Vector3(GameConstant.AOICellSize, GameConstant.AOICellSize, 0));    
             }
         }
     }
