@@ -7,8 +7,7 @@ namespace ET.Client
     public class ClientWorld : World
     {
         // AllEntity
-        public Dictionary<long, UnitEntity> AllEntity = new ();
-        
+        public Dictionary<long, UnitEntity> AllEntities = new ();
         // 玩家id-地图UnitEntity
         public Dictionary<long, UnitEntity> PlayerUnitEntities = new ();
         

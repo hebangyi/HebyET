@@ -26,9 +26,11 @@ namespace ET
         // 世界状态
         public WorldStatusEnum WorldStatusEnum = WorldStatusEnum.Init;
         
-        //// 逻辑端数据
+        ///// 
+        // 逻辑端数据
         public UnitEntity PlantMessageUnitEntity;
-        
+        // GizmosDebug
+        public UnitEntity GizmosDebugUnitEntity;
         
         
         // 玩家数据 PlayerId 2 Entity

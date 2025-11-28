@@ -33,9 +33,9 @@ public class C2B_PlayerGetAllAOIWorldDataHandler: MessageClientHandler<BattleRol
             response.AOIBattleUnitEntity.Add(battleUnitEntity);
         }
 
-
         // 常规 AOI
         response.BattleFieldUnitEntity.Add(logicWorld.PlantMessageUnitEntity.ToBattleUnitEntity());
+        response.BattleFieldUnitEntity.Add(logicWorld.GizmosDebugUnitEntity.ToBattleUnitEntity());
         Log.Info($"C2B_PlayerGetAllAOIWorldData");
     }
 }

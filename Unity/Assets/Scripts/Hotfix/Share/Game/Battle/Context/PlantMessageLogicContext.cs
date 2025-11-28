@@ -1,7 +1,7 @@
 ﻿namespace ET
 {
     [LogicUnitEntityContext(UETypeEnum.PlantMessage)]
-    public class PlantMessageContext: ILogicUnitEntityContext
+    public class PlantMessageLogicContext: ILogicUnitEntityContext
     {
         
         public void Init(UnitEntity unitEntity)

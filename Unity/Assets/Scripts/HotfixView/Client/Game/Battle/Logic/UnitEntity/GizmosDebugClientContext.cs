@@ -2,11 +2,15 @@
 
 namespace ET.Client
 {
-    [UnitEntityViewLogic]
-    public class GizmosDebug : IClientEleInit
+    [ClientUnitEntityContext(UETypeEnum.GizmosDebug)]
+    public class GizmosDebugClientContext : BaseClientUnitEntityContext
     {
-        public void OnInit(UnitEntity unitEntity)
+        public override void CreateView(UnitEntity unitEntity)
         {
+            base.CreateView(unitEntity);
+            
+            
+            Log.Error("GizmosDebug");
             var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
             var go = unitEntityGameObjectComponent.GameObject;
 
@@ -38,15 +42,7 @@ namespace ET.Client
             }
 
             gizmosDebug.AreaSize = gizmosDebugInfo.AreaSize;
-        }
-
-        public void OnDestroy(UnitEntity unitEntity)
-        {
-        }
-
-        public ushort WatchComponentId()
-        {
-            return OpcodeType.Instance.GetOpcode(typeof(GizmosDebugInfo));
+            
         }
     }
 }

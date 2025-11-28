@@ -123,7 +123,6 @@ namespace ET
                 }
             }
             
-            
             aoiUnitEntity.CellId = newCellId;
             aoiManagerComponent.BindUnitEntity(aoiUnitEntity);
         }

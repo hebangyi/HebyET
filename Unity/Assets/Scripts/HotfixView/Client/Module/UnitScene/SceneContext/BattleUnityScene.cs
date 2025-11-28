@@ -23,8 +23,9 @@ namespace ET.Client
             // 加载资源
             await clientWorld.LoadUnityObject();
             await clientWorld.InitWorld(response.BattleWorld);
-            await clientWorld.AddBattleUnit(response.AOIBattleUnitEntity);
-            await clientWorld.AddBattleUnit(response.BattleFieldUnitEntity);
+            await clientWorld.AddBattleUnit(response.MyPlayerUnitEntity);
+            await clientWorld.AddBattleUnits(response.AOIBattleUnitEntity);
+            await clientWorld.AddBattleUnits(response.BattleFieldUnitEntity);
             
 
             FGUIComponent.Instance.CloseWindowAll();

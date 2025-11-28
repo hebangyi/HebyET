@@ -4,7 +4,7 @@ using Unity.Mathematics;
 namespace ET
 {
     [LogicUnitEntityContext(UETypeEnum.Player)]
-    public class PlayerContext : ILogicUnitEntityContext
+    public class PlayerLogicContext : ILogicUnitEntityContext
     {
         public void Init(UnitEntity unitEntity)
         {

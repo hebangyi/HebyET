@@ -10,33 +10,31 @@ namespace ET.Client
             world.Frame = battleWorld.Frame;
         }
 
-        public static async ETTask AddBattleUnit(this ClientWorld world, List<BattleUnitEntity> battleUnitEntities)
+        public static async ETTask AddBattleUnits(this ClientWorld world, List<BattleUnitEntity> battleUnitEntities)
         {
-            await world.CreateEntities(battleUnitEntities);
-        }
-        
-
-        public static async ETTask CreateEntities(this ClientWorld world, List<BattleUnitEntity> battleUnitEntities)
-        {
-            List<UnitEntity> unitEntities = new List<UnitEntity>();
             foreach (var battleUnitEntity in battleUnitEntities)
             {
-                var createUnitEntity = world.DeserializeUnitEntity(battleUnitEntity);
-                unitEntities.Add(createUnitEntity);
-            }
-            
-            // 抛出事件
-            foreach (var unitEntity in unitEntities)
-            {
-                world.PublishUnitEntityCreateEvent(unitEntity);
+                await world.AddBattleUnit(battleUnitEntity);
             }
         }
+
+        public static async ETTask AddBattleUnit(this ClientWorld world, BattleUnitEntity battleUnitEntity)
+        {
+            if (world.AllEntities.ContainsKey(battleUnitEntity.InsId))
+            {
+                return;
+            }
+            
+            var unitEntity = world.DeserializeUnitEntity(battleUnitEntity);
+            world.PublishUnitEntityCreateEvent(unitEntity);
+        }
+        
 
         public static UnitEntity DeserializeUnitEntity(this ClientWorld self, BattleUnitEntity battleUnitEntity)
         {
             var unitEntity = self.AddChildWithId<UnitEntity>(battleUnitEntity.InsId);
             unitEntity.InsId = battleUnitEntity.InsId;
-            self.AllEntity[unitEntity.InsId] = unitEntity;
+            self.AllEntities[unitEntity.InsId] = unitEntity;
             foreach (var elemData in battleUnitEntity.EleDatas)
             {
                 var componentId = elemData.CompId;
@@ -75,7 +73,7 @@ namespace ET.Client
         public static void RemoveEntity(this ClientWorld self, UnitEntity unitEntity)
         {
             self.PublishEvent(new RemoveUnitEntity() { UnitEntity = unitEntity });
-            self.AllEntity.Remove(unitEntity.InsId);
+            self.AllEntities.Remove(unitEntity.InsId);
             unitEntity.Dispose();
         }
 
@@ -135,7 +133,7 @@ namespace ET.Client
             List<BattleUnitEntity> createBattleUnitEntities = null;
             foreach (var battleUnitEntity in battleUnitEntities)
             {
-                UnitEntity unitEntity = self.AllEntity.GetValueOrDefault(battleUnitEntity.InsId);
+                UnitEntity unitEntity = self.AllEntities.GetValueOrDefault(battleUnitEntity.InsId);
                 if (unitEntity != null)
                 {
                     // 更新
@@ -174,7 +172,7 @@ namespace ET.Client
             if (createBattleUnitEntities != null && createBattleUnitEntities.Count > 0)
             {
                 // 新建
-                self.CreateEntities(createBattleUnitEntities).Coroutine();
+                self.AddBattleUnits(createBattleUnitEntities).Coroutine();
             }
         }
     }

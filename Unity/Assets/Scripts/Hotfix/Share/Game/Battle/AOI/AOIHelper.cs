@@ -13,7 +13,9 @@ namespace ET
 
         public static long GetCellId(float2 position)
         {
-            return GetCellId((int)position.x, (int)position.y);
+            int x = (int)position.x / GameConstant.AOICellSize;
+            int y = (int)position.y / GameConstant.AOICellSize;
+            return GetCellId(x, y);
         }
 
         public static (int, int) GetCellXY(long cellId)

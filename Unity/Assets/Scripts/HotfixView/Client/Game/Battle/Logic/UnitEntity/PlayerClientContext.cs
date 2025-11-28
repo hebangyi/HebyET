@@ -3,7 +3,7 @@
 namespace ET.Client
 {
     [ClientUnitEntityContext(UETypeEnum.Player)]
-    public class PlayerClientUnitEntityContext : BaseClientUnitEntityContext
+    public class PlayerClientContext : BaseClientUnitEntityContext
     {
         public override void Init(UnitEntity unitEntity)
         {
