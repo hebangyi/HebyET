@@ -13,7 +13,7 @@ namespace ET
             
             // 随机选择一个地块
             var logicWorld = unitEntity.LogicWorld();
-            var unitEntityMap = logicWorld.UnitEntityMap;
+            var unitEntityMap = logicWorld.PlantMessageUnitEntity;
             
             var unitEntityMapMessage = unitEntityMap.GetUnitEntityElemData<UnitEntityMapMessage>();
             var cellInfo = unitEntityMapMessage.PlantInfo.CellInfos.FirstOrDefault();

@@ -10,7 +10,7 @@ namespace ET
         {
             var unitEntity = self.AddChild<UnitEntity>();
             unitEntity.InsId = unitEntity.Id;
-            self.AllEntity[unitEntity.InsId] = unitEntity;
+            self.AllEntities[unitEntity.InsId] = unitEntity;
             return unitEntity;
         }
 
@@ -30,7 +30,7 @@ namespace ET
         public static void RemoveEntity(this LogicWorld self, UnitEntity unitEntity)
         {
             self.PublishEvent(new RemoveUnitEntity(){UnitEntity = unitEntity});
-            self.AllEntity.Remove(unitEntity.InsId);
+            self.AllEntities.Remove(unitEntity.InsId);
             unitEntity.Dispose();
         }
         

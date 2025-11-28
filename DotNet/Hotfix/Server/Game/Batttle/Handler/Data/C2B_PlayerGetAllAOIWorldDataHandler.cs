@@ -26,14 +26,16 @@ public class C2B_PlayerGetAllAOIWorldDataHandler: MessageClientHandler<BattleRol
         var aoiManagerComponent = logicWorld.GetComponent<AOIManagerComponent>();
         // 视野范围内的AOI
         var watchAOIUnitEntities = aoiManagerComponent.GetAllWatchUnitEntities(myAOIUnitEntity);
-        
         foreach (var aoiUnitEntity in watchAOIUnitEntities)
         {
             var unitEntity = aoiUnitEntity.GetParent<UnitEntity>();
             BattleUnitEntity battleUnitEntity = unitEntity.ToBattleUnitEntity();
             response.AOIBattleUnitEntity.Add(battleUnitEntity);
         }
-        
+
+
+        // 常规 AOI
+        response.BattleFieldUnitEntity.Add(logicWorld.PlantMessageUnitEntity.ToBattleUnitEntity());
         Log.Info($"C2B_PlayerGetAllAOIWorldData");
     }
 }

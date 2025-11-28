@@ -5,11 +5,16 @@ namespace ET.Client
 {
     public static class ClientWorldHelper
     {
-        public static async ETTask InitWorld(this ClientWorld world, BattleWorld battleWorld, List<BattleUnitEntity> battleUnitEntities)
+        public static async ETTask InitWorld(this ClientWorld world, BattleWorld battleWorld)
         {
             world.Frame = battleWorld.Frame;
+        }
+
+        public static async ETTask AddBattleUnit(this ClientWorld world, List<BattleUnitEntity> battleUnitEntities)
+        {
             await world.CreateEntities(battleUnitEntities);
         }
+        
 
         public static async ETTask CreateEntities(this ClientWorld world, List<BattleUnitEntity> battleUnitEntities)
         {

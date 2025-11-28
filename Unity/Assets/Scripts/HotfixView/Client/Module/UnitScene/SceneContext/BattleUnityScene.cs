@@ -22,7 +22,10 @@ namespace ET.Client
             
             // 加载资源
             await clientWorld.LoadUnityObject();
-            await clientWorld.InitWorld(response.BattleWorld, response.AOIBattleUnitEntity);
+            await clientWorld.InitWorld(response.BattleWorld);
+            await clientWorld.AddBattleUnit(response.AOIBattleUnitEntity);
+            await clientWorld.AddBattleUnit(response.BattleFieldUnitEntity);
+            
 
             FGUIComponent.Instance.CloseWindowAll();
             FGUIComponent.Instance.ShowWindowAsync(WindowID.FGUIBattleOperationMainView).Coroutine();

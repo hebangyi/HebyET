@@ -14,7 +14,7 @@ namespace ET
         public ISyncHandler SyncHandler;
         public Random RandomGenerator;
         
-        public Dictionary<long, UnitEntity> AllEntity = new ();
+        public Dictionary<long, UnitEntity> AllEntities = new ();
         // 地图 UnitEntity
   
         
@@ -27,7 +27,10 @@ namespace ET
         public WorldStatusEnum WorldStatusEnum = WorldStatusEnum.Init;
         
         //// 逻辑端数据
-        public UnitEntity UnitEntityMap;
+        public UnitEntity PlantMessageUnitEntity;
+        
+        
+        
         // 玩家数据 PlayerId 2 Entity
         public Dictionary<long, UnitEntity> PlayerId2Players = new();
         

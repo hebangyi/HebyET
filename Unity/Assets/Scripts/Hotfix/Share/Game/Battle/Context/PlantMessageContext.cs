@@ -6,7 +6,7 @@
         
         public void Init(UnitEntity unitEntity)
         {
-            unitEntity.LogicWorld().UnitEntityMap = unitEntity;
+            unitEntity.LogicWorld().PlantMessageUnitEntity = unitEntity;
         }
 
         public void Destroy(UnitEntity unitEntity)
