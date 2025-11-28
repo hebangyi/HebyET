@@ -38,6 +38,17 @@ namespace ET
             {
                 playerAOICell.CellIds = newCellIds.ToList();
             }
+            
+            // 更新AOI
+            var logicWorld = unitEntity.LogicWorld();
+            var aoiManagerComponent = logicWorld.GetComponent<AOIManagerComponent>();
+
+            var newCellId = AOIHelper.GetCellId(unitEntityPosition.Position);
+            var aoiUnitEntity = unitEntity.GetComponent<AOIUnitEntity>();
+            if (aoiUnitEntity != null && newCellId != aoiUnitEntity.CellId)
+            {
+                aoiManagerComponent.MoveCell(aoiUnitEntity, newCellId);
+            }
         }
     }
 }

@@ -7,9 +7,11 @@ namespace ET
     public static partial class AOIManagerComponentSystem
     {
         [EntitySystem]
-        private static void Awake(this AOIManagerComponent self)
+        private static void Awake(this AOIManagerComponent self, IDirtyHandler dirtyHandler, ISyncHandler syncHandler)
         {
             self.LogicWorld = self.GetParent<LogicWorld>();
+            self.DirtyHandler = dirtyHandler;
+            self.SyncHandler = syncHandler;
         }
 
         [EntitySystem]
@@ -173,24 +175,21 @@ namespace ET
         
         
 
-        public static void EnterCellScope(this AOIManagerComponent aoiManagerComponent, AIOCell enterCell, AOIUnitEntity aoiUnitEntity)
+        public static void EnterCellScope(this AOIManagerComponent aoiManagerComponent, AIOCell targetCell, AOIUnitEntity aoiUnitEntity)
         {
-            foreach (var playerUnitEntity in enterCell.PlayerUnitEntities.Values)
-            {
-                AOIUnitEntity playerUnit = playerUnitEntity;
-                // TODO 通知 玩家进入 
-            }
+            targetCell.DirtyLeaveEntities.Remove(aoiUnitEntity.Id);
+            targetCell.DirtyEnterEntities.Add(aoiUnitEntity.Id);
+            
+            
+            aoiManagerComponent.DirtyCells[targetCell.CellId] = targetCell;
         }
 
-        public static void LeaveCellScope(this AOIManagerComponent aoiManagerComponent, AIOCell cell, AOIUnitEntity aoiUnitEntity)
+        public static void LeaveCellScope(this AOIManagerComponent aoiManagerComponent, AIOCell targetCell, AOIUnitEntity aoiUnitEntity)
         {
-            foreach (var playerUnitEntity in cell.PlayerUnitEntities.Values)
-            {
-                AOIUnitEntity playerUnit = playerUnitEntity;
-                // TODO 通知 玩家Player 离开 
-            }
-
-            // TODO 如果没有管理的UnitEntity 可以考虑清除
+            targetCell.DirtyEnterEntities.Remove(aoiUnitEntity.Id);
+            targetCell.DirtyLeaveEntities.Add(aoiUnitEntity.Id);
+            
+            aoiManagerComponent.DirtyCells[targetCell.CellId] = targetCell;
         }
     }
 }

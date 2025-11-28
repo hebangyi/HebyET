@@ -1,13 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Unity.Mathematics;
 
 namespace ET
 {
     [ComponentOf(typeof(LogicWorld))]
-    public class AOIManagerComponent: Entity, IAwake, IDestroy
+    public class AOIManagerComponent: Entity, IAwake<IDirtyHandler, ISyncHandler>, IDestroy
     {
         public LogicWorld LogicWorld { get; set; }
+        
+        public IDirtyHandler DirtyHandler { get; set; }
+        
+        public ISyncHandler SyncHandler { get; set; }
+        
         public Dictionary<long, AIOCell> Cells { get; set; } = new();
+
+        public Dictionary<long, AIOCell> DirtyCells = new();
     }
 
     
@@ -20,6 +28,12 @@ namespace ET
         
         // 玩家
         public Dictionary<long, AOIUnitEntity> PlayerUnitEntities = new();
+
+        // 进入的Entity
+        public HashSet<long> DirtyEnterEntities = new HashSet<long>();
+        
+        // 离开的Entity
+        public HashSet<long> DirtyLeaveEntities = new HashSet<long>();
     }
     
     

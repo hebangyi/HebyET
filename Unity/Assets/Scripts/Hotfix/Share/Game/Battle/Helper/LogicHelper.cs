@@ -15,7 +15,8 @@ namespace ET
                 logicHandler.OnTick(self);
             }
             
-            self.SyncHandler?.Sync();
+            // 同步AOI数据
+            self.GetComponent<AOIManagerComponent>()?.SyncHandler?.Sync();
         }
     
         public static T CreateUnitEntityElemData<T>(this UnitEntity self) where T : IUnitEntityElemData
@@ -31,7 +32,7 @@ namespace ET
             }
 
             var methodInfo = type.GetMethod("Create");
-            var obj = methodInfo.Invoke(null, new object[]{self.InsId, world.DirtyHandler ,true});
+            var obj = methodInfo.Invoke(null, new object[]{self.InsId, world.GetComponent<AOIManagerComponent>().DirtyHandler ,true});
             T instance = (T)obj;
             self.UnitEntityData[componentId] = instance;
             return instance;
@@ -73,7 +74,7 @@ namespace ET
                 return;
             }
             
-            logicWorld.DirtyHandler?.Dirty(self.InsId, elemData);
+            logicWorld.GetComponent<AOIManagerComponent>()?.DirtyHandler?.Dirty(self.InsId, elemData);
         }
     }
 }

@@ -17,18 +17,14 @@ public static partial class BattleWorldManagerComponentSystem
     public static LogicWorld CreateWorld(this BattleWorldManagerComponent self, MatchRoom matchRoom)
     {
         var world = self.AddChild<LogicWorld>();
+        var logicDirtyHandler = new LogicDirtyHandler(world);
+        var syncPlayerDirtyBattleDataHandler = new SyncPlayerDirtyBattleDataHandler(world, SyncDirtyBattleData);
         
-        // 添加组件
-        world.AddComponent<AOIManagerComponent>();
         
+        // 同步AOI组件
+        world.AddComponent<AOIManagerComponent, IDirtyHandler, ISyncHandler>(logicDirtyHandler, syncPlayerDirtyBattleDataHandler);
         world.WorldStatusEnum = WorldStatusEnum.Init;
         world.RandomGenerator = new Random(Guid.NewGuid().GetHashCode());
-        
-        var syncPlayerDirtyBattleDataHandler = new SyncPlayerDirtyBattleDataHandler(world, SyncDirtyBattleData);
-        var logicDirtyHandler = new LogicDirtyHandler(world);
-        
-        world.InitDirtyHandler(logicDirtyHandler);
-        world.InitSyncHandler(syncPlayerDirtyBattleDataHandler);
         
         // 创建地图
         PlantGenContext plantGenContext = new ();

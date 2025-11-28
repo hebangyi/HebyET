@@ -9,9 +9,6 @@ namespace ET
     [ChildOf]
     public partial class LogicWorld : World
     {
-        // 数据同步 
-        public IDirtyHandler DirtyHandler;
-        public ISyncHandler SyncHandler;
         public Random RandomGenerator;
         
         public Dictionary<long, UnitEntity> AllEntities = new ();
