@@ -8,12 +8,13 @@ namespace ET
     public static partial class AOIUnitEntitySystem
     {
         [EntitySystem]
-        private static void Awake(this AOIUnitEntity self, float2 position)
+        private static void Awake(this AOIUnitEntity self, float2 position, UETypeEnum UEType)
         {
+            self.UETypeEnum = UEType;
+            
             var unitEntity = self.GetParent<UnitEntity>();
             var logicWorld = unitEntity.LogicWorld();
             var aoiManagerComponent = logicWorld.GetComponent<AOIManagerComponent>();
-            
             
             Log.Info($"AOIUnitEntity X: {(int)position.x}, Y: {(int)position.y} , Type = {unitEntity.GetUnitEntityElemData<UnitEntityCommonData>().UnitEntityType}");
             

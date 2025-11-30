@@ -99,12 +99,15 @@ public class DictionaryTest
     {
         int x = 1234;
         int y = 4567;
-        var cellId = CreateCellId(x, y);
+        var cellId = GetCellId(x, y);
+        var tuple = GetCellXY(77309411347);
+        
+        
         Console.WriteLine(cellId);
-        Console.WriteLine($"{x}, {y}");
+        Console.WriteLine($"{tuple.Item1}, {tuple.Item2}");
     }
     
-    public static long CreateCellId(long x, long y)
+    /*public static long CreateCellId(long x, long y)
     {
         return (long) ((ulong) x << 32) | y;
     }
@@ -114,9 +117,19 @@ public class DictionaryTest
         long x = cellId >> 32;
         long y = cellId & 0xFFFF;
         return new Tuple<long, long>(x, y);
-    }
+    }*/
 
+    public static long GetCellId(int x, int y)
+    {
+        return ((long) x << 32) | (uint)y;
+    }
     
+    public static (int, int) GetCellXY(long cellId)
+    {
+        int x = (int)(cellId >> 32);
+        int y = (int)cellId & 0xFFFF;
+        return (x, y);
+    }
     
     
     public class Person

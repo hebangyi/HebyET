@@ -41,7 +41,9 @@ message L2C_PlayerAOIWorldDirtyPush // IMessage
 {
     uint32 startFrame = 1;                              // 开始帧数
     uint32 endFrame = 2;                                // 解锁帧数
-    repeated BattleUnitEntity DirtyUnitEntities = 3;    // 脏数据
+    repeated BattleUnitEntity AddUnitEntiities = 3;     // 添加数据
+    repeated BattleUnitEntity DirtyUnitEntities = 4;    // 脏数据
+    repeated int64 DeleteUnitEntites = 5;               // 死亡数据
 }
 
 

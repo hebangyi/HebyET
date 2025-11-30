@@ -23,6 +23,7 @@ namespace ET
             int x = (int)position.x / GameConstant.AOICellSize;
             int y = (int)position.y / GameConstant.AOICellSize;
             return (x, y);
+            
         }
         
         public static (int, int) GetCellXY(long cellId)
@@ -32,6 +33,26 @@ namespace ET
             return (x, y);
         }
 
+        public static long[] GetAOICellIds(long cellId)
+        {
+            var (newX, newY) = GetCellXY(cellId);
+            var cellCount = (2 * GameConstant.AOIWatchCellRadius + 1) * (2 * GameConstant.AOIWatchCellRadius + 1);
+            long[] cellIds = new long[cellCount];
+            
+            int index = 0;
+            for (int x = newX - GameConstant.AOIWatchCellRadius; x <= newX + GameConstant.AOIWatchCellRadius; x++)
+            {
+                for (int y = newY - GameConstant.AOIWatchCellRadius; y <= newY + GameConstant.AOIWatchCellRadius; y++)
+                {
+                    cellIds[index] = GetCellId(x, y);
+                    index++;
+                }
+            }
+
+            return cellIds;
+        }
+        
+        
         public static long[] GetAOICellIds(float2 position)
         {
             var (newX, newY) = GetCellXY(position);
@@ -50,9 +71,65 @@ namespace ET
 
             return cellIds;
         }
-        
 
+        public static void PlayerSeeUnits(this AOIUnitEntity aoiUnitEntity, IEnumerable<long> collection)
+        {
+            var playerAoiSeeUnitEntity = aoiUnitEntity.GetParent<UnitEntity>().GetComponent<PlayerAOISeeUnitEntity>();
+            foreach (var instanceId in collection)
+            {
+                if (aoiUnitEntity.Id == instanceId)
+                {
+                    return;
+                }
+                playerAoiSeeUnitEntity.LeaveEntityIds.Remove(instanceId);
+                playerAoiSeeUnitEntity.EnterEntityIds.Add(instanceId);
+            }
+        }
         
         
+        public static void PlayerSeeUnit(this AOIUnitEntity aoiUnitEntity, long instanceId)
+        {
+            if (aoiUnitEntity.Id == instanceId)
+            {
+                return;
+            }
+            
+            var playerAoiSeeUnitEntity = aoiUnitEntity.GetParent<UnitEntity>().GetComponent<PlayerAOISeeUnitEntity>();
+            playerAoiSeeUnitEntity.LeaveEntityIds.Remove(instanceId);
+            playerAoiSeeUnitEntity.EnterEntityIds.Add(instanceId);
+        }
+
+        public static void PlayerLeaveUnits(this AOIUnitEntity aoiUnitEntity, IEnumerable<long> collection)
+        {
+            var playerAoiSeeUnitEntity = aoiUnitEntity.GetParent<UnitEntity>().GetComponent<PlayerAOISeeUnitEntity>();
+            foreach (var instanceId in collection)
+            {
+                if (aoiUnitEntity.Id == instanceId)
+                {
+                    return;
+                }
+                
+                playerAoiSeeUnitEntity.LeaveEntityIds.Add(instanceId);
+                playerAoiSeeUnitEntity.EnterEntityIds.Remove(instanceId);
+            }
+        }
+        
+        public static void PlayerLeaveUnit(this AOIUnitEntity aoiUnitEntity, long instanceId)
+        {
+            if (aoiUnitEntity.Id == instanceId)
+            {
+                return;
+            }
+            var playerAoiSeeUnitEntity = aoiUnitEntity.GetParent<UnitEntity>().GetComponent<PlayerAOISeeUnitEntity>();
+            playerAoiSeeUnitEntity.LeaveEntityIds.Add(instanceId);
+            playerAoiSeeUnitEntity.EnterEntityIds.Remove(instanceId);
+        }
+
+
+        public static void ClearPlayerAOI(this PlayerAOISeeUnitEntity playerAoiSeeUnitEntity)
+        {
+            playerAoiSeeUnitEntity.LeaveEntityIds.Clear();
+            playerAoiSeeUnitEntity.EnterEntityIds.Clear();
+        }
     }
 }

@@ -23,8 +23,11 @@ namespace ET
             {
                 unitEntityPosition.Position = cellInfo.CenterPoint;
                 unitEntityPosition.Position += new float2(10, 10);
-                unitEntity.AddComponent<AOIUnitEntity, float2>(unitEntityPosition.Position);
             }
+
+            unitEntity.AddComponent<PlayerAOISeeUnitEntity>();
+            unitEntity.AddComponent<AOIUnitEntity, float2, UETypeEnum>(unitEntityPosition.Position, UETypeEnum.Player);
+            
             
             var cellIds = AOIHelper.GetAOICellIds(unitEntityPosition.Position);
             gizmosPlayerAOICell.CellIds.AddRange(cellIds);

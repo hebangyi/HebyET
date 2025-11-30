@@ -21,7 +21,6 @@ namespace ET
 
 
             unitEntity.CreateUnitEntityElemData<GizmosPlayerAOICell>();
-
             
             unitEntity.CreateUnitEntityElemData<UnitEntityCameraData>();
             unitEntity.CreateUnitEntityElemData<UnitEntityTowardAngle>();

@@ -20,15 +20,16 @@ namespace ET.Client
 
         public static async ETTask AddBattleUnit(this ClientWorld world, BattleUnitEntity battleUnitEntity)
         {
+            
+            Log.Info($"AddBattleUnit : {battleUnitEntity.InsId}");
             if (world.AllEntities.ContainsKey(battleUnitEntity.InsId))
             {
                 return;
             }
-            
+
             var unitEntity = world.DeserializeUnitEntity(battleUnitEntity);
             world.PublishUnitEntityCreateEvent(unitEntity);
         }
-        
 
         public static UnitEntity DeserializeUnitEntity(this ClientWorld self, BattleUnitEntity battleUnitEntity)
         {
@@ -70,11 +71,26 @@ namespace ET.Client
             return unitEntity;
         }
 
-        public static void RemoveEntity(this ClientWorld self, UnitEntity unitEntity)
+        public static void DeleteEntities(this ClientWorld self, List<long> instanceIds)
         {
-            self.PublishEvent(new RemoveUnitEntity() { UnitEntity = unitEntity });
-            self.AllEntities.Remove(unitEntity.InsId);
-            unitEntity.Dispose();
+            foreach (var instanceId in instanceIds)
+            {
+                var unitEntity = self.AllEntities.GetValueOrDefault(instanceId);
+                if (unitEntity == null)
+                {
+                    continue;
+                }
+
+                foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
+                {
+                    self.PublishEvent(new ClientDestroyElementData()
+                            { UnitEntity = unitEntity, UnitEntityElemData = unitEntityElemDataKv.Value, ComponentId = unitEntityElemDataKv.Key });
+                }
+                
+                self.PublishEvent(new RemoveUnitEntity() { UnitEntity = unitEntity });
+                self.AllEntities.Remove(unitEntity.InsId);
+                unitEntity.Dispose();
+            }
         }
 
         public static void PublishEvent<T>(this ClientWorld self, T args) where T : struct
@@ -130,49 +146,36 @@ namespace ET.Client
 
         public static void UpdateDirty(this ClientWorld self, List<BattleUnitEntity> battleUnitEntities)
         {
-            List<BattleUnitEntity> createBattleUnitEntities = null;
             foreach (var battleUnitEntity in battleUnitEntities)
             {
                 UnitEntity unitEntity = self.AllEntities.GetValueOrDefault(battleUnitEntity.InsId);
-                if (unitEntity != null)
+                if (unitEntity == null)
                 {
-                    // 更新
-                    foreach (var elemData in battleUnitEntity.EleDatas)
-                    {
-                        var componentId = elemData.CompId;
-                        var unitElemType = OpcodeType.Instance.GetType(componentId);
-                        if (unitElemType == null)
-                        {
-                            Log.Error($"没有找到UnitEntity 组件 {componentId} 对应的数据类型");
-                            continue;
-                        }
-
-                        var newUnitEntityElemData =
-                                MemoryPackHelper.Deserialize(unitElemType, elemData.ElemDatas, 0, elemData.ElemDatas.Length) as IUnitEntityElemData;
-                        var oleUnitEntityElemData = unitEntity.UnitEntityData.GetValueOrDefault(componentId);
-                        unitEntity.UnitEntityData[componentId] = newUnitEntityElemData;
-                        self.PublishEvent(new ClientUpdateElementData()
-                        {
-                            ComponentId = componentId, UnitEntity = unitEntity, OldUnitEntityElemData = oleUnitEntityElemData,
-                            NewUnitEntityElemData = newUnitEntityElemData
-                        });
-                    }
+                    Log.Error($"UpdateDirty 出错, 没有找到实体 {battleUnitEntity.InsId}");
+                    continue;
                 }
-                else
+
+                // 更新
+                foreach (var elemData in battleUnitEntity.EleDatas)
                 {
-                    if (createBattleUnitEntities == null)
+                    var componentId = elemData.CompId;
+                    var unitElemType = OpcodeType.Instance.GetType(componentId);
+                    if (unitElemType == null)
                     {
-                        createBattleUnitEntities = new List<BattleUnitEntity>();
+                        Log.Error($"没有找到UnitEntity 组件 {componentId} 对应的数据类型");
+                        continue;
                     }
-                    
-                    createBattleUnitEntities.Add(battleUnitEntity);
-                }
-            }
 
-            if (createBattleUnitEntities != null && createBattleUnitEntities.Count > 0)
-            {
-                // 新建
-                self.AddBattleUnits(createBattleUnitEntities).Coroutine();
+                    var newUnitEntityElemData =
+                            MemoryPackHelper.Deserialize(unitElemType, elemData.ElemDatas, 0, elemData.ElemDatas.Length) as IUnitEntityElemData;
+                    var oleUnitEntityElemData = unitEntity.UnitEntityData.GetValueOrDefault(componentId);
+                    unitEntity.UnitEntityData[componentId] = newUnitEntityElemData;
+                    self.PublishEvent(new ClientUpdateElementData()
+                    {
+                        ComponentId = componentId, UnitEntity = unitEntity, OldUnitEntityElemData = oleUnitEntityElemData,
+                        NewUnitEntityElemData = newUnitEntityElemData
+                    });
+                }
             }
         }
     }

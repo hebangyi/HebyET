@@ -6,7 +6,7 @@
         protected override async ETTask Run(ClientWorld world, ClientInitElementData args)
         {
             var unitEntity = args.UnitEntity;
-            Log.Info($"UnitEntity : {unitEntity.InsId}; InitElement : {JsonHelper.ToJson(args.UnitEntityElemData)}");
+            // Log.Info($"UnitEntity : {unitEntity.InsId}; InitElement : {JsonHelper.ToJson(args.UnitEntityElemData)}");
         }
     }
     
@@ -19,7 +19,7 @@
             var unitEntity = args.UnitEntity;
             var componentId = args.ComponentId;
 
-            Log.Info($"UnitEntity : {unitEntity.InsId}; UpdateElementData : {JsonHelper.ToJson(args.NewUnitEntityElemData)}");
+            // Log.Info($"UnitEntity : {unitEntity.InsId}; UpdateElementData : {JsonHelper.ToJson(args.NewUnitEntityElemData)}");
         }
     }
 }

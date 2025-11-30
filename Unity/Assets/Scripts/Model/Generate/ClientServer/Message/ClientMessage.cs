@@ -536,10 +536,22 @@ this._TowardAngle = default;
         public uint endFrame { get; set; }
 
         /// <summary>
-        /// 脏数据
+        /// 添加数据
         /// </summary>
         [MemoryPackOrder(2)]
+        public List<BattleUnitEntity> AddUnitEntiities { get; set; } = new();
+
+        /// <summary>
+        /// 脏数据
+        /// </summary>
+        [MemoryPackOrder(3)]
         public List<BattleUnitEntity> DirtyUnitEntities { get; set; } = new();
+
+        /// <summary>
+        /// 死亡数据
+        /// </summary>
+        [MemoryPackOrder(4)]
+        public List<long> DeleteUnitEntites { get; set; } = new();
 
         public override void Dispose()
         {
@@ -550,7 +562,9 @@ this._TowardAngle = default;
 
             this.startFrame = default;
             this.endFrame = default;
+            this.AddUnitEntiities.Clear();
             this.DirtyUnitEntities.Clear();
+            this.DeleteUnitEntites.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }

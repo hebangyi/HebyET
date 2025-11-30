@@ -50,14 +50,28 @@ namespace ET
         public static void BindUnitEntity(this AOIManagerComponent aoiManagerComponent, AOIUnitEntity aoiUnitEntity)
         {
             var aoiCell = aoiManagerComponent.GetOrCreateCellData(aoiUnitEntity.CellId);
-            aoiCell.AllUnitEntities[aoiUnitEntity.CellId] = aoiUnitEntity;
+            aoiCell.AllUnitEntities[aoiUnitEntity.Id] = aoiUnitEntity;
+            
 
-            var unitEntity = aoiUnitEntity.GetParent<UnitEntity>();
-            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
-
-            if (unitEntityCommonData.UnitEntityType == UETypeEnum.Player)
+            if (aoiUnitEntity.UETypeEnum == UETypeEnum.Player)
             {
-                aoiCell.PlayerUnitEntities[aoiUnitEntity.CellId] = aoiUnitEntity;
+                aoiCell.PlayerAOIEntities[aoiUnitEntity.CellId] = aoiUnitEntity;
+                var AOICellIds = AOIHelper.GetAOICellIds(aoiUnitEntity.CellId);
+                Log.Info($"Player BindUnitEntity Cell ID : {aoiUnitEntity.CellId} Watch Cell IDS : {JsonHelper.ToJson(AOICellIds)}");
+                
+                foreach (var AOICellId in AOICellIds)
+                {
+                    var AOICellData = aoiManagerComponent.GetCellData(AOICellId);
+                    if (AOICellData != null)
+                    {
+                        if (AOICellData.AllUnitEntities.Count > 0)
+                        {
+                            Log.Info("AOICellData.AllUnitEntities Count > 0");
+                        }
+                        
+                        aoiUnitEntity.PlayerSeeUnits(AOICellData.AllUnitEntities.Keys);
+                    }
+                }
             }
         }
 
@@ -69,8 +83,22 @@ namespace ET
                 return;
             }
 
-            aoiCell.AllUnitEntities.Remove(aoiUnitEntity.CellId);
-            aoiCell.PlayerUnitEntities.Remove(aoiUnitEntity.CellId);
+            aoiCell.AllUnitEntities.Remove(aoiUnitEntity.Id);
+            if (aoiUnitEntity.UETypeEnum == UETypeEnum.Player)
+            {
+                var AOICellIds = AOIHelper.GetAOICellIds(aoiUnitEntity.CellId);
+                Log.Info($"Player BindUnitEntity Cell ID : {aoiUnitEntity.CellId} Watch Cell IDS : {JsonHelper.ToJson(AOICellIds)}");
+                aoiCell.PlayerAOIEntities.Remove(aoiUnitEntity.CellId);
+                
+                foreach (var AOICellId in AOICellIds)
+                {
+                    var AOICellData = aoiManagerComponent.GetCellData(AOICellId);
+                    if (AOICellData != null)
+                    {
+                        aoiUnitEntity.PlayerLeaveUnits(AOICellData.AllUnitEntities.Keys);
+                    }
+                }
+            }
         }
 
         public static void AwakeCellUnitEntity(this AOIManagerComponent aoiManagerComponent, AOIUnitEntity aoiUnitEntity, long toCellId)
@@ -88,6 +116,7 @@ namespace ET
             }
 
             var oldCellId = aoiUnitEntity.CellId;
+            
             var (oldX, oldY) = AOIHelper.GetCellXY(oldCellId);
             var (newX, newY) = AOIHelper.GetCellXY(newCellId);
 
@@ -173,23 +202,25 @@ namespace ET
             return watchUnitEntities;
         }
         
-        
 
         public static void EnterCellScope(this AOIManagerComponent aoiManagerComponent, AIOCell targetCell, AOIUnitEntity aoiUnitEntity)
         {
-            targetCell.DirtyLeaveEntities.Remove(aoiUnitEntity.Id);
-            targetCell.DirtyEnterEntities.Add(aoiUnitEntity.Id);
-            
-            
             aoiManagerComponent.DirtyCells[targetCell.CellId] = targetCell;
+
+            foreach (var playerAOIEntity in targetCell.PlayerAOIEntities.Values)
+            {
+                playerAOIEntity.PlayerSeeUnit(aoiUnitEntity.Id);
+            }
         }
 
         public static void LeaveCellScope(this AOIManagerComponent aoiManagerComponent, AIOCell targetCell, AOIUnitEntity aoiUnitEntity)
         {
-            targetCell.DirtyEnterEntities.Remove(aoiUnitEntity.Id);
-            targetCell.DirtyLeaveEntities.Add(aoiUnitEntity.Id);
-            
             aoiManagerComponent.DirtyCells[targetCell.CellId] = targetCell;
+            
+            foreach (var playerAOIEntity in targetCell.PlayerAOIEntities.Values)
+            {
+                playerAOIEntity.PlayerLeaveUnit(aoiUnitEntity.Id);
+            }
         }
     }
 }

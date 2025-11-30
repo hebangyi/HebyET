@@ -44,7 +44,8 @@ namespace ET.Client
 				return null;
 			}
 			
-			// TODO 异步创建?
+			// TODO 异步创建 
+			// TODO 对象池
 			GameObject ins = UnityEngine.Object.Instantiate(toGameObject, GlobalComponent.Instance.Unit, true);
 			var unitEntityGameObjectComponent = unitEntity.TryAddComponent<UnitEntityGameObjectComponent>();
 			unitEntityGameObjectComponent.GameObject = ins;
@@ -54,6 +55,7 @@ namespace ET.Client
 			{
 				unitEntityGameObjectComponent.GameObject.transform.position = new Vector3(unitEntityPosition.Position.x, unitEntityPosition.Position.y, 0);
 			}
+			
 			
 			return ins;
 		}

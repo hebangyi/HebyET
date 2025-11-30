@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using Random = System.Random;
 
@@ -18,11 +19,11 @@ public static partial class BattleWorldManagerComponentSystem
     {
         var world = self.AddChild<LogicWorld>();
         var logicDirtyHandler = new LogicDirtyHandler(world);
-        var syncPlayerDirtyBattleDataHandler = new SyncPlayerDirtyBattleDataHandler(world, SyncDirtyBattleData);
+        var syncDirtyDataHandler = new SyncPlayerDirtyBattleDataHandler(world, SyncDirtyBattleData);
         
         
         // 同步AOI组件
-        world.AddComponent<AOIManagerComponent, IDirtyHandler, ISyncHandler>(logicDirtyHandler, syncPlayerDirtyBattleDataHandler);
+        world.AddComponent<AOIManagerComponent, IDirtyHandler, ISyncHandler>(logicDirtyHandler, syncDirtyDataHandler);
         world.WorldStatusEnum = WorldStatusEnum.Init;
         world.RandomGenerator = new Random(Guid.NewGuid().GetHashCode());
         
@@ -65,22 +66,67 @@ public static partial class BattleWorldManagerComponentSystem
             return;
         }
 
-        L2C_PlayerAOIWorldDirtyPush message = L2C_PlayerAOIWorldDirtyPush.Create();
-        foreach (var dirtyUnitEntityKv in logicWorld.DirtyUnitEntities)
+        foreach (var pKV in logicWorld.PlayerId2Players)
         {
-            var battleUnitEntity = dirtyUnitEntityKv.Value.ToBattleUnitEntity();
-            message.DirtyUnitEntities.Add(battleUnitEntity);
-        }
-
-        foreach (var playerId in logicWorld.PlayerId2Players.Keys)
-        {
-            var battleRole = BattleRoleComponent.Instance.GetByRoleId(playerId);
-            if (battleRole != null)
+            long playerId = pKV.Key;
+            var unitEntity = pKV.Value;
+            var playerUnitEntityInsId = unitEntity.InsId;
+            bool hasDirtyData = false;
+            
+            var playerAOISeeUnitEntity = unitEntity.GetComponent<PlayerAOISeeUnitEntity>();
+            
+            L2C_PlayerAOIWorldDirtyPush message = L2C_PlayerAOIWorldDirtyPush.Create(true);
+            foreach (var enterEntityId in playerAOISeeUnitEntity.EnterEntityIds)
             {
-                battleRole.SendToClient(message);
+                if (playerAOISeeUnitEntity.ManageEntityIds.Add(enterEntityId))
+                {
+                    var enterEntity = logicWorld.AllEntities.GetValueOrDefault(enterEntityId);
+                    if (enterEntity == null)
+                    {
+                        continue;
+                    }
+                    message.AddUnitEntiities.Add(enterEntity.ToBattleUnitEntity());
+                    hasDirtyData = true;
+                }
             }
-        }
+            
+            foreach (var leaveEntityId in playerAOISeeUnitEntity.LeaveEntityIds)
+            {
+                if (playerAOISeeUnitEntity.ManageEntityIds.Remove(leaveEntityId))
+                {
+                    message.DeleteUnitEntites.Add(leaveEntityId);
+                    hasDirtyData = true;
+                }
+            }
+            
+            // 增量脏数据
+            foreach (var dirtyUnitEntityKv in logicWorld.DirtyUnitEntities)
+            {
+                var instanceId = dirtyUnitEntityKv.Key;
+                if (!playerAOISeeUnitEntity.ManageEntityIds.Contains(instanceId) && instanceId != playerUnitEntityInsId)
+                {
+                    continue;
+                }
+                
+                BattleUnitEntity battleUnitEntity = dirtyUnitEntityKv.Value.ToBattleUnitEntity();
+                message.DirtyUnitEntities.Add(battleUnitEntity);
+                hasDirtyData = true;
+            }
 
+            if (hasDirtyData)
+            {
+                var battleRole = BattleRoleComponent.Instance.GetByRoleId(playerId);
+                if (battleRole != null)
+                {
+                    battleRole.SendToClient(message);
+                }
+            }
+            
+            // 清除玩家的AOI计算
+            playerAOISeeUnitEntity.ClearPlayerAOI();
+            message.Dispose();
+        }
+        
         logicWorld.DirtyUnitEntities.Clear();
     }
     

@@ -3,7 +3,7 @@
 namespace ET.Client
 {
     [ComponentOf(typeof(UnitEntity))]
-    public class UnitEntityGameObjectComponent : Entity, IAwake
+    public class UnitEntityGameObjectComponent : Entity, IAwake, IDestroy
     {
         private GameObject gameObject;
 
