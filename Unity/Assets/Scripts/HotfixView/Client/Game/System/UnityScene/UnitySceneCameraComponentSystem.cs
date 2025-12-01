@@ -63,18 +63,19 @@ namespace ET.Client
             }
             
             // 所有的 环境 UnitEntity 朝向移动
-            foreach (var unitEntity in clientWorld.EvnUnitEntities.Values)
+            var env = GlobalComponent.Instance.Env;
+            for (int i = 0; i < env.childCount; i++)
             {
-                var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
-                var gameObject = unitEntityGameObjectComponent.GameObject;
-                gameObject.transform.rotation = Camera.main.transform.rotation;
+                var child = env.GetChild(i).gameObject;
+                child.transform.rotation = Camera.main.transform.rotation;
             }
+            
 
-            foreach (var playerUnitEntity in clientWorld.PlayerUnitEntities.Values)
+            var player = GlobalComponent.Instance.Player;
+            for (int i = 0; i < player.childCount; i++)
             {
-                var unitEntityGameObjectComponent = playerUnitEntity.GetComponent<UnitEntityGameObjectComponent>();
-                var gameObject = unitEntityGameObjectComponent.GameObject;
-                gameObject.transform.rotation = Camera.main.transform.rotation;
+                var child = player.GetChild(i).gameObject;
+                child.transform.rotation = Camera.main.transform.rotation;
             }
         }
         

@@ -79,7 +79,7 @@ namespace ET
             {
                 if (aoiUnitEntity.Id == instanceId)
                 {
-                    return;
+                    continue;
                 }
                 playerAoiSeeUnitEntity.LeaveEntityIds.Remove(instanceId);
                 playerAoiSeeUnitEntity.EnterEntityIds.Add(instanceId);
@@ -106,7 +106,7 @@ namespace ET
             {
                 if (aoiUnitEntity.Id == instanceId)
                 {
-                    return;
+                    continue;
                 }
                 
                 playerAoiSeeUnitEntity.LeaveEntityIds.Add(instanceId);

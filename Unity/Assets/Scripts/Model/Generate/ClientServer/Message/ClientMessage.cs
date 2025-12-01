@@ -149,14 +149,14 @@ namespace ET
                 this.m_DirtyHandler?.Dirty(m_InstanceId, this);
             }
         }
-        private UEShowTypeEnum _UEShowTypeEnum;
+        private UELayerTypeEnum _UELayerTypeEnum;
 
         [MemoryPackOrder(1)]
-        public UEShowTypeEnum UEShowTypeEnum
+        public UELayerTypeEnum UELayerTypeEnum
         {
-            get => _UEShowTypeEnum;
+            get => _UELayerTypeEnum;
             set {
-                _UEShowTypeEnum = value;
+                _UELayerTypeEnum = value;
                 this.m_DirtyHandler?.Dirty(m_InstanceId, this);
             }
         }
@@ -183,7 +183,7 @@ namespace ET
             this.m_InstanceId = default;
             
 this._UnitEntityType = default;
-            this._UEShowTypeEnum = default;
+            this._UELayerTypeEnum = default;
             this._Datas.Clear();
             
 

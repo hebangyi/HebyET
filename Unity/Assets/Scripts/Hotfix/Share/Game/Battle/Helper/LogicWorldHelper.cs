@@ -14,11 +14,11 @@ namespace ET
             return unitEntity;
         }
 
-        public static void CreateEntityFinish(this LogicWorld self, UnitEntity unitEntity)
+        public static void CreateEntityFinish(this LogicWorld self, UnitEntity unitEntity, UETypeEnum UEType)
         {
-            self.PublishEvent(new CreateUnitEntityEvent0(){UnitEntity = unitEntity});
-            self.PublishEvent(new CreateUnitEntityEvent1(){UnitEntity = unitEntity});
-            self.PublishEvent(new CreateUnitEntityEvent2(){UnitEntity = unitEntity});
+            self.PublishEvent(new CreateUnitEntityEvent0(){UnitEntity = unitEntity, UEType = UEType});
+            self.PublishEvent(new CreateUnitEntityEvent1(){UnitEntity = unitEntity, UEType = UEType});
+            self.PublishEvent(new CreateUnitEntityEvent2(){UnitEntity = unitEntity, UEType = UEType});
 
             foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
             {

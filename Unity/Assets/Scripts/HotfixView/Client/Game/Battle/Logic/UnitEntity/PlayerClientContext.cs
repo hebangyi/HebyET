@@ -40,14 +40,6 @@ namespace ET.Client
             clientWorld.PlayerUnitEntities[playerInfo.PlayerId] = unitEntity;
         }
 
-        public override void CreateView(UnitEntity unitEntity)
-        {
-            base.CreateView(unitEntity);
-            var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
-            var gameObject = unitEntityGameObjectComponent.GameObject;
-            gameObject.transform.rotation = Quaternion.Euler(-GameConstant.GameOperaAngle, 0, 0);
-        }
-
         public override void Destroy(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();

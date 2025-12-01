@@ -10,13 +10,10 @@ namespace ET.Client
             var unitEntityElemData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
             var clientWorld = unitEntity.ClientWorld();
 
-            var showTypeEnum = unitEntityElemData.UEShowTypeEnum;
-            if (showTypeEnum == UEShowTypeEnum.ENV)
+            var showTypeEnum = unitEntityElemData.UELayerTypeEnum;
+            if (showTypeEnum == UELayerTypeEnum.Env)
             {
                 clientWorld.EvnUnitEntities[unitEntity.Id] = unitEntity;
-                var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
-                var gameObject = unitEntityGameObjectComponent.GameObject;
-                gameObject.transform.rotation = Quaternion.Euler(-GameConstant.GameOperaAngle, 0, 0);
             }
         }
 
@@ -24,8 +21,8 @@ namespace ET.Client
         {
             var unitEntityElemData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
             var clientWorld = unitEntity.ClientWorld();
-            var showTypeEnum = unitEntityElemData.UEShowTypeEnum;
-            if (showTypeEnum == UEShowTypeEnum.ENV)
+            var showTypeEnum = unitEntityElemData.UELayerTypeEnum;
+            if (showTypeEnum == UELayerTypeEnum.Env)
             {
                 clientWorld.EvnUnitEntities.Remove(unitEntity.Id);
             }

@@ -14,8 +14,6 @@ namespace ET
         public ISyncHandler SyncHandler { get; set; }
         
         public Dictionary<long, AIOCell> Cells { get; set; } = new();
-
-        public Dictionary<long, AIOCell> DirtyCells = new();
     }
 
     

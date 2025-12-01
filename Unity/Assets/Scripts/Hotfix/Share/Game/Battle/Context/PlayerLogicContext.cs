@@ -6,6 +6,32 @@ namespace ET
     [LogicUnitEntityContext(UETypeEnum.Player)]
     public class PlayerLogicContext : ILogicUnitEntityContext
     {
+        public void InitElementData(UnitEntity unitEntity)
+        {
+            var playerInitInfo = unitEntity.GetComponent<PlayerInitContext>();
+            var unitEntityCommonData = unitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
+            unitEntityCommonData.UnitEntityType = UETypeEnum.Player;
+            unitEntityCommonData.UELayerTypeEnum = UELayerTypeEnum.Player;
+            
+            unitEntity.CreateUnitEntityElemData<GizmosPlayerAOICell>();
+            unitEntity.CreateUnitEntityElemData<UnitEntityCameraData>();
+            unitEntity.CreateUnitEntityElemData<UnitEntityTowardAngle>();
+            unitEntity.CreateUnitEntityElemData<UnitEntityPlayerAnimateStatus>();
+            var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
+            unitEntityPosition.Position = new float2(0f, 0f);
+            
+            UnitEntityInfo unitEntityInfo = unitEntity.CreateUnitEntityElemData<UnitEntityInfo>();
+            unitEntityInfo.ConfigId = 0;
+            unitEntityInfo.Speed = 30;
+            
+            var unitEntityPlayerInfo = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerInfo>();
+            unitEntityPlayerInfo.PlayerId = playerInitInfo.PlayerId;
+        }
+
+        public void InitLogicElementData(UnitEntity unitEntity)
+        {
+        }
+
         public void Init(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();

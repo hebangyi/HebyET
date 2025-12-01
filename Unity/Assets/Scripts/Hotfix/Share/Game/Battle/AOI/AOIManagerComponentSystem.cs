@@ -57,18 +57,11 @@ namespace ET
             {
                 aoiCell.PlayerAOIEntities[aoiUnitEntity.CellId] = aoiUnitEntity;
                 var AOICellIds = AOIHelper.GetAOICellIds(aoiUnitEntity.CellId);
-                Log.Info($"Player BindUnitEntity Cell ID : {aoiUnitEntity.CellId} Watch Cell IDS : {JsonHelper.ToJson(AOICellIds)}");
-                
                 foreach (var AOICellId in AOICellIds)
                 {
                     var AOICellData = aoiManagerComponent.GetCellData(AOICellId);
                     if (AOICellData != null)
                     {
-                        if (AOICellData.AllUnitEntities.Count > 0)
-                        {
-                            Log.Info("AOICellData.AllUnitEntities Count > 0");
-                        }
-                        
                         aoiUnitEntity.PlayerSeeUnits(AOICellData.AllUnitEntities.Keys);
                     }
                 }
@@ -87,7 +80,6 @@ namespace ET
             if (aoiUnitEntity.UETypeEnum == UETypeEnum.Player)
             {
                 var AOICellIds = AOIHelper.GetAOICellIds(aoiUnitEntity.CellId);
-                Log.Info($"Player BindUnitEntity Cell ID : {aoiUnitEntity.CellId} Watch Cell IDS : {JsonHelper.ToJson(AOICellIds)}");
                 aoiCell.PlayerAOIEntities.Remove(aoiUnitEntity.CellId);
                 
                 foreach (var AOICellId in AOICellIds)
@@ -205,8 +197,6 @@ namespace ET
 
         public static void EnterCellScope(this AOIManagerComponent aoiManagerComponent, AIOCell targetCell, AOIUnitEntity aoiUnitEntity)
         {
-            aoiManagerComponent.DirtyCells[targetCell.CellId] = targetCell;
-
             foreach (var playerAOIEntity in targetCell.PlayerAOIEntities.Values)
             {
                 playerAOIEntity.PlayerSeeUnit(aoiUnitEntity.Id);
@@ -215,8 +205,6 @@ namespace ET
 
         public static void LeaveCellScope(this AOIManagerComponent aoiManagerComponent, AIOCell targetCell, AOIUnitEntity aoiUnitEntity)
         {
-            aoiManagerComponent.DirtyCells[targetCell.CellId] = targetCell;
-            
             foreach (var playerAOIEntity in targetCell.PlayerAOIEntities.Values)
             {
                 playerAOIEntity.PlayerLeaveUnit(aoiUnitEntity.Id);

@@ -34,7 +34,7 @@ message UnitEntityElemData
 message UnitEntityCommonData // IUnitEntityElemData
 {
     UETypeEnum UnitEntityType = 1;
-    UEShowTypeEnum UEShowTypeEnum = 2;
+    UELayerTypeEnum UELayerTypeEnum = 2;
     map<string, string> Datas = 3;
 }
 

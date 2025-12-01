@@ -21,7 +21,6 @@ namespace ET.Client
         public static async ETTask AddBattleUnit(this ClientWorld world, BattleUnitEntity battleUnitEntity)
         {
             
-            Log.Info($"AddBattleUnit : {battleUnitEntity.InsId}");
             if (world.AllEntities.ContainsKey(battleUnitEntity.InsId))
             {
                 return;
