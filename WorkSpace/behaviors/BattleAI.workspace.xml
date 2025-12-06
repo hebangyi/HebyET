@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<workspace name="BattleAI" folder="behaviors" export="..\..\Unity\Assets\Scripts\Model\Share\Game\Battle\AI\Gen" language="cs" version="3">
+  <export>
+    <cs>
+      <isexported>True</isexported>
+      <exportfilecount>1</exportfilecount>
+      <folder>../../../Unity/Assets/Scripts/Model/Share/Game/Battle/AI/Gen</folder>
+    </cs>
+    <xml>
+      <isexported>True</isexported>
+    </xml>
+    <bson>
+      <isexported>True</isexported>
+    </bson>
+  </export>
+</workspace>
