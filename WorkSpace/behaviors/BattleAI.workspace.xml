@@ -7,10 +7,10 @@
       <folder>../../../Unity/Assets/Scripts/Model/Share/Game/Battle/AI/Gen</folder>
     </cs>
     <xml>
-      <isexported>True</isexported>
+      <isexported>False</isexported>
     </xml>
     <bson>
-      <isexported>True</isexported>
+      <isexported>False</isexported>
     </bson>
   </export>
 </workspace>
