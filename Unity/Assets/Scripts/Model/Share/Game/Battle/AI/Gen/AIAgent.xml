@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--EXPORTED BY TOOL, DON'T MODIFY IT!-->
+<!--Source File: AIAgent.xml-->
+<behavior name="AIAgent" agenttype="AIAgent" version="5">
+  <node class="Sequence" id="0">
+    <node class="Compute" id="1">
+      <property Operator="Add" />
+      <property Opl="int Self.AIAgent::status" />
+      <property Opr1="int Self.AIAgent::status" />
+      <property Opr2="const int 1" />
+    </node>
+  </node>
+</behavior>
