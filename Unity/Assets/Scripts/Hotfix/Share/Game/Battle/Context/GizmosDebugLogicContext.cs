@@ -5,8 +5,8 @@
     {
         public override void InitCustomData(UnitEntity unitEntity)
         {
-            var playerInitContext = unitEntity.GetComponent<PlaneInitContext>();
-            var plantGenContext = playerInitContext.PlantGenContext;
+            var playerInitContext = unitEntity.GetComponent<UnitEntityInitContext>();
+            var plantGenContext = playerInitContext.Params as PlantGenContext;
             
             // 计算总的Cell数量
             var gizmosDebugInfo = unitEntity.CreateUnitEntityElemData<GizmosPlantInfo>();

@@ -8,7 +8,7 @@ namespace ET
     {
         public override void InitCustomData(UnitEntity unitEntity)
         {
-            var playerInitInfo = unitEntity.GetComponent<PlayerInitContext>();
+            var unitEntityInitContext = unitEntity.GetComponent<UnitEntityInitContext>();
             unitEntity.CreateUnitEntityElemData<GizmosPlayerAOICell>();
             unitEntity.CreateUnitEntityElemData<UnitEntityCameraData>();
             unitEntity.CreateUnitEntityElemData<UnitEntityTowardAngle>();
@@ -21,7 +21,8 @@ namespace ET
             unitEntityInfo.Speed = 30;
             
             var unitEntityPlayerInfo = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerInfo>();
-            unitEntityPlayerInfo.PlayerId = playerInitInfo.PlayerId;
+            var playerId = unitEntityInitContext.Params as long?;
+            unitEntityPlayerInfo.PlayerId = playerId.GetValueOrDefault();
         }
         
 

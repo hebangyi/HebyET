@@ -36,6 +36,9 @@ public static partial class BattleWorldManagerComponentSystem
         plantGenContext.InitData.GenCellCount = 25;
         
         
+        
+        
+        
         UnitEntity unitEntityPlant = UnitPlaneHelper.GeneratePlane(world, plantGenContext);
         
         // 创建玩家

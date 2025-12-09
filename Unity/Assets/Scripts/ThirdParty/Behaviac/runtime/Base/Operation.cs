@@ -114,7 +114,7 @@ namespace behaviac
 
             if (_methods.ContainsKey(methodName))
             {
-                return _methods[methodName].Invoke(agent, args); ;
+                return _methods[methodName].Invoke(agent, args);
             }
 
             while (type != typeof(object))

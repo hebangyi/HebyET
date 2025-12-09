@@ -5,7 +5,24 @@ namespace ET
 {
     public  static partial class LogicWorldHelper
     {
-        public static UnitEntity 
+        public static UnitEntity Create(this LogicWorld logicWorld, UETypeEnum ueTypeEnum, object initParam)
+        {
+            var unitEntity = logicWorld.CreateEntity();
+            var unitEntityInitContext = unitEntity.AddComponent<UnitEntityInitContext>();
+            unitEntityInitContext.Params = initParam;
+            logicWorld.CreateEntityFinish(unitEntity, ueTypeEnum);
+            return unitEntity;
+        }
+        
+        public static void RemoveEntity(this LogicWorld self, UnitEntity unitEntity)
+        {
+            self.PublishEvent(new RemoveUnitEntity(){UnitEntity = unitEntity});
+            self.AllEntities.Remove(unitEntity.InsId);
+            unitEntity.Dispose();
+        }
+        
+        
+        private static UnitEntity 
                 CreateEntity(this LogicWorld self)
         {
             var unitEntity = self.AddChild<UnitEntity>();
@@ -13,8 +30,9 @@ namespace ET
             self.AllEntities[unitEntity.InsId] = unitEntity;
             return unitEntity;
         }
-
-        public static void CreateEntityFinish(this LogicWorld self, UnitEntity unitEntity, UETypeEnum UEType)
+        
+        
+        private static void CreateEntityFinish(this LogicWorld self, UnitEntity unitEntity, UETypeEnum UEType)
         {
             self.PublishEvent(new CreateUnitEntityEvent0(){UnitEntity = unitEntity, UEType = UEType});
             self.PublishEvent(new CreateUnitEntityEvent1(){UnitEntity = unitEntity, UEType = UEType});
@@ -27,12 +45,7 @@ namespace ET
         }
         
         
-        public static void RemoveEntity(this LogicWorld self, UnitEntity unitEntity)
-        {
-            self.PublishEvent(new RemoveUnitEntity(){UnitEntity = unitEntity});
-            self.AllEntities.Remove(unitEntity.InsId);
-            unitEntity.Dispose();
-        }
+
         
         public static void PublishEvent<T>(this LogicWorld self, T args) where T : struct
         {

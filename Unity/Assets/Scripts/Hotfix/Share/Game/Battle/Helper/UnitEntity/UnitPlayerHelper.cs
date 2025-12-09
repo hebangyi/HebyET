@@ -7,13 +7,8 @@ namespace ET
     {
         public static UnitEntity Create(LogicWorld logicWorld, long playerId)
         {
-            var unitEntity = logicWorld.CreateEntity();
-            var playerInitInfo = unitEntity.AddComponent<PlayerInitContext>();
-            playerInitInfo.PlayerId = playerId;
-            logicWorld.CreateEntityFinish(unitEntity, UETypeEnum.Player);
-            return unitEntity;
+            return logicWorld.Create(UETypeEnum.Player, playerId);
         }
-        
         
         public static UnitEntity GetPlayerUnitEntityByPlayerId(LogicWorld logicWorld, long playerId)
         {
@@ -42,6 +37,8 @@ namespace ET
                 playerInfo.LastLoginTime = TimeInfo.Instance.NowSec();
             }
         }
+
+
     }
 }
 

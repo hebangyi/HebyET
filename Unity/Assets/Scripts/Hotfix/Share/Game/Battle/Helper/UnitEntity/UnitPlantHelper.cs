@@ -14,17 +14,8 @@ namespace ET
         {
             BattleMapHelper.GenerateBattleCells(plantGenContext);
             
-            var unitEntity = logicWorld.CreateEntity();
-            var playerInitContext = unitEntity.AddComponent<PlaneInitContext>();
-            playerInitContext.PlantGenContext = plantGenContext;
-            logicWorld.CreateEntityFinish(unitEntity, UETypeEnum.PlantMessage);
-            
-            var unitEntityPlaneCellGizmos = logicWorld.CreateEntity();
-            playerInitContext = unitEntityPlaneCellGizmos.AddComponent<PlaneInitContext>();
-            playerInitContext.PlantGenContext = plantGenContext;
-            
-            logicWorld.CreateEntityFinish(unitEntityPlaneCellGizmos, UETypeEnum.GizmosDebug);
-            return unitEntity;
+            logicWorld.Create(UETypeEnum.GizmosDebug, plantGenContext);
+            return logicWorld.Create(UETypeEnum.PlantMessage, plantGenContext);
         }
     }
 }
