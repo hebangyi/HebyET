@@ -21,6 +21,7 @@ namespace ET
             self.Env = GameObject.Find("/Global/Unit/Env").transform;
             self.Plant = GameObject.Find("/Global/Unit/Plant").transform;
             self.Player = GameObject.Find("/Global/Unit/Player").transform;
+            self.Monster = GameObject.Find("/Global/Unit/Monster").transform;
             
             self.GlobalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
         }
@@ -40,6 +41,7 @@ namespace ET
         public Transform Env { get; set; }
         public Transform Plant { get; set; }
         public Transform Player { get; set; }
+        public Transform Monster { get; set; }
         
         
         ////////////////////////////////////////////////////// Unit

@@ -50,6 +50,11 @@ public static partial class BattleWorldManagerComponentSystem
             UnitTreeHelper.Create(world, cellInfo.CenterPoint);
         }
         
+        // 创建怪物
+        foreach (var cellInfo in unitEntityMapMessage.PlantInfo.CellInfos)
+        {
+            UnitMonsterHelper.Create(world, cellInfo.CenterPoint);
+        }
         
         self.Worlds[world.Id] = world;
         

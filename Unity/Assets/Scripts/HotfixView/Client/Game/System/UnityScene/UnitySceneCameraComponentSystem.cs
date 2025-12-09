@@ -77,6 +77,13 @@ namespace ET.Client
                 var child = player.GetChild(i).gameObject;
                 child.transform.rotation = Camera.main.transform.rotation;
             }
+            
+            var monster = GlobalComponent.Instance.Monster;
+            for (int i = 0; i < monster.childCount; i++)
+            {
+                var child = monster.GetChild(i).gameObject;
+                child.transform.rotation = Camera.main.transform.rotation;
+            }
         }
         
         

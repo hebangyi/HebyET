@@ -64,6 +64,11 @@ namespace ET.Client
                     parentGameObject = GlobalComponent.Instance.Player;
                     break;
                 }
+                case UELayerTypeEnum.Monster:
+                {
+                    parentGameObject = GlobalComponent.Instance.Monster;
+                    break;
+                }
             }
 
             GameObject ins = UnityEngine.Object.Instantiate(toGameObject, parentGameObject, true);
@@ -82,6 +87,7 @@ namespace ET.Client
             {
                 case UELayerTypeEnum.Env:
                 case UELayerTypeEnum.Player:
+                case UELayerTypeEnum.Monster:
                 {
                     ins.transform.rotation = Camera.main.transform.rotation;
                     break;
