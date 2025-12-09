@@ -2,7 +2,7 @@
 
 namespace ET
 {
-    public static class UnitEnvHelper
+    public static class UnitTreeHelper
     {
         public static UnitEntity Create(LogicWorld logicWorld, float2 position)
         {

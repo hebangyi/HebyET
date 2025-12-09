@@ -35,10 +35,6 @@ public static partial class BattleWorldManagerComponentSystem
         plantGenContext.InitData.NearEdgeMinDistance = 5;
         plantGenContext.InitData.GenCellCount = 25;
         
-        
-        
-        
-        
         UnitEntity unitEntityPlant = UnitPlaneHelper.GeneratePlane(world, plantGenContext);
         
         // 创建玩家
@@ -51,7 +47,7 @@ public static partial class BattleWorldManagerComponentSystem
         var unitEntityMapMessage = unitEntityPlant.GetUnitEntityElemData<UnitEntityMapMessage>();
         foreach (var cellInfo in unitEntityMapMessage.PlantInfo.CellInfos)
         {
-            UnitEnvHelper.Create(world, cellInfo.CenterPoint);
+            UnitTreeHelper.Create(world, cellInfo.CenterPoint);
         }
         
         

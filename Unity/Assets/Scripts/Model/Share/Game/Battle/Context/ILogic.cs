@@ -44,6 +44,7 @@
 
         public LogicUnitEntityContext(UELayerTypeEnum UeLayerType, UETypeEnum UeTypeEnum)
         {
+            this.LayerType = UeLayerType;
             this.UeTypeEnum = UeTypeEnum;
         }
     }
