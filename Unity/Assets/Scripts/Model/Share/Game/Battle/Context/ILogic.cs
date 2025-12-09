@@ -38,9 +38,11 @@
     
     public class LogicUnitEntityContext : BaseAttribute
     {
+        public UELayerTypeEnum LayerType;
+        
         public UETypeEnum UeTypeEnum;
 
-        public LogicUnitEntityContext(UETypeEnum UeTypeEnum)
+        public LogicUnitEntityContext(UELayerTypeEnum UeLayerType, UETypeEnum UeTypeEnum)
         {
             this.UeTypeEnum = UeTypeEnum;
         }
@@ -48,10 +50,11 @@
     
     public interface ILogicUnitEntityContext
     {
-        // 初始化前后端初始化数据
-        void InitElementData(UnitEntity unitEntity);
-        // 初始化逻辑数据
-        void InitLogicElementData(UnitEntity unitEntity);
+        // 初始化常规数据
+        void InitCommonData(UnitEntity unitEntity);
+        
+        // 初始化自定义数据
+        void InitCustomData(UnitEntity unitEntity);
         
         void Init(UnitEntity unitEntity);
         void Destroy(UnitEntity unitEntity);

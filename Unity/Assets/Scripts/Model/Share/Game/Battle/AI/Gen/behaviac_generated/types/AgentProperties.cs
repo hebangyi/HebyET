@@ -188,7 +188,7 @@ namespace behaviac
 
 		public override bool Load()
 		{
-			AgentMeta.TotalSignature = 3590503684;
+			AgentMeta.TotalSignature = 3087293706;
 
 			AgentMeta meta;
 
@@ -203,9 +203,13 @@ namespace behaviac
 			meta.RegisterMethod(502968959, new CMethod_behaviac_Agent_VectorRemove());
 
 			// AIAgent
-			meta = new AgentMeta(2030914555);
+			meta = new AgentMeta(3744551209);
 			AgentMeta._AgentMetas_[3672729745] = meta;
-			meta.RegisterMemberProperty(3504662893, new CMemberProperty<int>("status", delegate(Agent self, int value) { ((AIAgent)self).status = value; }, delegate(Agent self) { return ((AIAgent)self).status; }));
+			meta.RegisterMethod(2099025523, new CAgentMethodVoid(delegate(Agent self) { ((AIAgent)self).DoChaseAction(); }));
+			meta.RegisterMethod(3081479165, new CAgentMethodVoid(delegate(Agent self) { ((AIAgent)self).DoFightAction(); }));
+			meta.RegisterMethod(3379256086, new CAgentMethodVoid(delegate(Agent self) { ((AIAgent)self).DoPatrolAction(); }));
+			meta.RegisterMethod(2236423874, new CAgentMethod<behaviac.EBTStatus>(delegate(Agent self) { return ((AIAgent)self).IsEnemyInSight(); }));
+			meta.RegisterMethod(2441666383, new CAgentMethod<behaviac.EBTStatus>(delegate(Agent self) { return ((AIAgent)self).IsInAttackRange(); }));
 			meta.RegisterMethod(1045109914, new CAgentStaticMethodVoid<string>(delegate(string param0) { AIAgent.LogMessage(param0); }));
 			meta.RegisterMethod(2521019022, new CMethod_behaviac_Agent_VectorAdd());
 			meta.RegisterMethod(2306090221, new CMethod_behaviac_Agent_VectorClear());

@@ -16,7 +16,40 @@ public class AIAgent : behaviac.Agent
 ///<<< BEGIN WRITING YOUR CODE AIAgent
 ///<<< END WRITING YOUR CODE
 {
-	public int status = 0;
+	public void DoChaseAction()
+	{
+///<<< BEGIN WRITING YOUR CODE DoChaseAction
+		Console.WriteLine("DoChaseAction");
+///<<< END WRITING YOUR CODE
+	}
+
+	public void DoFightAction()
+	{
+///<<< BEGIN WRITING YOUR CODE DoFightAction
+		Console.WriteLine("DoFightAction");
+///<<< END WRITING YOUR CODE
+	}
+
+	public void DoPatrolAction()
+	{
+///<<< BEGIN WRITING YOUR CODE DoPatrolAction
+		Console.WriteLine("DoPatrolAction");
+///<<< END WRITING YOUR CODE
+	}
+
+	public behaviac.EBTStatus IsEnemyInSight()
+	{
+///<<< BEGIN WRITING YOUR CODE IsEnemyInSight
+		return behaviac.EBTStatus.BT_SUCCESS;
+///<<< END WRITING YOUR CODE
+	}
+
+	public behaviac.EBTStatus IsInAttackRange()
+	{
+///<<< BEGIN WRITING YOUR CODE IsInAttackRange
+		return behaviac.EBTStatus.BT_FAILURE;
+///<<< END WRITING YOUR CODE
+	}
 
 ///<<< BEGIN WRITING YOUR CODE CLASS_PART
 

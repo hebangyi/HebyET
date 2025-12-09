@@ -11,11 +11,12 @@ namespace ET
             var unitEntityContext = LogicWorldLogicManagerComponent.Instance.UnitEntityContexts.GetValueOrDefault(args.UEType);
             if (unitEntityContext == null)
             {
-                unitEntityContext = LogicWorldLogicManagerComponent.Instance.UnitEntityContexts.GetValueOrDefault(UETypeEnum.None);
+                Log.Warning($"Create UnitEntity Error , Not Found Type : {args.UEType} Logic Context");
+                return ;
             }
             
-            unitEntityContext.InitElementData(unitEntity);
-            unitEntityContext.InitLogicElementData(unitEntity);
+            unitEntityContext.InitCommonData(unitEntity);
+            unitEntityContext.InitCustomData(unitEntity);
             unitEntityContext.Init(unitEntity);
         }
     }

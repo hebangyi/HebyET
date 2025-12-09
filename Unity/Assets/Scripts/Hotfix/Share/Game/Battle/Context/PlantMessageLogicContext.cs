@@ -1,15 +1,12 @@
 ﻿namespace ET
 {
-    [LogicUnitEntityContext(UETypeEnum.PlantMessage)]
-    public class PlantMessageLogicContext: ILogicUnitEntityContext
+    [LogicUnitEntityContext(UELayerTypeEnum.Plant, UETypeEnum.PlantMessage)]
+    public class PlantMessageLogicContext: BaseLogicUnitEntityContext
     {
-        public void InitElementData(UnitEntity unitEntity)
+        public override void InitCustomData(UnitEntity unitEntity)
         {
             var playerInitContext = unitEntity.GetComponent<PlaneInitContext>();
-            
             var plantGenContext = playerInitContext.PlantGenContext;
-            var commonData = unitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
-            commonData.UnitEntityType = UETypeEnum.PlantMessage;
             
             var unitEntityMapMessage = unitEntity.CreateUnitEntityElemData<UnitEntityMapMessage>();
             unitEntityMapMessage.AreaSize = plantGenContext.InitData.AreaSize;
@@ -25,16 +22,12 @@
             unitEntityMapMessage.PlantInfo = plantInfo;
         }
 
-        public void InitLogicElementData(UnitEntity unitEntity)
-        {
-        }
-
-        public void Init(UnitEntity unitEntity)
+        public override void Init(UnitEntity unitEntity)
         {
             unitEntity.LogicWorld().PlantMessageUnitEntity = unitEntity;
         }
 
-        public void Destroy(UnitEntity unitEntity)
+        public override void Destroy(UnitEntity unitEntity)
         {
             unitEntity.LogicWorld().PlantMessageUnitEntity = null;
         }

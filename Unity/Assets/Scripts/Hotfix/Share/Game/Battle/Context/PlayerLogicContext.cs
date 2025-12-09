@@ -3,16 +3,12 @@ using Unity.Mathematics;
 
 namespace ET
 {
-    [LogicUnitEntityContext(UETypeEnum.Player)]
-    public class PlayerLogicContext : ILogicUnitEntityContext
+    [LogicUnitEntityContext(UELayerTypeEnum.Player, UETypeEnum.Player)]
+    public class PlayerLogicContext : BaseLogicUnitEntityContext
     {
-        public void InitElementData(UnitEntity unitEntity)
+        public override void InitCustomData(UnitEntity unitEntity)
         {
             var playerInitInfo = unitEntity.GetComponent<PlayerInitContext>();
-            var unitEntityCommonData = unitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
-            unitEntityCommonData.UnitEntityType = UETypeEnum.Player;
-            unitEntityCommonData.UELayerTypeEnum = UELayerTypeEnum.Player;
-            
             unitEntity.CreateUnitEntityElemData<GizmosPlayerAOICell>();
             unitEntity.CreateUnitEntityElemData<UnitEntityCameraData>();
             unitEntity.CreateUnitEntityElemData<UnitEntityTowardAngle>();
@@ -27,12 +23,9 @@ namespace ET
             var unitEntityPlayerInfo = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerInfo>();
             unitEntityPlayerInfo.PlayerId = playerInitInfo.PlayerId;
         }
+        
 
-        public void InitLogicElementData(UnitEntity unitEntity)
-        {
-        }
-
-        public void Init(UnitEntity unitEntity)
+        public override  void Init(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             var gizmosPlayerAOICell = unitEntity.GetUnitEntityElemData<GizmosPlayerAOICell>();
@@ -59,11 +52,10 @@ namespace ET
             gizmosPlayerAOICell.CellIds.AddRange(cellIds);
         }
 
-        public void Destroy(UnitEntity unitEntity)
+        public override  void Destroy(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             unitEntity.LogicWorld().PlayerId2Players.Remove(playerInfo.PlayerId);
         }
     }
 }
-

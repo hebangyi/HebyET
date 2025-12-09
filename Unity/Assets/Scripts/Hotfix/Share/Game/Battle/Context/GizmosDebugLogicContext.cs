@@ -1,17 +1,14 @@
 ﻿namespace ET
 {
-    [LogicUnitEntityContext(UETypeEnum.GizmosDebug)]
-    public class GizmosDebugLogicContext: ILogicUnitEntityContext
+    [LogicUnitEntityContext(UELayerTypeEnum.Plant, UETypeEnum.GizmosDebug)]
+    public class GizmosDebugLogicContext: BaseLogicUnitEntityContext
     {
-        public void InitElementData(UnitEntity unitEntity)
+        public override void InitCustomData(UnitEntity unitEntity)
         {
             var playerInitContext = unitEntity.GetComponent<PlaneInitContext>();
             var plantGenContext = playerInitContext.PlantGenContext;
             
             // 计算总的Cell数量
-            var unitEntityCommonData1 = unitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
-            unitEntityCommonData1.UnitEntityType = UETypeEnum.GizmosDebug;
-            unitEntityCommonData1.UELayerTypeEnum = UELayerTypeEnum.Plant;
             var gizmosDebugInfo = unitEntity.CreateUnitEntityElemData<GizmosPlantInfo>();
             
             foreach (var cell in plantGenContext.PlantData.GenCells)
@@ -25,17 +22,14 @@
             }
             gizmosDebugInfo.AreaSize = plantGenContext.InitData.AreaSize;
         }
+        
 
-        public void InitLogicElementData(UnitEntity unitEntity)
-        {
-        }
-
-        public void Init(UnitEntity unitEntity)
+        public override void Init(UnitEntity unitEntity)
         {
             unitEntity.LogicWorld().GizmosDebugUnitEntity = unitEntity;
         }
 
-        public void Destroy(UnitEntity unitEntity)
+        public override void Destroy(UnitEntity unitEntity)
         {
         }
     }
