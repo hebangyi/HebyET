@@ -1,133 +1,22 @@
-﻿using System.Collections.Generic;
-using ET.Client;
-
-namespace ET
+﻿namespace ET
 {
-    public  static partial class LogicWorldUnitEntityHelper
+    public static class LogicWorldHelper
     {
-        public static UnitEntity Create(this LogicWorld logicWorld, UETypeEnum ueTypeEnum, object initParam)
+        public static void Tick(this LogicWorld self)
         {
-            var unitEntity = logicWorld.CreateEntity();
-            var unitEntityInitContext = unitEntity.AddComponent<UnitEntityInitContext>();
-            unitEntityInitContext.Params = initParam;
-            logicWorld.CreateEntityFinish(unitEntity, ueTypeEnum);
-            return unitEntity;
-        }
-        
-        public static void RemoveEntity(this LogicWorld self, UnitEntity unitEntity)
-        {
-            self.PublishEvent(new RemoveUnitEntity(){UnitEntity = unitEntity});
-            self.AllEntities.Remove(unitEntity.InsId);
-            unitEntity.Dispose();
-        }
-        
-        
-        private static UnitEntity 
-                CreateEntity(this LogicWorld self)
-        {
-            var unitEntity = self.AddChild<UnitEntity>();
-            unitEntity.InsId = unitEntity.Id;
-            self.AllEntities[unitEntity.InsId] = unitEntity;
-            return unitEntity;
-        }
-        
-        
-        private static void CreateEntityFinish(this LogicWorld self, UnitEntity unitEntity, UETypeEnum UEType)
-        {
-            self.PublishEvent(new CreateUnitEntityEvent0(){UnitEntity = unitEntity, UEType = UEType});
-            self.PublishEvent(new CreateUnitEntityEvent1(){UnitEntity = unitEntity, UEType = UEType});
-            self.PublishEvent(new CreateUnitEntityEvent2(){UnitEntity = unitEntity, UEType = UEType});
-
-            foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
+            self.Frame++;
+            // Log.Info($"World Id : {self.Id} Tick Frame: {self.Frame}");
+            foreach (var comId2LogicsKv in LogicWorldLogicManagerComponent.Instance.Type2TickLogics)
             {
-                self.PublishEvent(new LogicInitElementData(){UnitEntity = unitEntity, UnitEntityElemData = unitEntityElemDataKv.Value, ComponentId = unitEntityElemDataKv.Key});
+                var logicHandler = comId2LogicsKv.Value;
+                logicHandler.OnTick(self);
             }
-        }
-        
-        
-
-        
-        public static void PublishEvent<T>(this LogicWorld self, T args) where T : struct
-        {
-            var events = BattleEventManagerComponent.Instance.AllEvents.GetValueOrDefault(typeof(T));
-            if (events == null)
-            {
-                return;
-            }
-
-            foreach (var e in events)
-            {
-                if (!(e is ABattleEvent<T> aEvent))
-                {
-                    Log.Error($"Battle Event Error: {e.GetType().FullName}");
-                    continue;
-                }
-                
-                aEvent.Handle(self, args);
-            }
-        }
-
-        public static void ClientInput(UnitEntity unitEntity, BattleUnitEntity battleUnitEntity)
-        {
-            var elementList = battleUnitEntity.EleDatas;
-            foreach (var element in elementList)
-            {
-                var compId = element.CompId;
-                var unitElemType = OpcodeType.Instance.GetType(compId);
-
-                if (unitElemType == null)
-                {
-                    Log.Error($"ClientInput 没有找到UnitEntity 组件 {compId} 对应的数据类型");
-                    continue;
-                }
-                
-                var newUnitEntityElemData =
-                        MemoryPackHelper.Deserialize(unitElemType, element.ElemDatas, 0, element.ElemDatas.Length) as IUnitEntityElemData;
-
-                if (newUnitEntityElemData == null)
-                {
-                    Log.Error($"ClientInput 反序列化 UnitEntity Element 组件 {compId} 失败!");
-                    continue;
-                }
-                
-                var oleUnitEntityElemData = unitEntity.UnitEntityData.GetValueOrDefault(compId);
-                if (oleUnitEntityElemData == null)
-                {
-                    Log.Error($"ClientInput 没有 UnitEntity Element 组件 {compId} 失败!");
-                    continue;
-                }
-
-                var elementLogic = LogicWorldLogicManagerComponent.Instance.ClientInputLogics.GetValueOrDefault(compId);
-                if (elementLogic == null)
-                {
-                    return;
-                }
-
-                bool canInput = elementLogic.CanInput(unitEntity, newUnitEntityElemData);
-                // TODO 做操作回退
-                if (!canInput)
-                {
-                    continue;
-                }
-                
-                // 更新数据
-                unitEntity.UnitEntityData[compId] = newUnitEntityElemData;
-                
-                // 记录Dirty
-                unitEntity.Dirty(newUnitEntityElemData);
-                
-                // 
-                elementLogic.Updated(unitEntity);
-            }
-        }
-        
-        
-        public static BattleWorld ToBattleWorld(this LogicWorld logicWorld)
-        {
-            BattleWorld battleWorld = BattleWorld.Create();
-            battleWorld.WorldStatus = logicWorld.WorldStatusEnum;
-            battleWorld.Frame = logicWorld.Frame;
-            return battleWorld;
+            // AI 更新
+            self.GetComponent<AIComponent>().UpdateAITick();
+            
+            
+            // 同步AOI数据
+            self.GetComponent<AOIManagerComponent>()?.SyncHandler?.Sync();
         }
     }
 }
