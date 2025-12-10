@@ -27,6 +27,10 @@ public static partial class BattleWorldManagerComponentSystem
         world.WorldStatusEnum = WorldStatusEnum.Init;
         world.RandomGenerator = new Random(Guid.NewGuid().GetHashCode());
         
+        // AI组件
+        
+        
+        
         // 创建地图
         PlantGenContext plantGenContext = new ();
         plantGenContext.InitData.AreaSize = 2000;
