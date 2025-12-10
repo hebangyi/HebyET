@@ -20,9 +20,6 @@
             
             monsterAIAgent.AIAgentProxy = monsterAIAgentProxy;
             aiComponent.MonsterAIAgents[unitEntity.InsId] = monsterAIAgent;
-            
-            
-            
         }
 
         [EntitySystem]

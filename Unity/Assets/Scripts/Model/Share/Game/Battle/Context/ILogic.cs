@@ -7,7 +7,7 @@
     public interface IBattleElem
     {
         // 监听的 ComponentId
-        ushort WatchComponentId();
+        ushort WatchComponentId(); 
     }
 
     // 元素初始化调用
@@ -21,7 +21,7 @@
     }
 
     // 数据处理接口 Tick 逻辑执行
-    public interface ILogicTickUpdate : IBattleElem
+    public interface ILogicTickUpdate
     {
         // 执行更新
         void OnTick(LogicWorld logicWorld);
