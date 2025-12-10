@@ -8,6 +8,7 @@
         private static void Awake(this AIComponent self)
         {
             self.LogicWorld = self.GetParent<LogicWorld>();
+            self.InitBehavior();
         }
 
         [EntitySystem]
@@ -20,8 +21,14 @@
         {
             foreach (var aiAgent in self.MonsterAIAgents)
             {
-                aiAgent.Value.btexec();
+                var status = aiAgent.Value.btexec();
+                Log.Info($"AI Status : {status}");
             }
+        }
+
+        public static void InitBehavior(this ET.AIComponent self)
+        {
+            behaviac.Workspace.Instance.FileFormat = behaviac.Workspace.EFileFormat.EFF_cs;
         }
     }
 }

@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Hotfix\DotNet.Hotfix.csproj" />
       <ProjectReference Include="..\Model\DotNet.Model.csproj" />
     </ItemGroup>
 

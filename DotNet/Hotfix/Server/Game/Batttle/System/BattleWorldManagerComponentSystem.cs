@@ -55,9 +55,9 @@ public static partial class BattleWorldManagerComponentSystem
         }
         
         // 创建怪物
-        foreach (var cellInfo in unitEntityMapMessage.PlantInfo.CellInfos)
+        foreach (var playerInfo in world.PlayerId2Players.Values)
         {
-            UnitMonsterHelper.Create(world, cellInfo.CenterPoint);
+            UnitMonsterHelper.Create(world, playerInfo.GetUnitEntityElemData<UnitEntityPosition>().Position);
         }
         
         self.Worlds[world.Id] = world;

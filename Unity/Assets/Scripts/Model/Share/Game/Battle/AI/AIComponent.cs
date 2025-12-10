@@ -10,4 +10,10 @@ namespace ET
         // 管理的所有 AIAgent
         public Dictionary<long, MonsterAIAgent> MonsterAIAgents = new Dictionary<long, MonsterAIAgent>();
     }
+
+    [ComponentOf(typeof(UnitEntity))]
+    public class MonsterAIComponent : Entity, IAwake, IDestroy
+    {
+        public IMonsterAIAgentInterface Proxy;
+    }
 }

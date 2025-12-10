@@ -18,6 +18,7 @@ namespace ET
         {
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             unitEntity.AddComponent<AOIUnitEntity, float2, UETypeEnum>(unitEntityPosition.Position, UETypeEnum.Monster);
+            unitEntity.AddComponent<MonsterAIComponent>();
         }
     }
 }

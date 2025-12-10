@@ -7,6 +7,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using behaviac;
+using ET;
 
 ///<<< BEGIN WRITING YOUR CODE FILE_INIT
 
@@ -18,40 +20,41 @@ public class MonsterAIAgent : behaviac.Agent
 {
 	public void DoChaseAction()
 	{
-///<<< BEGIN WRITING YOUR CODE DoChaseAction
+///<<< BEGIN WRITING YOUR CODE
+		AIAgentProxy?.DoChaseAction();
 ///<<< END WRITING YOUR CODE
 	}
 
 	public void DoFightAction()
 	{
 ///<<< BEGIN WRITING YOUR CODE DoFightAction
+		AIAgentProxy?.DoFightAction();
 ///<<< END WRITING YOUR CODE
 	}
 
 	public void DoPatrolAction()
 	{
 ///<<< BEGIN WRITING YOUR CODE DoPatrolAction
+		AIAgentProxy?.DoPatrolAction();
 ///<<< END WRITING YOUR CODE
 	}
 
 	public behaviac.EBTStatus IsEnemyInSight()
 	{
 ///<<< BEGIN WRITING YOUR CODE IsEnemyInSight
-		Console.WriteLine($"IsEnemyInSight");
-		return behaviac.EBTStatus.BT_INVALID;
+		return AIAgentProxy?.IsEnemyInSight() ?? EBTStatus.BT_FAILURE;
 ///<<< END WRITING YOUR CODE
 	}
 
 	public behaviac.EBTStatus IsInAttackRange()
 	{
 ///<<< BEGIN WRITING YOUR CODE IsInAttackRange
-		Console.WriteLine($"IsInAttackRange");
-		return behaviac.EBTStatus.BT_INVALID;
+		return AIAgentProxy?.IsInAttackRange() ?? EBTStatus.BT_FAILURE;
 ///<<< END WRITING YOUR CODE
 	}
 
 ///<<< BEGIN WRITING YOUR CODE CLASS_PART
-
+	public IMonsterAIAgentInterface AIAgentProxy { get; set; }
 ///<<< END WRITING YOUR CODE
 
 }
