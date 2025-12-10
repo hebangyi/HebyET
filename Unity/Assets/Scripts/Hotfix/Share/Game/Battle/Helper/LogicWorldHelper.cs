@@ -3,7 +3,7 @@ using ET.Client;
 
 namespace ET
 {
-    public  static partial class LogicWorldHelper
+    public  static partial class LogicWorldUnitEntityHelper
     {
         public static UnitEntity Create(this LogicWorld logicWorld, UETypeEnum ueTypeEnum, object initParam)
         {

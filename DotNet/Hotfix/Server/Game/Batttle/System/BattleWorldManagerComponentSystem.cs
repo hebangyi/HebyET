@@ -28,7 +28,7 @@ public static partial class BattleWorldManagerComponentSystem
         world.RandomGenerator = new Random(Guid.NewGuid().GetHashCode());
         
         // AI组件
-        
+        world.AddComponent<AIComponent>();
         
         
         // 创建地图

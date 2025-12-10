@@ -1,10 +1,13 @@
-﻿/*
+﻿using System.Collections.Generic;
+
 namespace ET
 {
     [ComponentOf(typeof(LogicWorld))]
-    public class AIComponent: Entity, IAwake
+    public class AIComponent: Entity, IAwake, IDestroy
     {
-    
+        public LogicWorld LogicWorld { get; set; }
+        
+        // 管理的所有 AIAgent
+        public Dictionary<long, AIAgent> AIAgents = new Dictionary<long, AIAgent>();
     }
 }
-*/

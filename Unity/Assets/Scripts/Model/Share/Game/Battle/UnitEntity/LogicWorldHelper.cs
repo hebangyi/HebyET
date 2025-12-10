@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ET
 {
-    public static class LogicHelper
+    public static class LogicWorldHelper
     {
         public static void Tick(this LogicWorld self)
         {
