@@ -20,17 +20,18 @@ namespace ET
         
         public void DoChaseAction()
         {
-            Log.Info("做追击...");
+            // Log.Info("做追击...");
         }
 
         public void DoFightAction()
         {
-            Log.Info("做打击...");
+            // Log.Info("做打击...");
         }
 
         public void DoPatrolAction()
         {
-            Log.Info("做巡逻...");
+            var monsterAIComponent = this.UnitEntity.GetComponent<MonsterAIComponent>();
+            // Log.Info("做巡逻...");
         }
     }
 }

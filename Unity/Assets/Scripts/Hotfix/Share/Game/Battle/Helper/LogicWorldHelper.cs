@@ -5,6 +5,7 @@
         public static void Tick(this LogicWorld self)
         {
             self.Frame++;
+            self.NowMilliSeconds = TimeInfo.Instance.NowMillTime();
             // Log.Info($"World Id : {self.Id} Tick Frame: {self.Frame}");
             foreach (var comId2LogicsKv in LogicWorldLogicManagerComponent.Instance.Type2TickLogics)
             {
