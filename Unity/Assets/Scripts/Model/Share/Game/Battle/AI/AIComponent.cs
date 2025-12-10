@@ -8,6 +8,6 @@ namespace ET
         public LogicWorld LogicWorld { get; set; }
         
         // 管理的所有 AIAgent
-        public Dictionary<long, AIAgent> AIAgents = new Dictionary<long, AIAgent>();
+        public Dictionary<long, MonsterAIAgent> MonsterAIAgents = new Dictionary<long, MonsterAIAgent>();
     }
 }

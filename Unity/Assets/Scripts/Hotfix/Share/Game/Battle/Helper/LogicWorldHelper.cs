@@ -14,7 +14,6 @@
             // AI 更新
             self.GetComponent<AIComponent>().UpdateAITick();
             
-            
             // 同步AOI数据
             self.GetComponent<AOIManagerComponent>()?.SyncHandler?.Sync();
         }

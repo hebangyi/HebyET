@@ -18,7 +18,7 @@
 
         public static void UpdateAITick(this ET.AIComponent self)
         {
-            foreach (var aiAgent in self.AIAgents)
+            foreach (var aiAgent in self.MonsterAIAgents)
             {
                 aiAgent.Value.btexec();
             }

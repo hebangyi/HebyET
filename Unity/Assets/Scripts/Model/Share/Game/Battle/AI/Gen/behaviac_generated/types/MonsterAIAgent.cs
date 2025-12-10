@@ -12,42 +12,41 @@ using System.Collections.Generic;
 
 ///<<< END WRITING YOUR CODE
 
-public class AIAgent : behaviac.Agent
-///<<< BEGIN WRITING YOUR CODE AIAgent
+public class MonsterAIAgent : behaviac.Agent
+///<<< BEGIN WRITING YOUR CODE MonsterAIAgent
 ///<<< END WRITING YOUR CODE
 {
 	public void DoChaseAction()
 	{
 ///<<< BEGIN WRITING YOUR CODE DoChaseAction
-		Console.WriteLine("DoChaseAction");
 ///<<< END WRITING YOUR CODE
 	}
 
 	public void DoFightAction()
 	{
 ///<<< BEGIN WRITING YOUR CODE DoFightAction
-		Console.WriteLine("DoFightAction");
 ///<<< END WRITING YOUR CODE
 	}
 
 	public void DoPatrolAction()
 	{
 ///<<< BEGIN WRITING YOUR CODE DoPatrolAction
-		Console.WriteLine("DoPatrolAction");
 ///<<< END WRITING YOUR CODE
 	}
 
 	public behaviac.EBTStatus IsEnemyInSight()
 	{
 ///<<< BEGIN WRITING YOUR CODE IsEnemyInSight
-		return behaviac.EBTStatus.BT_SUCCESS;
+		Console.WriteLine($"IsEnemyInSight");
+		return behaviac.EBTStatus.BT_INVALID;
 ///<<< END WRITING YOUR CODE
 	}
 
 	public behaviac.EBTStatus IsInAttackRange()
 	{
 ///<<< BEGIN WRITING YOUR CODE IsInAttackRange
-		return behaviac.EBTStatus.BT_FAILURE;
+		Console.WriteLine($"IsInAttackRange");
+		return behaviac.EBTStatus.BT_INVALID;
 ///<<< END WRITING YOUR CODE
 	}
 
