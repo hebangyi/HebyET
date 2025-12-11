@@ -5,6 +5,28 @@ namespace DotNet.Test;
 
 public static class BTTest
 {
+    public static void Test()
+    {
+        behaviac.Workspace.Instance.FileFormat = behaviac.Workspace.EFileFormat.EFF_cs;
+        
+        TestAgent aiAgent = new TestAgent();
+        aiAgent.btload("TestAgentTree", false);
+        aiAgent.btsetcurrent("TestAgentTree");
+        
+        behaviac.Workspace.Instance.DoubleValueSinceStartup = (double)DateTime.UtcNow.Ticks / 1000000;
+
+        for (int i = 0; i < 1000; i++)
+        {
+            Thread.Sleep(100);
+            behaviac.Workspace.Instance.DoubleValueSinceStartup = (double)DateTime.UtcNow.Ticks / 1000000;
+            var status = aiAgent.btexec();
+            Console.WriteLine($"{aiAgent.GetClassTypeName()} status : {status}");
+        }
+
+        
+    }
+    
+    
     public static void Test2()
     {
         // behaviac.Workspace.Instance.FileFormat = behaviac.Workspace.EFileFormat.EFF_cs;

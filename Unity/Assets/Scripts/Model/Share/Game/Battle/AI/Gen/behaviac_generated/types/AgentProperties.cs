@@ -188,7 +188,7 @@ namespace behaviac
 
 		public override bool Load()
 		{
-			AgentMeta.TotalSignature = 2148613184;
+			AgentMeta.TotalSignature = 2545698512;
 
 			AgentMeta meta;
 
@@ -217,8 +217,22 @@ namespace behaviac
 			meta.RegisterMethod(505785840, new CMethod_behaviac_Agent_VectorLength());
 			meta.RegisterMethod(502968959, new CMethod_behaviac_Agent_VectorRemove());
 
+			// TestAgent
+			meta = new AgentMeta(425915389);
+			AgentMeta._AgentMetas_[330203330] = meta;
+			meta.RegisterMemberProperty(3504662893, new CMemberProperty<behaviac.EBTStatus>("status", delegate(Agent self, behaviac.EBTStatus value) { ((TestAgent)self)._set_status(value); }, delegate(Agent self) { return ((TestAgent)self)._get_status(); }));
+			meta.RegisterMethod(3699902746, new CAgentMethodVoid(delegate(Agent self) { ((TestAgent)self).DoFunction(); }));
+			meta.RegisterMethod(3099700900, new CAgentMethodVoid(delegate(Agent self) { ((TestAgent)self).DoReset(); }));
+			meta.RegisterMethod(1045109914, new CAgentStaticMethodVoid<string>(delegate(string param0) { TestAgent.LogMessage(param0); }));
+			meta.RegisterMethod(2521019022, new CMethod_behaviac_Agent_VectorAdd());
+			meta.RegisterMethod(2306090221, new CMethod_behaviac_Agent_VectorClear());
+			meta.RegisterMethod(3483755530, new CMethod_behaviac_Agent_VectorContains());
+			meta.RegisterMethod(505785840, new CMethod_behaviac_Agent_VectorLength());
+			meta.RegisterMethod(502968959, new CMethod_behaviac_Agent_VectorRemove());
+
 			AgentMeta.Register<behaviac.Agent>("behaviac.Agent");
 			AgentMeta.Register<MonsterAIAgent>("MonsterAIAgent");
+			AgentMeta.Register<TestAgent>("TestAgent");
 			return true;
 		}
 
@@ -226,6 +240,7 @@ namespace behaviac
 		{
 			AgentMeta.UnRegister<behaviac.Agent>("behaviac.Agent");
 			AgentMeta.UnRegister<MonsterAIAgent>("MonsterAIAgent");
+			AgentMeta.UnRegister<TestAgent>("TestAgent");
 			return true;
 		}
 	}

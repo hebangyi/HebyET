@@ -32,6 +32,11 @@
       <Method Name="DoChaseAction" DisplayName="DoChaseAction" Desc="DoChaseAction" Class="MonsterAIAgent" ReturnType="void" ReturnTypeFullName="System.Void" Static="false" Public="true" istask="false" />
       <Method Name="DoPatrolAction" DisplayName="DoPatrolAction" Desc="DoPatrol" Class="MonsterAIAgent" ReturnType="void" ReturnTypeFullName="System.Void" Static="false" Public="true" istask="false" />
     </agent>
+    <agent classfullname="TestAgent" base="behaviac::Agent" DisplayName="TestAgent" Desc="TestAgent" IsRefType="true" IsCustomized="true">
+      <Member Name="status" DisplayName="status" Desc="status" Class="TestAgent" Type="behaviac::EBTStatus" TypeFullName="XMLPluginBehaviac.behaviac_EBTStatus" defaultvalue="BT_FAILURE" Static="false" Public="false" Readonly="false" />
+      <Method Name="DoFunction" DisplayName="DoFunction" Desc="DoFunction" Class="TestAgent" ReturnType="void" ReturnTypeFullName="System.Void" Static="false" Public="true" istask="false" />
+      <Method Name="DoReset" DisplayName="DoReset" Desc="DoReset" Class="TestAgent" ReturnType="void" ReturnTypeFullName="System.Void" Static="false" Public="true" istask="false" />
+    </agent>
   </agents>
   <instances />
 </meta>

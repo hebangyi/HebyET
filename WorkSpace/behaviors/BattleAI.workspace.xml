@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<workspace name="BattleAI" folder="behaviors" export="..\..\Unity\Assets\Scripts\Model\Share\Game\Battle\AI\Gen" language="cs" version="3">
+<workspace name="BattleAI" folder="behaviors" export="..\..\Unity\Assets\Scripts\Model\Share\Game\Battle\AI\Gen" language="cs" useintvalue="true" version="3">
   <export>
     <cs>
       <isexported>True</isexported>
