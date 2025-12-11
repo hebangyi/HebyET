@@ -1,12 +1,8 @@
-﻿namespace ET;
-
-[ComponentOf(typeof(UnitEntity))]
-public class MonsterStateMachineComponent: Entity, IAwake
+﻿namespace ET
 {
-    public StateMachineContext StateMachineContext;
-}
-
-public class StateMachineContext
-{
-    public MachineStateEnum CurrentState { get; set; }
+    [ComponentOf(typeof(UnitEntity))]
+    public class MonsterStateMachineComponent: Entity, IAwake
+    {
+        public MachineStateEnum CurrentState { get; set; }
+    }
 }

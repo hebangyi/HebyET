@@ -4,10 +4,9 @@ namespace ET
 {
     public static class StateMachineHelper
     {
-        public static void ChangeState(this MonsterStateMachineComponent monsterStateMachineComponent,MachineStateEnum newState)
+        public static void ChangeState(this MonsterStateMachineComponent monsterStateMachineComponent, MachineStateEnum newState)
         {
-            var machineContext = monsterStateMachineComponent.StateMachineContext;
-            var currentState = machineContext.CurrentState;
+            var currentState = monsterStateMachineComponent.CurrentState;
             if (currentState == newState)
             {
                 return;
@@ -16,15 +15,26 @@ namespace ET
             var currentStateContext = StateMachineManagerComponent.Instance.States.GetValueOrDefault(currentState);
             if (currentStateContext != null)
             {
-                currentStateContext.Exit(machineContext);
+                currentStateContext.Exit(monsterStateMachineComponent);
             }
 
-            machineContext.CurrentState = newState;
+            monsterStateMachineComponent.CurrentState = newState;
             
             var newStateContext = StateMachineManagerComponent.Instance.States.GetValueOrDefault(newState);
             if (newStateContext != null)
             {
-                newStateContext.Enter(machineContext);
+                newStateContext.Enter(monsterStateMachineComponent);
+            }
+        }
+
+
+        public static void Execute(this MonsterStateMachineComponent monsterStateMachineComponent)
+        {
+            var currentState = monsterStateMachineComponent.CurrentState;
+            var currentStateContext = StateMachineManagerComponent.Instance.States.GetValueOrDefault(currentState);
+            if (currentStateContext != null)
+            {
+                currentStateContext.Execute(monsterStateMachineComponent);
             }
         }
     }

@@ -24,16 +24,22 @@ namespace ET
 
             ushort compId = OpcodeType.Instance.GetOpcode(elemData.GetType());
             dirtyUnitEntity.DirtyElemDatas[compId] = elemData;
+            
+            if (elemData.GetType() == typeof(UnitEntityPosition))
+            {
+                var unitEntity = this.mLogicWorld.AllEntities.GetValueOrDefault(insId);
+                if (unitEntity != null && elemData is UnitEntityPosition unitEntityPosition)
+                {
+                    var newCellId = AOIHelper.GetCellId(unitEntityPosition.Position);
+                    var aoiUnitEntity = unitEntity.GetComponent<AOIUnitEntity>();
+                    if (aoiUnitEntity != null && newCellId != aoiUnitEntity.CellId)
+                    {
+                        var aoiManagerComponent = this.mLogicWorld.GetComponent<AOIManagerComponent>();
+                        aoiManagerComponent.MoveCell(aoiUnitEntity, newCellId);
+                    }
+                }
+            }
         }
-    }
-    
-    
-    // TODO 对象池
-    public class SyncDirtyUnitEntity
-    {
-        public long InsId;
-        // TODO 对象池
-        public Dictionary<ushort, IUnitEntityElemData> DirtyElemDatas = new ();
     }
 }
 

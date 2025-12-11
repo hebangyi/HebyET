@@ -21,11 +21,11 @@ namespace ET
     
     public interface IMachineState
     {
-        void Enter(StateMachineContext context);
+        void Enter(MonsterStateMachineComponent component);
         
-        void Execute(StateMachineContext context);
+        void Execute(MonsterStateMachineComponent component);
         
-        void Exit(StateMachineContext context);
+        void Exit(MonsterStateMachineComponent component);
     }
     
     public class MachineState : BaseAttribute

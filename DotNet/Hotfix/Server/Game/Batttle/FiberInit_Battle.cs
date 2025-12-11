@@ -20,6 +20,10 @@ namespace ET.Server
             root.AddComponent<LogicWorldLogicManagerComponent>();
             root.AddComponent<BattleEventManagerComponent>();
             
+            // 状态机加载类
+            root.AddComponent<StateMachineManagerComponent>();
+            
+            
             // 业务相关
             root.AddComponent<BattleMatchComponent>();
             root.AddComponent<BattleWorldManagerComponent>();

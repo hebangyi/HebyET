@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+﻿/*using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -96,4 +96,4 @@ namespace ET.Analyzer
             return false;
         }
     }
-}
+}*/

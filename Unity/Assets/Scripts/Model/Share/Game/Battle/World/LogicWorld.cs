@@ -50,4 +50,13 @@ namespace ET
         // 逻辑帧脏数据
         public Dictionary<long, SyncDirtyUnitEntity> DirtyUnitEntities = new ();
     }
+    
+        
+    // TODO 对象池
+    public class SyncDirtyUnitEntity
+    {
+        public long InsId;
+        // TODO 对象池
+        public Dictionary<ushort, IUnitEntityElemData> DirtyElemDatas = new ();
+    }
 }
