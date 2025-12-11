@@ -15,5 +15,5 @@ namespace ET
         public Dictionary<int, ILogicClientInput> ClientInputLogics = new();
         
         public Dictionary<UETypeEnum, ILogicUnitEntityContext> UnitEntityContexts = new ();
-    }    
+    }
 }

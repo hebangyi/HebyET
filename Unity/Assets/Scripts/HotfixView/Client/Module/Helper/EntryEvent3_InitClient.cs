@@ -21,7 +21,8 @@ namespace ET.Client
             // root.AddComponent<GizmoDebugComponent>();
             // 战斗逻辑模块
             root.AddComponent<BattleEventManagerComponent>();
-            
+            // 状态机加载类
+            root.AddComponent<StateMachineManagerComponent>();
             
             
             // 客户端战斗世界管理器

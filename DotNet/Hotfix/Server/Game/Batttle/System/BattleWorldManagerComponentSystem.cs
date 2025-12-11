@@ -30,7 +30,6 @@ public static partial class BattleWorldManagerComponentSystem
         // AI组件
         world.AddComponent<AIComponent>();
         
-        
         // 创建地图
         PlantGenContext plantGenContext = new ();
         plantGenContext.InitData.AreaSize = 2000;
@@ -63,6 +62,7 @@ public static partial class BattleWorldManagerComponentSystem
         self.Worlds[world.Id] = world;
         
         world.WorldStatusEnum = WorldStatusEnum.Battle;
+        world.NowMilliSeconds = TimeInfo.Instance.NowMillTime();
         self.UpdateQueue.AddFirst(world);
         return world;
     }

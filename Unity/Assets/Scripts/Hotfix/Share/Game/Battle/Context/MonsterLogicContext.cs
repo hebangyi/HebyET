@@ -21,6 +21,8 @@ namespace ET
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             unitEntity.AddComponent<AOIUnitEntity, float2, UETypeEnum>(unitEntityPosition.Position, UETypeEnum.Monster);
             unitEntity.AddComponent<MonsterAIComponent>();
+            // 怪物状态机
+            unitEntity.AddComponent<MonsterStateMachineComponent>();
             
             var logicWorld = unitEntity.LogicWorld();
             logicWorld.Monsters[unitEntity.InsId] = unitEntity;
