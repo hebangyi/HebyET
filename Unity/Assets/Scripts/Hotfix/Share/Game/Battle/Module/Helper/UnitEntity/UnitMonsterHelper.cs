@@ -9,28 +9,17 @@ namespace ET
             return logicWorld.Create(UETypeEnum.Monster, position);
         }
 
-        public static bool IsEnemyInSight(UnitEntity unitEntity)
+        public static bool IsFightAction(UnitEntity unitEntity)
         {
+            /*
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
-            var logicWorld = unitEntity.LogicWorld();
-            foreach (var playerUnitEntity in logicWorld.PlayerId2Players.Values)
+            var monsterRuntimeData = unitEntity.GetUnitEntityLogicElemData<MonsterRuntimeData>();
+            if (BattleHelper.Distance(unitEntityPosition.Position, monsterRuntimeData.BornPosition) > 50)
             {
-                var playerUnitEntityPosition = playerUnitEntity.GetUnitEntityElemData<UnitEntityPosition>();
-                var distance = BattleHelper.Distance(unitEntityPosition.Position, playerUnitEntityPosition.Position);
-
-                if (distance <= 100)
-                {
-                    Log.Info("IsEnemyInSight...");
-                    return true;
-                }
-            }
-
-            return false;
-        }
-        
-        
-        public static bool IsInAttackRange(UnitEntity unitEntity)
-        {
+                return false;
+            }*/
+            
+            
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             var logicWorld = unitEntity.LogicWorld();
             foreach (var playerUnitEntity in logicWorld.PlayerId2Players.Values)
@@ -44,7 +33,24 @@ namespace ET
                     return true;
                 }
             }
-
+            
+            return false;
+        }
+        
+        public static bool IsChaseAction(UnitEntity unitEntity)
+        {
+            var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
+            var logicWorld = unitEntity.LogicWorld();
+            foreach (var playerUnitEntity in logicWorld.PlayerId2Players.Values)
+            {
+                var playerUnitEntityPosition = playerUnitEntity.GetUnitEntityElemData<UnitEntityPosition>();
+                var distance = BattleHelper.Distance(unitEntityPosition.Position, playerUnitEntityPosition.Position);
+                if (distance <= 20)
+                {
+                    Log.Info("IsEnemyInSight...");
+                    return true;
+                }
+            }
             return false;
         }
     }

@@ -14,13 +14,13 @@ namespace ET
 
         public bool IsFightAction()
         {
-            return false;
+            return UnitMonsterHelper.IsFightAction(UnitEntity);
         }
 
         // 追击
         public bool IsChaseAction()
         {
-            return false;
+            return UnitMonsterHelper.IsChaseAction(UnitEntity);
         }
 
         public void DoChaseAction()
