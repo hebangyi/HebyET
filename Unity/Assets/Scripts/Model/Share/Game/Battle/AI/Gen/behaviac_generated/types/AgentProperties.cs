@@ -188,7 +188,7 @@ namespace behaviac
 
 		public override bool Load()
 		{
-			AgentMeta.TotalSignature = 2545698512;
+			AgentMeta.TotalSignature = 692738633;
 
 			AgentMeta meta;
 
@@ -203,13 +203,14 @@ namespace behaviac
 			meta.RegisterMethod(502968959, new CMethod_behaviac_Agent_VectorRemove());
 
 			// MonsterAIAgent
-			meta = new AgentMeta(60070763);
+			meta = new AgentMeta(2800602388);
 			AgentMeta._AgentMetas_[4258905833] = meta;
 			meta.RegisterMethod(2099025523, new CAgentMethodVoid(delegate(Agent self) { ((MonsterAIAgent)self).DoChaseAction(); }));
 			meta.RegisterMethod(3081479165, new CAgentMethodVoid(delegate(Agent self) { ((MonsterAIAgent)self).DoFightAction(); }));
 			meta.RegisterMethod(3379256086, new CAgentMethodVoid(delegate(Agent self) { ((MonsterAIAgent)self).DoPatrolAction(); }));
-			meta.RegisterMethod(2236423874, new CAgentMethod<behaviac.EBTStatus>(delegate(Agent self) { return ((MonsterAIAgent)self).IsEnemyInSight(); }));
-			meta.RegisterMethod(2441666383, new CAgentMethod<behaviac.EBTStatus>(delegate(Agent self) { return ((MonsterAIAgent)self).IsInAttackRange(); }));
+			meta.RegisterMethod(3831232777, new CAgentMethod<bool>(delegate(Agent self) { return ((MonsterAIAgent)self).IsChaseAction(); }));
+			meta.RegisterMethod(787270791, new CAgentMethod<bool>(delegate(Agent self) { return ((MonsterAIAgent)self).IsFightAction(); }));
+			meta.RegisterMethod(2032305243, new CAgentMethod<bool>(delegate(Agent self) { return ((MonsterAIAgent)self).IsPatrolAction(); }));
 			meta.RegisterMethod(1045109914, new CAgentStaticMethodVoid<string>(delegate(string param0) { MonsterAIAgent.LogMessage(param0); }));
 			meta.RegisterMethod(2521019022, new CMethod_behaviac_Agent_VectorAdd());
 			meta.RegisterMethod(2306090221, new CMethod_behaviac_Agent_VectorClear());
@@ -233,6 +234,8 @@ namespace behaviac
 			AgentMeta.Register<behaviac.Agent>("behaviac.Agent");
 			AgentMeta.Register<MonsterAIAgent>("MonsterAIAgent");
 			AgentMeta.Register<TestAgent>("TestAgent");
+
+			behaviac.Workspace.Instance.UseIntValue = true;
 			return true;
 		}
 

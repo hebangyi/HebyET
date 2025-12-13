@@ -35,29 +35,29 @@ namespace ET
     public static class RandomHelper
     {
         [StaticField]
-        public static Random random = new Random(Guid.NewGuid().GetHashCode());
-        
+        public static Random Random { get; private set; } = new Random(Guid.NewGuid().GetHashCode());
+
         public static ulong RandUInt64()
         {
             byte[] byte8 = new byte[8];
-            random.NextBytes(byte8);
+            Random.NextBytes(byte8);
             return BitConverter.ToUInt64(byte8, 0);
         }
 
         public static int RandInt32()
         {
-            return random.Next();
+            return Random.Next();
         }
         
         public static uint RandUInt32()
         {
-            return (uint)random.Next();
+            return (uint)Random.Next();
         }
 
         public static long RandInt64()
         {
             byte[] byte8 = new byte[8];
-            random.NextBytes(byte8);
+            Random.NextBytes(byte8);
             return BitConverter.ToInt64(byte8, 0);
         }
 
@@ -69,7 +69,7 @@ namespace ET
         /// <returns></returns>
         public static int RandomNumber(int lower, int upper)
         {
-            int value = random.Next(lower, upper);
+            int value = Random.Next(lower, upper);
             return value;
         }
 
@@ -81,7 +81,7 @@ namespace ET
             }
             
             long num = maxValue - minValue;
-            return minValue + (long) (random.NextDouble() * num);
+            return minValue + (long) (Random.NextDouble() * num);
         }
 
         public static int NextInt(int minValue, int maxValue)
@@ -92,12 +92,12 @@ namespace ET
             }
 
             int num = maxValue - minValue;
-            return minValue + (int)(random.NextDouble() * num);
+            return minValue + (int)(Random.NextDouble() * num);
         }
 
         public static bool RandomBool()
         {
-            return random.Next(2) == 0;
+            return Random.Next(2) == 0;
         }
 
         public static T RandomArray<T>(this T[] array)
@@ -129,7 +129,7 @@ namespace ET
 
             for (int i = 0; i < arr.Count; i++)
             {
-                int index = random.Next(0, arr.Count);
+                int index = Random.Next(0, arr.Count);
                 T temp = arr[index];
                 arr[index] = arr[i];
                 arr[i] = temp;
@@ -142,7 +142,7 @@ namespace ET
             int j = 0;
             //表示键和值对的集合。
             Hashtable hashtable = new Hashtable();
-            Random rm = random;
+            Random rm = Random;
             while (hashtable.Count < sum) {
                 //返回一个min到max之间的随机数
                 int nValue = rm.Next(min, max);
@@ -190,7 +190,7 @@ namespace ET
             {
                 return true;
             }
-            int beginIndex = random.Next(0, sourceList.Count - 1);
+            int beginIndex = Random.Next(0, sourceList.Count - 1);
             for (int i = beginIndex; i < beginIndex + randCount; i++)
             {
                 destList.Add(sourceList[i % sourceList.Count]);
@@ -208,7 +208,7 @@ namespace ET
         //取随机值 保留两位
         public static float RandFloatKeep2()
         {
-            return (float)Math.Round(random.NextDouble(),2);
+            return (float)Math.Round(Random.NextDouble(),2);
         }
 
         //取随机值 保留两位
@@ -223,7 +223,7 @@ namespace ET
         private static int Rand(int n)
         {
             // 注意，返回值是左闭右开，所以maxValue要加1
-            return random.Next(1, n + 1);
+            return Random.Next(1, n + 1);
         }
 
         /// <summary>
@@ -359,7 +359,7 @@ namespace ET
 
         public static float RandFloat()
         {
-            return (float)random.NextDouble();
+            return (float)Random.NextDouble();
         }
 
         public static float RandomNumberFloat(float lower, float upper)

@@ -5,7 +5,10 @@
         public static void Tick(this LogicWorld self)
         {
             self.Frame++;
-            self.NowMilliSeconds = TimeInfo.Instance.NowMillTime();
+            self.NowMilliTime = TimeInfo.Instance.NowMillTime();
+
+            behaviac.Workspace.Instance.DoubleValueSinceStartup = self.NowMilliTime;
+            
             // Log.Info($"World Id : {self.Id} Tick Frame: {self.Frame}");
             foreach (var comId2LogicsKv in LogicWorldLogicManagerComponent.Instance.Type2TickLogics)
             {
@@ -13,7 +16,7 @@
                 logicHandler.OnTick(self);
             }
             // AI 更新
-            // self.GetComponent<AIComponent>().UpdateAITick();
+            self.GetComponent<AIComponent>().UpdateAITick();
             
             // 同步AOI数据
             self.GetComponent<AOIManagerComponent>()?.SyncHandler?.Sync();

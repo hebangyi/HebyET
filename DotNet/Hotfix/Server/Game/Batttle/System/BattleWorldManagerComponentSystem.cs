@@ -62,7 +62,7 @@ public static partial class BattleWorldManagerComponentSystem
         self.Worlds[world.Id] = world;
         
         world.WorldStatusEnum = WorldStatusEnum.Battle;
-        world.NowMilliSeconds = TimeInfo.Instance.NowMillTime();
+        world.NowMilliTime = TimeInfo.Instance.NowMillTime();
         self.UpdateQueue.AddFirst(world);
         return world;
     }

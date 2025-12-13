@@ -20,7 +20,7 @@ namespace ET
         // 当前世界逻辑帧
         public uint Frame = 1;
         // 下一次更新的时间
-        public long NowMilliSeconds;
+        public long NowMilliTime;
         public long NextUpdateMillTime;
         public int Interval = 100;
 

@@ -12,11 +12,11 @@ namespace ET
     public enum MachineStateEnum
     {
         Default = 0,
-        Idle = 1,               // Idle
-        Rest = 2,               // 休息
-        Patrol = 3,             // 巡逻
-        Chase = 4,              // 追击
-        Fight = 5,              // 攻击
+        Idle,               // Idle
+        Rest,               // 休息
+        Patrol,             // 巡逻
+        Chase,              // 追击
+        Fight,              // 攻击
     }
     
     public interface IMachineState

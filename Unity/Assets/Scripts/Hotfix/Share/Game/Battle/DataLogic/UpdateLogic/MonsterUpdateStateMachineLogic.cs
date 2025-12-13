@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Unity.Mathematics; 
+using Unity.Mathematics;
 
 namespace ET
 {
     [UnitEntityLogic]
-    public class MonsterUpdateAILogic: ILogicTickUpdate
+    public class MonsterUpdateStateMachineLogic : ILogicTickUpdate
     {
         public void OnTick(LogicWorld logicWorld)
         {
@@ -14,5 +14,5 @@ namespace ET
                 unitEntity.GetComponent<MonsterStateMachineComponent>().Execute();
             }
         }
-    }    
+    }
 }

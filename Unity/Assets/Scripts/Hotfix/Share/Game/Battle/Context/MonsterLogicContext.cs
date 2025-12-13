@@ -13,7 +13,8 @@ namespace ET
             unitEntityPosition.Position = unitEntityInitContext.Params is float2 float2 ? float2 : default;
             unitEntityPosition.Position += new float2(-10, 10);
 
-            unitEntity.CreateUnitEntityLogicElemData<MonsterRuntimeAIData>();
+            var monsterRuntimeAIData = unitEntity.CreateUnitEntityLogicElemData<MonsterRuntimeData>();
+            monsterRuntimeAIData.BornPosition = unitEntityPosition.Position;
         }
 
         public override void Init(UnitEntity unitEntity)

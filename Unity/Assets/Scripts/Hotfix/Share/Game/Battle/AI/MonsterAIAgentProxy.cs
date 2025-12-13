@@ -7,31 +7,36 @@ namespace ET
     {
         public UnitEntity UnitEntity { get; set; }
 
-        public EBTStatus IsEnemyInSight()
+        public bool IsPatrolAction()
         {
-            return UnitMonsterHelper.IsEnemyInSight(UnitEntity)? EBTStatus.BT_SUCCESS: EBTStatus.BT_FAILURE;
+            return true;
         }
 
-        public EBTStatus IsInAttackRange()
+        public bool IsFightAction()
         {
-            return UnitMonsterHelper.IsInAttackRange(UnitEntity)? EBTStatus.BT_SUCCESS: EBTStatus.BT_FAILURE;
+            return false;
         }
-        
-        
+
+        // 追击
+        public bool IsChaseAction()
+        {
+            return false;
+        }
+
         public void DoChaseAction()
         {
-            // Log.Info("做追击...");
+            this.UnitEntity.GetComponent<MonsterStateMachineComponent>().ChangeState(MachineStateEnum.Chase);
         }
 
         public void DoFightAction()
         {
-            // Log.Info("做打击...");
+            this.UnitEntity.GetComponent<MonsterStateMachineComponent>().ChangeState(MachineStateEnum.Fight);
         }
 
         public void DoPatrolAction()
         {
-            var monsterAIComponent = this.UnitEntity.GetComponent<MonsterAIComponent>();
             // Log.Info("做巡逻...");
+            this.UnitEntity.GetComponent<MonsterStateMachineComponent>().ChangeState(MachineStateEnum.Patrol);
         }
     }
 }

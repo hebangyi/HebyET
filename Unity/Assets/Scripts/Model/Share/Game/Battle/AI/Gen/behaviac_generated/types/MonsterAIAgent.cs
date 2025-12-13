@@ -7,11 +7,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using behaviac;
-using ET;
 
 ///<<< BEGIN WRITING YOUR CODE FILE_INIT
-
+using ET;
 ///<<< END WRITING YOUR CODE
 
 public class MonsterAIAgent : behaviac.Agent
@@ -20,41 +18,53 @@ public class MonsterAIAgent : behaviac.Agent
 {
 	public void DoChaseAction()
 	{
-///<<< BEGIN WRITING YOUR CODE
-		AIAgentProxy?.DoChaseAction();
+///<<< BEGIN WRITING YOUR CODE DoChaseAction
+		proxy.DoChaseAction();
 ///<<< END WRITING YOUR CODE
 	}
 
 	public void DoFightAction()
 	{
 ///<<< BEGIN WRITING YOUR CODE DoFightAction
-		AIAgentProxy?.DoFightAction();
+		proxy.DoFightAction();
 ///<<< END WRITING YOUR CODE
 	}
 
 	public void DoPatrolAction()
 	{
 ///<<< BEGIN WRITING YOUR CODE DoPatrolAction
-		AIAgentProxy?.DoPatrolAction();
+		proxy.DoPatrolAction();
 ///<<< END WRITING YOUR CODE
 	}
 
-	public behaviac.EBTStatus IsEnemyInSight()
+	public bool IsChaseAction()
 	{
-///<<< BEGIN WRITING YOUR CODE IsEnemyInSight
-		return AIAgentProxy?.IsEnemyInSight() ?? EBTStatus.BT_FAILURE;
+///<<< BEGIN WRITING YOUR CODE IsChaseAction
+		return proxy.IsChaseAction();
 ///<<< END WRITING YOUR CODE
 	}
 
-	public behaviac.EBTStatus IsInAttackRange()
+	public bool IsFightAction()
 	{
-///<<< BEGIN WRITING YOUR CODE IsInAttackRange
-		return AIAgentProxy?.IsInAttackRange() ?? EBTStatus.BT_FAILURE;
+///<<< BEGIN WRITING YOUR CODE IsFightAction
+		return proxy.IsFightAction();
+///<<< END WRITING YOUR CODE
+	}
+
+	public bool IsPatrolAction()
+	{
+///<<< BEGIN WRITING YOUR CODE IsPatrolAction
+		return proxy.IsPatrolAction();
 ///<<< END WRITING YOUR CODE
 	}
 
 ///<<< BEGIN WRITING YOUR CODE CLASS_PART
-	public IMonsterAIAgentInterface AIAgentProxy { get; set; }
+	public MonsterAIAgent(IMonsterAIAgentInterface proxy)
+	{
+		this.proxy = proxy;
+	}
+	
+	public IMonsterAIAgentInterface proxy;
 ///<<< END WRITING YOUR CODE
 
 }

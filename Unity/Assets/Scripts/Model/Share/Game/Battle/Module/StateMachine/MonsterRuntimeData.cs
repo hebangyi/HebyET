@@ -3,25 +3,20 @@ using Unity.Mathematics;
 
 namespace ET
 {
-    public class MonsterRuntimeAIData: IUnitEntityLogicElemData
+    public class MonsterRuntimeData: IUnitEntityLogicElemData
     {
-        public MonsterAIStatus AIStatus;
-
+        public float2 BornPosition;
+        
         // 巡逻数据
         public PatrolData PatrolData = new PatrolData();
     }
-
-    public enum MonsterAIStatus
-    {
-        None = 0,
-        Patrol = 1,
-    }
+    
 
     // 巡逻的数据
     public class PatrolData
     {
-        // 巡逻状态
-        public PatrolStatus patrolStatus;
+        // 巡逻等待
+        public PatrolStatus PatrolStatus;
         // 巡逻的目标点
         public float2 ToPosition { get; set; }
         // Id完成时间
@@ -30,7 +25,7 @@ namespace ET
 
     public enum PatrolStatus
     {
-        Idle = 0,
-        Run = 1,
+        Idle,
+        Run,
     }
 }

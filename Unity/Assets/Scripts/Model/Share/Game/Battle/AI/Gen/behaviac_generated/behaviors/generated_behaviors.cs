@@ -13,30 +13,17 @@ namespace behaviac
 	// Source file: MonsterAITree
 
 	[behaviac.GeneratedTypeMetaInfo()]
-	class Action_bt_MonsterAITree_node3 : behaviac.Action
+	class Condition_bt_MonsterAITree_node2 : behaviac.Condition
 	{
-		public Action_bt_MonsterAITree_node3()
+		public Condition_bt_MonsterAITree_node2()
 		{
-			this.m_resultOption = EBTStatus.BT_INVALID;
 		}
 		protected override EBTStatus update_impl(behaviac.Agent pAgent, behaviac.EBTStatus childStatus)
 		{
-			behaviac.EBTStatus result = ((MonsterAIAgent)pAgent).IsEnemyInSight();
-			return result;
-		}
-	}
-
-	[behaviac.GeneratedTypeMetaInfo()]
-	class Action_bt_MonsterAITree_node2 : behaviac.Action
-	{
-		public Action_bt_MonsterAITree_node2()
-		{
-			this.m_resultOption = EBTStatus.BT_INVALID;
-		}
-		protected override EBTStatus update_impl(behaviac.Agent pAgent, behaviac.EBTStatus childStatus)
-		{
-			behaviac.EBTStatus result = ((MonsterAIAgent)pAgent).IsInAttackRange();
-			return result;
+			bool opl = ((MonsterAIAgent)pAgent).IsFightAction();
+			bool opr = true;
+			bool op = opl == opr;
+			return op ? EBTStatus.BT_SUCCESS : EBTStatus.BT_FAILURE;
 		}
 	}
 
@@ -55,39 +42,17 @@ namespace behaviac
 	}
 
 	[behaviac.GeneratedTypeMetaInfo()]
-	class Action_bt_MonsterAITree_node10 : behaviac.Action
+	class Condition_bt_MonsterAITree_node3 : behaviac.Condition
 	{
-		public Action_bt_MonsterAITree_node10()
+		public Condition_bt_MonsterAITree_node3()
 		{
-			this.m_resultOption = EBTStatus.BT_INVALID;
 		}
 		protected override EBTStatus update_impl(behaviac.Agent pAgent, behaviac.EBTStatus childStatus)
 		{
-			behaviac.EBTStatus result = ((MonsterAIAgent)pAgent).IsEnemyInSight();
-			return result;
-		}
-	}
-
-	[behaviac.GeneratedTypeMetaInfo()]
-	class DecoratorNot_bt_MonsterAITree_node11 : behaviac.DecoratorNot
-	{
-		public DecoratorNot_bt_MonsterAITree_node11()
-		{
-			m_bDecorateWhenChildEnds = false;
-		}
-	}
-
-	[behaviac.GeneratedTypeMetaInfo()]
-	class Action_bt_MonsterAITree_node17 : behaviac.Action
-	{
-		public Action_bt_MonsterAITree_node17()
-		{
-			this.m_resultOption = EBTStatus.BT_INVALID;
-		}
-		protected override EBTStatus update_impl(behaviac.Agent pAgent, behaviac.EBTStatus childStatus)
-		{
-			behaviac.EBTStatus result = ((MonsterAIAgent)pAgent).IsInAttackRange();
-			return result;
+			bool opl = ((MonsterAIAgent)pAgent).IsChaseAction();
+			bool opr = true;
+			bool op = opl == opr;
+			return op ? EBTStatus.BT_SUCCESS : EBTStatus.BT_FAILURE;
 		}
 	}
 
@@ -106,6 +71,21 @@ namespace behaviac
 	}
 
 	[behaviac.GeneratedTypeMetaInfo()]
+	class Condition_bt_MonsterAITree_node7 : behaviac.Condition
+	{
+		public Condition_bt_MonsterAITree_node7()
+		{
+		}
+		protected override EBTStatus update_impl(behaviac.Agent pAgent, behaviac.EBTStatus childStatus)
+		{
+			bool opl = ((MonsterAIAgent)pAgent).IsPatrolAction();
+			bool opr = true;
+			bool op = opl == opr;
+			return op ? EBTStatus.BT_SUCCESS : EBTStatus.BT_FAILURE;
+		}
+	}
+
+	[behaviac.GeneratedTypeMetaInfo()]
 	class Action_bt_MonsterAITree_node15 : behaviac.Action
 	{
 		public Action_bt_MonsterAITree_node15()
@@ -116,6 +96,18 @@ namespace behaviac
 		{
 			((MonsterAIAgent)pAgent).DoPatrolAction();
 			return EBTStatus.BT_SUCCESS;
+		}
+	}
+
+	[behaviac.GeneratedTypeMetaInfo()]
+	class Wait_bt_MonsterAITree_node8 : behaviac.Wait
+	{
+		public Wait_bt_MonsterAITree_node8()
+		{
+		}
+		protected override double GetTime(Agent pAgent)
+		{
+			return 5000;
 		}
 	}
 
@@ -148,34 +140,14 @@ namespace behaviac
 #endif
 					node0.AddChild(node1);
 					{
-						Sequence node7 = new Sequence();
-						node7.SetClassNameString("Sequence");
-						node7.SetId(7);
+						Condition_bt_MonsterAITree_node2 node2 = new Condition_bt_MonsterAITree_node2();
+						node2.SetClassNameString("Condition");
+						node2.SetId(2);
 #if !BEHAVIAC_RELEASE
-						node7.SetAgentType("MonsterAIAgent");
+						node2.SetAgentType("MonsterAIAgent");
 #endif
-						node1.AddChild(node7);
-						{
-							Action_bt_MonsterAITree_node3 node3 = new Action_bt_MonsterAITree_node3();
-							node3.SetClassNameString("Action");
-							node3.SetId(3);
-#if !BEHAVIAC_RELEASE
-							node3.SetAgentType("MonsterAIAgent");
-#endif
-							node7.AddChild(node3);
-							node7.SetHasEvents(node7.HasEvents() | node3.HasEvents());
-						}
-						{
-							Action_bt_MonsterAITree_node2 node2 = new Action_bt_MonsterAITree_node2();
-							node2.SetClassNameString("Action");
-							node2.SetId(2);
-#if !BEHAVIAC_RELEASE
-							node2.SetAgentType("MonsterAIAgent");
-#endif
-							node7.AddChild(node2);
-							node7.SetHasEvents(node7.HasEvents() | node2.HasEvents());
-						}
-						node1.SetHasEvents(node1.HasEvents() | node7.HasEvents());
+						node1.AddChild(node2);
+						node1.SetHasEvents(node1.HasEvents() | node2.HasEvents());
 					}
 					{
 						Sequence node4 = new Sequence();
@@ -208,44 +180,14 @@ namespace behaviac
 #endif
 					node0.AddChild(node6);
 					{
-						Sequence node8 = new Sequence();
-						node8.SetClassNameString("Sequence");
-						node8.SetId(8);
+						Condition_bt_MonsterAITree_node3 node3 = new Condition_bt_MonsterAITree_node3();
+						node3.SetClassNameString("Condition");
+						node3.SetId(3);
 #if !BEHAVIAC_RELEASE
-						node8.SetAgentType("MonsterAIAgent");
+						node3.SetAgentType("MonsterAIAgent");
 #endif
-						node6.AddChild(node8);
-						{
-							Action_bt_MonsterAITree_node10 node10 = new Action_bt_MonsterAITree_node10();
-							node10.SetClassNameString("Action");
-							node10.SetId(10);
-#if !BEHAVIAC_RELEASE
-							node10.SetAgentType("MonsterAIAgent");
-#endif
-							node8.AddChild(node10);
-							node8.SetHasEvents(node8.HasEvents() | node10.HasEvents());
-						}
-						{
-							DecoratorNot_bt_MonsterAITree_node11 node11 = new DecoratorNot_bt_MonsterAITree_node11();
-							node11.SetClassNameString("DecoratorNot");
-							node11.SetId(11);
-#if !BEHAVIAC_RELEASE
-							node11.SetAgentType("MonsterAIAgent");
-#endif
-							node8.AddChild(node11);
-							{
-								Action_bt_MonsterAITree_node17 node17 = new Action_bt_MonsterAITree_node17();
-								node17.SetClassNameString("Action");
-								node17.SetId(17);
-#if !BEHAVIAC_RELEASE
-								node17.SetAgentType("MonsterAIAgent");
-#endif
-								node11.AddChild(node17);
-								node11.SetHasEvents(node11.HasEvents() | node17.HasEvents());
-							}
-							node8.SetHasEvents(node8.HasEvents() | node11.HasEvents());
-						}
-						node6.SetHasEvents(node6.HasEvents() | node8.HasEvents());
+						node6.AddChild(node3);
+						node6.SetHasEvents(node6.HasEvents() | node3.HasEvents());
 					}
 					{
 						Sequence node9 = new Sequence();
@@ -278,14 +220,14 @@ namespace behaviac
 #endif
 					node0.AddChild(node13);
 					{
-						True node16 = new True();
-						node16.SetClassNameString("True");
-						node16.SetId(16);
+						Condition_bt_MonsterAITree_node7 node7 = new Condition_bt_MonsterAITree_node7();
+						node7.SetClassNameString("Condition");
+						node7.SetId(7);
 #if !BEHAVIAC_RELEASE
-						node16.SetAgentType("MonsterAIAgent");
+						node7.SetAgentType("MonsterAIAgent");
 #endif
-						node13.AddChild(node16);
-						node13.SetHasEvents(node13.HasEvents() | node16.HasEvents());
+						node13.AddChild(node7);
+						node13.SetHasEvents(node13.HasEvents() | node7.HasEvents());
 					}
 					{
 						Sequence node14 = new Sequence();
@@ -304,6 +246,16 @@ namespace behaviac
 #endif
 							node14.AddChild(node15);
 							node14.SetHasEvents(node14.HasEvents() | node15.HasEvents());
+						}
+						{
+							Wait_bt_MonsterAITree_node8 node8 = new Wait_bt_MonsterAITree_node8();
+							node8.SetClassNameString("Wait");
+							node8.SetId(8);
+#if !BEHAVIAC_RELEASE
+							node8.SetAgentType("MonsterAIAgent");
+#endif
+							node14.AddChild(node8);
+							node14.SetHasEvents(node14.HasEvents() | node8.HasEvents());
 						}
 						node13.SetHasEvents(node13.HasEvents() | node14.HasEvents());
 					}
@@ -347,6 +299,22 @@ namespace behaviac
 	}
 
 	[behaviac.GeneratedTypeMetaInfo()]
+	class Assignment_bt_TestAgentTree_node9 : behaviac.Assignment
+	{
+		public Assignment_bt_TestAgentTree_node9()
+		{
+			m_bCast = true;
+		}
+		protected override EBTStatus update_impl(behaviac.Agent pAgent, behaviac.EBTStatus childStatus)
+		{
+			EBTStatus result = EBTStatus.BT_SUCCESS;
+			behaviac.EBTStatus opr = behaviac.EBTStatus.BT_FAILURE;
+			pAgent.SetVariable<behaviac.EBTStatus>("status", 3504662893u, opr);
+			return result;
+		}
+	}
+
+	[behaviac.GeneratedTypeMetaInfo()]
 	class Wait_bt_TestAgentTree_node7 : behaviac.Wait
 	{
 		public Wait_bt_TestAgentTree_node7()
@@ -354,29 +322,14 @@ namespace behaviac
 		}
 		protected override double GetTime(Agent pAgent)
 		{
-			return 5f;
+			return 5000f;
 		}
 	}
 
 	[behaviac.GeneratedTypeMetaInfo()]
-	class Condition_bt_TestAgentTree_node8 : behaviac.Condition
+	class Action_bt_TestAgentTree_node8 : behaviac.Action
 	{
-		public Condition_bt_TestAgentTree_node8()
-		{
-		}
-		protected override EBTStatus update_impl(behaviac.Agent pAgent, behaviac.EBTStatus childStatus)
-		{
-			behaviac.EBTStatus opl = (behaviac.EBTStatus)AgentMetaVisitor.GetProperty(pAgent, "status");
-			behaviac.EBTStatus opr = behaviac.EBTStatus.BT_SUCCESS;
-			bool op = opl == opr;
-			return op ? EBTStatus.BT_SUCCESS : EBTStatus.BT_FAILURE;
-		}
-	}
-
-	[behaviac.GeneratedTypeMetaInfo()]
-	class Action_bt_TestAgentTree_node1 : behaviac.Action
-	{
-		public Action_bt_TestAgentTree_node1()
+		public Action_bt_TestAgentTree_node8()
 		{
 			this.m_resultOption = EBTStatus.BT_SUCCESS;
 		}
@@ -388,6 +341,21 @@ namespace behaviac
 	}
 
 	[behaviac.GeneratedTypeMetaInfo()]
+	class Assignment_bt_TestAgentTree_node1 : behaviac.Assignment
+	{
+		public Assignment_bt_TestAgentTree_node1()
+		{
+		}
+		protected override EBTStatus update_impl(behaviac.Agent pAgent, behaviac.EBTStatus childStatus)
+		{
+			EBTStatus result = EBTStatus.BT_SUCCESS;
+			behaviac.EBTStatus opr = behaviac.EBTStatus.BT_SUCCESS;
+			pAgent.SetVariable<behaviac.EBTStatus>("status", 3504662893u, opr);
+			return result;
+		}
+	}
+
+	[behaviac.GeneratedTypeMetaInfo()]
 	class Wait_bt_TestAgentTree_node2 : behaviac.Wait
 	{
 		public Wait_bt_TestAgentTree_node2()
@@ -395,7 +363,7 @@ namespace behaviac
 		}
 		protected override double GetTime(Agent pAgent)
 		{
-			return 5f;
+			return 5000f;
 		}
 	}
 
@@ -448,6 +416,16 @@ namespace behaviac
 						node5.SetHasEvents(node5.HasEvents() | node6.HasEvents());
 					}
 					{
+						Assignment_bt_TestAgentTree_node9 node9 = new Assignment_bt_TestAgentTree_node9();
+						node9.SetClassNameString("Assignment");
+						node9.SetId(9);
+#if !BEHAVIAC_RELEASE
+						node9.SetAgentType("TestAgent");
+#endif
+						node5.AddChild(node9);
+						node5.SetHasEvents(node5.HasEvents() | node9.HasEvents());
+					}
+					{
 						Wait_bt_TestAgentTree_node7 node7 = new Wait_bt_TestAgentTree_node7();
 						node7.SetClassNameString("Wait");
 						node7.SetId(7);
@@ -468,18 +446,18 @@ namespace behaviac
 #endif
 					node3.AddChild(node0);
 					{
-						Condition_bt_TestAgentTree_node8 node8 = new Condition_bt_TestAgentTree_node8();
-						node8.SetClassNameString("Condition");
+						Action_bt_TestAgentTree_node8 node8 = new Action_bt_TestAgentTree_node8();
+						node8.SetClassNameString("Action");
 						node8.SetId(8);
 #if !BEHAVIAC_RELEASE
 						node8.SetAgentType("TestAgent");
 #endif
-						node0.SetCustomCondition(node8);
+						node0.AddChild(node8);
 						node0.SetHasEvents(node0.HasEvents() | node8.HasEvents());
 					}
 					{
-						Action_bt_TestAgentTree_node1 node1 = new Action_bt_TestAgentTree_node1();
-						node1.SetClassNameString("Action");
+						Assignment_bt_TestAgentTree_node1 node1 = new Assignment_bt_TestAgentTree_node1();
+						node1.SetClassNameString("Assignment");
 						node1.SetId(1);
 #if !BEHAVIAC_RELEASE
 						node1.SetAgentType("TestAgent");

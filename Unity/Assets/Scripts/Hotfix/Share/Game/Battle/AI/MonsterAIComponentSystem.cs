@@ -8,17 +8,19 @@
         [EntitySystem]
         private static void Awake(this MonsterAIComponent self)
         {
-            MonsterAIAgentProxy monsterAIAgentProxy = new MonsterAIAgentProxy();
+            MonsterAIAgentProxy monsterAIAgentProxy = new();
             var unitEntity = self.GetParent<UnitEntity>();
             monsterAIAgentProxy.UnitEntity = unitEntity;
             var logicWorld = unitEntity.LogicWorld();
             var aiComponent = logicWorld.GetComponent<AIComponent>();
+
+            self.Proxy = monsterAIAgentProxy;
+            
             
             // 企业微信
-            MonsterAIAgent monsterAIAgent = new MonsterAIAgent();
+            MonsterAIAgent monsterAIAgent = new (monsterAIAgentProxy);
             monsterAIAgent.btsetcurrent("MonsterAITree");
             
-            monsterAIAgent.AIAgentProxy = monsterAIAgentProxy;
             aiComponent.MonsterAIAgents[unitEntity.InsId] = monsterAIAgent;
         }
 

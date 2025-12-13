@@ -30,7 +30,6 @@ public class TestAgent : behaviac.Agent
 	{
 ///<<< BEGIN WRITING YOUR CODE DoFunction
 		Console.WriteLine("DoFunction");
-		this.status = behaviac.EBTStatus.BT_SUCCESS; 
 ///<<< END WRITING YOUR CODE
 	}
 
@@ -38,7 +37,6 @@ public class TestAgent : behaviac.Agent
 	{
 ///<<< BEGIN WRITING YOUR CODE DoReset
 Console.WriteLine("DoReset");
-this.status = behaviac.EBTStatus.BT_FAILURE;
 ///<<< END WRITING YOUR CODE
 	}
 

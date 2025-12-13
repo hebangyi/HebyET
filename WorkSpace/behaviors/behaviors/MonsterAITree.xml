@@ -10,16 +10,8 @@
           <Node Class="PluginBehaviac.Nodes.WithPrecondition" Enable="true" HasOwnPrefabData="false" Id="1" PrefabName="" PrefabNodeId="-1">
             <Comment Background="Gray" Text="攻击" />
             <Connector Identifier="Precondition">
-              <Node Class="PluginBehaviac.Nodes.Sequence" Enable="true" HasOwnPrefabData="false" Id="7" PrefabName="" PrefabNodeId="-1">
+              <Node Class="PluginBehaviac.Nodes.Condition" Enable="true" HasOwnPrefabData="false" Id="2" Operator="Equal" Opl="Self.MonsterAIAgent::IsFightAction()" Opr="const bool true" PrefabName="" PrefabNodeId="-1">
                 <Comment Background="NoColor" Text="" />
-                <Connector Identifier="GenericChildren">
-                  <Node Class="PluginBehaviac.Nodes.Action" Enable="true" HasOwnPrefabData="false" Id="3" Method="Self.MonsterAIAgent::IsEnemyInSight()" PrefabName="" PrefabNodeId="-1" ResultFunctor="&quot;&quot;" ResultOption="BT_INVALID">
-                    <Comment Background="NoColor" Text="" />
-                  </Node>
-                  <Node Class="PluginBehaviac.Nodes.Action" Enable="true" HasOwnPrefabData="false" Id="2" Method="Self.MonsterAIAgent::IsInAttackRange()" PrefabName="" PrefabNodeId="-1" ResultFunctor="&quot;&quot;" ResultOption="BT_INVALID">
-                    <Comment Background="NoColor" Text="" />
-                  </Node>
-                </Connector>
               </Node>
             </Connector>
             <Connector Identifier="Action">
@@ -36,21 +28,8 @@
           <Node Class="PluginBehaviac.Nodes.WithPrecondition" Enable="true" HasOwnPrefabData="false" Id="6" PrefabName="" PrefabNodeId="-1">
             <Comment Background="Gray" Text="追击" />
             <Connector Identifier="Precondition">
-              <Node Class="PluginBehaviac.Nodes.Sequence" Enable="true" HasOwnPrefabData="false" Id="8" PrefabName="" PrefabNodeId="-1">
+              <Node Class="PluginBehaviac.Nodes.Condition" Enable="true" HasOwnPrefabData="false" Id="3" Operator="Equal" Opl="Self.MonsterAIAgent::IsChaseAction()" Opr="const bool true" PrefabName="" PrefabNodeId="-1">
                 <Comment Background="NoColor" Text="" />
-                <Connector Identifier="GenericChildren">
-                  <Node Class="PluginBehaviac.Nodes.Action" Enable="true" HasOwnPrefabData="false" Id="10" Method="Self.MonsterAIAgent::IsEnemyInSight()" PrefabName="" PrefabNodeId="-1" ResultFunctor="&quot;&quot;" ResultOption="BT_INVALID">
-                    <Comment Background="NoColor" Text="" />
-                  </Node>
-                  <Node Class="PluginBehaviac.Nodes.DecoratorNot" DecorateWhenChildEnds="false" Enable="true" HasOwnPrefabData="false" Id="11" PrefabName="" PrefabNodeId="-1">
-                    <Comment Background="NoColor" Text="" />
-                    <Connector Identifier="GenericChildren">
-                      <Node Class="PluginBehaviac.Nodes.Action" Enable="true" HasOwnPrefabData="false" Id="17" Method="Self.MonsterAIAgent::IsInAttackRange()" PrefabName="" PrefabNodeId="-1" ResultFunctor="&quot;&quot;" ResultOption="BT_INVALID">
-                        <Comment Background="NoColor" Text="" />
-                      </Node>
-                    </Connector>
-                  </Node>
-                </Connector>
               </Node>
             </Connector>
             <Connector Identifier="Action">
@@ -67,7 +46,7 @@
           <Node Class="PluginBehaviac.Nodes.WithPrecondition" Enable="true" HasOwnPrefabData="false" Id="13" PrefabName="" PrefabNodeId="-1">
             <Comment Background="Gray" Text="巡逻" />
             <Connector Identifier="Precondition">
-              <Node Class="PluginBehaviac.Nodes.True" Enable="true" HasOwnPrefabData="false" Id="16" PrefabName="" PrefabNodeId="-1">
+              <Node Class="PluginBehaviac.Nodes.Condition" Enable="true" HasOwnPrefabData="false" Id="7" Operator="Equal" Opl="Self.MonsterAIAgent::IsPatrolAction()" Opr="const bool true" PrefabName="" PrefabNodeId="-1">
                 <Comment Background="NoColor" Text="" />
               </Node>
             </Connector>
@@ -76,6 +55,9 @@
                 <Comment Background="NoColor" Text="" />
                 <Connector Identifier="GenericChildren">
                   <Node Class="PluginBehaviac.Nodes.Action" Enable="true" HasOwnPrefabData="false" Id="15" Method="Self.MonsterAIAgent::DoPatrolAction()" PrefabName="" PrefabNodeId="-1" ResultFunctor="&quot;&quot;" ResultOption="BT_SUCCESS">
+                    <Comment Background="NoColor" Text="" />
+                  </Node>
+                  <Node Class="PluginBehaviac.Nodes.Wait" Enable="true" HasOwnPrefabData="false" Id="8" PrefabName="" PrefabNodeId="-1" Time="const int 5000">
                     <Comment Background="NoColor" Text="" />
                   </Node>
                 </Connector>

@@ -22,7 +22,7 @@
             foreach (var aiAgent in self.MonsterAIAgents)
             {
                 var status = aiAgent.Value.btexec();
-                Log.Info($"AI Status : {status}");
+                // Log.Info($"AI Status : {status}");
             }
         }
 

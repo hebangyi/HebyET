@@ -13,12 +13,15 @@ public static class BTTest
         aiAgent.btload("TestAgentTree", false);
         aiAgent.btsetcurrent("TestAgentTree");
         
-        behaviac.Workspace.Instance.DoubleValueSinceStartup = (double)DateTime.UtcNow.Ticks / 1000000;
+        behaviac.Workspace.Instance.DoubleValueSinceStartup = (double)DateTime.UtcNow.Ticks / 10000;
 
         for (int i = 0; i < 1000; i++)
         {
             Thread.Sleep(100);
-            behaviac.Workspace.Instance.DoubleValueSinceStartup = (double)DateTime.UtcNow.Ticks / 1000000;
+            behaviac.Workspace.Instance.DoubleValueSinceStartup = (double)DateTime.UtcNow.Ticks / 10000;
+            Console.WriteLine(behaviac.Workspace.Instance.DoubleValueSinceStartup);
+            
+            
             var status = aiAgent.btexec();
             Console.WriteLine($"{aiAgent.GetClassTypeName()} status : {status}");
         }
@@ -30,14 +33,14 @@ public static class BTTest
     public static void Test2()
     {
         // behaviac.Workspace.Instance.FileFormat = behaviac.Workspace.EFileFormat.EFF_cs;
-        MonsterAIAgent aiAgent = new MonsterAIAgent();
-        aiAgent.btsetcurrent("MonsterAITree");
+        // MonsterAIAgent aiAgent = new MonsterAIAgent();
+        // aiAgent.btsetcurrent("MonsterAITree");
 
-        for (int i = 0; i < 200; i++)
+        /*for (int i = 0; i < 200; i++)
         {
             var status = aiAgent.btexec();
             Console.WriteLine($"{aiAgent.GetClassTypeName()} status : {status}");
-        }
+        }*/
     }
     
 }

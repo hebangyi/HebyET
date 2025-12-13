@@ -26,8 +26,9 @@
       </Method>
     </agent>
     <agent classfullname="MonsterAIAgent" base="behaviac::Agent" DisplayName="MonsterAIAgent" Desc="MonsterAIAgent" IsRefType="true" IsCustomized="true">
-      <Method Name="IsEnemyInSight" DisplayName="IsEnemyInSight" Desc="是否有敌人在视野" Class="MonsterAIAgent" ReturnType="behaviac::EBTStatus" ReturnTypeFullName="XMLPluginBehaviac.behaviac_EBTStatus" Static="false" Public="true" istask="false" />
-      <Method Name="IsInAttackRange" DisplayName="IsInAttackRange" Desc="敌人在攻击范围" Class="MonsterAIAgent" ReturnType="behaviac::EBTStatus" ReturnTypeFullName="XMLPluginBehaviac.behaviac_EBTStatus" Static="false" Public="true" istask="false" />
+      <Method Name="IsFightAction" DisplayName="IsFightAction" Desc="是否有敌人在视野" Class="MonsterAIAgent" ReturnType="bool" ReturnTypeFullName="System.Boolean" Static="false" Public="true" istask="false" />
+      <Method Name="IsChaseAction" DisplayName="IsChaseAction" Desc="敌人在攻击范围" Class="MonsterAIAgent" ReturnType="bool" ReturnTypeFullName="System.Boolean" Static="false" Public="true" istask="false" />
+      <Method Name="IsPatrolAction" DisplayName="IsPatrolAction" Desc="IsPatrolAction" Class="MonsterAIAgent" ReturnType="bool" ReturnTypeFullName="System.Boolean" Static="false" Public="true" istask="false" />
       <Method Name="DoFightAction" DisplayName="DoFightAction" Desc="DoFightAction" Class="MonsterAIAgent" ReturnType="void" ReturnTypeFullName="System.Void" Static="false" Public="true" istask="false" />
       <Method Name="DoChaseAction" DisplayName="DoChaseAction" Desc="DoChaseAction" Class="MonsterAIAgent" ReturnType="void" ReturnTypeFullName="System.Void" Static="false" Public="true" istask="false" />
       <Method Name="DoPatrolAction" DisplayName="DoPatrolAction" Desc="DoPatrol" Class="MonsterAIAgent" ReturnType="void" ReturnTypeFullName="System.Void" Static="false" Public="true" istask="false" />
