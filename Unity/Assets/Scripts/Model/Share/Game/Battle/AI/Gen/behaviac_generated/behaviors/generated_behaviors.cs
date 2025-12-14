@@ -13,6 +13,35 @@ namespace behaviac
 	// Source file: MonsterAITree
 
 	[behaviac.GeneratedTypeMetaInfo()]
+	class Condition_bt_MonsterAITree_node11 : behaviac.Condition
+	{
+		public Condition_bt_MonsterAITree_node11()
+		{
+		}
+		protected override EBTStatus update_impl(behaviac.Agent pAgent, behaviac.EBTStatus childStatus)
+		{
+			bool opl = ((MonsterAIAgent)pAgent).IsGoHomeAction();
+			bool opr = true;
+			bool op = opl == opr;
+			return op ? EBTStatus.BT_SUCCESS : EBTStatus.BT_FAILURE;
+		}
+	}
+
+	[behaviac.GeneratedTypeMetaInfo()]
+	class Action_bt_MonsterAITree_node17 : behaviac.Action
+	{
+		public Action_bt_MonsterAITree_node17()
+		{
+			this.m_resultOption = EBTStatus.BT_SUCCESS;
+		}
+		protected override EBTStatus update_impl(behaviac.Agent pAgent, behaviac.EBTStatus childStatus)
+		{
+			((MonsterAIAgent)pAgent).DoGoHomeAction();
+			return EBTStatus.BT_SUCCESS;
+		}
+	}
+
+	[behaviac.GeneratedTypeMetaInfo()]
 	class Condition_bt_MonsterAITree_node2 : behaviac.Condition
 	{
 		public Condition_bt_MonsterAITree_node2()
@@ -131,6 +160,46 @@ namespace behaviac
 				node0.SetAgentType("MonsterAIAgent");
 #endif
 				bt.AddChild(node0);
+				{
+					WithPrecondition node10 = new WithPrecondition();
+					node10.SetClassNameString("WithPrecondition");
+					node10.SetId(10);
+#if !BEHAVIAC_RELEASE
+					node10.SetAgentType("MonsterAIAgent");
+#endif
+					node0.AddChild(node10);
+					{
+						Condition_bt_MonsterAITree_node11 node11 = new Condition_bt_MonsterAITree_node11();
+						node11.SetClassNameString("Condition");
+						node11.SetId(11);
+#if !BEHAVIAC_RELEASE
+						node11.SetAgentType("MonsterAIAgent");
+#endif
+						node10.AddChild(node11);
+						node10.SetHasEvents(node10.HasEvents() | node11.HasEvents());
+					}
+					{
+						Sequence node16 = new Sequence();
+						node16.SetClassNameString("Sequence");
+						node16.SetId(16);
+#if !BEHAVIAC_RELEASE
+						node16.SetAgentType("MonsterAIAgent");
+#endif
+						node10.AddChild(node16);
+						{
+							Action_bt_MonsterAITree_node17 node17 = new Action_bt_MonsterAITree_node17();
+							node17.SetClassNameString("Action");
+							node17.SetId(17);
+#if !BEHAVIAC_RELEASE
+							node17.SetAgentType("MonsterAIAgent");
+#endif
+							node16.AddChild(node17);
+							node16.SetHasEvents(node16.HasEvents() | node17.HasEvents());
+						}
+						node10.SetHasEvents(node10.HasEvents() | node16.HasEvents());
+					}
+					node0.SetHasEvents(node0.HasEvents() | node10.HasEvents());
+				}
 				{
 					WithPrecondition node1 = new WithPrecondition();
 					node1.SetClassNameString("WithPrecondition");

@@ -9,6 +9,50 @@ namespace ET
             return logicWorld.Create(UETypeEnum.Monster, position);
         }
 
+        /// <summary>
+        /// 获得目标最近的玩家
+        /// </summary>
+        /// <param name="unitEntity"></param>
+        /// <returns></returns>
+        public static UnitEntity NearestPlayer(UnitEntity unitEntity)
+        {
+            var logicWorld = unitEntity.LogicWorld();
+            
+            UnitEntity nearestPlayer = null;
+            float nearestDistance = float.MaxValue;
+            foreach (var playerUnitEntity in logicWorld.PlayerId2Players.Values)
+            {
+                
+                var distance = BattleHelper.Distance(playerUnitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position,
+                    unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position);
+                if (nearestPlayer == null)
+                {
+                    nearestPlayer = playerUnitEntity;
+                    nearestDistance = distance;
+                    continue;
+                }
+
+                if (distance < nearestDistance)
+                {
+                    nearestPlayer = playerUnitEntity;
+                    nearestDistance = distance;
+                }
+            }
+
+            return nearestPlayer;
+        }
+
+
+        public static float BornDistance(UnitEntity unitEntity)
+        {
+            var monsterRuntimeData = unitEntity.GetUnitEntityLogicElemData<MonsterRuntimeData>();
+            var currentPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position;
+            var bornPosition = monsterRuntimeData.BornPosition;
+            var distance = BattleHelper.Distance(currentPosition, bornPosition);
+            return distance;
+        }
+        
+        
         public static bool IsFightAction(UnitEntity unitEntity)
         {
             /*
@@ -29,7 +73,6 @@ namespace ET
 
                 if (distance <= 1)
                 {
-                    Log.Info("IsInAttackRange...");
                     return true;
                 }
             }
@@ -47,11 +90,24 @@ namespace ET
                 var distance = BattleHelper.Distance(unitEntityPosition.Position, playerUnitEntityPosition.Position);
                 if (distance <= 20)
                 {
-                    Log.Info("IsEnemyInSight...");
                     return true;
                 }
             }
             return false;
         }
+
+
+        public static bool IsGoHomeAction(UnitEntity unitEntity)
+        {
+            // TODO 是否有仇恨者
+            var bornDistance = BornDistance(unitEntity);
+            if (bornDistance >= 75)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        
     }
 }

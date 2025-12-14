@@ -23,6 +23,11 @@ namespace ET
             return UnitMonsterHelper.IsChaseAction(UnitEntity);
         }
 
+        public bool IsGoHomeAction()
+        {
+            return UnitMonsterHelper.IsGoHomeAction(UnitEntity);
+        }
+
         public void DoChaseAction()
         {
             this.UnitEntity.GetComponent<MonsterStateMachineComponent>().ChangeState(MachineStateEnum.Chase);
@@ -37,6 +42,11 @@ namespace ET
         {
             // Log.Info("做巡逻...");
             this.UnitEntity.GetComponent<MonsterStateMachineComponent>().ChangeState(MachineStateEnum.Patrol);
+        }
+
+        public void DoGoHomeAction()
+        {
+            this.UnitEntity.GetComponent<MonsterStateMachineComponent>().ChangeState(MachineStateEnum.GoHome);
         }
     }
 }

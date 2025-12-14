@@ -9,6 +9,9 @@ namespace ET
         
         // 巡逻数据
         public PatrolData PatrolData = new PatrolData();
+        
+        // 追击数据
+        public ChaseData ChaseData = new ChaseData();
     }
     
 
@@ -23,6 +26,12 @@ namespace ET
         public long IdleFinishTime { get; set; }
     }
 
+
+    public class ChaseData
+    {
+        public long FlowUnitEntityId { get; set; }
+    }
+    
     public enum PatrolStatus
     {
         Idle,

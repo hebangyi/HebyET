@@ -30,6 +30,13 @@ public class MonsterAIAgent : behaviac.Agent
 ///<<< END WRITING YOUR CODE
 	}
 
+	public void DoGoHomeAction()
+	{
+///<<< BEGIN WRITING YOUR CODE DoGoHomeAction
+proxy.DoGoHomeAction();
+///<<< END WRITING YOUR CODE
+	}
+
 	public void DoPatrolAction()
 	{
 ///<<< BEGIN WRITING YOUR CODE DoPatrolAction
@@ -48,6 +55,13 @@ public class MonsterAIAgent : behaviac.Agent
 	{
 ///<<< BEGIN WRITING YOUR CODE IsFightAction
 		return proxy.IsFightAction();
+///<<< END WRITING YOUR CODE
+	}
+
+	public bool IsGoHomeAction()
+	{
+///<<< BEGIN WRITING YOUR CODE IsGoHomeAction
+		return proxy.IsGoHomeAction();
 ///<<< END WRITING YOUR CODE
 	}
 

@@ -188,7 +188,7 @@ namespace behaviac
 
 		public override bool Load()
 		{
-			AgentMeta.TotalSignature = 692738633;
+			AgentMeta.TotalSignature = 1770427862;
 
 			AgentMeta meta;
 
@@ -203,13 +203,15 @@ namespace behaviac
 			meta.RegisterMethod(502968959, new CMethod_behaviac_Agent_VectorRemove());
 
 			// MonsterAIAgent
-			meta = new AgentMeta(2800602388);
+			meta = new AgentMeta(1368779534);
 			AgentMeta._AgentMetas_[4258905833] = meta;
 			meta.RegisterMethod(2099025523, new CAgentMethodVoid(delegate(Agent self) { ((MonsterAIAgent)self).DoChaseAction(); }));
 			meta.RegisterMethod(3081479165, new CAgentMethodVoid(delegate(Agent self) { ((MonsterAIAgent)self).DoFightAction(); }));
+			meta.RegisterMethod(683133092, new CAgentMethodVoid(delegate(Agent self) { ((MonsterAIAgent)self).DoGoHomeAction(); }));
 			meta.RegisterMethod(3379256086, new CAgentMethodVoid(delegate(Agent self) { ((MonsterAIAgent)self).DoPatrolAction(); }));
 			meta.RegisterMethod(3831232777, new CAgentMethod<bool>(delegate(Agent self) { return ((MonsterAIAgent)self).IsChaseAction(); }));
 			meta.RegisterMethod(787270791, new CAgentMethod<bool>(delegate(Agent self) { return ((MonsterAIAgent)self).IsFightAction(); }));
+			meta.RegisterMethod(2566789097, new CAgentMethod<bool>(delegate(Agent self) { return ((MonsterAIAgent)self).IsGoHomeAction(); }));
 			meta.RegisterMethod(2032305243, new CAgentMethod<bool>(delegate(Agent self) { return ((MonsterAIAgent)self).IsPatrolAction(); }));
 			meta.RegisterMethod(1045109914, new CAgentStaticMethodVoid<string>(delegate(string param0) { MonsterAIAgent.LogMessage(param0); }));
 			meta.RegisterMethod(2521019022, new CMethod_behaviac_Agent_VectorAdd());

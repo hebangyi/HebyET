@@ -17,6 +17,7 @@ namespace ET
         Patrol,             // 巡逻
         Chase,              // 追击
         Fight,              // 攻击
+        GoHome,             // 回家
     }
     
     public interface IMachineState

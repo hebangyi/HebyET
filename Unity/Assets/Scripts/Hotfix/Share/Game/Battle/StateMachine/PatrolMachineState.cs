@@ -29,7 +29,7 @@ namespace ET
             else
             {
                 // 更新巡逻状态 怪物坐标
-                int speed = 5;
+                int speed = 3;
                 var currentPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position;
 
                 var moveMax = speed * logicWorld.IntervalMillis;
