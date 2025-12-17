@@ -11,7 +11,7 @@ namespace ET
     {
         [BsonElement]
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
-        private Dictionary<int, UnitConfig> dict = new();
+        private Dictionary<long, UnitConfig> dict = new();
 		
         public void Merge(object o)
         {
@@ -22,17 +22,17 @@ namespace ET
             }
         }
 		
-        public UnitConfig GetById(int id)
+        public UnitConfig GetById(long id)
         {
             return this.dict.GetValueOrDefault(id);
         }
 		
-        public bool Contain(int id)
+        public bool Contain(long id)
         {
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<int, UnitConfig> GetAll()
+        public Dictionary<long, UnitConfig> GetAll()
         {
             return this.dict;
         }
@@ -53,7 +53,7 @@ namespace ET
 	public partial class UnitConfig: ProtoObject, IConfig
 	{
 		/// <summary>Id</summary>
-		public int Id { get; set; }
+		public long Id { get; set; }
 		/// <summary>Type</summary>
 		public int Type { get; set; }
 		/// <summary>名字</summary>

@@ -2,13 +2,6 @@
 {
     public static class LogicWorldHelper
     {
-        public static LogicWorld CreateWorld(Entity parent)
-        {
-            return null;
-        }
-
-
-
         public static void Tick(this LogicWorld self)
         {
             self.Frame++;

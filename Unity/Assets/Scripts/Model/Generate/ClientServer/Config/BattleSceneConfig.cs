@@ -11,7 +11,7 @@ namespace ET
     {
         [BsonElement]
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
-        private Dictionary<int, BattleSceneConfig> dict = new();
+        private Dictionary<long, BattleSceneConfig> dict = new();
 		
         public void Merge(object o)
         {
@@ -22,17 +22,17 @@ namespace ET
             }
         }
 		
-        public BattleSceneConfig GetById(int id)
+        public BattleSceneConfig GetById(long id)
         {
             return this.dict.GetValueOrDefault(id);
         }
 		
-        public bool Contain(int id)
+        public bool Contain(long id)
         {
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<int, BattleSceneConfig> GetAll()
+        public Dictionary<long, BattleSceneConfig> GetAll()
         {
             return this.dict;
         }
@@ -53,7 +53,7 @@ namespace ET
 	public partial class BattleSceneConfig: ProtoObject, IConfig
 	{
 		/// <summary>Id</summary>
-		public int Id { get; set; }
+		public long Id { get; set; }
 		/// <summary></summary>
 		public string Name { get; set; }
 		/// <summary>资源路径</summary>

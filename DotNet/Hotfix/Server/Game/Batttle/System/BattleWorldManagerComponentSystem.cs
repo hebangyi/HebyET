@@ -31,6 +31,11 @@ public static partial class BattleWorldManagerComponentSystem
         world.AddComponent<AIComponent>();
         
         // 创建地图
+        var battleMapConfig = BattleMapConfigCategory.Instance.GetOne();
+        BattleMapConfigCategory.Instance.GetById();
+        
+        
+        
         PlantGenContext plantGenContext = new ();
         plantGenContext.InitData.AreaSize = 2000;
         plantGenContext.InitData.PointCount = 200;

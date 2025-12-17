@@ -5,7 +5,7 @@
 	/// </summary>
 	public interface IConfig
 	{
-		int Id { get; set; }
+		long Id { get; set; }
 	}
 
 	public interface IKeyConfig

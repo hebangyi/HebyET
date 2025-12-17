@@ -7,37 +7,37 @@ using System.ComponentModel;
 namespace ET
 {
     [Config]
-    public partial class AIConfigCategory : Singleton<AIConfigCategory>, IMerge
+    public partial class BattleMapConfigCategory : Singleton<BattleMapConfigCategory>, IMerge
     {
         [BsonElement]
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
-        private Dictionary<int, AIConfig> dict = new();
+        private Dictionary<long, BattleMapConfig> dict = new();
 		
         public void Merge(object o)
         {
-            AIConfigCategory s = o as AIConfigCategory;
+            BattleMapConfigCategory s = o as BattleMapConfigCategory;
             foreach (var kv in s.dict)
             {
                 this.dict.Add(kv.Key, kv.Value);
             }
         }
 		
-        public AIConfig GetById(int id)
+        public BattleMapConfig GetById(long id)
         {
             return this.dict.GetValueOrDefault(id);
         }
 		
-        public bool Contain(int id)
+        public bool Contain(long id)
         {
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<int, AIConfig> GetAll()
+        public Dictionary<long, BattleMapConfig> GetAll()
         {
             return this.dict;
         }
 
-        public AIConfig GetOne()
+        public BattleMapConfig GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -50,20 +50,20 @@ namespace ET
         }
     }
 
-	public partial class AIConfig: ProtoObject, IConfig
+	public partial class BattleMapConfig: ProtoObject, IConfig
 	{
 		/// <summary>Id</summary>
-		public int Id { get; set; }
-		/// <summary>所属ai</summary>
-		public int AIConfigId { get; set; }
-		/// <summary>此ai中的顺序</summary>
-		public int Order { get; set; }
-		/// <summary>节点名字</summary>
+		public long Id { get; set; }
+		/// <summary></summary>
 		public string Name { get; set; }
-		/// <summary>描述</summary>
-		public string Desc { get; set; }
-		/// <summary>节点参数</summary>
-		public int[] NodeParams { get; set; }
+		/// <summary>地图边长</summary>
+		public int AreaSize { get; set; }
+		/// <summary>Cell中心点数量</summary>
+		public int CellPointCount { get; set; }
+		/// <summary>Cell中心点最近距离</summary>
+		public int CellPointMinDistance { get; set; }
+		/// <summary>生成Cell数量</summary>
+		public int GenCellCount { get; set; }
 
 	}
 }
