@@ -25,7 +25,7 @@ namespace ET.Client
             List<Vector3Int> CellBoarderList = new List<Vector3Int>();
             
             var unitEntityMapMessage = unitEntity.GetUnitEntityElemData<UnitEntityMapMessage>();
-            int unitSize = 10;
+            int unitSize = BattleGlobalConfigCategory.Instance.Config.TileMapUnitSize;
             int unitRadius = unitSize / 2;
 
             var plantInfo = unitEntityMapMessage.PlantInfo;

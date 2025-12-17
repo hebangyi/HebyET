@@ -23,6 +23,8 @@ namespace ET
 	{
 		/// <summary>关联BattleMapConfig表-1</summary>
 		public long TestMapConfigId { get; set; }
+		/// <summary>Tile的边长</summary>
+		public int TileMapUnitSize { get; set; }
 
 	}
 }
