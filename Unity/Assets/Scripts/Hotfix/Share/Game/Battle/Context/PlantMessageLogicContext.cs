@@ -12,7 +12,7 @@
             unitEntityMapMessage.AreaSize = plantGenContext.InitData.AreaSize;
             
             PlantInfo plantInfo = PlantInfo.Create();
-            foreach (var cell in plantGenContext.PlantData.GenCells)
+            foreach (var cell in plantGenContext.PlantData.RealCells)
             {
                 var cellInfo = CellInfo.Create();
                 cellInfo.CenterPoint = cell.Center;

@@ -21,7 +21,6 @@ public static partial class BattleWorldManagerComponentSystem
         var logicDirtyHandler = new LogicDirtyHandler(world);
         var syncDirtyDataHandler = new SyncPlayerDirtyBattleDataHandler(world, SyncDirtyBattleData);
         
-        
         // 同步AOI组件
         world.AddComponent<AOIManagerComponent, IDirtyHandler, ISyncHandler>(logicDirtyHandler, syncDirtyDataHandler);
         world.WorldStatusEnum = WorldStatusEnum.Init;
@@ -31,17 +30,18 @@ public static partial class BattleWorldManagerComponentSystem
         world.AddComponent<AIComponent>();
         
         // 创建地图
-        var battleMapConfig = BattleMapConfigCategory.Instance.GetOne();
-        BattleMapConfigCategory.Instance.GetById();
-        
+        var config = BattleGlobalConfigCategory.Instance.Config;
+        var battleMapConfig = BattleMapConfigCategory.Instance.GetById(config.TestMapConfigId);
         
         
         PlantGenContext plantGenContext = new ();
-        plantGenContext.InitData.AreaSize = 2000;
-        plantGenContext.InitData.PointCount = 200;
+        plantGenContext.InitData.AreaSize = battleMapConfig.AreaSize;
+        plantGenContext.InitData.CellPointCount = battleMapConfig.CellPointCount;
+        plantGenContext.InitData.CellPointMinDistance = battleMapConfig.CellPointMinDistance;
+        plantGenContext.InitData.GenCellCount = battleMapConfig.GenCellCount;
         plantGenContext.InitData.Random = world.RandomGenerator;
-        plantGenContext.InitData.NearEdgeMinDistance = 5;
-        plantGenContext.InitData.GenCellCount = 25;
+        BattleMapHelper.GenerateBattleCells(plantGenContext);
+        
         
         UnitEntity unitEntityPlant = UnitPlaneHelper.GeneratePlane(world, plantGenContext);
         

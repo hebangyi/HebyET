@@ -11,12 +11,12 @@
             // 计算总的Cell数量
             var gizmosDebugInfo = unitEntity.CreateUnitEntityElemData<GizmosPlantInfo>();
             
-            foreach (var cell in plantGenContext.PlantData.GenCells)
+            foreach (var cell in plantGenContext.PlantData.RealCells)
             {
                 gizmosDebugInfo.CenterPoints.Add(cell.Center);
             }
 
-            foreach (var cell in plantGenContext.PlantData.GenCells)
+            foreach (var cell in plantGenContext.PlantData.RealCells)
             {
                 gizmosDebugInfo.Borders.AddRange(cell.Borders);
             }

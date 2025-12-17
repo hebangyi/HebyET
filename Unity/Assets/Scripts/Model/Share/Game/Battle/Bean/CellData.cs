@@ -19,9 +19,9 @@ namespace ET
         // 地块宽度
         public int AreaSize;
         // 生成的 AllCell 点数
-        public int PointCount;
+        public int CellPointCount;
         // 生成最小间隔的Point
-        public int NearEdgeMinDistance;
+        public int CellPointMinDistance;
         // 生成Cell的数量
         public int GenCellCount;
         
@@ -32,14 +32,10 @@ namespace ET
 
     public class PlantData
     {
-        public int xPlantCount;
-        public int yPlantCount;
-        public int totalPlantCount;
-        
         // 所有地块
         public List<CellData> AllCells = new ();
         // 生成地块
-        public List<CellData> GenCells = new ();
+        public List<CellData> RealCells = new ();
     }
 
 
