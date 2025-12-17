@@ -130,6 +130,7 @@ namespace ET
             // 所有的cells
             GenerateMapAllCells(plantGenContext);
             GenerateRealCells(plantGenContext);
+            GenerateCellReSize(plantGenContext);
         }
         
         public static void GenerateMapAllCells(PlantGenContext plantGenContext)
@@ -337,8 +338,84 @@ namespace ET
                 var genCellData = allGenCellDataDict.GetValueOrDefault(generateCellId);
                 genCells.Add(genCellData.CellData);
             }
+            
+            plantData.AllCells.Clear();
         }
-        
+
+
+        public static void GenerateCellReSize(PlantGenContext plantGenContext)
+        {
+            var plantData = plantGenContext.PlantData;
+            
+            int minX = int.MaxValue;
+            int minY = int.MaxValue;
+            int maxX = 0;
+            int maxY = 0;
+            
+            foreach (var realCell in plantData.RealCells)
+            {
+                foreach (var border in realCell.Borders)
+                {
+                    var x1 = border.x;
+                    var y1 = border.y;
+                    var x2 = border.z;
+                    var y2 = border.w;
+
+                    if (x1 < minX)
+                    {
+                        minX = (int)x1;
+                    }
+                    
+                    if (x2 < minX)
+                    {
+                        minX = (int)x2;
+                    }
+
+                    if (y1 < minY)
+                    {
+                        minY = (int)y1;
+                    }
+                    
+                    if (y2 < minY)
+                    {
+                        minY = (int)y2;
+                    }
+                    
+                    if (x1 > maxX)
+                    {
+                        maxX = (int)x1;
+                    }
+                 
+                    if (x2 > maxX)
+                    {
+                        maxX = (int)x2;
+                    }
+                    
+                    if (y1 > maxY)
+                    {
+                        maxY = (int)x1;
+                    }
+                 
+                    if (y2 > maxY)
+                    {
+                        maxY = (int)x2;
+                    }
+                }
+            }
+            
+            
+            // 进行Cell便宜
+            foreach (var realCell in plantData.RealCells)
+            {
+                HashSet<float4> newBorders = new ();
+                foreach (var border in realCell.Borders)
+                {
+                    newBorders.Add(new float4(border.x -minX , border.y - minY, border.z - minX, border.w - minY));
+                }
+                realCell.Center = new float2(realCell.Center.x - minX, realCell.Center.y - minY);
+                realCell.Borders = newBorders;
+            }
+        }
         
         
         private static (List<FortuneSite>, LinkedList<VEdge>) GenerateFortuneSites(int areaWidth, Random random, int pointCount,
