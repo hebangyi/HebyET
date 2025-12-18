@@ -38,20 +38,8 @@ namespace ET
             
             int speed = 5;
             var currentPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position;
-            var distance = BattleHelper.Distance(currentPosition, flowUnitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position);
-            
-            var moveMax = speed * logicWorld.IntervalMillis;
-            if (moveMax >= distance)
-            {
-                unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position = currentPosition;
-            }
-            else
-            {
-                float2 sub = flowUnitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position - currentPosition;
-                var subDistance = math.normalize(sub) * speed * logicWorld.IntervalMillis;
-                unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position += subDistance;
-            }
-            
+            var toPosition = UnitMonsterHelper.ToPosition(logicWorld, currentPosition, flowUnitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position, speed);
+            unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position = toPosition;
         }
 
         public void Exit(MonsterStateMachineComponent component)

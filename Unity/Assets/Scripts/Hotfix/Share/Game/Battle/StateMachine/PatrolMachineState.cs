@@ -31,20 +31,7 @@ namespace ET
                 // 更新巡逻状态 怪物坐标
                 int speed = 3;
                 var currentPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position;
-
-                var moveMax = speed * logicWorld.IntervalMillis;
-                var distance = BattleHelper.Distance(currentPosition, patrolData.ToPosition);
-                if (moveMax >= distance)
-                {
-                    unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position = patrolData.ToPosition;
-                    this.GenPatrolData(component, PatrolStatus.Idle);
-                }
-                else
-                {
-                    float2 sub = (patrolData.ToPosition - currentPosition);
-                    var subDistance = math.normalize(sub) * speed * logicWorld.IntervalMillis;
-                    unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position += subDistance;
-                }
+                unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position = UnitMonsterHelper.ToPosition(logicWorld, currentPosition, patrolData.ToPosition, speed);
             }
         }
 

@@ -393,18 +393,18 @@ namespace ET
                     
                     if (y1 > maxY)
                     {
-                        maxY = (int)x1;
+                        maxY = (int)y1;
                     }
                  
                     if (y2 > maxY)
                     {
-                        maxY = (int)x2;
+                        maxY = (int)y2;
                     }
                 }
             }
             
             
-            // 进行Cell便宜
+            // 进行Cell偏移
             foreach (var realCell in plantData.RealCells)
             {
                 HashSet<float4> newBorders = new ();
@@ -415,6 +415,12 @@ namespace ET
                 realCell.Center = new float2(realCell.Center.x - minX, realCell.Center.y - minY);
                 realCell.Borders = newBorders;
             }
+            
+            plantData.MaxX = maxX - minX + 1;
+            plantData.MaxY = maxY - minY + 1;
+
+            plantData.MaxXTileCount = plantData.MaxX / BattleGlobalConfigCategory.Instance.Config.TileMapUnitSize + 1;
+            plantData.MaxYTileCount = plantData.MaxY / BattleGlobalConfigCategory.Instance.Config.TileMapUnitSize + 1;
         }
         
         

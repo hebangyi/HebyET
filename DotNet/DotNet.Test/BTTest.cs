@@ -42,5 +42,10 @@ public static class BTTest
             Console.WriteLine($"{aiAgent.GetClassTypeName()} status : {status}");
         }*/
     }
-    
+
+
+    public static void Test3()
+    {
+        Console.WriteLine((int)(-0.6));
+    }
 }

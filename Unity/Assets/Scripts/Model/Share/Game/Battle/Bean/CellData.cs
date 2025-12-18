@@ -36,6 +36,14 @@ namespace ET
         public List<CellData> AllCells = new ();
         // 生成地块
         public List<CellData> RealCells = new ();
+        // 最大的 MAX
+        public int MaxX;
+        // 最大的 MAY
+        public int MaxY;
+        // 最大的 MaxX TileCount
+        public int MaxXTileCount;
+        // 最大的 MaxY TileCount
+        public int MaxYTileCount;
     }
 
 
