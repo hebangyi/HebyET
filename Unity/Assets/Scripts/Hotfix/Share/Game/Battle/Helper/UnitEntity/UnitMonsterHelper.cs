@@ -124,26 +124,30 @@ namespace ET
 
             if (Math.Abs(subX) > Math.Abs(subY))
             {
-                if (MonsterCanMove(logicWorld, fromPosition + new float2(subX, 0)))
+                var moveX = subX > 0 ? moveMax : -moveMax;
+                if (MonsterCanMove(logicWorld, fromPosition + new float2(moveX, 0)))
                 {
-                    return fromPosition + new float2(subX, 0);
+                    return fromPosition + new float2(moveX, 0);
                 }
-
-                if (MonsterCanMove(logicWorld, fromPosition + new float2(0, subY)))
+                
+                var moveY = subY > 0 ? moveMax : -moveMax;
+                if (MonsterCanMove(logicWorld, fromPosition + new float2(0, moveY)))
                 {
-                    return fromPosition + new float2(0, subY);
+                    return fromPosition + new float2(0, moveY);
                 }
             }
             else
             {
-                if (MonsterCanMove(logicWorld, fromPosition + new float2(0, subY)))
+                var moveY = subY > 0 ? moveMax : -moveMax;
+                if (MonsterCanMove(logicWorld, fromPosition + new float2(0, moveY)))
                 {
-                    return fromPosition + new float2(0, subY);
+                    return fromPosition + new float2(0, moveY);
                 }
 
-                if (MonsterCanMove(logicWorld, fromPosition + new float2(subX, 0)))
+                var moveX = subX > 0 ? moveMax : -moveMax;
+                if (MonsterCanMove(logicWorld, fromPosition + new float2(moveX, 0)))
                 {
-                    return fromPosition + new float2(subX, 0);
+                    return fromPosition + new float2(moveX, 0);
                 }
             }
 
