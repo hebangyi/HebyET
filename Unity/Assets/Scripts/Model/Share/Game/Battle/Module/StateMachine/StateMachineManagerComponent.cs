@@ -19,7 +19,14 @@ namespace ET
         Fight,              // 攻击
         GoHome,             // 回家
     }
-    
+
+    public enum AnimateStateEnum
+    {
+        Idle = 0,
+        Walk,
+        Run,
+    }
+
     public interface IMachineState
     {
         void Enter(MonsterStateMachineComponent component);
