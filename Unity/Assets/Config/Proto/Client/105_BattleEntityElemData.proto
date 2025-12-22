@@ -14,13 +14,6 @@ message UnitEntityCameraData // IUnitEntityElemData
 }
 
 
-// 玩家状态
-message UnitEntityPlayerAnimateStatus // IUnitEntityElemData
-{
-    PlayerAnimateStatusEnum Status = 1;     // 玩家状态
-}
-
-
 //// 地块
 // 地图信息
 message UnitEntityMapMessage // IUnitEntityElemData

@@ -82,7 +82,7 @@ namespace ET.Client
                 
                 var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
                 var unitEntityCameraData = unitEntity.GetUnitEntityElemData<UnitEntityCameraData>();
-                var unitEntityPlayerAnimateStatus = unitEntity.GetUnitEntityElemData<UnitEntityPlayerAnimateStatus>();
+                // var unitEntityPlayerAnimateStatus = unitEntity.GetUnitEntityElemData<UnitEntityPlayerAnimateStatus>();
 
                 if (!unitEntityPosition.Position.Equals(self.Position))
                 {
@@ -108,16 +108,16 @@ namespace ET.Client
                     battleUnitEntity.EleDatas.Add(unitEntityElemData);
                 }
                 
-                if (unitEntityPlayerAnimateStatus.Status != self.PlayerAnimateStatusEnum)
+                /*if (unitEntityPlayerAnimateStatus.Status != self.animateStatusEnum)
                 {
-                    unitEntityPlayerAnimateStatus.Status = self.PlayerAnimateStatusEnum;
+                    unitEntityPlayerAnimateStatus.Status = self.animateStatusEnum;
                     
                     ushort compId = OpcodeType.Instance.GetOpcode(typeof(UnitEntityPlayerAnimateStatus));
                     var unitEntityElemData = UnitEntityElemData.Create();
                     unitEntityElemData.CompId = compId;
                     unitEntityElemData.ElemDatas = MemoryPackHelper.Serialize(unitEntityCameraData);
                     battleUnitEntity.EleDatas.Add(unitEntityElemData);
-                }
+                }*/
 
                 if (battleUnitEntity.EleDatas.Count > 0)
                 {

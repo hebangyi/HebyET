@@ -20,9 +20,6 @@ namespace ET.Client
                 playerCacheDataComponent.CameraAngleOffSet = unitEntityPlayerData.CameraAngleOffSet; 
                 playerCacheDataComponent.TargetCameraAngleOffSet = unitEntityPlayerData.CameraAngleOffSet; 
                 
-                var unitEntityPlayerAnimateStatus = unitEntity.GetUnitEntityElemData<UnitEntityPlayerAnimateStatus>();
-                playerCacheDataComponent.PlayerAnimateStatusEnum = unitEntityPlayerAnimateStatus.Status;
-                
                 var unitEntityTowardAngle = unitEntity.GetUnitEntityElemData<UnitEntityTowardAngle>();
                 playerCacheDataComponent.TowardAngle = unitEntityTowardAngle.TowardAngle;
                 

@@ -58,6 +58,12 @@ message UnitEntityTowardAngle // IUnitEntityElemData
     short TowardAngle = 1;                  // 朝向 -180-180
 }
 
+// 动画
+message UnitEntityAnimation // IUnitEntityElemData
+{
+    AnimateStatusEnum AnimateStatus = 1;    // 动画状态
+}
+
 //// 通讯协议
 
 // 1.获得玩家的视野世界信息
@@ -183,13 +189,6 @@ message UnitEntityPlayerInfo // IUnitEntityElemData
 message UnitEntityCameraData // IUnitEntityElemData
 {
     short CameraAngleOffSet = 1;            // 相机偏移角度
-}
-
-
-// 玩家状态
-message UnitEntityPlayerAnimateStatus // IUnitEntityElemData
-{
-    PlayerAnimateStatusEnum Status = 1;     // 玩家状态
 }
 
 

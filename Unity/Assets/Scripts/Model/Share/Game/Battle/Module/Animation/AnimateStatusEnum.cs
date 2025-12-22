@@ -1,6 +1,6 @@
 ﻿namespace ET
 {
-    public enum PlayerAnimateStatusEnum
+    public enum AnimateStatusEnum
     {
         Idle = 0,
         Run = 1,

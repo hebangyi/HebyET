@@ -343,6 +343,52 @@ this._TowardAngle = default;
         }
     }
 
+    // 动画
+    [MemoryPackable]
+    [Message(ClientMessage.UnitEntityAnimation)]
+    public partial class UnitEntityAnimation : MessageObject, IUnitEntityElemData
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static UnitEntityAnimation Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        {
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityAnimation), isFromPool) as UnitEntityAnimation;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
+        }
+
+        /// <summary>
+        /// 动画状态
+        /// </summary>
+        private AnimateStatusEnum _AnimateStatus;
+
+        [MemoryPackOrder(0)]
+        public AnimateStatusEnum AnimateStatus
+        {
+            get => _AnimateStatus;
+            set {
+                _AnimateStatus = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+            
+this._AnimateStatus = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
     /// <summary>
     /// 通讯协议
     /// </summary>
@@ -984,52 +1030,6 @@ this._PlayerId = default;
             this.m_InstanceId = default;
             
 this._CameraAngleOffSet = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    // 玩家状态
-    [MemoryPackable]
-    [Message(ClientMessage.UnitEntityPlayerAnimateStatus)]
-    public partial class UnitEntityPlayerAnimateStatus : MessageObject, IUnitEntityElemData
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static UnitEntityPlayerAnimateStatus Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
-        {
-            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerAnimateStatus), isFromPool) as UnitEntityPlayerAnimateStatus;
-            instance.m_DirtyHandler = dirtyHandler;
-            instance.m_InstanceId = instanceId;
-            return instance;
-        }
-
-        /// <summary>
-        /// 玩家状态
-        /// </summary>
-        private PlayerAnimateStatusEnum _Status;
-
-        [MemoryPackOrder(0)]
-        public PlayerAnimateStatusEnum Status
-        {
-            get => _Status;
-            set {
-                _Status = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.m_DirtyHandler = null;
-            this.m_InstanceId = default;
-            
-this._Status = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -2077,22 +2077,22 @@ this._CellIds.Clear();
         public const ushort UnitEntityPosition = 10005;
         public const ushort UnitEntityInfo = 10006;
         public const ushort UnitEntityTowardAngle = 10007;
-        public const ushort C2B_PlayerGetAllAOIWorldData = 10008;
-        public const ushort B2C_PlayerGetAllAOIWorldData = 10009;
-        public const ushort C2B_PlayerBattleWorldPing = 10010;
-        public const ushort B2C_PlayerBattleWorldPing = 10011;
-        public const ushort L2C_PlayerAOIWorldDirtyPush = 10012;
-        public const ushort C2B_PlayerUploadDirtyElemData = 10013;
-        public const ushort B2C_PlayerUploadDirtyElemData = 10014;
-        public const ushort Main2NetBattleLogin = 10015;
-        public const ushort NetBattle2MainLogin = 10016;
-        public const ushort C2B_Login = 10017;
-        public const ushort B2C_Login = 10018;
-        public const ushort C2B_PlayerReadyCompleted = 10019;
-        public const ushort B2C_PlayerReadyCompleted = 10020;
-        public const ushort UnitEntityPlayerInfo = 10021;
-        public const ushort UnitEntityCameraData = 10022;
-        public const ushort UnitEntityPlayerAnimateStatus = 10023;
+        public const ushort UnitEntityAnimation = 10008;
+        public const ushort C2B_PlayerGetAllAOIWorldData = 10009;
+        public const ushort B2C_PlayerGetAllAOIWorldData = 10010;
+        public const ushort C2B_PlayerBattleWorldPing = 10011;
+        public const ushort B2C_PlayerBattleWorldPing = 10012;
+        public const ushort L2C_PlayerAOIWorldDirtyPush = 10013;
+        public const ushort C2B_PlayerUploadDirtyElemData = 10014;
+        public const ushort B2C_PlayerUploadDirtyElemData = 10015;
+        public const ushort Main2NetBattleLogin = 10016;
+        public const ushort NetBattle2MainLogin = 10017;
+        public const ushort C2B_Login = 10018;
+        public const ushort B2C_Login = 10019;
+        public const ushort C2B_PlayerReadyCompleted = 10020;
+        public const ushort B2C_PlayerReadyCompleted = 10021;
+        public const ushort UnitEntityPlayerInfo = 10022;
+        public const ushort UnitEntityCameraData = 10023;
         public const ushort UnitEntityMapMessage = 10024;
         public const ushort PlantInfo = 10025;
         public const ushort CellInfo = 10026;

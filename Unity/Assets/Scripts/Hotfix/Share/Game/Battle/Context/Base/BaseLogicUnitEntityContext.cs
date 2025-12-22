@@ -13,6 +13,10 @@ namespace ET
             var unitEntityCommonData = unitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
             unitEntityCommonData.UnitEntityType = ueTypeEnum;
             unitEntityCommonData.UELayerTypeEnum = layerType;
+
+
+            var unitEntityAnimation = unitEntity.CreateUnitEntityElemData<UnitEntityAnimation>();
+            unitEntityAnimation.AnimateStatus = AnimateStatusEnum.Idle;
         }
 
         public virtual void InitCustomData(UnitEntity unitEntity)
