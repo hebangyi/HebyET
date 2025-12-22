@@ -175,7 +175,7 @@ MonoBehaviour:
     materialsInsideMask: []
     materialsOutsideMask: []
   disableRenderingOnOverride: 1
-  _animationName: run
+  _animationName: skill_1
   loop: 1
   timeScale: 1
 --- !u!23 &578451225
