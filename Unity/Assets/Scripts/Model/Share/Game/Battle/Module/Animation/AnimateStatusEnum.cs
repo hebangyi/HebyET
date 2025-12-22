@@ -1,8 +1,9 @@
 ﻿namespace ET
 {
-    public enum AnimateStatusEnum
+    public enum AnimateStateEnum
     {
         Idle = 0,
-        Run = 1,
+        Walk,
+        Run,
     }
 }

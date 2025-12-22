@@ -7,6 +7,8 @@ namespace ET
     {
         public void Enter(MonsterStateMachineComponent component)
         {
+            var unitEntity = component.GetParent<UnitEntity>();
+            unitEntity.ChangeAnimateStatus(AnimateStateEnum.Walk);
         }
 
         public void Execute(MonsterStateMachineComponent component)

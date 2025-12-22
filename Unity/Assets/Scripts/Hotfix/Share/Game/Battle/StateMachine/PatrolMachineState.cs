@@ -7,8 +7,6 @@ namespace ET
     {
         public void Enter(MonsterStateMachineComponent component)
         {
-            var unitEntity = component.GetParent<UnitEntity>();
-            Log.Info($"UnitEntity {unitEntity.InsId} Enter Patrol");
             this.GenPatrolData(component, PatrolStatus.Run);
         }
 
@@ -52,11 +50,15 @@ namespace ET
                 var bornPosition = monsterRuntimeData.BornPosition;
                 float patrolRadius = 30f;
                 var targetPosition = BattleHelper.InnerCircleRandPoint(patrolRadius) + bornPosition;
-                patrolData.ToPosition = targetPosition;    
+                patrolData.ToPosition = targetPosition;
+                
+                unitEntity.ChangeAnimateStatus(AnimateStateEnum.Walk);
             }
             else
             {
                 patrolData.IdleFinishTime = TimeInfo.Instance.NowMillTime() + 5 * 1000;
+                
+                unitEntity.ChangeAnimateStatus(AnimateStateEnum.Idle);
             }
             
             patrolData.PatrolStatus = patrolStatus;

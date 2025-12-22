@@ -19,6 +19,8 @@ namespace ET
             }
             
             chaseData.FlowUnitEntityId = unitEntityPlayer.Id;
+            
+            unitEntity.ChangeAnimateStatus(AnimateStateEnum.Run);
         }
 
         public void Execute(MonsterStateMachineComponent component)
