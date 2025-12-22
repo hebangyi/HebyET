@@ -26,7 +26,7 @@
         public long LastUpdateTime { get; set; }
         
         // 玩家状态
-        public AnimateStatusEnum animateStatusEnum { get; set; }
+        // public AnimateStatusEnum animateStatusEnum { get; set; }
     }
 }
 

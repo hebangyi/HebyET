@@ -123,6 +123,7 @@ namespace ET
     /// <summary>
     /// >>>>>>>>>>>>>>>>>> 常规信息
     /// </summary>
+    // 常规信息
     [MemoryPackable]
     [Message(ClientMessage.UnitEntityCommonData)]
     public partial class UnitEntityCommonData : MessageObject, IUnitEntityElemData
@@ -186,6 +187,52 @@ this._UnitEntityType = default;
             this._UELayerTypeEnum = default;
             this._Datas.Clear();
             
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 动画
+    [MemoryPackable]
+    [Message(ClientMessage.UnitEntityAnimation)]
+    public partial class UnitEntityAnimation : MessageObject, IUnitEntityElemData
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static UnitEntityAnimation Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        {
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityAnimation), isFromPool) as UnitEntityAnimation;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
+        }
+
+        /// <summary>
+        /// 动画状态
+        /// </summary>
+        private AnimateStateEnum _AnimateState;
+
+        [MemoryPackOrder(0)]
+        public AnimateStateEnum AnimateState
+        {
+            get => _AnimateState;
+            set {
+                _AnimateState = value;
+                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+            }
+        }
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+            
+this._AnimateState = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -338,52 +385,6 @@ this._ConfigId = default;
             this.m_InstanceId = default;
             
 this._TowardAngle = default;
-
-            ObjectPool.Instance.Recycle(this);
-        }
-    }
-
-    // 动画
-    [MemoryPackable]
-    [Message(ClientMessage.UnitEntityAnimation)]
-    public partial class UnitEntityAnimation : MessageObject, IUnitEntityElemData
-    {
-        private IDirtyHandler m_DirtyHandler;
-        private long m_InstanceId;
-
-        public static UnitEntityAnimation Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
-        {
-            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityAnimation), isFromPool) as UnitEntityAnimation;
-            instance.m_DirtyHandler = dirtyHandler;
-            instance.m_InstanceId = instanceId;
-            return instance;
-        }
-
-        /// <summary>
-        /// 动画状态
-        /// </summary>
-        private AnimateStatusEnum _AnimateStatus;
-
-        [MemoryPackOrder(0)]
-        public AnimateStatusEnum AnimateStatus
-        {
-            get => _AnimateStatus;
-            set {
-                _AnimateStatus = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        public override void Dispose()
-        {
-            if (!this.IsFromPool)
-            {
-                return;
-            }
-
-            this.m_DirtyHandler = null;
-            this.m_InstanceId = default;
-            
-this._AnimateStatus = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -2074,10 +2075,10 @@ this._CellIds.Clear();
         public const ushort BattleUnitEntity = 10002;
         public const ushort UnitEntityElemData = 10003;
         public const ushort UnitEntityCommonData = 10004;
-        public const ushort UnitEntityPosition = 10005;
-        public const ushort UnitEntityInfo = 10006;
-        public const ushort UnitEntityTowardAngle = 10007;
-        public const ushort UnitEntityAnimation = 10008;
+        public const ushort UnitEntityAnimation = 10005;
+        public const ushort UnitEntityPosition = 10006;
+        public const ushort UnitEntityInfo = 10007;
+        public const ushort UnitEntityTowardAngle = 10008;
         public const ushort C2B_PlayerGetAllAOIWorldData = 10009;
         public const ushort B2C_PlayerGetAllAOIWorldData = 10010;
         public const ushort C2B_PlayerBattleWorldPing = 10011;

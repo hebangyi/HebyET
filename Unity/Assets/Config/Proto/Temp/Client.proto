@@ -31,12 +31,20 @@ message UnitEntityElemData
 
 
 ////>>>>>>>>>>>>>>>>>> 常规信息 
+// 常规信息
 message UnitEntityCommonData // IUnitEntityElemData
 {
     UETypeEnum UnitEntityType = 1;
     UELayerTypeEnum UELayerTypeEnum = 2;
     map<string, string> Datas = 3;
 }
+
+// 动画
+message UnitEntityAnimation // IUnitEntityElemData
+{
+    AnimateStateEnum AnimateState = 1;    // 动画状态
+}
+
 
 
 message UnitEntityPosition // IUnitEntityElemData
@@ -58,11 +66,7 @@ message UnitEntityTowardAngle // IUnitEntityElemData
     short TowardAngle = 1;                  // 朝向 -180-180
 }
 
-// 动画
-message UnitEntityAnimation // IUnitEntityElemData
-{
-    AnimateStatusEnum AnimateStatus = 1;    // 动画状态
-}
+
 
 //// 通讯协议
 

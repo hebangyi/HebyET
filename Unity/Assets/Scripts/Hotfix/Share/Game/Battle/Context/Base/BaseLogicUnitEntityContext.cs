@@ -16,7 +16,7 @@ namespace ET
 
 
             var unitEntityAnimation = unitEntity.CreateUnitEntityElemData<UnitEntityAnimation>();
-            unitEntityAnimation.AnimateStatus = AnimateStatusEnum.Idle;
+            unitEntityAnimation.AnimateState = AnimateStateEnum.Idle;
         }
 
         public virtual void InitCustomData(UnitEntity unitEntity)

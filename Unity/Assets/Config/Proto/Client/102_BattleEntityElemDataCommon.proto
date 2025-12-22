@@ -11,7 +11,7 @@ message UnitEntityCommonData // IUnitEntityElemData
 // 动画
 message UnitEntityAnimation // IUnitEntityElemData
 {
-    AnimateStatusEnum AnimateStatus = 1;    // 动画状态
+    AnimateStateEnum AnimateState = 1;    // 动画状态
 }
 
 
