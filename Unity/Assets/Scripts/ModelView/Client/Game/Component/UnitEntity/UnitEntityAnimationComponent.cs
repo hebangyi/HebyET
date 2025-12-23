@@ -6,11 +6,5 @@ namespace ET.Client
     public class UnitEntityAnimationComponent : Entity, IAwake
     {
         private GameObject gameObject;
-
-        public void Awake()
-        {
-            
-        }
-        }
     }
 }
