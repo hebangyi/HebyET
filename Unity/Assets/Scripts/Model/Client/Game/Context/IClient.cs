@@ -32,6 +32,7 @@
     {
         void Init(UnitEntity unitEntity);
         void CreateView(UnitEntity unitEntity);
+        void InitView(UnitEntity unitEntity);
         void Destroy(UnitEntity unitEntity);
     }
 

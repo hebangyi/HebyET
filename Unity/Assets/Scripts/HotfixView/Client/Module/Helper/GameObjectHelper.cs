@@ -74,6 +74,10 @@ namespace ET.Client
             GameObject ins = UnityEngine.Object.Instantiate(toGameObject, parentGameObject, true);
             var unitEntityGameObjectComponent = unitEntity.TryAddComponent<UnitEntityGameObjectComponent>();
             unitEntityGameObjectComponent.GameObject = ins;
+            
+            
+            
+            
             ins.name = $"{unitEntityType}_{unitEntity.InsId}";
 
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();

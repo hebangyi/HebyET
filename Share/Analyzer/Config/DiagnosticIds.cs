@@ -12,7 +12,7 @@
 
         public const string ClassDeclarationInHotfixAnalyzerRuleId = "ET0005";
         
-        public const string EntityMethodDeclarationAnalyzerRuleId = "ET0006";
+        // public const string EntityMethodDeclarationAnalyzerRuleId = "ET0006";
 
         public const string EntityComponentAnalyzerRuleId = "ET0007";
         
