@@ -83,11 +83,12 @@ public class ComponentSystemGenerator : ISourceGenerator
         shareModelLoader.SearchFolder = Path.Combine(rootPath, "Unity\\Assets\\Scripts\\Model\\Share");
         shareModelLoader.OutFolder = Path.Combine(rootPath, "Unity\\Assets\\Scripts\\Hotfix\\Share\\Module\\System");
         shareModelLoader.Search();
-
+        */
+        
         SolutionLoader clientModelLoader = new SolutionLoader();
         clientModelLoader.SearchFolder = Path.Combine(rootPath, "Unity\\Assets\\Scripts\\Model\\Client");
         clientModelLoader.OutFolder = Path.Combine(rootPath, "Unity\\Assets\\Scripts\\Hotfix\\Client\\Module\\System");
-        clientModelLoader.Search();*/
+        clientModelLoader.Search();
 
         SolutionLoader serverModelLoader = new SolutionLoader();
         serverModelLoader.SearchFolder = Path.Combine(rootPath, "DotNet\\Model\\Server");
@@ -97,9 +98,10 @@ public class ComponentSystemGenerator : ISourceGenerator
         /*
         SolutionLoaders.Add(clientModelViewLoader);
         SolutionLoaders.Add(shareModelLoader);
-        SolutionLoaders.Add(clientModelLoader);
         */
         
+        
+        SolutionLoaders.Add(clientModelLoader);
         SolutionLoaders.Add(serverModelLoader);
 
         context.RegisterForSyntaxNotifications(() => ComponentClassReceiver.Create());
