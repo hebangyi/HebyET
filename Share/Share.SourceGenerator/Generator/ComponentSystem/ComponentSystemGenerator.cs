@@ -246,6 +246,18 @@ public class ComponentSystemGenerator : ISourceGenerator
             {
                 return;
             }
+            
+            
+            if (classTypeSymbol.HasAttribute(Definition.FGUITagAttribute))
+            {
+                return;
+            }
+            
+            if (classTypeSymbol.HasAttribute(Definition.FGUIDLGAttribute))
+            {
+                return;
+            }
+            
 
             // Entity | Component
             if (classTypeSymbol.HasAttribute(Definition.ChildOfAttribute) || classTypeSymbol.HasAttribute(Definition.ComponentOfAttribute))
