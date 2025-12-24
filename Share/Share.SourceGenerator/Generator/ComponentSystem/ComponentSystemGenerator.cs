@@ -74,7 +74,7 @@ public class ComponentSystemGenerator : ISourceGenerator
             rootPath = rootPath.Substring(0, rootPath.Length - "Unity\\".Length);
         }
 
-        SolutionLoader clientModelViewLoader = new SolutionLoader();
+        /*SolutionLoader clientModelViewLoader = new SolutionLoader();
         clientModelViewLoader.SearchFolder = Path.Combine(rootPath, "Unity\\Assets\\Scripts\\ModelView\\Client");
         clientModelViewLoader.OutFolder = Path.Combine(rootPath, "Unity\\Assets\\Scripts\\HotfixView\\Client\\Module\\System");
         clientModelViewLoader.Search();
@@ -87,16 +87,19 @@ public class ComponentSystemGenerator : ISourceGenerator
         SolutionLoader clientModelLoader = new SolutionLoader();
         clientModelLoader.SearchFolder = Path.Combine(rootPath, "Unity\\Assets\\Scripts\\Model\\Client");
         clientModelLoader.OutFolder = Path.Combine(rootPath, "Unity\\Assets\\Scripts\\Hotfix\\Client\\Module\\System");
-        clientModelLoader.Search();
+        clientModelLoader.Search();*/
 
         SolutionLoader serverModelLoader = new SolutionLoader();
         serverModelLoader.SearchFolder = Path.Combine(rootPath, "DotNet\\Model\\Server");
         serverModelLoader.OutFolder = Path.Combine(rootPath, "DotNet\\Hotfix\\Server\\Module\\System");
         serverModelLoader.Search();
 
+        /*
         SolutionLoaders.Add(clientModelViewLoader);
         SolutionLoaders.Add(shareModelLoader);
         SolutionLoaders.Add(clientModelLoader);
+        */
+        
         SolutionLoaders.Add(serverModelLoader);
 
         context.RegisterForSyntaxNotifications(() => ComponentClassReceiver.Create());
