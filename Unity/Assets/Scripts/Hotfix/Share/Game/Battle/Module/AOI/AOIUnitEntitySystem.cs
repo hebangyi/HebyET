@@ -3,7 +3,6 @@
 namespace ET
 {
     [FriendOf(typeof(UnitEntity))]
-    [ComponentOf(typeof(UnitEntity))]
     [EntitySystemOf(typeof(AOIUnitEntity))]
     public static partial class AOIUnitEntitySystem
     {

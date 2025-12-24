@@ -46,6 +46,17 @@ public static class BTTest
 
     public static void Test3()
     {
-        Console.WriteLine((int)(-0.6));
+        string currentDirectory = Directory.GetCurrentDirectory();
+
+        // 获取当前目录下所有文件的完整路径（仅当前目录，不包含子文件夹）
+        string[] allFiles = Directory.GetFiles(currentDirectory);
+
+        // 遍历输出文件列表
+        Console.WriteLine("\n当前目录下的所有文件：");
+        foreach (string filePath in allFiles)
+        {
+            Console.WriteLine(filePath);
+        }
+        
     }
 }
