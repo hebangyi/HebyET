@@ -9,6 +9,7 @@ namespace ET
         [EntitySystem]
         public static void Awake(this CoroutineLockComponent self)
         {
+            Log.Info("test");
         }
         
         [EntitySystem]
