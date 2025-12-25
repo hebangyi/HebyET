@@ -14,6 +14,7 @@ namespace ET.Client
 	public static partial class FGUIResName
 	{
 		public const string RES_Lobby_FGUILobbyMainView = "FGUILobbyMainView";
+		public const string RES_Lobby_FGUILobbyMainViewTest = "FGUILobbyMainViewTest";
 
 	}
 }
