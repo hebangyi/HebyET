@@ -11,8 +11,16 @@ namespace ET.Generator;
 [Generator(LanguageNames.CSharp)]
 public class DlgGenerator : ISourceGenerator
 {
+    public string RootPath = "";
     public void Initialize(GeneratorInitializationContext context)
     {
+        string rootPath = Path.GetFullPath("./");
+        if (rootPath.EndsWith("Unity\\"))
+        {
+            rootPath = rootPath.Substring(0, rootPath.Length - "Unity\\".Length);
+        }
+        this.RootPath = rootPath;
+        
         context.RegisterForSyntaxNotifications(() => DlgSyntaxContextReceiver.Create());
     }
 
@@ -61,7 +69,7 @@ public class DlgGenerator : ISourceGenerator
     private void GenerateDlgCodeByTemplate(string namespaceName, string className,
     GeneratorExecutionContext context)
     {
-        string path = "../Unity/Assets/Scripts/ModelView/Client/Game/UI/FGUI/Dlg";
+        string path = Path.Combine(this.RootPath, "Unity/Assets/Scripts/ModelView/Client/Game/UI/FGUI/Dlg");
         string fileName = $"Dlg{className}.cs";
         var filePath = Path.Combine(path, fileName);
 
@@ -83,7 +91,7 @@ public class DlgGenerator : ISourceGenerator
     private void GenerateDlgEventByTemplate(string namespaceName, string className,
     GeneratorExecutionContext context)
     {
-        string path = "../Unity/Assets/Scripts/HotfixView/Client/Game/UI/FGUI/DlgEventHandler";
+        string path = Path.Combine(this.RootPath, "Unity/Assets/Scripts/HotfixView/Client/Game/UI/FGUI/DlgEventHandler");
         Directory.CreateDirectory(path);
 
         string fileName = $"Dlg{className}EventHandler.cs";
@@ -106,7 +114,7 @@ public class DlgGenerator : ISourceGenerator
     private void GenerateDlgSystemByTemplate(string namespaceName, string className,
     GeneratorExecutionContext context)
     {
-        string path = "../Unity/Assets/Scripts/HotfixView/Client/Game/UI/FGUI/DlgSystem";
+        string path = Path.Combine(this.RootPath, "Unity/Assets/Scripts/HotfixView/Client/Game/UI/FGUI/DlgSystem");
         Directory.CreateDirectory(path);
         string fileName = $"Dlg{className}System.cs";
         var filePath = Path.Combine(path, fileName);

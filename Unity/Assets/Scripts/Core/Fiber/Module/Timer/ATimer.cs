@@ -1,5 +1,10 @@
 ﻿namespace ET
 {
+    public struct TimerCallback
+    {
+        public object Args;
+    }
+    
     public abstract class ATimer<T>: AInvokeHandler<TimerCallback> where T: class
     {
         public override void Handle(TimerCallback a)

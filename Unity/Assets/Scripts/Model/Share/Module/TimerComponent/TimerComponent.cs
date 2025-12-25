@@ -31,12 +31,7 @@ namespace ET
 
         public long Time;
     }
-
-    public struct TimerCallback
-    {
-        public object Args;
-    }
-
+    
     [EntitySystemOf(typeof(TimerComponent))]
     public static partial class TimerComponentSystem
     {
