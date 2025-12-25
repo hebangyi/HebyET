@@ -31,38 +31,31 @@ public class DlgGenerator : ISourceGenerator
 
     private void GenerateCSFiles(ClassDeclarationSyntax classDeclarationSyntax, GeneratorExecutionContext context)
     {
-        try
+        string className = classDeclarationSyntax.Identifier.Text;
+
+        SemanticModel semanticModel = context.Compilation.GetSemanticModel(classDeclarationSyntax.SyntaxTree);
+        INamedTypeSymbol? classTypeSymbol = semanticModel.GetDeclaredSymbol(classDeclarationSyntax) as INamedTypeSymbol;
+        INamespaceSymbol? namespaceSymbol = classTypeSymbol?.ContainingNamespace;
+        string? namespaceName = namespaceSymbol?.Name;
+        while (namespaceSymbol?.ContainingNamespace != null)
         {
-            string className = classDeclarationSyntax.Identifier.Text;
-
-            SemanticModel semanticModel = context.Compilation.GetSemanticModel(classDeclarationSyntax.SyntaxTree);
-            INamedTypeSymbol? classTypeSymbol = semanticModel.GetDeclaredSymbol(classDeclarationSyntax) as INamedTypeSymbol;
-            INamespaceSymbol? namespaceSymbol = classTypeSymbol?.ContainingNamespace;
-            string? namespaceName = namespaceSymbol?.Name;
-            while (namespaceSymbol?.ContainingNamespace != null)
+            namespaceSymbol = namespaceSymbol.ContainingNamespace;
+            if (string.IsNullOrEmpty(namespaceSymbol.Name))
             {
-                namespaceSymbol = namespaceSymbol.ContainingNamespace;
-                if (string.IsNullOrEmpty(namespaceSymbol.Name))
-                {
-                    break;
-                }
-
-                namespaceName = $"{namespaceSymbol.Name}.{namespaceName}";
+                break;
             }
 
-            if (namespaceName == null)
-            {
-                throw new Exception($"{className} namespace is null");
-            }
+            namespaceName = $"{namespaceSymbol.Name}.{namespaceName}";
+        }
 
-            this.GenerateDlgCodeByTemplate(namespaceName, className, context);
-            this.GenerateDlgSystemByTemplate(namespaceName, className, context);
-            this.GenerateDlgEventByTemplate(namespaceName, className, context);
-        }
-        catch (Exception e)
+        if (namespaceName == null)
         {
-            File.AppendAllText("C:\\Users\\Administrator\\Desktop\\abc.txt", $"{e} \n");
+            throw new Exception($"{className} namespace is null");
         }
+
+        this.GenerateDlgCodeByTemplate(namespaceName, className, context);
+        this.GenerateDlgSystemByTemplate(namespaceName, className, context);
+        this.GenerateDlgEventByTemplate(namespaceName, className, context);
     }
 
     private void GenerateDlgCodeByTemplate(string namespaceName, string className,
@@ -76,12 +69,12 @@ public class DlgGenerator : ISourceGenerator
         {
             Directory.CreateDirectory(path);
         }
-        
+
         if (File.Exists(filePath))
         {
             return;
         }
-        
+
         var code = DlgTemplate.Replace("{namespaceName}", namespaceName);
         code = code.Replace("{className}", className);
         File.WriteAllText(filePath, code);
@@ -92,25 +85,22 @@ public class DlgGenerator : ISourceGenerator
     {
         string path = "../Unity/Assets/Scripts/HotfixView/Client/Game/UI/FGUI/DlgEventHandler";
         Directory.CreateDirectory(path);
-        
-        
+
         string fileName = $"Dlg{className}EventHandler.cs";
         var filePath = Path.Combine(path, fileName);
-        
+
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);
         }
-        
+
         if (File.Exists(filePath))
         {
             return;
         }
-        
+
         var code = DlgEventHandlerTemplate.Replace("{namespaceName}", namespaceName);
         code = code.Replace("{className}", className);
-        
-        File.WriteAllText(filePath, code);
     }
 
     private void GenerateDlgSystemByTemplate(string namespaceName, string className,
@@ -120,22 +110,22 @@ public class DlgGenerator : ISourceGenerator
         Directory.CreateDirectory(path);
         string fileName = $"Dlg{className}System.cs";
         var filePath = Path.Combine(path, fileName);
-        
+
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);
         }
-        
+
         if (File.Exists(filePath))
         {
             return;
         }
-        
+
         var code = DlgSystemTemplate.Replace("{namespaceName}", namespaceName);
         code = code.Replace("{className}", className);
         File.WriteAllText(filePath, code);
     }
-    
+
     public const string DlgTemplate = $$"""
                                         namespace {namespaceName}
                                         {
@@ -183,7 +173,7 @@ public class DlgGenerator : ISourceGenerator
 
     public const string DlgEventHandlerTemplate = $$"""
                                                     using FairyGUI;
-                                                    
+
                                                     namespace {namespaceName}
                                                     {
                                                         [FGUIEvent(typeof({className}))]
@@ -222,8 +212,7 @@ public class DlgGenerator : ISourceGenerator
                                                         }
                                                     }
                                                     """;
-    
-    
+
     class DlgSyntaxContextReceiver : ISyntaxContextReceiver
     {
         public HashSet<ClassDeclarationSyntax> ViewTypes = new HashSet<ClassDeclarationSyntax>();

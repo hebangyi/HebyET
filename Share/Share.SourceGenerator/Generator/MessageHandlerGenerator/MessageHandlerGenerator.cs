@@ -8,11 +8,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ET.Generator;
 
-
 [Generator(LanguageNames.CSharp)]
 public class MessageHandlerGenerator : ISourceGenerator
 {
-
     public void Initialize(GeneratorInitializationContext context)
     {
         context.RegisterForSyntaxNotifications(() => MessageHandlerReceiver.Create());
@@ -31,7 +29,6 @@ public class MessageHandlerGenerator : ISourceGenerator
         }
     }
 
-
     public const string SessionHandlerTemplate = $$"""
                                                    namespace {namespaceName}
                                                    {
@@ -48,50 +45,40 @@ public class MessageHandlerGenerator : ISourceGenerator
 
     private void GenerateFiles(ClassDeclarationSyntax classDeclarationSyntax, GeneratorExecutionContext context)
     {
-        try
+        string className = classDeclarationSyntax.Identifier.Text;
+
+        SemanticModel semanticModel = context.Compilation.GetSemanticModel(classDeclarationSyntax.SyntaxTree);
+
+        INamedTypeSymbol? classTypeSymbol = semanticModel.GetDeclaredSymbol(classDeclarationSyntax);
+        INamespaceSymbol? namespaceSymbol = classTypeSymbol?.ContainingNamespace;
+        string namespaceName = "ET.Server";
+        if (classTypeSymbol == null)
         {
-            string className = classDeclarationSyntax.Identifier.Text;
-
-            SemanticModel semanticModel = context.Compilation.GetSemanticModel(classDeclarationSyntax.SyntaxTree);
-
-            INamedTypeSymbol? classTypeSymbol = semanticModel.GetDeclaredSymbol(classDeclarationSyntax);
-            INamespaceSymbol? namespaceSymbol = classTypeSymbol?.ContainingNamespace;
-            string namespaceName = "ET.Server";
-            if (classTypeSymbol == null)
-            {
-                return;
-            }
-
-
-            string path = "../DotNet/Hotfix/Server/Game/MessageHandler";
-            string fileName = $"{className}Handler.cs";
-            var filePath = Path.Combine(path, fileName);
-
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
-            if (File.Exists(filePath))
-            {
-                return;
-            }
-
-        
-            if (classTypeSymbol.HasInterface(Definition.ISessionRequest))
-            {
-                string template = SessionHandlerTemplate;
-                var code = template.Replace("{namespaceName}", namespaceName);
-                code = code.Replace("{className}", className);
-                File.WriteAllText(filePath, code);
-            }
+            return;
         }
-        catch (Exception e)
+
+        string path = "../DotNet/Hotfix/Server/Game/MessageHandler";
+        string fileName = $"{className}Handler.cs";
+        var filePath = Path.Combine(path, fileName);
+
+        if (!Directory.Exists(path))
         {
-            File.AppendAllText("C:\\Users\\Administrator\\Desktop\\abc.txt", $"{e} \n");
+            Directory.CreateDirectory(path);
+        }
+
+        if (File.Exists(filePath))
+        {
+            return;
+        }
+
+        if (classTypeSymbol.HasInterface(Definition.ISessionRequest))
+        {
+            string template = SessionHandlerTemplate;
+            var code = template.Replace("{namespaceName}", namespaceName);
+            code = code.Replace("{className}", className);
+            File.WriteAllText(filePath, code);
         }
     }
-
 
     class MessageHandlerReceiver : ISyntaxContextReceiver
     {
@@ -124,4 +111,3 @@ public class MessageHandlerGenerator : ISourceGenerator
         }
     }
 }
-

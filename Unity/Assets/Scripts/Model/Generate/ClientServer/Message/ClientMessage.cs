@@ -1511,7 +1511,7 @@ this._CellIds.Clear();
     // 登录账号服务器
     [MemoryPackable]
     [Message(ClientMessage.C2A_Login)]
-    [ResponseType(nameof(A2C_Login))]
+    [ResponseType(nameof(A2C_Login))] 
     public partial class C2A_Login : MessageObject, ISessionRequest
     {
         private long m_InstanceId;

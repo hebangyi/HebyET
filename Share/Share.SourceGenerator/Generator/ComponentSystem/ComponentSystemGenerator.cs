@@ -34,7 +34,6 @@ public class ComponentSystemGenerator : ISourceGenerator
             var filePaths = Directory.GetFiles(SearchFolder, "*.cs", SearchOption.AllDirectories);
             foreach (var filePath in filePaths)
             {
-                // File.AppendAllText("C:\\Users\\Administrator\\Desktop\\abc.txt", $"File Class {filePath}, File Exists \n");
                 SearchFiles.Add(Path.GetFileNameWithoutExtension(filePath));
             }
         }
@@ -132,107 +131,100 @@ public class ComponentSystemGenerator : ISourceGenerator
 
     private void GenerateFiles(ClassDeclarationSyntax classDeclarationSyntax, GeneratorExecutionContext context, ComponentClassReceiver receiver)
     {
-        try
+        string className = classDeclarationSyntax.Identifier.Text;
+        SemanticModel semanticModel = context.Compilation.GetSemanticModel(classDeclarationSyntax.SyntaxTree);
+        INamedTypeSymbol? classTypeSymbol = semanticModel.GetDeclaredSymbol(classDeclarationSyntax);
+        INamespaceSymbol? namespaceSymbol = classTypeSymbol?.ContainingNamespace;
+
+        SolutionLoader solutionLoader = null;
+        foreach (var s in this.SolutionLoaders)
         {
-            string className = classDeclarationSyntax.Identifier.Text;
-            SemanticModel semanticModel = context.Compilation.GetSemanticModel(classDeclarationSyntax.SyntaxTree);
-            INamedTypeSymbol? classTypeSymbol = semanticModel.GetDeclaredSymbol(classDeclarationSyntax);
-            INamespaceSymbol? namespaceSymbol = classTypeSymbol?.ContainingNamespace;
-
-            SolutionLoader solutionLoader = null;
-            foreach (var s in this.SolutionLoaders)
+            if (s.SearchFiles.Contains(className))
             {
-                if (s.SearchFiles.Contains(className))
+                // 找到对应的 loader 
+                solutionLoader = s;
+            }
+        }
+
+        if (solutionLoader == null)
+        {
+            return;
+        }
+
+        if (!Directory.Exists(solutionLoader.OutFolder))
+        {
+            Directory.CreateDirectory(solutionLoader.OutFolder);
+        }
+
+        string fileName = $"{className}System.cs";
+
+        if (this.SystemTxt.Contains(fileName))
+        {
+            return;
+        }
+
+        var filePath = Path.Combine(solutionLoader.OutFolder, fileName);
+
+        if (File.Exists(filePath))
+        {
+            return;
+        }
+
+        string template = Template;
+        string namespaceName = namespaceSymbol.ToString();
+
+        var code = template.Replace("{namespaceName}", namespaceName);
+        code = code.Replace("{componentType}", className);
+
+        StringBuilder methodBuilder = new StringBuilder();
+        foreach (var type in classDeclarationSyntax.BaseList.Types)
+        {
+            if (type.ToString().Contains("IAwake"))
+            {
+                var typeStr = type.ToString();
+                int leftBracketIndex = typeStr.IndexOf('<');
+                int rightBracketIndex = typeStr.LastIndexOf('>');
+
+                if (leftBracketIndex == -1 || rightBracketIndex == -1 || rightBracketIndex < leftBracketIndex)
                 {
-                    // 找到对应的 loader 
-                    solutionLoader = s;
-                }
-            }
-
-            if (solutionLoader == null)
-            {
-                return;
-            }
-
-            if (!Directory.Exists(solutionLoader.OutFolder))
-            {
-                Directory.CreateDirectory(solutionLoader.OutFolder);
-            }
-
-            string fileName = $"{className}System.cs";
-
-            if (this.SystemTxt.Contains(fileName))
-            {
-                return;
-            }
-
-            var filePath = Path.Combine(solutionLoader.OutFolder, fileName);
-
-            if (File.Exists(filePath))
-            {
-                return;
-            }
-
-            string template = Template;
-            string namespaceName = namespaceSymbol.ToString();
-
-            var code = template.Replace("{namespaceName}", namespaceName);
-            code = code.Replace("{componentType}", className);
-
-            StringBuilder methodBuilder = new StringBuilder();
-            foreach (var type in classDeclarationSyntax.BaseList.Types)
-            {
-                if (type.ToString().Contains("IAwake"))
-                {
-                    var typeStr = type.ToString();
-                    int leftBracketIndex = typeStr.IndexOf('<');
-                    int rightBracketIndex = typeStr.LastIndexOf('>');
-
-                    if (leftBracketIndex == -1 || rightBracketIndex == -1 || rightBracketIndex < leftBracketIndex)
-                    {
-                        string part = AwakeSystemTemplate.Replace("{componentType}", className).Replace("{param}", "");
-                        methodBuilder.Append(part);
-                        methodBuilder.AppendLine();
-                    }
-                    else
-                    {
-                        string contentInsideBrackets = typeStr.Substring(leftBracketIndex + 1, rightBracketIndex - leftBracketIndex - 1);
-                        var paramTypes = contentInsideBrackets.Split(',');
-
-                        string param = "";
-                        for (int i = 0; i < paramTypes.Length; i++)
-                        {
-                            param = ", ";
-                            param += $"{paramTypes[i]} p{i + 1}";
-                        }
-
-                        var part = AwakeSystemTemplate.Replace("{componentType}", className).Replace("{param}", param);
-                        methodBuilder.Append(part);
-                        methodBuilder.AppendLine();
-                    }
-                }
-                else if (type.ToString().Contains("IUpdate"))
-                {
-                    string part = EntitySystemTemplate.Replace("{lifeCycle}", "Update").Replace("{componentType}", className);
+                    string part = AwakeSystemTemplate.Replace("{componentType}", className).Replace("{param}", "");
                     methodBuilder.Append(part);
                     methodBuilder.AppendLine();
                 }
-                else if (type.ToString().Contains("IDestroy"))
+                else
                 {
-                    string part = EntitySystemTemplate.Replace("{lifeCycle}", "Destroy").Replace("{componentType}", className);
+                    string contentInsideBrackets = typeStr.Substring(leftBracketIndex + 1, rightBracketIndex - leftBracketIndex - 1);
+                    var paramTypes = contentInsideBrackets.Split(',');
+
+                    string param = "";
+                    for (int i = 0; i < paramTypes.Length; i++)
+                    {
+                        param = ", ";
+                        param += $"{paramTypes[i]} p{i + 1}";
+                    }
+
+                    var part = AwakeSystemTemplate.Replace("{componentType}", className).Replace("{param}", param);
                     methodBuilder.Append(part);
                     methodBuilder.AppendLine();
                 }
             }
+            else if (type.ToString().Contains("IUpdate"))
+            {
+                string part = EntitySystemTemplate.Replace("{lifeCycle}", "Update").Replace("{componentType}", className);
+                methodBuilder.Append(part);
+                methodBuilder.AppendLine();
+            }
+            else if (type.ToString().Contains("IDestroy"))
+            {
+                string part = EntitySystemTemplate.Replace("{lifeCycle}", "Destroy").Replace("{componentType}", className);
+                methodBuilder.Append(part);
+                methodBuilder.AppendLine();
+            }
+        }
 
-            code = code.Replace("{EntitySystem}", methodBuilder.ToString());
-            File.WriteAllText(filePath, code);
-            File.AppendAllText(Path.Combine(this.RootPath, SystemFile), $"{fileName}\n");
-        }
-        catch (Exception e)
-        {
-            File.AppendAllText("C:\\Users\\Administrator\\Desktop\\abc.txt", $"{e} \n");
-        }
+        code = code.Replace("{EntitySystem}", methodBuilder.ToString());
+        File.WriteAllText(filePath, code);
+        File.AppendAllText(Path.Combine(this.RootPath, SystemFile), $"{fileName}\n");
     }
 
     class ComponentClassReceiver : ISyntaxContextReceiver
