@@ -65,7 +65,7 @@ namespace ET.Analyzer
             }
 
             var entityName = namedTypeSymbol.ToString();
-            var hashCode = entityName.GetLongHashCode();
+            var hashCode = StringHelper.GetLongHashCode(entityName);
 
             if (entityHashCodeMap.TryGetValue(hashCode, out var existEntityName))
             {

@@ -48,40 +48,47 @@ public class MessageHandlerGenerator : ISourceGenerator
 
     private void GenerateFiles(ClassDeclarationSyntax classDeclarationSyntax, GeneratorExecutionContext context)
     {
-        string className = classDeclarationSyntax.Identifier.Text;
-
-        SemanticModel semanticModel = context.Compilation.GetSemanticModel(classDeclarationSyntax.SyntaxTree);
-
-        INamedTypeSymbol? classTypeSymbol = semanticModel.GetDeclaredSymbol(classDeclarationSyntax);
-        INamespaceSymbol? namespaceSymbol = classTypeSymbol?.ContainingNamespace;
-        string namespaceName = "ET.Server";
-        if (classTypeSymbol == null)
+        try
         {
-            return;
-        }
+            string className = classDeclarationSyntax.Identifier.Text;
+
+            SemanticModel semanticModel = context.Compilation.GetSemanticModel(classDeclarationSyntax.SyntaxTree);
+
+            INamedTypeSymbol? classTypeSymbol = semanticModel.GetDeclaredSymbol(classDeclarationSyntax);
+            INamespaceSymbol? namespaceSymbol = classTypeSymbol?.ContainingNamespace;
+            string namespaceName = "ET.Server";
+            if (classTypeSymbol == null)
+            {
+                return;
+            }
 
 
-        string path = "../DotNet/Hotfix/Server/Game/MessageHandler";
-        string fileName = $"{className}Handler.cs";
-        var filePath = Path.Combine(path, fileName);
+            string path = "../DotNet/Hotfix/Server/Game/MessageHandler";
+            string fileName = $"{className}Handler.cs";
+            var filePath = Path.Combine(path, fileName);
 
-        if (!Directory.Exists(path))
-        {
-            Directory.CreateDirectory(path);
-        }
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
 
-        if (File.Exists(filePath))
-        {
-            return;
-        }
+            if (File.Exists(filePath))
+            {
+                return;
+            }
 
         
-        if (classTypeSymbol.HasInterface(Definition.ISessionRequest))
+            if (classTypeSymbol.HasInterface(Definition.ISessionRequest))
+            {
+                string template = SessionHandlerTemplate;
+                var code = template.Replace("{namespaceName}", namespaceName);
+                code = code.Replace("{className}", className);
+                File.WriteAllText(filePath, code);
+            }
+        }
+        catch (Exception e)
         {
-            string template = SessionHandlerTemplate;
-            var code = template.Replace("{namespaceName}", namespaceName);
-            code = code.Replace("{className}", className);
-            File.WriteAllText(filePath, code);
+            File.AppendAllText("C:\\Users\\Administrator\\Desktop\\abc.txt", $"{e} \n");
         }
     }
 

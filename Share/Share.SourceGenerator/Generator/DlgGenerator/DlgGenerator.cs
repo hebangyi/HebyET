@@ -31,31 +31,38 @@ public class DlgGenerator : ISourceGenerator
 
     private void GenerateCSFiles(ClassDeclarationSyntax classDeclarationSyntax, GeneratorExecutionContext context)
     {
-        string className = classDeclarationSyntax.Identifier.Text;
-
-        SemanticModel semanticModel = context.Compilation.GetSemanticModel(classDeclarationSyntax.SyntaxTree);
-        INamedTypeSymbol? classTypeSymbol = semanticModel.GetDeclaredSymbol(classDeclarationSyntax) as INamedTypeSymbol;
-        INamespaceSymbol? namespaceSymbol = classTypeSymbol?.ContainingNamespace;
-        string? namespaceName = namespaceSymbol?.Name;
-        while (namespaceSymbol?.ContainingNamespace != null)
+        try
         {
-            namespaceSymbol = namespaceSymbol.ContainingNamespace;
-            if (string.IsNullOrEmpty(namespaceSymbol.Name))
+            string className = classDeclarationSyntax.Identifier.Text;
+
+            SemanticModel semanticModel = context.Compilation.GetSemanticModel(classDeclarationSyntax.SyntaxTree);
+            INamedTypeSymbol? classTypeSymbol = semanticModel.GetDeclaredSymbol(classDeclarationSyntax) as INamedTypeSymbol;
+            INamespaceSymbol? namespaceSymbol = classTypeSymbol?.ContainingNamespace;
+            string? namespaceName = namespaceSymbol?.Name;
+            while (namespaceSymbol?.ContainingNamespace != null)
             {
-                break;
+                namespaceSymbol = namespaceSymbol.ContainingNamespace;
+                if (string.IsNullOrEmpty(namespaceSymbol.Name))
+                {
+                    break;
+                }
+
+                namespaceName = $"{namespaceSymbol.Name}.{namespaceName}";
             }
 
-            namespaceName = $"{namespaceSymbol.Name}.{namespaceName}";
-        }
+            if (namespaceName == null)
+            {
+                throw new Exception($"{className} namespace is null");
+            }
 
-        if (namespaceName == null)
+            this.GenerateDlgCodeByTemplate(namespaceName, className, context);
+            this.GenerateDlgSystemByTemplate(namespaceName, className, context);
+            this.GenerateDlgEventByTemplate(namespaceName, className, context);
+        }
+        catch (Exception e)
         {
-            throw new Exception($"{className} namespace is null");
+            File.AppendAllText("C:\\Users\\Administrator\\Desktop\\abc.txt", $"{e} \n");
         }
-
-        this.GenerateDlgCodeByTemplate(namespaceName, className, context);
-        this.GenerateDlgSystemByTemplate(namespaceName, className, context);
-        this.GenerateDlgEventByTemplate(namespaceName, className, context);
     }
 
     private void GenerateDlgCodeByTemplate(string namespaceName, string className,

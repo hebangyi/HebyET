@@ -128,7 +128,7 @@ namespace ET
         StringBuilder sb = new StringBuilder();
         foreach (var entityName in receiver.entities)
         {
-            sb.AppendLine($$"""        { typeof(global::{{entityName}}), {{entityName.GetLongHashCode()}} },""");
+            sb.AppendLine($$"""        { typeof(global::{{entityName}}), {{StringHelper.GetLongHashCode(entityName)}} },""");
         }
         return sb.ToString();
     }
@@ -138,7 +138,7 @@ namespace ET
         StringBuilder sb = new StringBuilder();
         foreach (var entityName in receiver.entities)
         {
-            sb.AppendLine($$"""                case {{entityName.GetLongHashCode()}}: writer.WritePackable(System.Runtime.CompilerServices.Unsafe.As<global::{{Definition.EntityType}}?, global::{{entityName}}>(ref value)); break;""");
+            sb.AppendLine($$"""                case {{StringHelper.GetLongHashCode(entityName)}}: writer.WritePackable(System.Runtime.CompilerServices.Unsafe.As<global::{{Definition.EntityType}}?, global::{{entityName}}>(ref value)); break;""");
         }
         return sb.ToString();
     }
@@ -149,7 +149,7 @@ namespace ET
         foreach (var entityName in receiver.entities)
         {
             sb.AppendLine($$"""
-            case {{entityName.GetLongHashCode()}}:
+            case {{StringHelper.GetLongHashCode(entityName)}}:
                     if(value is global::{{entityName}})
                     {
                         reader.ReadPackable(ref System.Runtime.CompilerServices.Unsafe.As<global::{{Definition.EntityType}}?, global::{{entityName}}>(ref value));

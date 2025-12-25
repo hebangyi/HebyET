@@ -17,7 +17,6 @@ public class ComponentSystemGenerator : ISourceGenerator
     public string SystemTxt = "";
     public string RootPath = "";
     public const string SystemFile = "System.txt";
-    
 
     public class SolutionLoader
     {
@@ -54,14 +53,13 @@ public class ComponentSystemGenerator : ISourceGenerator
                                      """;
 
     public const string AwakeSystemTemplate = $$"""
-                                                 
-                                                        [EntitySystem]
-                                                        private static void Awake(this {componentType} self{param})
-                                                        {
-                                                        }
-                                                 """;
-    
-    
+                                                
+                                                       [EntitySystem]
+                                                       private static void Awake(this {componentType} self{param})
+                                                       {
+                                                       }
+                                                """;
+
     public const string EntitySystemTemplate = $$"""
                                                  
                                                         [EntitySystem]
@@ -83,19 +81,19 @@ public class ComponentSystemGenerator : ISourceGenerator
         var systemFilePath = Path.Combine(rootPath, SystemFile);
         if (File.Exists(systemFilePath))
         {
-            this.SystemTxt = File.ReadAllText(Path.Combine(rootPath, SystemFile));    
+            this.SystemTxt = File.ReadAllText(Path.Combine(rootPath, SystemFile));
         }
-        
+
         SolutionLoader clientModelViewLoader = new SolutionLoader();
         clientModelViewLoader.SearchFolder = Path.Combine(rootPath, "Unity\\Assets\\Scripts\\ModelView\\Client");
         clientModelViewLoader.OutFolder = Path.Combine(rootPath, "Unity\\Assets\\Scripts\\HotfixView\\Client\\Module\\System");
         clientModelViewLoader.Search();
-        
+
         SolutionLoader shareModelLoader = new SolutionLoader();
         shareModelLoader.SearchFolder = Path.Combine(rootPath, "Unity\\Assets\\Scripts\\Model\\Share");
         shareModelLoader.OutFolder = Path.Combine(rootPath, "Unity\\Assets\\Scripts\\Hotfix\\Share\\Module\\System");
         shareModelLoader.Search();
-        
+
         SolutionLoader clientModelLoader = new SolutionLoader();
         clientModelLoader.SearchFolder = Path.Combine(rootPath, "Unity\\Assets\\Scripts\\Model\\Client");
         clientModelLoader.OutFolder = Path.Combine(rootPath, "Unity\\Assets\\Scripts\\Hotfix\\Client\\Module\\System");
@@ -106,7 +104,6 @@ public class ComponentSystemGenerator : ISourceGenerator
         serverModelLoader.OutFolder = Path.Combine(rootPath, "DotNet\\Hotfix\\Server\\Module\\System");
         serverModelLoader.Search();
 
-    
         SolutionLoaders.Add(clientModelViewLoader);
         SolutionLoaders.Add(shareModelLoader);
         SolutionLoaders.Add(clientModelLoader);
@@ -135,102 +132,107 @@ public class ComponentSystemGenerator : ISourceGenerator
 
     private void GenerateFiles(ClassDeclarationSyntax classDeclarationSyntax, GeneratorExecutionContext context, ComponentClassReceiver receiver)
     {
-        string className = classDeclarationSyntax.Identifier.Text;
-        SemanticModel semanticModel = context.Compilation.GetSemanticModel(classDeclarationSyntax.SyntaxTree);
-        INamedTypeSymbol? classTypeSymbol = semanticModel.GetDeclaredSymbol(classDeclarationSyntax);
-        INamespaceSymbol? namespaceSymbol = classTypeSymbol?.ContainingNamespace;
-
-        SolutionLoader solutionLoader = null;
-        foreach (var s in this.SolutionLoaders)
+        try
         {
-            if (s.SearchFiles.Contains(className))
+            string className = classDeclarationSyntax.Identifier.Text;
+            SemanticModel semanticModel = context.Compilation.GetSemanticModel(classDeclarationSyntax.SyntaxTree);
+            INamedTypeSymbol? classTypeSymbol = semanticModel.GetDeclaredSymbol(classDeclarationSyntax);
+            INamespaceSymbol? namespaceSymbol = classTypeSymbol?.ContainingNamespace;
+
+            SolutionLoader solutionLoader = null;
+            foreach (var s in this.SolutionLoaders)
             {
-                // 找到对应的 loader 
-                solutionLoader = s;
-            }
-        }
-
-        if (solutionLoader == null)
-        {
-            return;
-        }
-
-        if (!Directory.Exists(solutionLoader.OutFolder))
-        {
-            Directory.CreateDirectory(solutionLoader.OutFolder);
-        }
-
-        string fileName = $"{className}System.cs";
-
-        if (this.SystemTxt.Contains(fileName))
-        {
-            return;
-        }
-        
-        var filePath = Path.Combine(solutionLoader.OutFolder, fileName);
-        
-        if (File.Exists(filePath))
-        {
-            return;
-        }
-
-        string template = Template;
-        string namespaceName = namespaceSymbol.ToString();
-
-        var code = template.Replace("{namespaceName}", namespaceName);
-        code = code.Replace("{componentType}", className);
-
-
-        StringBuilder methodBuilder = new StringBuilder();
-        foreach (var type in classDeclarationSyntax.BaseList.Types)
-        {
-            if (type.ToString().Contains("IAwake"))
-            {
-                var typeStr = type.ToString();
-                int leftBracketIndex = typeStr.IndexOf('<');
-                int rightBracketIndex = typeStr.LastIndexOf('>');
-                
-                if (leftBracketIndex == -1 || rightBracketIndex == -1 || rightBracketIndex < leftBracketIndex)
+                if (s.SearchFiles.Contains(className))
                 {
-                    string part = AwakeSystemTemplate.Replace("{componentType}", className).Replace("{param}", "");
-                    methodBuilder.Append(part);
-                    methodBuilder.AppendLine();
+                    // 找到对应的 loader 
+                    solutionLoader = s;
                 }
-                else
-                {
-                    string contentInsideBrackets = typeStr.Substring(leftBracketIndex + 1, rightBracketIndex - leftBracketIndex - 1);
-                    var paramTypes = contentInsideBrackets.Split(',');
+            }
 
-                    string param = "";
-                    for (int i = 0 ; i < paramTypes.Length ; i++)
+            if (solutionLoader == null)
+            {
+                return;
+            }
+
+            if (!Directory.Exists(solutionLoader.OutFolder))
+            {
+                Directory.CreateDirectory(solutionLoader.OutFolder);
+            }
+
+            string fileName = $"{className}System.cs";
+
+            if (this.SystemTxt.Contains(fileName))
+            {
+                return;
+            }
+
+            var filePath = Path.Combine(solutionLoader.OutFolder, fileName);
+
+            if (File.Exists(filePath))
+            {
+                return;
+            }
+
+            string template = Template;
+            string namespaceName = namespaceSymbol.ToString();
+
+            var code = template.Replace("{namespaceName}", namespaceName);
+            code = code.Replace("{componentType}", className);
+
+            StringBuilder methodBuilder = new StringBuilder();
+            foreach (var type in classDeclarationSyntax.BaseList.Types)
+            {
+                if (type.ToString().Contains("IAwake"))
+                {
+                    var typeStr = type.ToString();
+                    int leftBracketIndex = typeStr.IndexOf('<');
+                    int rightBracketIndex = typeStr.LastIndexOf('>');
+
+                    if (leftBracketIndex == -1 || rightBracketIndex == -1 || rightBracketIndex < leftBracketIndex)
                     {
-                        param = ", ";
-                        param += $"{paramTypes[i]} p{i + 1}";
+                        string part = AwakeSystemTemplate.Replace("{componentType}", className).Replace("{param}", "");
+                        methodBuilder.Append(part);
+                        methodBuilder.AppendLine();
                     }
-                    
-                    var part = AwakeSystemTemplate.Replace("{componentType}", className).Replace("{param}", param);
+                    else
+                    {
+                        string contentInsideBrackets = typeStr.Substring(leftBracketIndex + 1, rightBracketIndex - leftBracketIndex - 1);
+                        var paramTypes = contentInsideBrackets.Split(',');
+
+                        string param = "";
+                        for (int i = 0; i < paramTypes.Length; i++)
+                        {
+                            param = ", ";
+                            param += $"{paramTypes[i]} p{i + 1}";
+                        }
+
+                        var part = AwakeSystemTemplate.Replace("{componentType}", className).Replace("{param}", param);
+                        methodBuilder.Append(part);
+                        methodBuilder.AppendLine();
+                    }
+                }
+                else if (type.ToString().Contains("IUpdate"))
+                {
+                    string part = EntitySystemTemplate.Replace("{lifeCycle}", "Update").Replace("{componentType}", className);
                     methodBuilder.Append(part);
                     methodBuilder.AppendLine();
                 }
-                
+                else if (type.ToString().Contains("IDestroy"))
+                {
+                    string part = EntitySystemTemplate.Replace("{lifeCycle}", "Destroy").Replace("{componentType}", className);
+                    methodBuilder.Append(part);
+                    methodBuilder.AppendLine();
+                }
             }
-            else if (type.ToString().Contains("IUpdate"))
-            {
-                string part = EntitySystemTemplate.Replace("{lifeCycle}", "Update").Replace("{componentType}", className);
-                methodBuilder.Append(part);
-                methodBuilder.AppendLine();
-            }
-            else if (type.ToString().Contains("IDestroy"))
-            {
-                string part = EntitySystemTemplate.Replace("{lifeCycle}", "Destroy").Replace("{componentType}", className);
-                methodBuilder.Append(part);
-                methodBuilder.AppendLine();
-            }
+
+            code = code.Replace("{EntitySystem}", methodBuilder.ToString());
+            File.WriteAllText(filePath, code);
+            File.AppendAllText(Path.Combine(this.RootPath, SystemFile), $"{fileName}\n");
         }
-        
-        code = code.Replace("{EntitySystem}", methodBuilder.ToString());
-        File.WriteAllText(filePath, code);
-        File.AppendAllText(Path.Combine(this.RootPath, SystemFile), $"{fileName}\n");
+        catch (Exception e)
+        {
+            File.AppendAllText("C:\\Users\\Administrator\\Desktop\\abc.txt", $"{e} \n");
+        }
     }
 
     class ComponentClassReceiver : ISyntaxContextReceiver
@@ -264,18 +266,16 @@ public class ComponentSystemGenerator : ISourceGenerator
             {
                 return;
             }
-            
-            
+
             if (classTypeSymbol.HasAttribute(Definition.FGUITagAttribute))
             {
                 return;
             }
-            
+
             if (classTypeSymbol.HasAttribute(Definition.FGUIDLGAttribute))
             {
                 return;
             }
-            
 
             // Entity | Component
             if (classTypeSymbol.HasAttribute(Definition.ChildOfAttribute) || classTypeSymbol.HasAttribute(Definition.ComponentOfAttribute))
