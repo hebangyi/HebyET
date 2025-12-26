@@ -10,7 +10,7 @@ namespace ET
             Fiber fiber = self.Fiber();
             self.MailBoxType = mailBoxType;
             self.ParentInstanceId = self.Parent.InstanceId;
-            fiber.Mailboxes.Add(self);
+            fiber.Mailboxes.Add(self.Parent);
         }
         
         [EntitySystem]

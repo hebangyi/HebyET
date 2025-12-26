@@ -15,6 +15,7 @@ namespace ET.Client
 
             if (errorCode != ErrorCode.ERR_Success)
             {
+                Log.Error($"登录错误! Error : {errorCode}");
                 return errorCode;
             }
             
