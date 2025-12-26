@@ -49,7 +49,7 @@ namespace ET
 
         public static void ExportComponentSystem()
         {
-            Log.Info("开始检测生成 Component System");
+            Console.WriteLine("开始检测生成 Component System");
             string rootPath = Path.GetFullPath("../");
             string SystemTxt = File.ReadAllText(Path.Combine(rootPath, SystemFile));
 
@@ -92,7 +92,7 @@ namespace ET
                 }
             }
             
-            Log.Info("生成 Component System 完成");
+            Console.WriteLine("生成 Component System 完成");
         }
 
         public static void GenerateSystemFile(SolutionLoader solutionLoader, ClassDeclarationSyntax classDeclarationSyntax, string SystemTxt,
