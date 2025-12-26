@@ -92,7 +92,7 @@ namespace ET.Analyzer
                     Description);
     }
 
-    public static class DisableAccessEntityChildAnalyzerRule
+    /*public static class DisableAccessEntityChildAnalyzerRule
     {
         private const string Title = "禁止在Entity类中直接调用Child和Component";
 
@@ -108,7 +108,7 @@ namespace ET.Analyzer
                     DiagnosticSeverity.Error,
                     true,
                     Description);
-    }
+    }*/
 
     public static class EntityComponentAnalyzerRule
     {

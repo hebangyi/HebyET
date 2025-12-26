@@ -46,7 +46,19 @@ namespace ET
             ActorId actorId = messageInfo.ActorId;
             MessageObject message = messageInfo.MessageObject;
 
-            MailBoxComponent mailBoxComponent = self.Fiber().Mailboxes.Get(actorId.InstanceId);
+            Entity entity = self.Fiber().Mailboxes.Get(actorId.InstanceId);
+            if (entity == null)
+            {
+                Log.Warning($"actor not found mailbox, from: {actorId} current: {fiber.Address} {message}");
+                if (message is IRequest request)
+                {
+                    IResponse resp = MessageHelper.CreateResponse(request.GetType(), request.RpcId, ErrorCore.ERR_NotFoundActor);
+                    self.Reply(actorId.Address, resp);
+                }
+                return;
+            }
+
+            var mailBoxComponent = entity.GetComponent<MailBoxComponent>();
             if (mailBoxComponent == null)
             {
                 Log.Warning($"actor not found mailbox, from: {actorId} current: {fiber.Address} {message}");
@@ -57,6 +69,7 @@ namespace ET
                 }
                 return;
             }
+            
             mailBoxComponent.Add(actorId.Address, message);
         }
 

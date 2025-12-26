@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Etcdserverpb;
 using Google.Protobuf;
 using dotnet_etcd;
 using Grpc.Core;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using MongoDB.Bson;
 using Exception = System.Exception;
 
 namespace ET.Server;
@@ -90,7 +87,7 @@ public static partial class EtcdComponentSystem
             {
                 sceneNodeInfo = EtcdHelper.BuildSelfSceneNode(scene, 0);
             }
-            
+
             var sceneId = scene.Id;
             var regPath = ByteString.CopyFromUtf8(EtcdHelper.GetRegPath(scene.SceneType, scene.Id));
             var regValue = ByteString.CopyFromUtf8(JsonHelper.ToJson(sceneNodeInfo));
