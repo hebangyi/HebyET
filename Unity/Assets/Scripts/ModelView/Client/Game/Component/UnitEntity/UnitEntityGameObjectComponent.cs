@@ -5,9 +5,10 @@ namespace ET.Client
     [ComponentOf(typeof(UnitEntity))]
     public class UnitEntityGameObjectComponent : Entity, IAwake, IDestroy
     {
+        
         private GameObject gameObject;
 
-        public GameObject GameObject
+        public GameObject GameObject 
         {
             get
             {
