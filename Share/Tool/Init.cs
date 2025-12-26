@@ -48,6 +48,12 @@ namespace ET.Server
                         Proto2CS.Export();
                         break;
                     }
+                    case AppType.CodeGen:
+                    {
+                        Options.Instance.Console = 1;
+                        ComponentCodeGenerator.ExportComponentSystem();
+                        break;
+                    }
                 }
                 Thread.Sleep(5000);
                 return 0;

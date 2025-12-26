@@ -15,7 +15,7 @@ namespace ET
         public string OutFolder;
     }
 
-    public class CodeGenerator
+    public static class ComponentCodeGenerator
     {
         public const string SystemFile = "System.txt";
 
@@ -49,6 +49,7 @@ namespace ET
 
         public static void ExportComponentSystem()
         {
+            Log.Info("开始检测生成 Component System");
             string rootPath = Path.GetFullPath("../");
             string SystemTxt = File.ReadAllText(Path.Combine(rootPath, SystemFile));
 
@@ -90,6 +91,8 @@ namespace ET
                     }
                 }
             }
+            
+            Log.Info("生成 Component System 完成");
         }
 
         public static void GenerateSystemFile(SolutionLoader solutionLoader, ClassDeclarationSyntax classDeclarationSyntax, string SystemTxt,
