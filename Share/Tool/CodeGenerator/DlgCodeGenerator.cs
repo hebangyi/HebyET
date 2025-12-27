@@ -10,18 +10,17 @@ namespace ET
     public static class DlgCodeGenerator
     {
         public const string TagFile = "Dlg.txt";
-        
+
         public static void ExportDlg()
         {
             Console.WriteLine("开始检测生成 Dlg");
-            Console.WriteLine("开始检测生成 Component System");
             string rootPath = Path.GetFullPath("../");
-            string TagTxt = File.ReadAllText(Path.Combine(rootPath, TagFile));
             
+            string tagTxt = File.ReadAllText(Path.Combine(rootPath, TagFile));
             string searchPath = Path.Combine(rootPath, "Unity\\Assets\\Scripts\\ModelView\\Client");
-            
+
             var allFiles = Directory.GetFiles(searchPath, "*.cs", SearchOption.AllDirectories);
-            
+
             foreach (var file in allFiles)
             {
                 SyntaxTree tree = CSharpSyntaxTree.ParseText(File.ReadAllText(file));
@@ -31,21 +30,193 @@ namespace ET
                         .OfType<ClassDeclarationSyntax>();
                 foreach (var classDecl in classes)
                 {
-                    if (classDecl.AttributeLists.Count > 1)
+                    foreach (var attribute in classDecl.AttributeLists)
                     {
-                        Console.WriteLine(classDecl.AttributeLists);
-                        GenerateFile(classDecl, TagTxt, rootPath);
+                        if (attribute.ToString().Contains("FGUITag") && classDecl.Identifier.Text.EndsWith("View"))
+                        {
+                            GenerateFile(rootPath, tagTxt, classDecl);
+                        }
                     }
                 }
             }
-            
-            
+
             Console.WriteLine("开始检测生成 Dlg 完成");
         }
 
-        private static void GenerateFile(ClassDeclarationSyntax classDecl, string tagTxt, string rootPath)
+        private static void GenerateFile(string rootPath, string tagTxt, ClassDeclarationSyntax classDeclarationSyntax)
         {
+            string className = classDeclarationSyntax.Identifier.Text;
+            string nameSpaceName = "ET";
+
+            if (classDeclarationSyntax.Parent is NamespaceDeclarationSyntax namespaceDecl)
+            {
+                nameSpaceName = namespaceDecl.Name.ToString();
+            }
             
+            if (tagTxt.Contains(className))
+            {
+                return;
+            }
+            
+            Console.WriteLine($"开始生成类 {className}");
+            
+            GenerateDlgCodeByTemplate(rootPath, nameSpaceName, className);
+            GenerateDlgSystemByTemplate(rootPath, nameSpaceName, className);
+            GenerateDlgEventByTemplate(rootPath, nameSpaceName, className);
+            
+            File.AppendAllText(Path.Combine(rootPath, TagFile), $"{className}\n");
         }
+        
+        private static void GenerateDlgCodeByTemplate(string rootPath, string namespaceName, string className)
+        {
+            string path = Path.Combine(rootPath, "Unity/Assets/Scripts/ModelView/Client/Game/UI/FGUI/Dlg");
+            string fileName = $"Dlg{className}.cs";
+            var filePath = Path.Combine(path, fileName);
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            if (File.Exists(filePath))
+            {
+                return;
+            }
+
+            var code = DlgTemplate.Replace("{namespaceName}", namespaceName);
+            code = code.Replace("{className}", className);
+            File.WriteAllText(filePath, code);
+        }
+
+        private static void GenerateDlgEventByTemplate(string rootPath, string namespaceName, string className)
+        {
+            string path = Path.Combine(rootPath, "Unity/Assets/Scripts/HotfixView/Client/Game/UI/FGUI/DlgEventHandler");
+            Directory.CreateDirectory(path);
+
+            string fileName = $"Dlg{className}EventHandler.cs";
+            var filePath = Path.Combine(path, fileName);
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            if (File.Exists(filePath))
+            {
+                return;
+            }
+
+            var code = DlgEventHandlerTemplate.Replace("{namespaceName}", namespaceName);
+            code = code.Replace("{className}", className);
+        }
+
+        private static void GenerateDlgSystemByTemplate(string rootPath, string namespaceName, string className)
+        {
+            string path = Path.Combine(rootPath, "Unity/Assets/Scripts/HotfixView/Client/Game/UI/FGUI/DlgSystem");
+            Directory.CreateDirectory(path);
+            string fileName = $"Dlg{className}System.cs";
+            var filePath = Path.Combine(path, fileName);
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            if (File.Exists(filePath))
+            {
+                return;
+            }
+
+            var code = DlgSystemTemplate.Replace("{namespaceName}", namespaceName);
+            code = code.Replace("{className}", className);
+            File.WriteAllText(filePath, code);
+        }
+
+        public const string DlgTemplate = $$"""
+                                            namespace {namespaceName}
+                                            {
+                                                [ComponentOf]
+                                                [EnableMethod]
+                                                [FGUIDLG(WindowID.{className}, typeof({className}))]
+                                                public class Dlg{className} : Entity,IAwake
+                                                {
+                                                    public {className} View { get => this.GetComponent<{className}>(); }
+                                                    
+                                                }
+                                            }
+                                            """;
+
+        public const string DlgSystemTemplate = $$"""
+                                                  using System;
+                                                  using FairyGUI;
+
+                                                  namespace {namespaceName}
+                                                  {
+                                                      public static class Dlg{className}System
+                                                      {
+                                                          public static void Init(this Dlg{className} self)
+                                                          {
+                                                          }
+                                                          
+                                                          public static void RegisterUIEvent(this Dlg{className} self)
+                                                          {
+                                                          }
+                                                          
+                                                          public static void ShowWindow(this Dlg{className} self, ShowWindowData showWindowData = null)
+                                                          {
+                                                          }
+                                                          
+                                                          public static void HideWindow(this Dlg{className} self)
+                                                          {
+                                                          }
+                                                          
+                                                          public static void BeforeUnload(this Dlg{className} self)
+                                                          {
+                                                          }
+                                                      }
+                                                  }
+                                                  """;
+
+        public const string DlgEventHandlerTemplate = $$"""
+                                                        using FairyGUI;
+
+                                                        namespace {namespaceName}
+                                                        {
+                                                            [FGUIEvent(typeof({className}))]
+                                                            public class Dlg{className}EventHandler : IFGUIEventHandler
+                                                            {
+                                                                public void OnInitWindowCoreData(UIBaseWindow uiBaseWindow)
+                                                                {
+                                                                    uiBaseWindow.WindowType = UIWindowType.Normal;
+                                                                }
+                                                        
+                                                                public void OnInitComponent(UIBaseWindow uiBaseWindow)
+                                                                {
+                                                                    uiBaseWindow.AddComponent<Dlg{className}>().AddComponent<{className}, GObject>(uiBaseWindow.GObject);
+                                                                    uiBaseWindow.GetComponent<Dlg{className}>().Init();
+                                                                }
+                                                        
+                                                                public void OnRegisterUIEvent(UIBaseWindow uiBaseWindow)
+                                                                {
+                                                                    uiBaseWindow.GetComponent<Dlg{className}>().RegisterUIEvent();
+                                                                }
+                                                        
+                                                                public void OnShowWindow(UIBaseWindow uiBaseWindow, ShowWindowData showWindowData = null)
+                                                                {
+                                                                    uiBaseWindow.GetComponent<Dlg{className}>().ShowWindow(showWindowData);
+                                                                }
+                                                        
+                                                                public void OnHideWindow(UIBaseWindow uiBaseWindow)
+                                                                {
+                                                                    uiBaseWindow.GetComponent<Dlg{className}>().HideWindow();
+                                                                }
+                                                        
+                                                                public void BeforeUnload(UIBaseWindow uiBaseWindow)
+                                                                {
+                                                                    uiBaseWindow.GetComponent<Dlg{className}>().BeforeUnload();
+                                                                }
+                                                            }
+                                                        }
+                                                        """;
     }
 }
