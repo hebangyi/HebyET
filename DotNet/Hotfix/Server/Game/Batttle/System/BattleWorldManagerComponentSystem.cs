@@ -52,25 +52,12 @@ public static partial class BattleWorldManagerComponentSystem
         }
         
         // 创建环境
+        // 创建怪物
         var unitEntityMapMessage = unitEntityPlant.GetUnitEntityElemData<UnitEntityMapMessage>();
         foreach (var cellInfo in unitEntityMapMessage.PlantInfo.CellInfos)
         {
             UnitTreeHelper.Create(world, cellInfo.CenterPoint);
-        }
-        
-        // 创建怪物
-        foreach (var playerInfo in world.PlayerId2Players.Values)
-        {
-            UnitMonsterHelper.Create(world, playerInfo.GetUnitEntityElemData<UnitEntityPosition>().Position);
-            UnitMonsterHelper.Create(world, playerInfo.GetUnitEntityElemData<UnitEntityPosition>().Position + new float2(10, 0));
-            UnitMonsterHelper.Create(world, playerInfo.GetUnitEntityElemData<UnitEntityPosition>().Position + new float2(11, 0));
-            UnitMonsterHelper.Create(world, playerInfo.GetUnitEntityElemData<UnitEntityPosition>().Position + new float2(12, 0));
-            UnitMonsterHelper.Create(world, playerInfo.GetUnitEntityElemData<UnitEntityPosition>().Position + new float2(13, 0));
-            UnitMonsterHelper.Create(world, playerInfo.GetUnitEntityElemData<UnitEntityPosition>().Position + new float2(14, 0));
-            UnitMonsterHelper.Create(world, playerInfo.GetUnitEntityElemData<UnitEntityPosition>().Position + new float2(15, 0));
-            UnitMonsterHelper.Create(world, playerInfo.GetUnitEntityElemData<UnitEntityPosition>().Position + new float2(16, 0));
-            UnitMonsterHelper.Create(world, playerInfo.GetUnitEntityElemData<UnitEntityPosition>().Position + new float2(17, 0));
-            UnitMonsterHelper.Create(world, playerInfo.GetUnitEntityElemData<UnitEntityPosition>().Position + new float2(18, 0));
+            UnitMonsterHelper.Create(world, cellInfo.CenterPoint + new float2(10, 0));
         }
         
         self.Worlds[world.Id] = world;

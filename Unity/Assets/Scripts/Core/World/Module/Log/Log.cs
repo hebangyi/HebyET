@@ -18,7 +18,7 @@ namespace ET
         [Conditional("DEBUG")]
         public static void Debug(string msg)
         {
-            if (Options.Instance.LogLevel > DebugLevel)
+            if (Options.Instance?.LogLevel > DebugLevel)
             {
                 return;
             }
@@ -29,7 +29,7 @@ namespace ET
         [Conditional("DEBUG")]
         public static void Trace(string msg)
         {
-            if (Options.Instance.LogLevel > TraceLevel)
+            if (Options.Instance?.LogLevel > TraceLevel)
             {
                 return;
             }
@@ -39,7 +39,7 @@ namespace ET
 
         public static void Info(string msg)
         {
-            if (Options.Instance.LogLevel > InfoLevel)
+            if (Options.Instance?.LogLevel > InfoLevel)
             {
                 return;
             }
@@ -48,7 +48,7 @@ namespace ET
 
         public static void TraceInfo(string msg)
         {
-            if (Options.Instance.LogLevel > InfoLevel)
+            if (Options.Instance?.LogLevel > InfoLevel)
             {
                 return;
             }
@@ -58,7 +58,7 @@ namespace ET
 
         public static void Warning(string msg)
         {
-            if (Options.Instance.LogLevel > WarningLevel)
+            if (Options.Instance?.LogLevel > WarningLevel)
             {
                 return;
             }
@@ -78,7 +78,7 @@ namespace ET
         
         public static void Console(string msg)
         {
-            if (Options.Instance.Console == 1)
+            if (Options.Instance?.Console == 1)
             {
                 System.Console.WriteLine(msg);
             }
@@ -89,7 +89,7 @@ namespace ET
         [Conditional("DEBUG")]
         public static void Trace(ref System.Runtime.CompilerServices.DefaultInterpolatedStringHandler message)
         {
-            if (Options.Instance.LogLevel > TraceLevel)
+            if (Options.Instance?.LogLevel > TraceLevel)
             {
                 return;
             }
@@ -100,7 +100,7 @@ namespace ET
         [Conditional("DEBUG")]
         public static void Debug(ref System.Runtime.CompilerServices.DefaultInterpolatedStringHandler message)
         {
-            if (Options.Instance.LogLevel > DebugLevel)
+            if (Options.Instance?.LogLevel > DebugLevel)
             {
                 return;
             }
@@ -110,7 +110,7 @@ namespace ET
 
         public static void Info(ref System.Runtime.CompilerServices.DefaultInterpolatedStringHandler message)
         {
-            if (Options.Instance.LogLevel > InfoLevel)
+            if (Options.Instance?.LogLevel > InfoLevel)
             {
                 return;
             }
@@ -119,7 +119,7 @@ namespace ET
         
         public static void Warning(ref System.Runtime.CompilerServices.DefaultInterpolatedStringHandler message)
         {
-            if (Options.Instance.LogLevel > WarningLevel)
+            if (Options.Instance?.LogLevel > WarningLevel)
             {
                 return;
             }

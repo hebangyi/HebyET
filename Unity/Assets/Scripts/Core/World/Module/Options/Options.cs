@@ -9,14 +9,17 @@ namespace ET
         Server,
         Watcher, // 每台物理机一个守护进程，用来启动该物理机上的所有进程
         GameTool,
-        ExcelExporter,
-        CodeGen,
-        Proto2CS,
         BenchmarkClient,
         BenchmarkServer,
 
         Game,
         LockStep,
+        
+        
+        // 工具
+        ExcelExporter,
+        Proto2CS,
+        CodeGen,
     }
 
     public enum LocationType
