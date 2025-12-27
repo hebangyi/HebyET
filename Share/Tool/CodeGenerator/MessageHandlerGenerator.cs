@@ -50,6 +50,8 @@ namespace ET
             {
                 return;
             }
+            
+            File.AppendAllText(Path.Combine(rootPath, HandlerFile), $"{className}\n");
 
             string namespaceName = "ET";
             if (classDecl.Parent is NamespaceDeclarationSyntax namespaceDecl)
@@ -70,9 +72,6 @@ namespace ET
             var code = template.Replace("{namespaceName}", namespaceName);
             code = code.Replace("{className}", className);
             File.WriteAllText(filePath, code);
-            
-            
-            File.AppendAllText(Path.Combine(rootPath, HandlerFile), $"{className}\n");
         }
 
         public const string SessionHandlerTemplate = $$"""

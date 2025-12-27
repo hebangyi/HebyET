@@ -106,29 +106,35 @@ namespace ET
                 nameSpaceName = namespaceDecl.Name.ToString();
             }
 
-            string targetFileName = $"{className}System.cs";
-            if (SystemTxt.Contains(targetFileName))
+            
+            if (SystemTxt.Contains(className))
             {
                 return;
             }
-
-            Console.WriteLine($"nameSpaceName : {nameSpaceName} className : {className}");
+            
+            File.AppendAllText(Path.Combine(rootPath, SystemFile), $"{className}\n");
+            
+            Console.WriteLine(className);
+            if (className == "TestComponent")
+            {
+                Console.WriteLine(className);
+            }
+            
 
             if (!Directory.Exists(solutionLoader.OutFolder))
             {
                 Directory.CreateDirectory(solutionLoader.OutFolder);
             }
 
+            string targetFileName = $"{className}System.cs";
             var filePath = Path.Combine(solutionLoader.OutFolder, targetFileName);
 
             if (File.Exists(filePath))
             {
-                File.AppendAllText("C:\\Users\\Administrator\\Desktop\\step.txt", $"4 {className}\n");
                 return;
             }
 
             string template = Template;
-
             var code = template.Replace("{namespaceName}", nameSpaceName);
             code = code.Replace("{componentType}", className);
 
@@ -191,7 +197,7 @@ namespace ET
                 Console.WriteLine($"生成System文件: {filePath}");
             }
 
-            File.AppendAllText(Path.Combine(rootPath, SystemFile), $"{targetFileName}\n");
+            
         }
     }
 }

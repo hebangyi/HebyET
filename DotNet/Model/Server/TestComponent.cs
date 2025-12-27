@@ -1,8 +1,9 @@
-﻿namespace ET.Server;
-
-[ComponentOf(typeof(Scene))]
-public class TestComponent: Entity, IAwake
+﻿namespace ET.Server
 {
-    public bool Test1;
+    [ComponentOf(typeof(Scene))]
+    public class TestComponent: Entity, IAwake
+    {
+        public bool Test1;
     
+    }
 }

@@ -58,13 +58,15 @@ namespace ET
                 return;
             }
             
+            File.AppendAllText(Path.Combine(rootPath, TagFile), $"{className}\n");
+            
             Console.WriteLine($"开始生成类 {className}");
             
             GenerateDlgCodeByTemplate(rootPath, nameSpaceName, className);
             GenerateDlgSystemByTemplate(rootPath, nameSpaceName, className);
             GenerateDlgEventByTemplate(rootPath, nameSpaceName, className);
             
-            File.AppendAllText(Path.Combine(rootPath, TagFile), $"{className}\n");
+            
         }
         
         private static void GenerateDlgCodeByTemplate(string rootPath, string namespaceName, string className)

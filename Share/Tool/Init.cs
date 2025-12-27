@@ -52,6 +52,8 @@ namespace ET.Server
                     {
                         Options.Instance.Console = 1;
                         ComponentCodeGenerator.ExportComponentSystem();
+                        DlgCodeGenerator.ExportDlg();
+                        MessageHandlerGenerator.ExportHandler();
                         break;
                     }
                 }
