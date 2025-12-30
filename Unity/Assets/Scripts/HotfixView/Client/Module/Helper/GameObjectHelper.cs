@@ -1,5 +1,7 @@
 ﻿using System;
+using Spine.Unity;
 using UnityEngine;
+// using Spine.Unity;
 
 namespace ET.Client
 {
@@ -9,7 +11,7 @@ namespace ET.Client
         {
             try
             {
-                return gameObject.GetComponent<ReferenceCollector>().Get<T>(key);
+                return gameObject.GetComponent<ReferenceCollector>()?.Get<T>(key);
             }
             catch (Exception e)
             {
@@ -75,9 +77,6 @@ namespace ET.Client
             var unitEntityGameObjectComponent = unitEntity.TryAddComponent<UnitEntityGameObjectComponent>();
             unitEntityGameObjectComponent.GameObject = ins;
             
-            
-            
-            
             ins.name = $"{unitEntityType}_{unitEntity.InsId}";
 
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
@@ -99,6 +98,16 @@ namespace ET.Client
             }
 
             return ins;
+        }
+
+        public static GameObject GetGameObject(this UnitEntity unitEntity)
+        {
+            return unitEntity.GetComponent<UnitEntityGameObjectComponent>().GameObject;
+        }
+        
+        public static SkeletonAnimation GetSpineAnimation(this UnitEntity unitEntity)
+        {
+            return unitEntity.GetGameObject()?.Get<GameObject>("SpineAnimation")?.GetComponent<SkeletonAnimation>();
         }
     }
 }

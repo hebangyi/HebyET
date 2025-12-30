@@ -39,7 +39,7 @@ namespace ET
             
             int speed = 5;
             var currentPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position;
-            var toPosition = UnitMonsterHelper.ToPosition(logicWorld, currentPosition, flowUnitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position, speed);
+            var toPosition = UnitMonsterHelper.ToPosition(logicWorld, currentPosition, flowUnitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position, speed, out var _);
             unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position = toPosition;
         }
 

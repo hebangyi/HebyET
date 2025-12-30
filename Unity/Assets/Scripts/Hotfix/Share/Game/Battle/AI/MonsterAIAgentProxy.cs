@@ -40,7 +40,6 @@ namespace ET
 
         public void DoPatrolAction()
         {
-            // Log.Info("做巡逻...");
             this.UnitEntity.GetComponent<MonsterStateMachineComponent>().ChangeState(MachineStateEnum.Patrol);
         }
 

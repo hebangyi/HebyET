@@ -135,6 +135,7 @@ namespace ET
             string s = File.ReadAllText(filePath);
 
             StringBuilder sb = new();
+            sb.Append("// This Is Auto Generate, Do Not Edit!\n");
             sb.Append("using MemoryPack;\n");
             sb.Append("using System.Collections.Generic;\n\n");
             sb.Append($"namespace ET\n");

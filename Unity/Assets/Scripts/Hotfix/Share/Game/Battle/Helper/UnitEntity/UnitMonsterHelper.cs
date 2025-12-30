@@ -86,7 +86,7 @@ namespace ET
             {
                 var playerUnitEntityPosition = playerUnitEntity.GetUnitEntityElemData<UnitEntityPosition>();
                 var distance = BattleHelper.Distance(unitEntityPosition.Position, playerUnitEntityPosition.Position);
-                if (distance <= 500)
+                if (distance <= 20)
                 {
                     return true;
                 }
@@ -99,7 +99,7 @@ namespace ET
         {
             // TODO 是否有仇恨者
             var bornDistance = BornDistance(unitEntity);
-            if (bornDistance >= 1500)
+            if (bornDistance >= 50)
             {
                 return true;
             }
@@ -107,18 +107,25 @@ namespace ET
             return false;
         }
 
-        public static float2 ToPosition(LogicWorld logicWorld, float2 fromPosition, float2 finalPosition, int speed)
+        public static float2 ToPosition(LogicWorld logicWorld, float2 fromPosition, float2 finalPosition, int speed, out bool isFanal)
         {
+            isFanal = false;
             var moveMax = speed * logicWorld.IntervalMillis;
             var distance = BattleHelper.Distance(fromPosition, finalPosition);
-            var targetFraction = moveMax >= distance ? finalPosition
+            bool overMoveDistance = moveMax >= distance;
+            var targetFraction = overMoveDistance ? finalPosition
                     : math.normalize(finalPosition - fromPosition) * speed * logicWorld.IntervalMillis + fromPosition;
 
             if (MonsterCanMove(logicWorld, targetFraction))
             {
+                if (overMoveDistance)
+                {
+                    isFanal = true;
+                }
                 return targetFraction;
             }
 
+            // 进行左右偏移
             var subX = (targetFraction - fromPosition).x;
             var subY = (targetFraction - fromPosition).y;
 

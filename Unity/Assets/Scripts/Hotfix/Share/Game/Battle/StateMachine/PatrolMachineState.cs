@@ -29,7 +29,12 @@ namespace ET
                 // 更新巡逻状态 怪物坐标
                 int speed = 3;
                 var currentPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position;
-                unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position = UnitMonsterHelper.ToPosition(logicWorld, currentPosition, patrolData.ToPosition, speed);
+                unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position = UnitMonsterHelper.ToPosition(logicWorld, currentPosition, patrolData.ToPosition, speed, out var isFanal);
+
+                if (isFanal)
+                {
+                    this.GenPatrolData(component, PatrolStatus.Idle);
+                }
             }
         }
 
@@ -56,9 +61,8 @@ namespace ET
             }
             else
             {
-                patrolData.IdleFinishTime = TimeInfo.Instance.NowMillTime() + 5 * 1000;
-                
                 unitEntity.ChangeAnimateStatus(AnimateStateEnum.Idle);
+                patrolData.IdleFinishTime = TimeInfo.Instance.NowMillTime() + 5 * 1000;
             }
             
             patrolData.PatrolStatus = patrolStatus;
