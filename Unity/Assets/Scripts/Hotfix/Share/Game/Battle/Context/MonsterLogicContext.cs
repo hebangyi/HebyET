@@ -10,7 +10,9 @@ namespace ET
             var unitEntityInitContext = unitEntity.GetComponent<UnitEntityInitContext>();
             
             var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
-            unitEntityPosition.Position = unitEntityInitContext.Params is float2 float2 ? float2 : default;
+            var genData = unitEntityInitContext.Params as MonsterGenData;
+            
+            unitEntityPosition.Position = genData.Position;
             unitEntityPosition.Position += new float2(-10, 10);
 
             var monsterRuntimeAIData = unitEntity.CreateUnitEntityLogicElemData<MonsterRuntimeData>();

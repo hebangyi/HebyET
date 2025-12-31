@@ -8,22 +8,22 @@ using System.ComponentModel;
 namespace ET
 {
     [Config]
-    public partial class BattleMapConfigCategory : Singleton<BattleMapConfigCategory>, IMerge
+    public partial class MonsterConfigCategory : Singleton<MonsterConfigCategory>, IMerge
     {
         [BsonElement]
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
-        private Dictionary<long, BattleMapConfig> dict = new();
+        private Dictionary<long, MonsterConfig> dict = new();
 		
         public void Merge(object o)
         {
-            BattleMapConfigCategory s = o as BattleMapConfigCategory;
+            MonsterConfigCategory s = o as MonsterConfigCategory;
             foreach (var kv in s.dict)
             {
                 this.dict.Add(kv.Key, kv.Value);
             }
         }
 		
-        public BattleMapConfig GetById(long id)
+        public MonsterConfig GetById(long id)
         {
             return this.dict.GetValueOrDefault(id);
         }
@@ -33,12 +33,12 @@ namespace ET
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<long, BattleMapConfig> GetAll()
+        public Dictionary<long, MonsterConfig> GetAll()
         {
             return this.dict;
         }
 
-        public BattleMapConfig GetOne()
+        public MonsterConfig GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -51,20 +51,14 @@ namespace ET
         }
     }
 
-	public partial class BattleMapConfig: ProtoObject, IConfig
+	public partial class MonsterConfig: ProtoObject, IConfig
 	{
 		/// <summary>Id</summary>
 		public long Id { get; set; }
-		/// <summary></summary>
-		public string Name { get; set; }
-		/// <summary>地图边长</summary>
-		public int AreaSize { get; set; }
-		/// <summary>Cell中心点数量</summary>
-		public int CellPointCount { get; set; }
-		/// <summary>Cell中心点最近距离</summary>
-		public int CellPointMinDistance { get; set; }
-		/// <summary>生成Cell数量</summary>
-		public int GenCellCount { get; set; }
+		/// <summary>Note说明</summary>
+		public string Note { get; set; }
+		/// <summary>Asset资源名称</summary>
+		public string AssetName { get; set; }
 
 	}
 }

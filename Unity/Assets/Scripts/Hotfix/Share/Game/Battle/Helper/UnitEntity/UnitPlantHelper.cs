@@ -12,8 +12,6 @@ namespace ET
     {
         public static UnitEntity GeneratePlane(LogicWorld logicWorld, PlantGenContext plantGenContext)
         {
-    
-            
             logicWorld.Create(UETypeEnum.GizmosDebug, plantGenContext);
             return logicWorld.Create(UETypeEnum.PlantMessage, plantGenContext);
         }

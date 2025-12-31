@@ -249,8 +249,9 @@ namespace ET
 
         private static void ExportExcel(string path)
         {
-            string dir = Path.GetDirectoryName(path);
-            string relativePath = Path.GetRelativePath(excelDir, dir);
+            // string dir = Path.GetDirectoryName(path);
+            // string relativePath = Path.GetRelativePath(excelDir, dir);
+            string relativePath = ".";
             string fileName = Path.GetFileName(path);
             if (!fileName.EndsWith(".xlsx") || fileName.StartsWith("~$") || fileName.Contains("#"))
             {
@@ -282,6 +283,7 @@ namespace ET
             
             ExcelPackage p = GetPackage(Path.GetFullPath(path));
 
+            Console.WriteLine($"导出数据 : {protoName} 方式 : {cs}");
             if (cs == "cs")
             {
                 ExportExcelJson(p, fileNameWithoutCS, table, ConfigType.cs, relativePath);
@@ -387,10 +389,10 @@ namespace ET
         static void ExportExcelClass(ExcelPackage p, string name, Table table)
         {
             var worksheet = p.Workbook.Worksheets.FirstOrDefault();
-            ExportSheetClass(worksheet, table);
+            ExportSheetClass(worksheet, name ,table);
         }
 
-        static void ExportSheetClass(ExcelWorksheet worksheet, Table table)
+        static void ExportSheetClass(ExcelWorksheet worksheet, string name,Table table)
         {
             const int row = 2;
 
@@ -401,7 +403,6 @@ namespace ET
                 tableType = TableType.KeyTable;
             }
 
-            Console.WriteLine(tableType);
             var fieldCS = "cs";
 
             table.TableType = tableType;
@@ -477,6 +478,7 @@ namespace ET
             
             string exportPath = Path.Combine(dir, $"{protoName}.cs");
 
+            
             using FileStream txt = new FileStream(exportPath, FileMode.Create);
             using StreamWriter sw = new StreamWriter(txt);
             
@@ -525,6 +527,8 @@ namespace ET
                 string content = templateKey.Replace("(ConfigName)", protoName).Replace(("(Fields)"), sb.ToString());
                 sw.Write(content);
             }
+            
+            Console.WriteLine($"导出Class : {protoName} , 格式 : {tableType}");
         }
 
         #endregion

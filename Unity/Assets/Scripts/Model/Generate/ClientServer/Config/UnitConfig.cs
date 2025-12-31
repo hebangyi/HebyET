@@ -4,6 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Options;
 using System.ComponentModel;
 
+// This Is Auto Generate, Do Not Edit!
 namespace ET
 {
     [Config]

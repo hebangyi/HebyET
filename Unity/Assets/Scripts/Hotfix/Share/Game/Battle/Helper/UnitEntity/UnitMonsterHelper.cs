@@ -6,9 +6,13 @@ namespace ET
 {
     public static class UnitMonsterHelper
     {
-        public static UnitEntity Create(LogicWorld logicWorld, float2 position)
+        public static UnitEntity Create(LogicWorld logicWorld, long configId, float2 position)
         {
-            return logicWorld.Create(UETypeEnum.Monster, position);
+            MonsterGenData monsterGenData = new MonsterGenData();
+            monsterGenData.ConfigId = configId;
+            monsterGenData.Position = position;
+            
+            return logicWorld.Create(UETypeEnum.Monster, monsterGenData);
         }
 
         /// <summary>
