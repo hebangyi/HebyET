@@ -84,6 +84,12 @@ namespace ET.Client
                 var child = monster.GetChild(i).gameObject;
                 child.transform.rotation = Camera.main.transform.rotation;
             }
+            
+            // 刷新 所有动画骨骼
+            foreach (var unitEntity in clientWorld.AllEntities.Values)
+            {
+                AnimationHelper.ReCalUnitEntityAnimationSkeleton(unitEntity);
+            }
         }
         
         

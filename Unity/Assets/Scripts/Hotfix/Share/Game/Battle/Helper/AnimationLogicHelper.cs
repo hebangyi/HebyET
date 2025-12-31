@@ -1,6 +1,6 @@
 ﻿namespace ET
 {
-    public static class AnimationHelper
+    public static class AnimationLogicHelper
     {
         public static void ChangeAnimateStatus(this UnitEntity unitEntity, AnimateStateEnum animateState)
         {

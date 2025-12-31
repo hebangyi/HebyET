@@ -39,4 +39,12 @@ namespace ET.Client
         InitData,
         Run,
     }
+
+    public enum UnitEntityAnimationToward
+    {
+        // Up,
+        // Down,
+        Left,
+        Right
+    }
 }

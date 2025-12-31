@@ -23,18 +23,7 @@
                 return;
             }
             
-            var unitEntityTowardAngle = newData as UnitEntityTowardAngle;
-            var showAngle = (unitEntityTowardAngle.TowardAngle + playerCacheDataComponent.CameraAngleOffSet) % 360;
-
-            Log.Error($"showAngle : {showAngle}");
-            if (showAngle < -90 || showAngle > 90)
-            {
-                spineAnimation.Skeleton.ScaleX = -1;
-            }
-            else
-            {
-                spineAnimation.Skeleton.ScaleX = 1;
-            }
+            AnimationHelper.ReCalUnitEntityAnimationSkeleton(unitEntity);
         }
     }
 }

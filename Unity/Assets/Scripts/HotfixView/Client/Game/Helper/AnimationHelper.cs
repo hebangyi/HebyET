@@ -1,0 +1,61 @@
+﻿namespace ET.Client
+{
+    public static class AnimationHelper
+    {
+        public static void ReCalUnitEntityAnimationSkeleton(UnitEntity unitEntity)
+        { 
+            var spineAnimation = unitEntity.GetSpineAnimation();
+            if (spineAnimation == null)
+            {
+                return;
+            }
+
+            var clientWorld = unitEntity.ClientWorld();
+            var playerCacheDataComponent = clientWorld.MainPlayer.GetComponent<MyPlayerCacheDataComponent>();
+            var towardAngle = unitEntity.GetUnitEntityElemData<UnitEntityTowardAngle>();
+
+            var toward = CalUnitEntityAnimationToward((int)playerCacheDataComponent.CameraAngleOffSet, towardAngle.TowardAngle);
+
+
+            if (toward == UnitEntityAnimationToward.Left)
+            {
+                spineAnimation.Skeleton.ScaleX = -1;
+            }
+            else
+            {
+                spineAnimation.Skeleton.ScaleX = 1;
+            }
+        }
+        
+        
+        public static UnitEntityAnimationToward CalUnitEntityAnimationToward(int cameraAngle, int regionTowardAngle)
+        {
+            int showAngle = cameraAngle + regionTowardAngle;
+            showAngle %= 360;
+
+            if (showAngle < 0)
+            {
+                showAngle += 360;
+            }
+            
+            /*if (showAngle >= 45 && showAngle < 135)
+            {
+                return UnitEntityAnimationToward.Up;
+            }
+            
+            if (showAngle >= 225 && showAngle < 315)
+            {
+                return UnitEntityAnimationToward.Down;
+            }*/
+
+
+            if (showAngle is >= 90 and < 270)
+            {
+                return UnitEntityAnimationToward.Left;
+            }
+
+            
+            return UnitEntityAnimationToward.Right;
+        }
+    }
+}

@@ -102,7 +102,7 @@ namespace ET.Client
 
         public static GameObject GetGameObject(this UnitEntity unitEntity)
         {
-            return unitEntity.GetComponent<UnitEntityGameObjectComponent>().GameObject;
+            return unitEntity.GetComponent<UnitEntityGameObjectComponent>()?.GameObject;
         }
         
         public static SkeletonAnimation GetSpineAnimation(this UnitEntity unitEntity)
