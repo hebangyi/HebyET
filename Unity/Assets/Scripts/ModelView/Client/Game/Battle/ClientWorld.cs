@@ -26,6 +26,9 @@ namespace ET.Client
         // Unit GameObject 资源
         public GameObject UnitGameObject;
 
+        // Unit Monster GameObject 资源
+        public GameObject UnitMonsterGameObject;
+
         // 缓存的 DirtyMessage
         public List<L2C_PlayerAOIWorldDirtyPush> CacheDirtyMessage = new ();
 

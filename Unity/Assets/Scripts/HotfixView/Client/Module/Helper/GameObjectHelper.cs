@@ -24,6 +24,10 @@ namespace ET.Client
             string assetsName = $"Assets/Bundles/Unit/Unit.prefab";
             GameObject gameObject = await clientWorld.Root().GetComponent<ResourcesLoaderComponent>().LoadAssetAsync<GameObject>(assetsName);
             clientWorld.UnitGameObject = gameObject;
+            
+            string monsterAssetsName = $"Assets/Bundles/Unit/UnitMonster.prefab";
+            GameObject monsterGameObject = await clientWorld.Root().GetComponent<ResourcesLoaderComponent>().LoadAssetAsync<GameObject>(monsterAssetsName);
+            clientWorld.UnitMonsterGameObject = monsterGameObject;
         }
 
         public static GameObject CreateGameObjectIns(ClientWorld clientWorld, UnitEntity unitEntity)
