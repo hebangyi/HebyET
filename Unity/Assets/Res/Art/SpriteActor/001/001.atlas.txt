@@ -1,0 +1,146 @@
+
+001.png
+size: 732,408
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+P_banshou
+  rotate: true
+  xy: 650, 282
+  size: 124, 79
+  orig: 125, 84
+  offset: 1, 5
+  index: -1
+P_lingzi
+  rotate: false
+  xy: 489, 52
+  size: 161, 57
+  orig: 171, 57
+  offset: 0, 0
+  index: -1
+P_liuhai1
+  rotate: true
+  xy: 234, 5
+  size: 172, 116
+  orig: 172, 116
+  offset: 0, 0
+  index: -1
+P_liuhai2
+  rotate: false
+  xy: 652, 62
+  size: 61, 47
+  orig: 61, 47
+  offset: 0, 0
+  index: -1
+P_liuhai3
+  rotate: true
+  xy: 352, 7
+  size: 29, 75
+  orig: 29, 75
+  offset: 0, 0
+  index: -1
+P_pifeng
+  rotate: true
+  xy: 2, 20
+  size: 386, 230
+  orig: 506, 282
+  offset: 57, 52
+  index: -1
+P_qiu
+  rotate: true
+  xy: 352, 38
+  size: 139, 135
+  orig: 139, 135
+  offset: 0, 0
+  index: -1
+P_qiuys
+  rotate: false
+  xy: 506, 226
+  size: 53, 104
+  orig: 53, 104
+  offset: 0, 0
+  index: -1
+P_qiuzs
+  rotate: true
+  xy: 506, 332
+  size: 74, 76
+  orig: 74, 76
+  offset: 0, 0
+  index: -1
+P_shenti
+  rotate: true
+  xy: 489, 111
+  size: 70, 159
+  orig: 70, 159
+  offset: 0, 0
+  index: -1
+P_tou1
+  rotate: true
+  xy: 234, 179
+  size: 227, 185
+  orig: 227, 186
+  offset: 0, 1
+  index: -1
+P_tou2
+  rotate: false
+  xy: 590, 191
+  size: 125, 89
+  orig: 125, 91
+  offset: 0, 2
+  index: -1
+P_weijin
+  rotate: true
+  xy: 421, 224
+  size: 182, 83
+  orig: 182, 83
+  offset: 0, 0
+  index: -1
+P_youshou1
+  rotate: false
+  xy: 584, 308
+  size: 57, 98
+  orig: 57, 98
+  offset: 0, 0
+  index: -1
+P_youshou2
+  rotate: true
+  xy: 429, 12
+  size: 24, 74
+  orig: 25, 74
+  offset: 0, 0
+  index: -1
+P_youtui
+  rotate: true
+  xy: 421, 183
+  size: 39, 167
+  orig: 39, 167
+  offset: 0, 0
+  index: -1
+P_zuoshou1
+  rotate: false
+  xy: 664, 27
+  size: 26, 33
+  orig: 26, 35
+  offset: 0, 0
+  index: -1
+P_zuoshou2
+  rotate: true
+  xy: 650, 111
+  size: 78, 79
+  orig: 78, 84
+  offset: 0, 5
+  index: -1
+P_zuoshou3
+  rotate: true
+  xy: 2, 2
+  size: 16, 67
+  orig: 16, 68
+  offset: 0, 0
+  index: -1
+P_zuotui
+  rotate: true
+  xy: 505, 3
+  size: 47, 157
+  orig: 47, 157
+  offset: 0, 0
+  index: -1

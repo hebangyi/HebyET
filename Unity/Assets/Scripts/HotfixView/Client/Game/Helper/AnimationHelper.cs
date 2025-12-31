@@ -53,7 +53,6 @@
             {
                 return UnitEntityAnimationToward.Left;
             }
-
             
             return UnitEntityAnimationToward.Right;
         }

@@ -1,0 +1,83 @@
+
+006.png
+size: 676,276
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+P_hua
+  rotate: false
+  xy: 554, 11
+  size: 101, 31
+  orig: 114, 55
+  offset: 0, 9
+  index: -1
+P_jiaoL
+  rotate: true
+  xy: 556, 44
+  size: 31, 106
+  orig: 31, 110
+  offset: 0, 4
+  index: -1
+P_jiaoR
+  rotate: true
+  xy: 556, 77
+  size: 57, 118
+  orig: 59, 120
+  offset: 2, 2
+  index: -1
+P_maoL
+  rotate: true
+  xy: 409, 67
+  size: 67, 145
+  orig: 67, 145
+  offset: 0, 0
+  index: -1
+P_maoR
+  rotate: true
+  xy: 146, 13
+  size: 125, 165
+  orig: 125, 171
+  offset: 0, 0
+  index: -1
+P_maozi1
+  rotate: true
+  xy: 409, 3
+  size: 62, 143
+  orig: 88, 158
+  offset: 11, 15
+  index: -1
+P_maozi2
+  rotate: true
+  xy: 313, 2
+  size: 38, 85
+  orig: 96, 115
+  offset: 26, 12
+  index: -1
+P_pifeng1
+  rotate: false
+  xy: 146, 140
+  size: 266, 132
+  orig: 266, 134
+  offset: 0, 0
+  index: -1
+P_pifeng2
+  rotate: false
+  xy: 414, 136
+  size: 249, 136
+  orig: 249, 136
+  offset: 0, 0
+  index: -1
+P_shenti
+  rotate: false
+  xy: 2, 15
+  size: 142, 257
+  orig: 228, 294
+  offset: 86, 0
+  index: -1
+glow_1
+  rotate: false
+  xy: 313, 42
+  size: 94, 96
+  orig: 100, 100
+  offset: 3, 2
+  index: -1

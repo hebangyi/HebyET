@@ -9,12 +9,10 @@ namespace ET.Client
         {
             base.CreateView(unitEntity);
             
-            
-            Log.Error("GizmosDebug");
             var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
             var go = unitEntityGameObjectComponent.GameObject;
 
-            var gizmosDebug = go.GetComponent<ET.GizmosDebug>();
+            var gizmosDebug = go.GetComponent<GizmosDebug>();
             var gizmosDebugInfo = unitEntity.GetUnitEntityElemData<GizmosPlantInfo>();
             if (gizmosDebugInfo == null)
             {
@@ -42,7 +40,6 @@ namespace ET.Client
             }
 
             gizmosDebug.AreaSize = gizmosDebugInfo.AreaSize;
-            
         }
     }
 }
