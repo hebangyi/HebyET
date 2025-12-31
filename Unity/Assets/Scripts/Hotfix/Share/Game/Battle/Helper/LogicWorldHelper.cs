@@ -1,7 +1,14 @@
-﻿namespace ET
+﻿using System.Collections.Generic;
+
+namespace ET
 {
     public static class LogicWorldHelper
     {
+        public static UnitEntity GetUnitEntityByInsId(this LogicWorld logicWorld, long insId)
+        {
+            return logicWorld.AllEntities.GetValueOrDefault(insId);
+        }
+        
         public static void Tick(this LogicWorld self)
         {
             self.Frame++;

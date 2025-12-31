@@ -8,17 +8,27 @@ namespace ET.Client
         public static async ETTask InitWorld(this ClientWorld world, BattleWorld battleWorld)
         {
             world.Frame = battleWorld.Frame;
+            Log.Error($"初始化世界 : Frame{world.Frame}");
         }
 
-        public static async ETTask AddBattleUnits(this ClientWorld world, List<BattleUnitEntity> battleUnitEntities)
+        public static void HandleDirtyMessage(this ClientWorld world, L2C_PlayerAOIWorldDirtyPush message)
+        {
+            world.Frame = message.CurrentSyncFrame;
+            world.AddBattleUnits(message.AddUnitEntiities);
+            world.UpdateDirty(message.DirtyUnitEntities);
+            world.DeleteEntities(message.DeleteUnitEntites);
+        }
+
+        
+        public static void AddBattleUnits(this ClientWorld world, List<BattleUnitEntity> battleUnitEntities)
         {
             foreach (var battleUnitEntity in battleUnitEntities)
-            {
-                await world.AddBattleUnit(battleUnitEntity);
+            { 
+                world.AddBattleUnit(battleUnitEntity);
             }
         }
 
-        public static async ETTask AddBattleUnit(this ClientWorld world, BattleUnitEntity battleUnitEntity)
+        public static void AddBattleUnit(this ClientWorld world, BattleUnitEntity battleUnitEntity)
         {
             
             if (world.AllEntities.ContainsKey(battleUnitEntity.InsId))

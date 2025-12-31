@@ -25,5 +25,18 @@ namespace ET.Client
 
         // Unit GameObject 资源
         public GameObject UnitGameObject;
+
+        // 缓存的 DirtyMessage
+        public List<L2C_PlayerAOIWorldDirtyPush> CacheDirtyMessage = new ();
+
+        // Client World 状态
+        public ClientWorldStatusEnum ClientWorldStatusEnum;
+    }
+
+    public enum ClientWorldStatusEnum
+    {
+        None = 0,
+        InitData,
+        Run,
     }
 }

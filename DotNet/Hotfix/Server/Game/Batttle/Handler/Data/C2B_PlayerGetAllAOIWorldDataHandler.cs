@@ -1,7 +1,9 @@
-﻿namespace ET.Server;
+﻿using System.Collections.Generic;
+
+namespace ET.Server;
 
 [MessageClientHandler(SceneType.Battle)]
-public class C2B_PlayerGetAllAOIWorldDataHandler: MessageClientHandler<BattleRole, C2B_PlayerGetAllAOIWorldData, B2C_PlayerGetAllAOIWorldData>
+public class C2B_PlayerGetAllAOIWorldDataHandler : MessageClientHandler<BattleRole, C2B_PlayerGetAllAOIWorldData, B2C_PlayerGetAllAOIWorldData>
 {
     protected override void Run(BattleRole battleRole, C2B_PlayerGetAllAOIWorldData request, B2C_PlayerGetAllAOIWorldData response)
     {
@@ -18,24 +20,32 @@ public class C2B_PlayerGetAllAOIWorldDataHandler: MessageClientHandler<BattleRol
             response.Error = ErrorCode.NotFoundWorldPlayer;
             return;
         }
-        
+
         response.BattleWorld = logicWorld.ToBattleWorld();
         response.MyPlayerUnitEntity = unitPlayerEntity.ToBattleUnitEntity();
-        var myAOIUnitEntity = unitPlayerEntity.GetComponent<AOIUnitEntity>();
-        
-        var aoiManagerComponent = logicWorld.GetComponent<AOIManagerComponent>();
-        // 视野范围内的AOI
-        var watchAOIUnitEntities = aoiManagerComponent.GetAllWatchUnitEntities(myAOIUnitEntity);
-        foreach (var aoiUnitEntity in watchAOIUnitEntities)
+
+        var playerAOISeeUnitEntity = unitPlayerEntity.GetComponent<PlayerAOISeeUnitEntity>();
+        foreach (var manageEntityId in playerAOISeeUnitEntity.ManageEntityIds)
         {
-            var unitEntity = aoiUnitEntity.GetParent<UnitEntity>();
+            var unitEntity = logicWorld.GetUnitEntityByInsId(manageEntityId);
+            if (unitEntity == null)
+            {
+                continue;
+            }
+            
             BattleUnitEntity battleUnitEntity = unitEntity.ToBattleUnitEntity();
             response.AOIBattleUnitEntity.Add(battleUnitEntity);
         }
 
+        battleRole.LastSyncWorldFrame = logicWorld.Frame;
+        
+        // 加上我自己的Entity数据
+        BattleUnitEntity myPlayerUnitEntity = unitPlayerEntity.ToBattleUnitEntity();
+        response.AOIBattleUnitEntity.Add(myPlayerUnitEntity);
+        
         // 常规 AOI
         response.BattleFieldUnitEntity.Add(logicWorld.PlantMessageUnitEntity.ToBattleUnitEntity());
         response.BattleFieldUnitEntity.Add(logicWorld.GizmosDebugUnitEntity.ToBattleUnitEntity());
-        Log.Info($"C2B_PlayerGetAllAOIWorldData");
+        response.BattleWorld.Frame = battleRole.LastSyncWorldFrame;
     }
 }

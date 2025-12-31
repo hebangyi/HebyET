@@ -172,6 +172,7 @@ namespace ET
             aoiUnitEntity.CellId = 0;
         }
         
+        /*
         public static List<AOIUnitEntity> GetAllWatchUnitEntities(this AOIManagerComponent aoiManagerComponent, AOIUnitEntity aoiUnitEntity)
         {
             var centerCellId = aoiUnitEntity.CellId;
@@ -193,6 +194,7 @@ namespace ET
 
             return watchUnitEntities;
         }
+        */
         
 
         public static void EnterCellScope(this AOIManagerComponent aoiManagerComponent, AIOCell targetCell, AOIUnitEntity aoiUnitEntity)

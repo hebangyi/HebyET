@@ -1,3 +1,4 @@
+// This Is Auto Generate, Do Not Edit!
 using MemoryPack;
 using System.Collections.Generic;
 
@@ -574,13 +575,13 @@ this._TowardAngle = default;
         /// 开始帧数
         /// </summary>
         [MemoryPackOrder(0)]
-        public uint startFrame { get; set; }
+        public uint LastSyncFrame { get; set; }
 
         /// <summary>
         /// 解锁帧数
         /// </summary>
         [MemoryPackOrder(1)]
-        public uint endFrame { get; set; }
+        public uint CurrentSyncFrame { get; set; }
 
         /// <summary>
         /// 添加数据
@@ -607,8 +608,8 @@ this._TowardAngle = default;
                 return;
             }
 
-            this.startFrame = default;
-            this.endFrame = default;
+            this.LastSyncFrame = default;
+            this.CurrentSyncFrame = default;
             this.AddUnitEntiities.Clear();
             this.DirtyUnitEntities.Clear();
             this.DeleteUnitEntites.Clear();
@@ -662,6 +663,69 @@ this._TowardAngle = default;
         public static B2C_PlayerUploadDirtyElemData Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(B2C_PlayerUploadDirtyElemData), isFromPool) as B2C_PlayerUploadDirtyElemData;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 5.玩家准备好进入战斗
+    [MemoryPackable]
+    [Message(ClientMessage.C2B_PlayeBattleReday)]
+    public partial class C2B_PlayeBattleReday : MessageObject, IClientRequest
+    {
+        private long m_InstanceId;
+
+        public static C2B_PlayeBattleReday Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2B_PlayeBattleReday), isFromPool) as C2B_PlayeBattleReday;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.B2C_PlayeBattleReday)]
+    public partial class B2C_PlayeBattleReday : MessageObject, IClientResponse
+    {
+        private long m_InstanceId;
+
+        public static B2C_PlayeBattleReday Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(B2C_PlayeBattleReday), isFromPool) as B2C_PlayeBattleReday;
         }
 
         [MemoryPackOrder(0)]
@@ -1511,7 +1575,7 @@ this._CellIds.Clear();
     // 登录账号服务器
     [MemoryPackable]
     [Message(ClientMessage.C2A_Login)]
-    [ResponseType(nameof(A2C_Login))] 
+    [ResponseType(nameof(A2C_Login))]
     public partial class C2A_Login : MessageObject, ISessionRequest
     {
         private long m_InstanceId;
@@ -2069,6 +2133,132 @@ this._CellIds.Clear();
         }
     }
 
+    // 1.开始世界进行
+    [MemoryPackable]
+    [Message(ClientMessage.C2B_DebugStartWorld)]
+    public partial class C2B_DebugStartWorld : MessageObject, IClientRequest
+    {
+        private long m_InstanceId;
+
+        public static C2B_DebugStartWorld Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2B_DebugStartWorld), isFromPool) as C2B_DebugStartWorld;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.B2C_DebugStartWorld)]
+    public partial class B2C_DebugStartWorld : MessageObject, IClientResponse
+    {
+        private long m_InstanceId;
+
+        public static B2C_DebugStartWorld Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(B2C_DebugStartWorld), isFromPool) as B2C_DebugStartWorld;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 2.世界暂停
+    [MemoryPackable]
+    [Message(ClientMessage.C2B_DebugWorldPlush)]
+    public partial class C2B_DebugWorldPlush : MessageObject, IClientRequest
+    {
+        private long m_InstanceId;
+
+        public static C2B_DebugWorldPlush Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2B_DebugWorldPlush), isFromPool) as C2B_DebugWorldPlush;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.B2C_DebugWorldPlush)]
+    public partial class B2C_DebugWorldPlush : MessageObject, IClientResponse
+    {
+        private long m_InstanceId;
+
+        public static B2C_DebugWorldPlush Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(B2C_DebugWorldPlush), isFromPool) as B2C_DebugWorldPlush;
+        }
+
+        [MemoryPackOrder(0)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(1)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(2)]
+        public string Message { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
     public static class ClientMessage
     {
         public const ushort BattleWorld = 10001;
@@ -2086,39 +2276,45 @@ this._CellIds.Clear();
         public const ushort L2C_PlayerAOIWorldDirtyPush = 10013;
         public const ushort C2B_PlayerUploadDirtyElemData = 10014;
         public const ushort B2C_PlayerUploadDirtyElemData = 10015;
-        public const ushort Main2NetBattleLogin = 10016;
-        public const ushort NetBattle2MainLogin = 10017;
-        public const ushort C2B_Login = 10018;
-        public const ushort B2C_Login = 10019;
-        public const ushort C2B_PlayerReadyCompleted = 10020;
-        public const ushort B2C_PlayerReadyCompleted = 10021;
-        public const ushort UnitEntityPlayerInfo = 10022;
-        public const ushort UnitEntityCameraData = 10023;
-        public const ushort UnitEntityMapMessage = 10024;
-        public const ushort PlantInfo = 10025;
-        public const ushort CellInfo = 10026;
-        public const ushort GizmosPlantInfo = 10027;
-        public const ushort GizmosPlayerAOICell = 10028;
-        public const ushort C2G_Ping = 10029;
-        public const ushort G2C_Ping = 10030;
-        public const ushort C2G_Benchmark = 10031;
-        public const ushort G2C_Benchmark = 10032;
-        public const ushort Main2NetLobbyLogin = 10033;
-        public const ushort NetLobby2MainLogin = 10034;
-        public const ushort C2A_Login = 10035;
-        public const ushort A2C_Login = 10036;
-        public const ushort C2L_LoginLobby = 10037;
-        public const ushort L2C_LoginLobby = 10038;
-        public const ushort G2C_SessionDisconnect = 10039;
-        public const ushort HttpGetRouterResponse = 10040;
-        public const ushort SyncDataUnitStruct = 10041;
-        public const ushort DataUnitBytes = 10042;
-        public const ushort C2L_GetAllDataUnits = 10043;
-        public const ushort L2C_GetAllDataUnits = 10044;
-        public const ushort L2C_SyncDirtyDataUnits = 10045;
-        public const ushort RoleInfoUnitData = 10046;
-        public const ushort C2L_StartMatchBattle = 10047;
-        public const ushort L2C_StartMatchBattle = 10048;
-        public const ushort L2C_MatchBattleSuccess = 10049;
+        public const ushort C2B_PlayeBattleReday = 10016;
+        public const ushort B2C_PlayeBattleReday = 10017;
+        public const ushort Main2NetBattleLogin = 10018;
+        public const ushort NetBattle2MainLogin = 10019;
+        public const ushort C2B_Login = 10020;
+        public const ushort B2C_Login = 10021;
+        public const ushort C2B_PlayerReadyCompleted = 10022;
+        public const ushort B2C_PlayerReadyCompleted = 10023;
+        public const ushort UnitEntityPlayerInfo = 10024;
+        public const ushort UnitEntityCameraData = 10025;
+        public const ushort UnitEntityMapMessage = 10026;
+        public const ushort PlantInfo = 10027;
+        public const ushort CellInfo = 10028;
+        public const ushort GizmosPlantInfo = 10029;
+        public const ushort GizmosPlayerAOICell = 10030;
+        public const ushort C2G_Ping = 10031;
+        public const ushort G2C_Ping = 10032;
+        public const ushort C2G_Benchmark = 10033;
+        public const ushort G2C_Benchmark = 10034;
+        public const ushort Main2NetLobbyLogin = 10035;
+        public const ushort NetLobby2MainLogin = 10036;
+        public const ushort C2A_Login = 10037;
+        public const ushort A2C_Login = 10038;
+        public const ushort C2L_LoginLobby = 10039;
+        public const ushort L2C_LoginLobby = 10040;
+        public const ushort G2C_SessionDisconnect = 10041;
+        public const ushort HttpGetRouterResponse = 10042;
+        public const ushort SyncDataUnitStruct = 10043;
+        public const ushort DataUnitBytes = 10044;
+        public const ushort C2L_GetAllDataUnits = 10045;
+        public const ushort L2C_GetAllDataUnits = 10046;
+        public const ushort L2C_SyncDirtyDataUnits = 10047;
+        public const ushort RoleInfoUnitData = 10048;
+        public const ushort C2L_StartMatchBattle = 10049;
+        public const ushort L2C_StartMatchBattle = 10050;
+        public const ushort L2C_MatchBattleSuccess = 10051;
+        public const ushort C2B_DebugStartWorld = 10052;
+        public const ushort B2C_DebugStartWorld = 10053;
+        public const ushort C2B_DebugWorldPlush = 10054;
+        public const ushort B2C_DebugWorldPlush = 10055;
     }
 }

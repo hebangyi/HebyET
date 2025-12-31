@@ -1,0 +1,26 @@
+// 1.开始世界进行
+message C2B_DebugStartWorld // IClientRequest
+{
+    int32 RpcId = 1;
+}
+
+message B2C_DebugStartWorld // IClientResponse
+{
+    int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
+// 2.世界暂停
+message C2B_DebugWorldPlush // IClientRequest
+{
+    int32 RpcId = 1;
+}
+
+
+message B2C_DebugWorldPlush // IClientResponse
+{
+    int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}

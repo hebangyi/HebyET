@@ -6,15 +6,36 @@
         protected override async ETTask Run(Scene entity, L2C_PlayerAOIWorldDirtyPush message)
         {
             ClientWorld world = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
+            Log.Error($"收到 DirtyPush数据 数据 : {message.CurrentSyncFrame}");
             if (world == null)
             {
-                Log.Error("收到 DirtyPush数据 没有找到客户端世界数据");
+                Log.Error($"收到 DirtyPush数据 没有找到客户端世界数据 : {message.CurrentSyncFrame}");
+                return;
+            }
+
+            if (world.ClientWorldStatusEnum == ClientWorldStatusEnum.None)
+            {
                 return;
             }
             
-            await world.AddBattleUnits(message.AddUnitEntiities);
-            world.UpdateDirty(message.DirtyUnitEntities);
-            world.DeleteEntities(message.DeleteUnitEntites);
+            if (world.ClientWorldStatusEnum == ClientWorldStatusEnum.InitData)
+            {
+                Log.Error($"推送消息加入缓存 : {message.CurrentSyncFrame}");
+                world.CacheDirtyMessage.Add(message);
+                return;
+            }
+            else if(world.ClientWorldStatusEnum == ClientWorldStatusEnum.Run)
+            {
+                if (world.Frame != message.LastSyncFrame)
+                {
+                    // TODO 重连
+                    Log.Error($"world {world.Id} L2C_PlayerAOIWorldDirtyPush 推送脏数据信息 Frame 有误 , 重新请求信息 {world.Frame}, {message.LastSyncFrame}");
+                    return;
+                }
+            }
+            
+            // 正常更新
+            world.HandleDirtyMessage(message);
             
             await ETTask.CompletedTask;
         }

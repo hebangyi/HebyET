@@ -127,6 +127,11 @@ public static partial class BattleWorldManagerComponentSystem
                 var battleRole = BattleRoleComponent.Instance.GetByRoleId(playerId);
                 if (battleRole != null)
                 {
+                    var lastSyncWorldFrame = battleRole.LastSyncWorldFrame;
+                    battleRole.LastSyncWorldFrame = logicWorld.Frame;
+
+                    message.LastSyncFrame = lastSyncWorldFrame;
+                    message.CurrentSyncFrame = battleRole.LastSyncWorldFrame;
                     battleRole.SendToClient(message);
                 }
             }

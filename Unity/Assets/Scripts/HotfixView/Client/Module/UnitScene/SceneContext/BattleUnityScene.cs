@@ -18,16 +18,36 @@ namespace ET.Client
             }
             
             ClientWorld clientWorld = UnitySceneClientWorldManagerComponent.Instance.CreateWorld();
+            clientWorld.CacheDirtyMessage.Clear();
+            clientWorld.ClientWorldStatusEnum = ClientWorldStatusEnum.InitData;
+            await clientWorld.InitWorld(response.BattleWorld);
+            
             clientWorld.MainPlayerId = response.MyPlayerUnitEntity.InsId;
             
             // 加载资源
             await clientWorld.LoadUnityObject();
-            await clientWorld.InitWorld(response.BattleWorld);
-            await clientWorld.AddBattleUnit(response.MyPlayerUnitEntity);
-            await clientWorld.AddBattleUnits(response.AOIBattleUnitEntity);
-            await clientWorld.AddBattleUnits(response.BattleFieldUnitEntity);
             
+            clientWorld.AddBattleUnit(response.MyPlayerUnitEntity);
+            clientWorld.AddBattleUnits(response.AOIBattleUnitEntity);
+            clientWorld.AddBattleUnits(response.BattleFieldUnitEntity);
+            
+            // 处理缓存数据
 
+            for (int i = 0; i < clientWorld.CacheDirtyMessage.Count; i++)
+            {
+                var dirtyMessage = clientWorld.CacheDirtyMessage[i];
+                if (clientWorld.Frame != dirtyMessage.LastSyncFrame)
+                {
+                    // TODO
+                    Log.Error("初始化世界处理缓存推送数据帧数异常 重新初始化!");
+                    return;
+                }
+                
+                clientWorld.HandleDirtyMessage(dirtyMessage);
+            }
+
+            clientWorld.ClientWorldStatusEnum = ClientWorldStatusEnum.Run;
+            
             FGUIComponent.Instance.CloseWindowAll();
             FGUIComponent.Instance.ShowWindowAsync(WindowID.FGUIBattleOperationMainView).Coroutine();
             
