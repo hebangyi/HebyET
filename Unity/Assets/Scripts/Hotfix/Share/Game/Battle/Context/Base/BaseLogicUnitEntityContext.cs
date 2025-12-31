@@ -17,6 +17,9 @@ namespace ET
 
             var unitEntityAnimation = unitEntity.CreateUnitEntityElemData<UnitEntityAnimation>();
             unitEntityAnimation.AnimateState = AnimateStateEnum.Idle;
+            
+            
+            unitEntity.CreateUnitEntityElemData<UnitEntityTowardAngle>();
         }
 
         public virtual void InitCustomData(UnitEntity unitEntity)

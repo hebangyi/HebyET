@@ -29,6 +29,9 @@
                 case AnimateStateEnum.Run:
                     spineAnimation.state.SetAnimation(0, "run", true);
                     break;
+                case AnimateStateEnum.Attack:
+                    spineAnimation.state.SetAnimation(0, "skill_1", true);
+                    break;
             }
         }
     }

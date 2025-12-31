@@ -107,20 +107,23 @@ namespace ET
             return false;
         }
 
-        public static float2 ToPosition(LogicWorld logicWorld, float2 fromPosition, float2 finalPosition, int speed, out bool isFanal)
+        public static float2 ToPosition(LogicWorld logicWorld, float2 fromPosition, float2 finalPosition, int speed, out short towardAngle, out bool isFinal)
         {
-            isFanal = false;
+            isFinal = false;
             var moveMax = speed * logicWorld.IntervalMillis;
             var distance = BattleHelper.Distance(fromPosition, finalPosition);
+
+            var subPos = finalPosition - fromPosition;
             bool overMoveDistance = moveMax >= distance;
             var targetFraction = overMoveDistance ? finalPosition
-                    : math.normalize(finalPosition - fromPosition) * speed * logicWorld.IntervalMillis + fromPosition;
+                    : math.normalize(subPos) * speed * logicWorld.IntervalMillis + fromPosition;
+            towardAngle = (short)(Math.Atan2(-subPos.y, subPos.x) * GameConstant.Rad2Deg);
 
             if (MonsterCanMove(logicWorld, targetFraction))
             {
                 if (overMoveDistance)
                 {
-                    isFanal = true;
+                    isFinal = true;
                 }
                 return targetFraction;
             }

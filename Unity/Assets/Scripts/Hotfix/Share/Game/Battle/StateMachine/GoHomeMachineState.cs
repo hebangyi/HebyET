@@ -18,7 +18,9 @@ namespace ET
             var monsterRuntimeData = unitEntity.GetUnitEntityLogicElemData<MonsterRuntimeData>();
             int speed = 5;
             unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position = UnitMonsterHelper.ToPosition(logicWorld,
-                unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position, monsterRuntimeData.BornPosition, speed, out var _);
+                unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position, monsterRuntimeData.BornPosition, speed, out var towardAngle,
+                out var _);
+            unitEntity.GetUnitEntityElemData<UnitEntityTowardAngle>().TowardAngle = towardAngle;
         }
 
         public void Exit(MonsterStateMachineComponent component)

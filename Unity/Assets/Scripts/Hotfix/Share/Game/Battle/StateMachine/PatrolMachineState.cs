@@ -16,7 +16,7 @@ namespace ET
             var logicWorld = unitEntity.LogicWorld();
             var monsterRuntimeAIData = unitEntity.GetUnitEntityLogicElemData<MonsterRuntimeData>();
             var patrolData = monsterRuntimeAIData.PatrolData;
-            
+
             if (patrolData.PatrolStatus == PatrolStatus.Idle)
             {
                 if (logicWorld.NowMilliTime >= patrolData.IdleFinishTime)
@@ -29,9 +29,11 @@ namespace ET
                 // 更新巡逻状态 怪物坐标
                 int speed = 3;
                 var currentPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position;
-                unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position = UnitMonsterHelper.ToPosition(logicWorld, currentPosition, patrolData.ToPosition, speed, out var isFanal);
+                unitEntity.GetUnitEntityElemData<UnitEntityPosition>().Position = UnitMonsterHelper.ToPosition(logicWorld, currentPosition,
+                    patrolData.ToPosition, speed, out var towardAngle, out var isFinal);
+                unitEntity.GetUnitEntityElemData<UnitEntityTowardAngle>().TowardAngle = towardAngle;
 
-                if (isFanal)
+                if (isFinal)
                 {
                     this.GenPatrolData(component, PatrolStatus.Idle);
                 }
@@ -40,7 +42,6 @@ namespace ET
 
         public void Exit(MonsterStateMachineComponent component)
         {
-            
         }
 
         // 设置巡逻数据
@@ -49,14 +50,14 @@ namespace ET
             var unitEntity = component.GetParent<UnitEntity>();
             var monsterRuntimeData = unitEntity.GetUnitEntityLogicElemData<MonsterRuntimeData>();
             var patrolData = monsterRuntimeData.PatrolData;
-            
+
             if (patrolStatus == PatrolStatus.Run)
             {
                 var bornPosition = monsterRuntimeData.BornPosition;
                 float patrolRadius = 30f;
                 var targetPosition = BattleHelper.InnerCircleRandPoint(patrolRadius) + bornPosition;
                 patrolData.ToPosition = targetPosition;
-                
+
                 unitEntity.ChangeAnimateStatus(AnimateStateEnum.Walk);
             }
             else
@@ -64,7 +65,7 @@ namespace ET
                 unitEntity.ChangeAnimateStatus(AnimateStateEnum.Idle);
                 patrolData.IdleFinishTime = TimeInfo.Instance.NowMillTime() + 5 * 1000;
             }
-            
+
             patrolData.PatrolStatus = patrolStatus;
         }
     }
