@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &497780990612368359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8297233123780764046}
+  - component: {fileID: 8385950986288971782}
+  m_Layer: 0
+  m_Name: UnitMonster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8297233123780764046
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497780990612368359}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8385950986288971782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497780990612368359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502d8cafd6a5a0447ab1db9a24cdcb10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+  - key: Monster_001
+    gameObject: {fileID: 2273086117131228280, guid: 47c1177741ad14b44bad435c18f8d17f,
+      type: 3}
+  - key: Monster_002
+    gameObject: {fileID: 2273086117131228280, guid: d7432c272fe3c694a972aeab30c9768d,
+      type: 3}
+  - key: Monster_003
+    gameObject: {fileID: 2273086117131228280, guid: 0da5b3dde7550fd4a9cdb2942d66278b,
+      type: 3}
+  - key: Monster_004
+    gameObject: {fileID: 2273086117131228280, guid: c38dd6de8d809ec41b0464f0c56d9d58,
+      type: 3}
+  - key: Monster_005
+    gameObject: {fileID: 2273086117131228280, guid: 7fe4021d65c84fd40bb29864a893adfe,
+      type: 3}
+  - key: Monster_006
+    gameObject: {fileID: 2273086117131228280, guid: 70a671b3eeaacd045887e21361c6f01d,
+      type: 3}
+  - key: Monster_007
+    gameObject: {fileID: 2273086117131228280, guid: 62d5ca58c8c1d3149b5a40ff5e6e11df,
+      type: 3}
+  - key: Monster_008
+    gameObject: {fileID: 2273086117131228280, guid: df68347706e15d041a5d58ddcf556450,
+      type: 3}
+  - key: Monster_009
+    gameObject: {fileID: 2273086117131228280, guid: 0d33811ff04bc274cbf11b6a1bc5c551,
+      type: 3}
+  - key: Monster_010
+    gameObject: {fileID: 2273086117131228280, guid: 8892508485293364b805fecb70b17b87,
+      type: 3}
