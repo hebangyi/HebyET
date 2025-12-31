@@ -54,4 +54,9 @@ public static class BTTest
     {
         Console.WriteLine(Math.Atan2(1, 0) * 57.29578f);
     }
+    
+    public static void Test5()
+    {
+        Console.WriteLine(-359 % 360);
+    }
 }

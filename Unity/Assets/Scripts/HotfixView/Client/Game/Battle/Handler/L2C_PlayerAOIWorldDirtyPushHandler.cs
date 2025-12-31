@@ -6,7 +6,6 @@
         protected override async ETTask Run(Scene entity, L2C_PlayerAOIWorldDirtyPush message)
         {
             ClientWorld world = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
-            Log.Error($"收到 DirtyPush数据 数据 : {message.CurrentSyncFrame}");
             if (world == null)
             {
                 Log.Error($"收到 DirtyPush数据 没有找到客户端世界数据 : {message.CurrentSyncFrame}");
@@ -20,7 +19,6 @@
             
             if (world.ClientWorldStatusEnum == ClientWorldStatusEnum.InitData)
             {
-                Log.Error($"推送消息加入缓存 : {message.CurrentSyncFrame}");
                 world.CacheDirtyMessage.Add(message);
                 return;
             }
