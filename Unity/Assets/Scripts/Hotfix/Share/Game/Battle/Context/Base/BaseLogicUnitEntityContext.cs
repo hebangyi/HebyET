@@ -10,16 +10,20 @@ namespace ET
             var layerType = attribute.LayerType;
             var ueTypeEnum = attribute.UeTypeEnum;
             
+            // 常规
             var unitEntityCommonData = unitEntity.CreateUnitEntityElemData<UnitEntityCommonData>();
             unitEntityCommonData.UnitEntityType = ueTypeEnum;
             unitEntityCommonData.UELayerTypeEnum = layerType;
-
-
+            
+            // 动画
             var unitEntityAnimation = unitEntity.CreateUnitEntityElemData<UnitEntityAnimation>();
             unitEntityAnimation.AnimateState = AnimateStateEnum.Idle;
             
-            
+            // 朝向角度
             unitEntity.CreateUnitEntityElemData<UnitEntityTowardAngle>();
+            
+            // 位置
+            unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
         }
 
         public virtual void InitCustomData(UnitEntity unitEntity)

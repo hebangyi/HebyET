@@ -12,12 +12,8 @@ namespace ET
             unitEntity.CreateUnitEntityElemData<GizmosPlayerAOICell>();
             unitEntity.CreateUnitEntityElemData<UnitEntityCameraData>();
 
-            var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
+            var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             unitEntityPosition.Position = new float2(0f, 0f);
-            
-            UnitEntityInfo unitEntityInfo = unitEntity.CreateUnitEntityElemData<UnitEntityInfo>();
-            unitEntityInfo.ConfigId = 0;
-            unitEntityInfo.Speed = 30;
             
             var unitEntityPlayerInfo = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerInfo>();
             var playerId = unitEntityInitContext.Params as long?;

@@ -9,7 +9,7 @@ namespace ET
         {
             var unitEntityInitContext = unitEntity.GetComponent<UnitEntityInitContext>();
             
-            var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
+            var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             unitEntityPosition.Position = unitEntityInitContext.Params is float2 float2 ? float2 : default;
         }
 

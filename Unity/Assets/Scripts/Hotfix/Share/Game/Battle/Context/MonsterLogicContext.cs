@@ -9,11 +9,14 @@ namespace ET
         {
             var unitEntityInitContext = unitEntity.GetComponent<UnitEntityInitContext>();
             
-            var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
+            var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             var genData = unitEntityInitContext.Params as MonsterGenData;
             
             unitEntityPosition.Position = genData.Position;
             unitEntityPosition.Position += new float2(-10, 10);
+
+            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
+            unitEntityCommonData.ConfigId = genData.ConfigId;
 
             var monsterRuntimeAIData = unitEntity.CreateUnitEntityLogicElemData<MonsterRuntimeData>();
             monsterRuntimeAIData.BornPosition = unitEntityPosition.Position;

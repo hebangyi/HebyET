@@ -30,28 +30,37 @@ namespace ET.Client
             clientWorld.UnitMonsterGameObject = monsterGameObject;
         }
 
-        public static GameObject CreateGameObjectIns(ClientWorld clientWorld, UnitEntity unitEntity)
+
+        public static GameObject GetGameObjectIns(ClientWorld clientWorld, UELayerTypeEnum ueLayerTypeEnum, UETypeEnum ueTypeEnum, long id)
         {
-            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
-            if (unitEntityCommonData == null)
-            {
-                Log.Error("创建 GameObject 错误, 找不到 UnitEntity UnitEntityCommonData");
-                return null;
-            }
-
-            var unitEntityType = unitEntityCommonData.UnitEntityType;
-            var ueLayerTypeEnum = unitEntityCommonData.UELayerTypeEnum;
-            var unitGameObject = clientWorld.UnitGameObject;
-
             // TODO 异步创建 
             // TODO 对象池
-            GameObject toGameObject = unitGameObject.Get<GameObject>(unitEntityType.ToString());
+            GameObject toGameObject = null;
+            if (ueTypeEnum == UETypeEnum.Monster)
+            {
+                var monsterConfig = MonsterConfigCategory.Instance.GetById(id);
+
+                if (monsterConfig == null)
+                {
+                    Log.Error($"创建Monster GameObject 失败, 找不到配置信息 {monsterConfig.Id}");
+                    return null;    
+                }
+                
+                toGameObject = clientWorld.UnitMonsterGameObject.Get<GameObject>(monsterConfig.AssetName);
+            }
+            else
+            {
+                var unitGameObject = clientWorld.UnitGameObject;
+                toGameObject = unitGameObject.Get<GameObject>(ueTypeEnum.ToString());    
+            }
+            
+            
             if (toGameObject == null)
             {
-                Log.Error($"创建 GameObject 错误, Unit 找不到 {unitEntityType.ToString()} 子对象");
+                Log.Error($"创建 GameObject 错误, Unit 找不到 {ueTypeEnum.ToString()} 子对象");
                 return null;
             }
-
+            
             var parentGameObject = GlobalComponent.Instance.Default;
             switch (ueLayerTypeEnum)
             {
@@ -77,7 +86,21 @@ namespace ET.Client
                 }
             }
 
+            // TODO GameObject 对象池
             GameObject ins = UnityEngine.Object.Instantiate(toGameObject, parentGameObject, true);
+            return ins;
+        }
+        
+        
+        public static GameObject CreateGameObjectIns(ClientWorld clientWorld, UnitEntity unitEntity)
+        {
+            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
+
+            var unitEntityType = unitEntityCommonData.UnitEntityType;
+            var ueLayerTypeEnum = unitEntityCommonData.UELayerTypeEnum;
+
+            var ins = GetGameObjectIns(clientWorld, ueLayerTypeEnum, unitEntityType, unitEntityCommonData.ConfigId);
+            
             var unitEntityGameObjectComponent = unitEntity.TryAddComponent<UnitEntityGameObjectComponent>();
             unitEntityGameObjectComponent.GameObject = ins;
             

@@ -37,6 +37,7 @@ message UnitEntityCommonData // IUnitEntityElemData
     UETypeEnum UnitEntityType = 1;
     UELayerTypeEnum UELayerTypeEnum = 2;
     map<string, string> Datas = 3;
+    int64 ConfigId = 4;                     // 配置ID
 }
 
 // 动画
@@ -46,19 +47,12 @@ message UnitEntityAnimation // IUnitEntityElemData
 }
 
 
-
+// 位置
 message UnitEntityPosition // IUnitEntityElemData
 {
     Unity.Mathematics.float2 Position = 1;  // 位置
 }
 
-
-// 常规信息
-message UnitEntityInfo // IUnitEntityElemData
-{
-    int32 ConfigId = 1;        // 配置ID
-    int32 Speed = 2;           // 移动速度
-}
 
 // 朝向角度
 message UnitEntityTowardAngle // IUnitEntityElemData
