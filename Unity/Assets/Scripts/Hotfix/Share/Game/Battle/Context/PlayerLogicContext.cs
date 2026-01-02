@@ -21,7 +21,7 @@ namespace ET
         }
         
 
-        public override  void Init(UnitEntity unitEntity)
+        public override void Init(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             var gizmosPlayerAOICell = unitEntity.GetUnitEntityElemData<GizmosPlayerAOICell>();
@@ -39,6 +39,7 @@ namespace ET
                 unitEntityPosition.Position = cellInfo.CenterPoint;
                 unitEntityPosition.Position += new float2(10, 10);
             }
+            
 
             unitEntity.AddComponent<PlayerAOISeeUnitEntity>();
             unitEntity.AddComponent<AOIUnitEntity, float2, UETypeEnum>(unitEntityPosition.Position, UETypeEnum.Player);

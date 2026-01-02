@@ -31,12 +31,20 @@ namespace ET.Client
         }
 
 
-        public static GameObject GetGameObjectIns(ClientWorld clientWorld, UELayerTypeEnum ueLayerTypeEnum, UETypeEnum ueTypeEnum, long id)
+        public static GameObject GetGameObjectIns(UnitEntity unitEntity,  long id)
         {
+            ClientWorld clientWorld = unitEntity.ClientWorld();
+            
+            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
+            var unitEntityType = unitEntityCommonData.UnitEntityType;
+            var ueLayerTypeEnum = unitEntityCommonData.UELayerTypeEnum;
+            
+            
             // TODO 异步创建 
             // TODO 对象池
             GameObject toGameObject = null;
-            if (ueTypeEnum == UETypeEnum.Monster)
+            string name = $"{unitEntityType}_{unitEntity.InsId}";
+            if (unitEntityType == UETypeEnum.Monster)
             {
                 var monsterConfig = MonsterConfigCategory.Instance.GetById(id);
 
@@ -46,18 +54,19 @@ namespace ET.Client
                     return null;    
                 }
                 
+                name = $"{unitEntityType}_{monsterConfig.Name}_{monsterConfig.AssetName}_{unitEntity.InsId}";
                 toGameObject = clientWorld.UnitMonsterGameObject.Get<GameObject>(monsterConfig.AssetName);
             }
             else
             {
                 var unitGameObject = clientWorld.UnitGameObject;
-                toGameObject = unitGameObject.Get<GameObject>(ueTypeEnum.ToString());    
+                toGameObject = unitGameObject.Get<GameObject>(unitEntityType.ToString());    
             }
             
             
             if (toGameObject == null)
             {
-                Log.Error($"创建 GameObject 错误, Unit 找不到 {ueTypeEnum.ToString()} 子对象");
+                Log.Error($"创建 GameObject 错误, Unit 找不到 {unitEntityType.ToString()} 子对象");
                 return null;
             }
             
@@ -88,6 +97,7 @@ namespace ET.Client
 
             // TODO GameObject 对象池
             GameObject ins = UnityEngine.Object.Instantiate(toGameObject, parentGameObject, true);
+            ins.name = name;
             return ins;
         }
         
@@ -99,12 +109,10 @@ namespace ET.Client
             var unitEntityType = unitEntityCommonData.UnitEntityType;
             var ueLayerTypeEnum = unitEntityCommonData.UELayerTypeEnum;
 
-            var ins = GetGameObjectIns(clientWorld, ueLayerTypeEnum, unitEntityType, unitEntityCommonData.ConfigId);
+            var ins = GetGameObjectIns(unitEntity, unitEntityCommonData.ConfigId);
             
             var unitEntityGameObjectComponent = unitEntity.TryAddComponent<UnitEntityGameObjectComponent>();
             unitEntityGameObjectComponent.GameObject = ins;
-            
-            ins.name = $"{unitEntityType}_{unitEntity.InsId}";
 
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             if (unitEntityPosition != null)
@@ -134,7 +142,14 @@ namespace ET.Client
         
         public static SkeletonAnimation GetSpineAnimation(this UnitEntity unitEntity)
         {
-            return unitEntity.GetGameObject()?.Get<GameObject>("SpineAnimation")?.GetComponent<SkeletonAnimation>();
+            var spineAnimationObj = unitEntity.GetGameObject()?.Get<GameObject>("SpineAnimation");
+
+            if (spineAnimationObj != null)
+            {
+                return spineAnimationObj.GetComponent<SkeletonAnimation>();
+            }
+
+            return null;
         }
     }
 }
