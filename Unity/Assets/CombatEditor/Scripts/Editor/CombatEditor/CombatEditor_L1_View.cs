@@ -11,8 +11,13 @@ namespace CombatEditor
         {
             float DefaultWidth = EditorGUIUtility.labelWidth;
             EditorGUIUtility.labelWidth = 80;
+            // L1 标题
             PaintHeader();
+            
+            // 编辑器选择框
             PaintControllerSelectorPopup();
+            
+            
             if (!CharacterExist()) return;
             InitStyleAndAbilities();
             PaintAbilities();
@@ -95,6 +100,8 @@ namespace CombatEditor
             {
                 GUI.backgroundColor = OnInspectedColor;
             }
+            
+            // 点击右方绿色按钮
             if (GUI.Button(ConfigRect, ""))
             {
                 OnSelectCharacterConfig();

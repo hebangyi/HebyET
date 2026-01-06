@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsActive: 1
   ObjData:
-    TargetObj: {fileID: 495042786856418479, guid: f0dc3888ff286d948bdd7ef66e4c086e, type: 3}
+    TargetObj: {fileID: 495042786856418479, guid: f0dc3888ff286d948bdd7ef66e4c086e,
+      type: 3}
     controlType: 0
     Offset: {x: 0, y: 0.9031662, z: 0.88833845}
     Rot: {x: 0, y: 0, z: 0, w: 1}
@@ -121,7 +122,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsActive: 1
   ObjData:
-    TargetObj: {fileID: 2557966978344939087, guid: 3d3c7861021255440bd7e4d171319995, type: 3}
+    TargetObj: {fileID: 2557966978344939087, guid: 3d3c7861021255440bd7e4d171319995,
+      type: 3}
     controlType: 0
     Offset: {x: -0.000000014127333, y: 0.6830008, z: 0.9466339}
     Rot: {x: 0, y: 0, z: 0, w: 1}
