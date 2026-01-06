@@ -30,28 +30,46 @@ namespace ET.Client
             clientWorld.UnitMonsterGameObject = monsterGameObject;
         }
 
-        public static GameObject CreateGameObjectIns(ClientWorld clientWorld, UnitEntity unitEntity)
-        {
-            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
-            if (unitEntityCommonData == null)
-            {
-                Log.Error("创建 GameObject 错误, 找不到 UnitEntity UnitEntityCommonData");
-                return null;
-            }
 
+        public static GameObject GetGameObjectIns(UnitEntity unitEntity,  long id)
+        {
+            ClientWorld clientWorld = unitEntity.ClientWorld();
+            
+            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
             var unitEntityType = unitEntityCommonData.UnitEntityType;
             var ueLayerTypeEnum = unitEntityCommonData.UELayerTypeEnum;
-            var unitGameObject = clientWorld.UnitGameObject;
-
+            
+            
             // TODO 异步创建 
             // TODO 对象池
-            GameObject toGameObject = unitGameObject.Get<GameObject>(unitEntityType.ToString());
+            GameObject toGameObject = null;
+            string name = $"{unitEntityType}_{unitEntity.InsId}";
+            if (unitEntityType == UETypeEnum.Monster)
+            {
+                var monsterConfig = MonsterConfigCategory.Instance.GetById(id);
+
+                if (monsterConfig == null)
+                {
+                    Log.Error($"创建Monster GameObject 失败, 找不到配置信息 {monsterConfig.Id}");
+                    return null;    
+                }
+                
+                name = $"{unitEntityType}_{monsterConfig.Name}_{monsterConfig.AssetName}_{unitEntity.InsId}";
+                toGameObject = clientWorld.UnitMonsterGameObject.Get<GameObject>(monsterConfig.AssetName);
+            }
+            else
+            {
+                var unitGameObject = clientWorld.UnitGameObject;
+                toGameObject = unitGameObject.Get<GameObject>(unitEntityType.ToString());    
+            }
+            
+            
             if (toGameObject == null)
             {
                 Log.Error($"创建 GameObject 错误, Unit 找不到 {unitEntityType.ToString()} 子对象");
                 return null;
             }
-
+            
             var parentGameObject = GlobalComponent.Instance.Default;
             switch (ueLayerTypeEnum)
             {
@@ -77,11 +95,24 @@ namespace ET.Client
                 }
             }
 
+            // TODO GameObject 对象池
             GameObject ins = UnityEngine.Object.Instantiate(toGameObject, parentGameObject, true);
+            ins.name = name;
+            return ins;
+        }
+        
+        
+        public static GameObject CreateGameObjectIns(ClientWorld clientWorld, UnitEntity unitEntity)
+        {
+            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
+
+            var unitEntityType = unitEntityCommonData.UnitEntityType;
+            var ueLayerTypeEnum = unitEntityCommonData.UELayerTypeEnum;
+
+            var ins = GetGameObjectIns(unitEntity, unitEntityCommonData.ConfigId);
+            
             var unitEntityGameObjectComponent = unitEntity.TryAddComponent<UnitEntityGameObjectComponent>();
             unitEntityGameObjectComponent.GameObject = ins;
-            
-            ins.name = $"{unitEntityType}_{unitEntity.InsId}";
 
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             if (unitEntityPosition != null)
@@ -111,7 +142,14 @@ namespace ET.Client
         
         public static SkeletonAnimation GetSpineAnimation(this UnitEntity unitEntity)
         {
-            return unitEntity.GetGameObject()?.Get<GameObject>("SpineAnimation")?.GetComponent<SkeletonAnimation>();
+            var spineAnimationObj = unitEntity.GetGameObject()?.Get<GameObject>("SpineAnimation");
+
+            if (spineAnimationObj != null)
+            {
+                return spineAnimationObj.GetComponent<SkeletonAnimation>();
+            }
+
+            return null;
         }
     }
 }

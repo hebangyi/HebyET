@@ -12,12 +12,8 @@ namespace ET
             unitEntity.CreateUnitEntityElemData<GizmosPlayerAOICell>();
             unitEntity.CreateUnitEntityElemData<UnitEntityCameraData>();
 
-            var unitEntityPosition = unitEntity.CreateUnitEntityElemData<UnitEntityPosition>();
+            var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             unitEntityPosition.Position = new float2(0f, 0f);
-            
-            UnitEntityInfo unitEntityInfo = unitEntity.CreateUnitEntityElemData<UnitEntityInfo>();
-            unitEntityInfo.ConfigId = 0;
-            unitEntityInfo.Speed = 30;
             
             var unitEntityPlayerInfo = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerInfo>();
             var playerId = unitEntityInitContext.Params as long?;
@@ -25,7 +21,7 @@ namespace ET
         }
         
 
-        public override  void Init(UnitEntity unitEntity)
+        public override void Init(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             var gizmosPlayerAOICell = unitEntity.GetUnitEntityElemData<GizmosPlayerAOICell>();
@@ -43,6 +39,7 @@ namespace ET
                 unitEntityPosition.Position = cellInfo.CenterPoint;
                 unitEntityPosition.Position += new float2(10, 10);
             }
+            
 
             unitEntity.AddComponent<PlayerAOISeeUnitEntity>();
             unitEntity.AddComponent<AOIUnitEntity, float2, UETypeEnum>(unitEntityPosition.Position, UETypeEnum.Player);

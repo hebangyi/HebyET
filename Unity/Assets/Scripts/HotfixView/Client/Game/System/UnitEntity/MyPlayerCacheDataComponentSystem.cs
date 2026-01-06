@@ -38,8 +38,8 @@ namespace ET.Client
                 float towardAngle = self.OperaAngel + self.CameraAngleOffSet % 360;
                 self.TowardAngle = towardAngle;
 
-                var unitEntityInfo = unitEntity.GetUnitEntityElemData<UnitEntityInfo>();
-                var speed = unitEntityInfo.Speed;
+                // TODO
+                var speed = 30;
                 var atan2 = towardAngle / GameConstant.Rad2Deg;
                 var deltaX = Math.Cos(atan2) * 10000;
                 var deltaY = Math.Sin(atan2) * 10000;
