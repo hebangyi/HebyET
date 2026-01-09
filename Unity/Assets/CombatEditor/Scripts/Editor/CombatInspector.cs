@@ -163,6 +163,8 @@ using UnityEngine;
 	                CombatController controller = combatEditor.SelectedController;
 	                SerializedObject so = new SerializedObject(controller);
                     //CombatControllerSO.Update();
+                    
+                    // Animator 动画控制器
                     EditorGUILayout.PropertyField(so.FindProperty("_animator"));
                     if(combatEditor.SelectedController._animator != null)
                     {

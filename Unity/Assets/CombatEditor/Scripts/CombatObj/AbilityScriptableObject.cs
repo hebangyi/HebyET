@@ -10,7 +10,9 @@ using UnityEditor;
     {
 
         public float EventTime;
+        // 时间长度
         public Vector2 EventRange = new Vector2(0, 1);
+        
         public float[] EventMultiRange = new float[4]{0.2f,0.4f,0.6f,0.8f}; 
 	    public bool Previewable;
         public AbilityEventObj Obj;
@@ -74,14 +76,18 @@ using UnityEditor;
 	public class AbilityScriptableObject : ScriptableObject
 	{
 	    public AbilityTypes AbilityType;
-	      
+		
+	    // 动画模式
 	    public enum AbilityTypes { OneShot, Loop , BlendingTree_1D, BlendingTree_2D }
+	    
+	    // 动画切片
 	    public AnimationClip Clip;
 	    [HideInInspector]
 	    public Vector2 PreviewPercentageRange = new Vector2(0, 1);
 	    //public float Speed = 1;
 	    public float loopCount = 0;
 	    
+	    // 切片
 	    public List<AbilityEvent> events = new List<AbilityEvent>();
 	
 	    public void ResetEvent()

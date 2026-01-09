@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsActive: 1
   ObjData:
-    TargetObj: {fileID: 495042786856418479, guid: f0dc3888ff286d948bdd7ef66e4c086e, type: 3}
+    TargetObj: {fileID: 495042786856418479, guid: f0dc3888ff286d948bdd7ef66e4c086e,
+      type: 3}
     controlType: 0
     Offset: {x: 0, y: 0.9031662, z: 0.88833845}
     Rot: {x: 0, y: 0, z: 0, w: 1}
@@ -49,20 +50,20 @@ MonoBehaviour:
   m_Name: TopdownAttack1
   m_EditorClassIdentifier: 
   AbilityType: 0
-  Clip: {fileID: 1827226128182048838, guid: 75af140320b6cdd45a24118851f49162, type: 3}
+  Clip: {fileID: 1827226128182048838, guid: 7daf4bcbafda21449b928c97613568ad, type: 3}
   PreviewPercentageRange: {x: 0, y: 1}
   loopCount: 0
   events:
   - EventTime: 0
     EventRange: {x: 0, y: 1}
     EventMultiRange:
-    - 0.4935065
+    - 0.42857143
     - 0.525
     - 0.6
     - 0.8
     Previewable: 0
     Obj: {fileID: 8976197180021085674}
-  - EventTime: 0.4025974
+  - EventTime: 0.26666668
     EventRange: {x: 0, y: 1}
     EventMultiRange:
     - 0.2
@@ -72,7 +73,7 @@ MonoBehaviour:
     Previewable: 0
     Obj: {fileID: 9220819514743412493}
   - EventTime: 0
-    EventRange: {x: 0.4025974, y: 0.5194805}
+    EventRange: {x: 0.16190477, y: 0.52380955}
     EventMultiRange:
     - 0.2
     - 0.4
@@ -80,7 +81,7 @@ MonoBehaviour:
     - 0.8
     Previewable: 0
     Obj: {fileID: 2075022561273002240}
-  - EventTime: 0.4025974
+  - EventTime: 0
     EventRange: {x: 0, y: 1}
     EventMultiRange:
     - 0.2
@@ -90,7 +91,7 @@ MonoBehaviour:
     Previewable: 0
     Obj: {fileID: -2268358891512131593}
   - EventTime: 0
-    EventRange: {x: 0, y: 0.4025974}
+    EventRange: {x: 0, y: 0.4}
     EventMultiRange:
     - 0.2
     - 0.4
@@ -99,7 +100,7 @@ MonoBehaviour:
     Previewable: 0
     Obj: {fileID: 2515751157748394257}
   - EventTime: 0
-    EventRange: {x: 0.23376623, y: 0.4025974}
+    EventRange: {x: 0.23809524, y: 0.4}
     EventMultiRange:
     - 0.2
     - 0.4
@@ -107,6 +108,15 @@ MonoBehaviour:
     - 0.8
     Previewable: 0
     Obj: {fileID: -1524286251715563134}
+  - EventTime: 0
+    EventRange: {x: 0, y: 1}
+    EventMultiRange:
+    - 0.07619048
+    - 0.4
+    - 0.6
+    - 0.8
+    Previewable: 0
+    Obj: {fileID: 6146947415156991549}
 --- !u!114 &2075022561273002240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,7 +131,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsActive: 1
   ObjData:
-    TargetObj: {fileID: 2557966978344939087, guid: 526ef955bb153d64f9685854b40bd97f, type: 3}
+    TargetObj: {fileID: 2557966978344939087, guid: 526ef955bb153d64f9685854b40bd97f,
+      type: 3}
     controlType: 0
     Offset: {x: -0.000000014127333, y: 0.6830008, z: 0.9466339}
     Rot: {x: 0, y: 0, z: 0, w: 1}
@@ -146,6 +157,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsActive: 1
   Speed: 1.5
+--- !u!114 &6146947415156991549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8ebd595a1b8dd4482d98c41b6b0787, type: 3}
+  m_Name: States
+  m_EditorClassIdentifier: 
+  IsActive: 1
+  DivideCount: 2
+  States:
+  - test21
+  - 
+  - 
+  - 
+  - 
 --- !u!114 &8976197180021085674
 MonoBehaviour:
   m_ObjectHideFlags: 0

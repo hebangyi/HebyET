@@ -264,7 +264,7 @@ namespace CombatEditor
         {
             //In Time Range, Preview.
             if (CurrentPlayTime <= (SelectedAbilityObj.PreviewPercentageRange.y - SelectedAbilityObj.PreviewPercentageRange.x) * SelectedAbilityObj.Clip.length + LoopWaitTime)
-            {
+            { 
                 var CurrentPercentage = CurrentPlayTime / SelectedAbilityObj.Clip.length + SelectedAbilityObj.PreviewPercentageRange.x;
                 var CurrentRealFrame = Mathf.RoundToInt(CurrentPercentage * SelectedAbilityObj.Clip.length * 60);
                 var CurrentMaxFrame = Mathf.RoundToInt(SelectedAbilityObj.PreviewPercentageRange.y * SelectedAbilityObj.Clip.length * 60);
@@ -272,6 +272,7 @@ namespace CombatEditor
 
                 //Debug.Log(CurrentMaxFrame);
                 //Debug.Log(CurrentFrame);
+                // 设置L3的帧数线
                 OnSetPointerOnTrack(CurrentFrame);
 
                 OnPreviewAnimationAtPercentage(CurrentPercentage);

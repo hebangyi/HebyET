@@ -20,8 +20,13 @@ namespace CombatEditor
             
             if (!CharacterExist()) return;
             InitStyleAndAbilities();
+            
+            // 列表配置数据
             PaintAbilities();
+            
+            // 加拖拽时的绿色下划线
             PaintL1DragTargetRec();
+            // 处理拖拽序列化数据
             HandleL1Drag();
 
             ElementCount = HeightCounter;
@@ -63,6 +68,8 @@ namespace CombatEditor
             {
                 SetL2L3Target(null);
             }
+            
+            // 点击选择编辑的Prefabe
             if (GUI.Button(CharacterSelectRect, new GUIContent(LastSelectedControllerName)))
             {
                 PaintControllerSelectMenu();
@@ -159,12 +166,14 @@ namespace CombatEditor
                             HighlightBGIfInspectType(InspectedType.AnimationConfig);
                         }
 
+                        // 拖拽 ListItem
                         HandleSwapEvents(data, DataSelectRect,i,j);
 
                         var ClipName = "Null";
                         if (data != null) ClipName = data.Clip ? data.Clip.name : "Empty";
                         if (GUI.Button(DataSelectRect, ClipName))
                         {
+                            // 点击设置L2
                             OnSelectAbilityObj(data, i, j);
                         }
                         GUI.backgroundColor = defaultColor;
