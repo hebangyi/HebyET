@@ -161,8 +161,16 @@ namespace ET
                     if (fileNameWithoutExtension.Contains("@"))
                     {
                         string[] ss = fileNameWithoutExtension.Split("@");
+                        var last = ss.Last();
+                        if (last == "c")
+                        {
+                            cs = "c";
+                        }
+                        else if (last == "s")
+                        {
+                            cs = "s";
+                        }
                         fileNameWithoutCS = ss[0];
-                        cs = ss[1];
                     }
 
                     if (cs == "")
@@ -416,6 +424,12 @@ namespace ET
                         continue;
                     }
 
+                    if (fieldName.Contains("#"))
+                    {
+                        continue;
+                    }
+                    
+                    
                     if (table.HeadInfos.ContainsKey(fieldName))
                     {
                         continue;
@@ -445,6 +459,11 @@ namespace ET
                     string value = worksheet.Cells[r, 5].Text.Trim();
                     string desc = worksheet.Cells[r, 6].Text.Trim();
                     if (key == "")
+                    {
+                        continue;
+                    }
+
+                    if (key.Contains("#"))
                     {
                         continue;
                     }
