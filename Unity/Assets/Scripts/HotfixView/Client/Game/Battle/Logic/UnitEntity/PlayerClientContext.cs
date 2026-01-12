@@ -10,6 +10,7 @@ namespace ET.Client
             var clientWorld = unitEntity.ClientWorld();
             if (unitEntity.InsId == clientWorld.MainPlayerId)
             {
+                // 客户端缓存组件
                 var playerCacheDataComponent = unitEntity.AddComponent<MyPlayerCacheDataComponent>();
                 
                 var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
@@ -25,8 +26,14 @@ namespace ET.Client
                 
                 clientWorld.MainPlayer = unitEntity;
                 var unityScene = UnitySceneManagerComponent.Instance.UnityScene;
-                var unitySceneCameraComponent = unityScene.GetComponent<UnitySceneCameraComponent>();
                 
+                
+                // 技能组件
+                unitEntity.AddComponent<PlayerClientSkillComponent>();
+                
+                
+                // 修改Scene 世界组件
+                var unitySceneCameraComponent = unityScene.GetComponent<UnitySceneCameraComponent>();
                 // 设置相机跟随物体
                 unitySceneCameraComponent.SetFlowUnitEntity(unitEntity);
                 // 设置相机朝向

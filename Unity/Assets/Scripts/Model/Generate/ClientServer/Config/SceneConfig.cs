@@ -8,13 +8,13 @@ using System.ComponentModel;
 namespace ET
 {
     [Config]
-    public partial class SceneConfigCategory : Singleton<SceneConfigCategory>, IMerge
+    public partial class SceneConfigCategory : BaseCategory<SceneConfigCategory>
     {
         [BsonElement]
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         private Dictionary<long, SceneConfig> dict = new();
 		
-        public void Merge(object o)
+        public override void Merge(object o)
         {
             SceneConfigCategory s = o as SceneConfigCategory;
             foreach (var kv in s.dict)

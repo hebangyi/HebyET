@@ -8,12 +8,12 @@ namespace ET
 {
     // This Is Auto Generate , Do Not Edit!
     [Config]
-    public partial class (ConfigName)Category : Singleton<(ConfigName)Category>, IMerge
+    public partial class (ConfigName)Category : BaseCategory<(ConfigName)Category>
     {
         [BsonElement]
         public (ConfigName) Config;
         
-        public void Merge(object o)
+        public override void Merge(object o)
         {
             (ConfigName)Category s = o as (ConfigName)Category;
             this.Config = s.Config;

@@ -8,12 +8,12 @@ namespace ET
 {
     // This Is Auto Generate , Do Not Edit!
     [Config]
-    public partial class GameGlobalConfigCategory : Singleton<GameGlobalConfigCategory>, IMerge
+    public partial class GameGlobalConfigCategory : BaseCategory<GameGlobalConfigCategory>
     {
         [BsonElement]
         public GameGlobalConfig Config;
         
-        public void Merge(object o)
+        public override void Merge(object o)
         {
             GameGlobalConfigCategory s = o as GameGlobalConfigCategory;
             this.Config = s.Config;

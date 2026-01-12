@@ -8,13 +8,13 @@ using System.ComponentModel;
 namespace ET
 {
     [Config]
-    public partial class SkillConfigCategory : Singleton<SkillConfigCategory>, IMerge
+    public partial class SkillConfigCategory : BaseCategory<SkillConfigCategory>
     {
         [BsonElement]
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         private Dictionary<long, SkillConfig> dict = new();
 		
-        public void Merge(object o)
+        public override void Merge(object o)
         {
             SkillConfigCategory s = o as SkillConfigCategory;
             foreach (var kv in s.dict)
@@ -55,6 +55,8 @@ namespace ET
 	{
 		/// <summary>Id</summary>
 		public long Id { get; set; }
+		/// <summary>技能Tag</summary>
+		public PlayerSkillTagEnum PlayerSkillTag { get; set; }
 		/// <summary>技能CD</summary>
 		public int CD { get; set; }
 

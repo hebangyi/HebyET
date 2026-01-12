@@ -8,13 +8,13 @@ using System.ComponentModel;
 namespace ET
 {
     [Config]
-    public partial class (ConfigName)Category : Singleton<(ConfigName)Category>, IMerge
+    public partial class (ConfigName)Category : BaseCategory<(ConfigName)Category>
     {
         [BsonElement]
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         private Dictionary<long, (ConfigName)> dict = new();
 		
-        public void Merge(object o)
+        public override void Merge(object o)
         {
             (ConfigName)Category s = o as (ConfigName)Category;
             foreach (var kv in s.dict)

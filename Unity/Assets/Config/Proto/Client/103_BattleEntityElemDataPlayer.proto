@@ -1,0 +1,22 @@
+//// 玩家
+// 玩家信息
+message UnitEntityPlayerInfo // IUnitEntityElemData
+{
+    int64 PlayerId = 1;        // 玩家ID
+    bool IsOnline = 2;         // 是否在线
+    int64 LastLoginTime = 3;   // 上次登录时间
+}
+
+// 玩家数据
+message UnitEntityCameraData // IUnitEntityElemData
+{
+    short CameraAngleOffSet = 1;            // 相机偏移角度
+}
+
+// 玩家技能
+message UnitEntityPlayerSkill // IUnitEntityElemData
+{
+    int32 SkillId = 1;
+    SkillStatusEnum SkillStatusEnum = 2;    // 技能状态
+    uint32 startFrame = 3;                  // 如果开始 技能当前的帧数是多少
+}

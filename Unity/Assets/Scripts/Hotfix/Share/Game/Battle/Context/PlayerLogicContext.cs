@@ -11,6 +11,7 @@ namespace ET
             var unitEntityInitContext = unitEntity.GetComponent<UnitEntityInitContext>();
             unitEntity.CreateUnitEntityElemData<GizmosPlayerAOICell>();
             unitEntity.CreateUnitEntityElemData<UnitEntityCameraData>();
+            unitEntity.CreateUnitEntityElemData<UnitEntityPlayerSkill>();
 
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             unitEntityPosition.Position = new float2(0f, 0f);

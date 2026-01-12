@@ -717,7 +717,15 @@ namespace ET
                     value = value.Replace("\"", "\\\"");
                     return $"\"{value}\"";
                 default:
+                {
+                    var enumType = Type.GetType($"ET.{type}");
+                    if (enumType != null && enumType.IsEnum)
+                    {
+                        return $"\"{Enum.Parse(enumType, value).ToString()}\"";
+                    }
+                    
                     throw new Exception($"不支持此类型: {type}");
+                }
             }
         }
 

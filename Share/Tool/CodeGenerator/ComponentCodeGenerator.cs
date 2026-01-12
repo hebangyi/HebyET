@@ -115,12 +115,7 @@ namespace ET
             File.AppendAllText(Path.Combine(rootPath, SystemFile), $"{className}\n");
             
             Console.WriteLine(className);
-            if (className == "TestComponent")
-            {
-                Console.WriteLine(className);
-            }
             
-
             if (!Directory.Exists(solutionLoader.OutFolder))
             {
                 Directory.CreateDirectory(solutionLoader.OutFolder);

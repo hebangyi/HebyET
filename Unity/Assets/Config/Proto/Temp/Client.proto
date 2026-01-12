@@ -62,6 +62,143 @@ message UnitEntityTowardAngle // IUnitEntityElemData
 
 
 
+//// 玩家
+// 玩家信息
+message UnitEntityPlayerInfo // IUnitEntityElemData
+{
+    int64 PlayerId = 1;        // 玩家ID
+    bool IsOnline = 2;         // 是否在线
+    int64 LastLoginTime = 3;   // 上次登录时间
+}
+
+// 玩家数据
+message UnitEntityCameraData // IUnitEntityElemData
+{
+    short CameraAngleOffSet = 1;            // 相机偏移角度
+}
+
+// 玩家技能
+message UnitEntityPlayerSkill // IUnitEntityElemData
+{
+    int32 SkillId = 1;
+    SkillStatusEnum SkillStatusEnum = 2;    // 技能状态
+    uint32 startFrame = 3;                  // 如果开始 技能当前的帧数是多少
+}
+
+
+//// 地块
+// 地图信息
+message UnitEntityMapMessage // IUnitEntityElemData
+{
+    int32 AreaSize = 1;                                     // 边宽度
+    PlantInfo PlantInfo = 2;                                // 地块信息
+}
+
+message PlantInfo
+{
+    repeated CellInfo CellInfos = 2;                         // 网格
+}
+
+
+message CellInfo
+{
+    Unity.Mathematics.float2 CenterPoint = 1;
+    repeated Unity.Mathematics.float4 Borders = 2;          // 边
+}
+
+
+// 地块辅助线信息
+message GizmosPlantInfo // IUnitEntityElemData
+{
+    repeated Unity.Mathematics.float2 CenterPoints = 1;     // 点
+    repeated Unity.Mathematics.float4 Borders = 2;          // 边
+    int32 AreaSize = 3;                                     // 边宽度
+}
+
+// 玩家AOI辅助线
+message GizmosPlayerAOICell // IUnitEntityElemData
+{
+    repeated int64 CellIds = 1;                             // Cell Ids
+}
+
+// 未登录的常规协议
+
+//// 网络
+// ResponseType G2C_Ping
+message C2G_Ping // ISessionRequest
+{
+	int32 RpcId = 1;
+}
+
+message G2C_Ping // ISessionResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+	int64 Time = 4;
+}
+
+// ResponseType G2C_Benchmark
+message C2G_Benchmark // ISessionRequest
+{
+	int32 RpcId = 1;
+}
+
+message G2C_Benchmark // ISessionResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
+//// 客户端Main向网络线程发送消息
+// ResponseType NetBattle2MainLogin
+message Main2NetBattleLogin // IRequest
+{
+	int32 RpcId = 1;
+	int32 OwnerFiberId = 2;
+	string RouterAddress = 3;				// 路由地址
+	string Address = 3;						// 地址
+	string Token = 4;						// Token 令牌	
+}
+
+message NetBattle2MainLogin // IResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
+
+// 3.玩家进入战斗 对Session 进行登录验证
+// ResponseType B2C_Login
+message C2B_Login // ISessionRequest
+{
+	int32 RpcId = 1;
+	string Token = 2;
+}
+
+message B2C_Login // ISessionResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
+// 4.玩家通知准备完成
+// ResponseType B2C_PlayerReadyCompleted
+message C2B_PlayerReadyCompleted
+{
+	int32 RpcId = 1;
+}
+
+message B2C_PlayerReadyCompleted
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
 //// 通讯协议
 
 // 1.获得玩家的视野世界信息
@@ -140,137 +277,8 @@ message B2C_PlayeBattleReday // IClientResponse
 	string Message = 3;
 }
 
-//// 客户端Main向网络线程发送消息
-// ResponseType NetBattle2MainLogin
-message Main2NetBattleLogin // IRequest
-{
-	int32 RpcId = 1;
-	int32 OwnerFiberId = 2;
-	string RouterAddress = 3;				// 路由地址
-	string Address = 3;						// 地址
-	string Token = 4;						// Token 令牌	
-}
-
-message NetBattle2MainLogin // IResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-}
 
 
-// 3.玩家进入战斗 对Session 进行登录验证
-// ResponseType B2C_Login
-message C2B_Login // ISessionRequest
-{
-	int32 RpcId = 1;
-	string Token = 2;
-}
-
-message B2C_Login // ISessionResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-}
-
-// 4.玩家通知准备完成
-// ResponseType B2C_PlayerReadyCompleted
-message C2B_PlayerReadyCompleted
-{
-	int32 RpcId = 1;
-}
-
-message B2C_PlayerReadyCompleted
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-}
-
-//// 玩家
-// 玩家信息
-message UnitEntityPlayerInfo // IUnitEntityElemData
-{
-    int64 PlayerId = 1;        // 玩家ID
-    bool IsOnline = 2;         // 是否在线
-    int64 LastLoginTime = 3;   // 上次登录时间
-}
-
-// 玩家数据
-message UnitEntityCameraData // IUnitEntityElemData
-{
-    short CameraAngleOffSet = 1;            // 相机偏移角度
-}
-
-
-//// 地块
-// 地图信息
-message UnitEntityMapMessage // IUnitEntityElemData
-{
-    int32 AreaSize = 1;                                     // 边宽度
-    PlantInfo PlantInfo = 2;                                // 地块信息
-}
-
-message PlantInfo
-{
-    repeated CellInfo CellInfos = 2;                         // 网格
-}
-
-
-message CellInfo
-{
-    Unity.Mathematics.float2 CenterPoint = 1;
-    repeated Unity.Mathematics.float4 Borders = 2;          // 边
-}
-
-
-// 地块辅助线信息
-message GizmosPlantInfo // IUnitEntityElemData
-{
-    repeated Unity.Mathematics.float2 CenterPoints = 1;     // 点
-    repeated Unity.Mathematics.float4 Borders = 2;          // 边
-    int32 AreaSize = 3;                                     // 边宽度
-}
-
-// 玩家AOI辅助线
-message GizmosPlayerAOICell // IUnitEntityElemData
-{
-    repeated int64 CellIds = 1;                             // Cell Ids
-}
-
-
-
-
-// 未登录的常规协议
-
-//// 网络
-// ResponseType G2C_Ping
-message C2G_Ping // ISessionRequest
-{
-	int32 RpcId = 1;
-}
-
-message G2C_Ping // ISessionResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-	int64 Time = 4;
-}
-
-// ResponseType G2C_Benchmark
-message C2G_Benchmark // ISessionRequest
-{
-	int32 RpcId = 1;
-}
-
-message G2C_Benchmark // ISessionResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-}
 
 
 //// 客户端Main向Lobby网络线程发送消息
