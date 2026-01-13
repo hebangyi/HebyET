@@ -1,0 +1,12 @@
+{"dict": [
+[1, {"_t":"MonsterConfig","_id":1,"Note":"","Name":"Hero1","AssetName":"Monster_001"}],
+[2, {"_t":"MonsterConfig","_id":2,"Note":"","Name":"Hero2","AssetName":"Monster_002"}],
+[3, {"_t":"MonsterConfig","_id":3,"Note":"","Name":"Hero3","AssetName":"Monster_003"}],
+[4, {"_t":"MonsterConfig","_id":4,"Note":"","Name":"Hero4","AssetName":"Monster_004"}],
+[5, {"_t":"MonsterConfig","_id":5,"Note":"","Name":"Hero5","AssetName":"Monster_005"}],
+[6, {"_t":"MonsterConfig","_id":6,"Note":"","Name":"Hero6","AssetName":"Monster_006"}],
+[7, {"_t":"MonsterConfig","_id":7,"Note":"","Name":"Hero7","AssetName":"Monster_007"}],
+[8, {"_t":"MonsterConfig","_id":8,"Note":"","Name":"Hero8","AssetName":"Monster_008"}],
+[9, {"_t":"MonsterConfig","_id":9,"Note":"","Name":"Hero9","AssetName":"Monster_009"}],
+[10, {"_t":"MonsterConfig","_id":10,"Note":"","Name":"Hero10","AssetName":"Monster_010"}],
+]}

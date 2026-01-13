@@ -1,0 +1,3 @@
+{"dict": [
+[1, {"_t":"BattleMapConfig","_id":1,"Name":"测试地图生成规则","AreaSize":2000,"CellPointCount":200,"CellPointMinDistance":5,"GenCellCount":25}],
+]}
