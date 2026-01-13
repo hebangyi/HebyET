@@ -694,11 +694,65 @@ namespace ET
                 case "uint[]":
                 case "int[]":
                 case "int32[]":
+                {
+                    if (string.IsNullOrWhiteSpace(value))
+                        return new BsonArray().ToString();
+                    value = value.Trim('\'');
+                    value = value.Trim('~');
+                    value = value.Replace('|', ',');
+                    var arr = value.Split(',');
+                    var ret = new BsonArray();
+                    for (global::System.Int32 i = 0; i < arr.Length; i++)
+                    {
+                        ret.Add(BsonInt32.Create(arr[i]));
+                    }
+                    return ret.ToString();
+                }
                 case "long[]":
-                    return $"[{value}]";
-                case "string[]":
-                case "int[][]":
-                    return $"[{value}]";
+                {
+                    if (string.IsNullOrWhiteSpace(value))
+                        return new BsonArray().ToString();
+                    value = value.Trim('\'');
+                    value = value.Trim('~');
+                    value = value.Replace('|', ',');
+                    var arr = value.Split(',');
+                    var ret = new BsonArray();
+                    for (global::System.Int32 i = 0; i < arr.Length; i++)
+                    {
+                        ret.Add(BsonInt64.Create(arr[i]));
+                    }
+                    return ret.ToString();
+                }
+                case "float[]":
+                case "double[]":
+                {
+                    if (string.IsNullOrWhiteSpace(value))
+                        return new BsonArray().ToString();
+                    value = value.Trim('\'');
+                    value = value.Trim('~');
+                    value = value.Replace('|', ',');
+                    var arr = value.Split(',');
+                    var ret = new BsonArray();
+                    for (global::System.Int32 i = 0; i < arr.Length; i++)
+                    {
+                        ret.Add(BsonDouble.Create(arr[i]));
+                    }
+                    return ret.ToString();
+                }
+                case "string[]":                    {
+                    if (string.IsNullOrWhiteSpace(value))
+                        return new BsonArray().ToString();
+                    value = value.Trim('\'');
+                    value = value.Trim('~');
+                    value = value.Replace('|', ',');
+                    var arr = value.Split(',');
+                    var ret = new BsonArray();
+                    for (global::System.Int32 i = 0; i < arr.Length; i++)
+                    {
+                        ret.Add(BsonString.Create(arr[i]));
+                    }
+                    return ret.ToString();
+                }
                 case "int":
                 case "uint":
                 case "int32":
@@ -713,6 +767,7 @@ namespace ET
 
                     return value;
                 case "string":
+                    value = value.Trim('~');
                     value = value.Replace("\\", "\\\\");
                     value = value.Replace("\"", "\\\"");
                     return $"\"{value}\"";
