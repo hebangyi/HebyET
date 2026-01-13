@@ -32,9 +32,9 @@ namespace ET
         private const string serverOutputTempFilePath = "../Unity/Assets/Config/Proto/Temp/Server.proto";
         
         
-        private const string clientMessagePath = "../Unity/Assets/Scripts/Model/Generate/Client/Message/";
-        private const string serverMessagePath = "../Unity/Assets/Scripts/Model/Generate/Server/Message/";
-        private const string clientServerMessagePath = "../Unity/Assets/Scripts/Model/Generate/ClientServer/Message/";
+        private const string clientMessagePath = "../Unity/Assets/Scripts/Model/Client/Generate/Message/";
+        private const string serverMessagePath = "../DotNet/Model/Server/Generate/Message/";
+        private const string clientServerMessagePath = "../Unity/Assets/Scripts/Model/Share/Generate/Message/";
         private static readonly char[] splitChars = [' ', '\t'];
         private static readonly List<OpcodeInfo> msgOpcode = [];
 

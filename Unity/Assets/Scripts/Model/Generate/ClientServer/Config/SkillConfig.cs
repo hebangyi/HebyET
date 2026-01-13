@@ -59,6 +59,8 @@ namespace ET
 		public PlayerSkillTagEnum PlayerSkillTag { get; set; }
 		/// <summary>技能CD</summary>
 		public int CD { get; set; }
+		/// <summary></summary>
+		public int[] TestArr { get; set; }
 
 	}
 }
