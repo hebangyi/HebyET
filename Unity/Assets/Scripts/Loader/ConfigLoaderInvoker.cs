@@ -71,41 +71,12 @@ namespace ET
     {
         public override async ETTask<byte[]> Handle(ConfigLoader.GetOneConfigBytes args)
         {
-            string ct = "cs";
-            GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
-            CodeMode codeMode = globalConfig.CodeMode;
-            switch (codeMode)
-            {
-                case CodeMode.Client:
-                    ct = "c";
-                    break;
-                case CodeMode.Server:
-                    ct = "s";
-                    break;
-                case CodeMode.ClientServer:
-                    ct = "cs";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            List<string> startConfigs = new List<string>()
-            {
-                "StartMachineConfigCategory", 
-                "StartProcessConfigCategory", 
-                "StartSceneConfigCategory", 
-                "StartZoneConfigCategory",
-            };
-
-            string configName = args.ConfigName;
+            string configName = args.Type.Name;
                 
-            string configFilePath;
-            if (startConfigs.Contains(configName))
+            string configFilePath = $"../Config/Excel/cs/{configName}.bytes";
+            if (!File.Exists(configFilePath))
             {
-                configFilePath = $"../Config/Excel/{ct}/{Options.Instance.StartConfig}/{configName}.bytes";    
-            }
-            else
-            {
-                configFilePath = $"../Config/Excel/{ct}/{configName}.bytes";
+                configFilePath = $"../Config/Excel/c/{configName}.bytes";
             }
 
             await ETTask.CompletedTask;

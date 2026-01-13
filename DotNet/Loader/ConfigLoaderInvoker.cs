@@ -5,13 +5,12 @@ using System.IO;
 namespace ET
 {
     [Invoke]
-    public class GetAllConfigBytes: AInvokeHandler<ConfigLoader.GetAllConfigBytes, ETTask<Dictionary<Type, byte[]>>>
+    public class GetAllConfigBytes: AInvokeHandler<ConfigLoader.GetAllConfigTypes, ETTask<List<Type>>>
     {
-        public override async ETTask<Dictionary<Type, byte[]>> Handle(ConfigLoader.GetAllConfigBytes args)
+        
+        public override async ETTask<List<Type>> Handle(ConfigLoader.GetAllConfigTypes args)
         {
-            Dictionary<Type, byte[]> output = new Dictionary<Type, byte[]>();
-            
-            // TODO 以后通过地区读取配置
+            List<Type> ret = new List<Type>();
             HashSet<Type> configTypes = CodeTypes.Instance.GetAttributeTypes(typeof (ConfigAttribute));
             foreach (Type configType in configTypes)
             {
@@ -21,11 +20,17 @@ namespace ET
                 {
                     configFilePath = $"../Config/Excel/cs/{configType.Name}.bytes";
                 }
-                output[configType] = File.ReadAllBytes(configFilePath);
+                
+                if(!File.Exists(configFilePath))
+                {
+                   continue; 
+                }
+                
+                ret.Add(configType);
             }
 
             await ETTask.CompletedTask;
-            return output;
+            return ret;
         }
     }
     
@@ -34,7 +39,19 @@ namespace ET
     {
         public override byte[] Handle(ConfigLoader.GetOneConfigBytes args)
         {
-            byte[] configBytes = File.ReadAllBytes($"../Config/Excel/s/{args.ConfigName}.bytes");
+            string configFilePath = null;
+            configFilePath = $"../Config/Excel/s/{args.Type.Name}.bytes";
+            if (!File.Exists(configFilePath))
+            {
+                configFilePath = $"../Config/Excel/cs/{args.Type.Name}.bytes";
+            }
+                
+            if(!File.Exists(configFilePath))
+            {
+                return new byte[] { };
+            }
+            
+            byte[] configBytes = File.ReadAllBytes(configFilePath);
             return configBytes;
         }
     }

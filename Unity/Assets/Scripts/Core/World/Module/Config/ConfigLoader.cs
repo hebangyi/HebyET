@@ -11,13 +11,19 @@ namespace ET
     /// </summary>
     public class ConfigLoader : Singleton<ConfigLoader>, ISingletonAwake
     {
+        // 全量加载
         public struct GetAllConfigBytes
+        {
+            
+        }
+        
+        public struct GetAllConfigTypes
         {
         }
 
         public struct GetOneConfigBytes
         {
-            public string ConfigName;
+            public Type Type { get; set; }
         }
 
         public void Awake()
@@ -26,14 +32,14 @@ namespace ET
 
         public async ETTask Reload(Type configType)
         {
-            GetOneConfigBytes getOneConfigBytes = new() { ConfigName = configType.Name };
+            GetOneConfigBytes getOneConfigBytes = new() { Type = configType};
             byte[] oneConfigBytes = await EventSystem.Instance.Invoke<GetOneConfigBytes, ETTask<byte[]>>(getOneConfigBytes);
             LoadOneConfig(configType, oneConfigBytes);
         }
 
         public async ETTask LoadAsync()
         {
-            Dictionary<Type, byte[]> configBytes = await EventSystem.Instance.Invoke<GetAllConfigBytes, ETTask<Dictionary<Type, byte[]>>>(new GetAllConfigBytes());
+            
 
 /*#if DOTNET || UNITY_STANDALONE
             using ListComponent<Task> listTasks = ListComponent<Task>.Create();
@@ -50,10 +56,21 @@ namespace ET
 #else
 #endif
 */
+# if DOTNET
+            List<Type> configTypes = await EventSystem.Instance.Invoke<GetAllConfigTypes, ETTask<List<Type>>>(new GetAllConfigTypes());
+            foreach (var configType in configTypes)
+            {
+                var bytes = await EventSystem.Instance.Invoke<GetOneConfigBytes, ETTask<byte[]>>(new GetOneConfigBytes(){ Type = configType});
+                LoadOneConfig(configType, bytes);
+            }
+#else
+            Dictionary<Type, byte[]> configBytes = await EventSystem.Instance.Invoke<GetAllConfigBytes, ETTask<Dictionary<Type, byte[]>>>(new GetAllConfigBytes());
             foreach (Type type in configBytes.Keys)
             {
                 LoadOneConfig(type, configBytes[type]);
             }
+
+#endif
         }
 
         private static void LoadOneConfig(Type configType, byte[] oneConfigBytes)
