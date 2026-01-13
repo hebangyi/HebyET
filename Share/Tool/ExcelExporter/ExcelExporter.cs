@@ -48,11 +48,12 @@ namespace ET
     // 这里加个标签是为了防止编译时裁剪掉protobuf，因为整个tool工程没有用到protobuf，编译会去掉引用，然后动态编译就会出错
     class Table
     {
-        public bool C;
-        public bool S;
         public int Index;
+        public string ClassName;
+        public ConfigType ConfigType { get; set; }
         public TableType TableType { get; set; }
         public Dictionary<string, HeadInfo> HeadInfos = new Dictionary<string, HeadInfo>();
+        public List<ExcelPackage> ExcelPackages = new List<ExcelPackage>();
     }
 
     public enum TableType
@@ -75,22 +76,23 @@ namespace ET
 
         private const string excelDir = "../Unity/Assets/Config/Excel/";
 
-        private const string jsonDir = "../Config/Json/{0}/{1}";
+        private const string jsonDir = "../Config/Json/{0}/";
 
         private const string clientProtoDir = "../Unity/Assets/Bundles/Config";
-        private const string serverProtoDir = "../Config/Excel/{0}/{1}";
+        private const string serverProtoDir = "../Config/Excel/{0}/";
         private const string replaceStr = "/{0}/{1}";
         private static Assembly[] configAssemblies = new Assembly[3];
 
         private static Dictionary<string, Table> tables = new Dictionary<string, Table>();
         private static Dictionary<string, ExcelPackage> packages = new Dictionary<string, ExcelPackage>();
 
-        private static Table GetTable(string protoName)
+        private static Table GetTable(string className)
         {
-            if (!tables.TryGetValue(protoName, out var table))
+            if (!tables.TryGetValue(className, out var table))
             {
                 table = new Table();
-                tables[protoName] = table;
+                table.ClassName = className;
+                tables[className] = table;
             }
 
             return table;
@@ -116,6 +118,7 @@ namespace ET
                 templateKey = File.ReadAllText("Templatekey.txt");
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
+                // 1.创建文件夹
                 if (Directory.Exists(ClientClassDir))
                 {
                     Directory.Delete(ClientClassDir, true);
@@ -146,6 +149,7 @@ namespace ET
                     Directory.Delete(serverProtoDirParent, true);
                 }
 
+                // 2.加载Excel Package
                 List<string> files = FileHelper.GetAllFiles(excelDir);
                 foreach (string path in files)
                 {
@@ -156,7 +160,7 @@ namespace ET
                     }
 
                     string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
-                    string fileNameWithoutCS = fileNameWithoutExtension;
+                    string className = fileNameWithoutExtension;
                     string cs = "cs";
                     if (fileNameWithoutExtension.Contains("@"))
                     {
@@ -170,7 +174,8 @@ namespace ET
                         {
                             cs = "s";
                         }
-                        fileNameWithoutCS = ss[0];
+
+                        className = ss[0];
                     }
 
                     if (cs == "")
@@ -179,42 +184,34 @@ namespace ET
                     }
 
                     ExcelPackage p = GetPackage(Path.GetFullPath(path));
+                    Table table = GetTable(className);
 
-                    string protoName = fileNameWithoutCS;
-                    if (fileNameWithoutCS.Contains('_'))
+                    if (cs == "cs")
                     {
-                        protoName = fileNameWithoutCS.Substring(0, fileNameWithoutCS.LastIndexOf('_'));
+                        table.ConfigType = ConfigType.cs;
                     }
-
-                    Table table = GetTable(protoName);
-
-                    if (cs.Contains("c"))
+                    else if (cs == "c")
                     {
-                        table.C = true;
-                    }
-
-                    if (cs.Contains("s"))
-                    {
-                        table.S = true;
-                    }
-
-                    ExportExcelClass(p, protoName, table);
-                }
-
-                foreach (var kv in tables)
-                {
-                    if (kv.Value.C && kv.Value.S)
-                    {
-                        ExportClass(kv.Key, kv.Value, ConfigType.cs);
-                    }
-                    else if (kv.Value.C)
-                    {
-                        ExportClass(kv.Key, kv.Value, ConfigType.c);
+                        table.ConfigType = ConfigType.c;
                     }
                     else
                     {
-                        ExportClass(kv.Key, kv.Value, ConfigType.s);
+                        table.ConfigType = ConfigType.s;
                     }
+
+                    table.ExcelPackages.Add(p);
+                }
+
+                // 3.解析Excel生成Table数据
+                foreach (var table in tables.Values)
+                {
+                    ParseTableWithExcel(table);
+                }
+
+                // 4.根据Table创建 Class
+                foreach (var table in tables.Values)
+                {
+                    GenExcelClass(table);
                 }
 
                 // 动态编译生成的配置代码
@@ -222,18 +219,26 @@ namespace ET
                 configAssemblies[(int)ConfigType.s] = DynamicBuild(ConfigType.s);
                 configAssemblies[(int)ConfigType.cs] = DynamicBuild(ConfigType.cs);
 
-                List<string> excels = FileHelper.GetAllFiles(excelDir, "*.xlsx");
-
-                foreach (string path in excels)
+                // 5.导出Json
+                foreach (var table in tables.Values)
                 {
-                    ExportExcel(path);
+                    Console.WriteLine($"导出Json数据 : {table.ClassName} 方式 : {table.ConfigType}");
+                    ExportExcelJson(table);
                 }
-
+                
+                // 6.导出Proto
+                foreach (var table in tables.Values)
+                {
+                    Console.WriteLine($"导出ProtoBuff数据 : {table.ClassName} 方式 : {table.ConfigType}");
+                    ExportExcelProtobuf(table);
+                }
+                
                 if (Directory.Exists(clientProtoDir))
                 {
                     Directory.Delete(clientProtoDir, true);
                 }
 
+                // 7.拷贝proto数据加载 Unity文件
                 FileHelper.CopyDirectory("../Config/Excel/c", clientProtoDir);
                 FileHelper.CopyDirectory("../Config/Excel/cs", clientProtoDir);
 
@@ -255,63 +260,9 @@ namespace ET
             }
         }
 
-        private static void ExportExcel(string path)
+        private static string GetProtoDir(ConfigType configType)
         {
-            // string dir = Path.GetDirectoryName(path);
-            // string relativePath = Path.GetRelativePath(excelDir, dir);
-            string relativePath = ".";
-            string fileName = Path.GetFileName(path);
-            if (!fileName.EndsWith(".xlsx") || fileName.StartsWith("~$") || fileName.Contains("#"))
-            {
-                return;
-            }
-
-            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
-            string fileNameWithoutCS = fileNameWithoutExtension;
-            string cs = "cs";
-            if (fileNameWithoutExtension.Contains("@"))
-            {
-                string[] ss = fileNameWithoutExtension.Split("@");
-                fileNameWithoutCS = ss[0];
-                cs = ss[1];
-            }
-
-            if (cs == "")
-            {
-                cs = "cs";
-            }
-
-            string protoName = fileNameWithoutCS;
-            if (fileNameWithoutCS.Contains('_'))
-            {
-                protoName = fileNameWithoutCS.Substring(0, fileNameWithoutCS.LastIndexOf('_'));
-            }
-
-            Table table = GetTable(protoName);
-            
-            ExcelPackage p = GetPackage(Path.GetFullPath(path));
-
-            Console.WriteLine($"导出数据 : {protoName} 方式 : {cs}");
-            if (cs == "cs")
-            {
-                ExportExcelJson(p, fileNameWithoutCS, table, ConfigType.cs, relativePath);
-                ExportExcelProtobuf(ConfigType.cs, protoName, relativePath);
-            }
-            else if (cs.Contains("c"))
-            {
-                ExportExcelJson(p, fileNameWithoutCS, table, ConfigType.c, relativePath);
-                ExportExcelProtobuf(ConfigType.c, protoName, relativePath);
-            }
-            else if(cs.Contains("s"))
-            {
-                ExportExcelJson(p, fileNameWithoutCS, table, ConfigType.s, relativePath);
-                ExportExcelProtobuf(ConfigType.s, protoName, relativePath);
-            }
-        }
-
-        private static string GetProtoDir(ConfigType configType, string relativeDir)
-        {
-            return string.Format(serverProtoDir, configType.ToString(), relativeDir);
+            return string.Format(serverProtoDir, configType.ToString());
         }
 
         private static Assembly GetAssembly(ConfigType configType)
@@ -392,16 +343,13 @@ namespace ET
             return ass;
         }
 
-        #region 导出class
+        #region 解析Excel生成Table数据
 
-        static void ExportExcelClass(ExcelPackage p, string name, Table table)
+        static void ParseTableWithExcel(Table table)
         {
+            var p = table.ExcelPackages[0];
             var worksheet = p.Workbook.Worksheets.FirstOrDefault();
-            ExportSheetClass(worksheet, name ,table);
-        }
 
-        static void ExportSheetClass(ExcelWorksheet worksheet, string name,Table table)
-        {
             const int row = 2;
 
             TableType tableType = TableType.IdTable;
@@ -428,20 +376,18 @@ namespace ET
                     {
                         continue;
                     }
-                    
-                    
+
                     if (table.HeadInfos.ContainsKey(fieldName))
                     {
                         continue;
                     }
-                    
-                    
+
                     string fcs = worksheet.Cells[row, col].Text.Trim();
                     if (fcs != "")
                     {
                         fieldCS = fcs;
                     }
-                    
+
                     string fieldDesc = worksheet.Cells[row + 1, col].Text.Trim();
                     string fieldType = worksheet.Cells[row + 3, col].Text.Trim();
 
@@ -477,15 +423,18 @@ namespace ET
                     {
                         continue;
                     }
-                    
+
                     var headInfo = new HeadInfo(fieldCS, desc, key, type, ++table.Index, value);
                     table.HeadInfos[key] = headInfo;
                 }
             }
         }
 
-        static void ExportClass(string protoName, Table table, ConfigType configType)
+        static void GenExcelClass(Table table)
         {
+            var configType = table.ConfigType;
+            var className = table.ClassName;
+
             string dir = GetClassDir(configType);
             if (!Directory.Exists(dir))
             {
@@ -494,13 +443,12 @@ namespace ET
 
             var classField = table.HeadInfos;
             var tableType = table.TableType;
-            
-            string exportPath = Path.Combine(dir, $"{protoName}.cs");
 
-            
+            string exportPath = Path.Combine(dir, $"{className}.cs");
+
             using FileStream txt = new FileStream(exportPath, FileMode.Create);
             using StreamWriter sw = new StreamWriter(txt);
-            
+
             if (tableType == TableType.IdTable)
             {
                 StringBuilder sb = new StringBuilder();
@@ -521,7 +469,7 @@ namespace ET
                     sb.Append($"\t\tpublic {fieldType} {headInfo.FieldName} {{ get; set; }}\n");
                 }
 
-                string content = template.Replace("(ConfigName)", protoName).Replace(("(Fields)"), sb.ToString());
+                string content = template.Replace("(ConfigName)", className).Replace(("(Fields)"), sb.ToString());
                 sw.Write(content);
             }
             else if (tableType == TableType.KeyTable)
@@ -543,67 +491,75 @@ namespace ET
                     string fieldType = headInfo.FieldType;
                     sb.Append($"\t\tpublic {fieldType} {headInfo.FieldName} {{ get; set; }}\n");
                 }
-                string content = templateKey.Replace("(ConfigName)", protoName).Replace(("(Fields)"), sb.ToString());
+
+                string content = templateKey.Replace("(ConfigName)", className).Replace(("(Fields)"), sb.ToString());
                 sw.Write(content);
             }
-            
-            Console.WriteLine($"导出Class : {protoName} , 格式 : {tableType}");
+
+            Console.WriteLine($"导出Class : {className} , 格式 : {tableType}");
         }
 
         #endregion
 
         #region 导出json
 
-        static void ExportExcelJson(ExcelPackage p, string name, Table table, ConfigType configType, string relativeDir)
+        static void ExportExcelJson(Table table)
         {
             StringBuilder sb = new StringBuilder();
-            
-            foreach (ExcelWorksheet worksheet in p.Workbook.Worksheets)
-            {
-                if (worksheet.Name.StartsWith("#"))
-                {
-                    continue;
-                }
 
-                ExportSheetJson(worksheet, name, table, configType, sb);
+            if (table.TableType == TableType.IdTable)
+            {
+                sb.Append("{\"dict\": [\n");
+            }
+            else if (table.TableType == TableType.KeyTable)
+            {
+                sb.Append("{\"Config\": {");
             }
 
-            string dir = string.Format(jsonDir, configType.ToString(), relativeDir);
+            foreach (var p in table.ExcelPackages)
+            {
+                foreach (ExcelWorksheet worksheet in p.Workbook.Worksheets)
+                {
+                    if (worksheet.Name.StartsWith("#"))
+                    {
+                        continue;
+                    }
+
+                    ExportSheetJson(table, worksheet, sb);
+                }
+            }
+
+            if (table.TableType == TableType.IdTable)
+            {
+                sb.Append("]}\n");
+            }
+            else if (table.TableType == TableType.KeyTable)
+            {
+                sb.Append("}}");
+            }
+
+            string dir = string.Format(jsonDir, table.ConfigType);
             if (!Directory.Exists(dir))
             {
                 Directory.CreateDirectory(dir);
             }
 
-            string jsonPath = Path.Combine(dir, $"{name}.txt");
+            string jsonPath = Path.Combine(dir, $"{table.ClassName}.txt");
             using FileStream txt = new FileStream(jsonPath, FileMode.Create);
             using StreamWriter sw = new StreamWriter(txt);
             sw.Write(sb.ToString());
         }
 
-        static void ExportSheetJson(ExcelWorksheet worksheet, string name, 
-            Table table, ConfigType configType, StringBuilder sb)
+        static void ExportSheetJson(Table table, ExcelWorksheet worksheet, StringBuilder sb)
         {
             var classField = table.HeadInfos;
-            string configTypeStr = configType.ToString();
-
+            var className = table.ClassName;
             if (table.TableType == TableType.IdTable)
             {
-                sb.Append("{\"dict\": [\n");
-                
                 for (int row = 6; row <= worksheet.Dimension.End.Row; ++row)
                 {
                     string prefix = worksheet.Cells[row, 2].Text.Trim();
                     if (prefix.Contains("#"))
-                    {
-                        continue;
-                    }
-
-                    if (prefix == "")
-                    {
-                        prefix = "cs";
-                    }
-
-                    if (configType != ConfigType.cs && !prefix.Contains(configTypeStr))
                     {
                         continue;
                     }
@@ -613,7 +569,7 @@ namespace ET
                         continue;
                     }
 
-                    sb.Append($"[{worksheet.Cells[row, 3].Text.Trim()}, {{\"_t\":\"{name}\"");
+                    sb.Append($"[{worksheet.Cells[row, 3].Text.Trim()}, {{\"_t\":\"{className}\"");
                     for (int col = 3; col <= worksheet.Dimension.End.Column; ++col)
                     {
                         string fieldName = worksheet.Cells[4, col].Text.Trim();
@@ -629,11 +585,6 @@ namespace ET
                             continue;
                         }
 
-                        if (configType != ConfigType.cs && !headInfo.FieldCS.Contains(configTypeStr))
-                        {
-                            continue;
-                        }
-
                         string fieldN = headInfo.FieldName;
                         if (fieldN == "Id")
                         {
@@ -645,13 +596,9 @@ namespace ET
 
                     sb.Append("}],\n");
                 }
-                
-                sb.Append("]}\n");
             }
             else if (table.TableType == TableType.KeyTable)
             {
-                sb.Append("{\"Config\": {");
-                
                 for (int row = 6; row <= worksheet.Dimension.End.Row; ++row)
                 {
                     string fcs = worksheet.Cells[row, 2].Text.Trim();
@@ -662,29 +609,15 @@ namespace ET
                     {
                         continue;
                     }
-                    
+
                     if (fcs.Contains("#"))
-                    {
-                        continue;
-                    }
-
-                    if (fcs == "")
-                    {
-                        fcs = "cs";
-                    }
-
-                    if (configType != ConfigType.cs && !fcs.Contains(configTypeStr))
                     {
                         continue;
                     }
 
                     sb.Append($",\"{headInfo.FieldName}\":{Convert(headInfo.FieldType, headInfo.FieldValue.Trim())}");
                 }
-                
-                
-                sb.Append("}}");
             }
-            
         }
 
         private static string Convert(string type, string value)
@@ -706,6 +639,7 @@ namespace ET
                     {
                         ret.Add(BsonInt32.Create(arr[i]));
                     }
+
                     return ret.ToString();
                 }
                 case "long[]":
@@ -721,6 +655,7 @@ namespace ET
                     {
                         ret.Add(BsonInt64.Create(arr[i]));
                     }
+
                     return ret.ToString();
                 }
                 case "float[]":
@@ -737,9 +672,11 @@ namespace ET
                     {
                         ret.Add(BsonDouble.Create(arr[i]));
                     }
+
                     return ret.ToString();
                 }
-                case "string[]":                    {
+                case "string[]":
+                {
                     if (string.IsNullOrWhiteSpace(value))
                         return new BsonArray().ToString();
                     value = value.Trim('\'');
@@ -751,6 +688,7 @@ namespace ET
                     {
                         ret.Add(BsonString.Create(arr[i]));
                     }
+
                     return ret.ToString();
                 }
                 case "int":
@@ -778,7 +716,7 @@ namespace ET
                     {
                         return $"\"{Enum.Parse(enumType, value).ToString()}\"";
                     }
-                    
+
                     throw new Exception($"不支持此类型: {type}");
                 }
             }
@@ -787,22 +725,26 @@ namespace ET
         #endregion
 
         // 根据生成的类，把json转成protobuf
-        private static void ExportExcelProtobuf(ConfigType configType, string protoName, string relativeDir)
+        private static void ExportExcelProtobuf(Table table)
         {
-            string dir = GetProtoDir(configType, relativeDir);
+            var configType = table.ConfigType;
+            var className = table.ClassName;
+            
+            
+            string dir = GetProtoDir(configType);
             if (!Directory.Exists(dir))
             {
                 Directory.CreateDirectory(dir);
             }
 
             Assembly ass = GetAssembly(configType);
-            Type type = ass.GetType($"ET.{protoName}Category");
-            Type subType = ass.GetType($"ET.{protoName}");
+            Type type = ass.GetType($"ET.{className}Category");
+            Type subType = ass.GetType($"ET.{className}");
 
             IMerge final = Activator.CreateInstance(type) as IMerge;
 
-            string p = Path.Combine(string.Format(jsonDir, configType, relativeDir));
-            string[] ss = Directory.GetFiles(p, $"{protoName}*.txt");
+            string p = Path.Combine(string.Format(jsonDir, configType));
+            string[] ss = Directory.GetFiles(p, $"{className}*.txt");
             List<string> jsonPaths = ss.ToList();
 
             jsonPaths.Sort();
@@ -821,7 +763,7 @@ namespace ET
                 }
             }
 
-            string path = Path.Combine(dir, $"{protoName}Category.bytes");
+            string path = Path.Combine(dir, $"{className}Category.bytes");
 
             using FileStream file = File.Create(path);
             file.Write(final.ToBson());
