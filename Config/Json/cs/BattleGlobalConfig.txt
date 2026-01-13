@@ -1,1 +1,0 @@
-{"Config": {,"TestMapConfigId":1,"TileMapUnitSize":10}}

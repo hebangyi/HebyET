@@ -1,3 +1,0 @@
-{"dict": [
-[1, {"_t":"SceneConfig","_id":1,"Name":"主城","MapSceneType":1,"AssetPath":"Lobby/Lobby"}],
-]}

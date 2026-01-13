@@ -1,3 +1,0 @@
-{"dict": [
-[1001, {"_t":"BattleSceneConfig","_id":1001,"Name":"测试","AssetPath":"Battle/Test"}],
-]}

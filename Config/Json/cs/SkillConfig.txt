@@ -1,3 +1,0 @@
-{"dict": [
-[1, {"_t":"SkillConfig","_id":1,"PlayerSkillTag":"NormalAttack","CD":2000,"TestArr":[1, 2, 3, 4]}],
-]}

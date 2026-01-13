@@ -66,12 +66,12 @@ namespace ET
         private static string template;
         private static string templateKey;
 
-        private const string ClientClassDir = "../Unity/Assets/Scripts/Model/Generate/Client/Config";
+        private const string ClientClassDir = "../Unity/Assets/Scripts/Model/Client/Generate/Config";
 
         // 服务端因为机器人的存在必须包含客户端所有配置，所以单独的c字段没有意义,单独的c就表示cs
-        private const string ServerClassDir = "../Unity/Assets/Scripts/Model/Generate/Server/Config";
+        private const string ServerClassDir = "../DotNet/Model/Server/Generate/Config";
 
-        private const string CSClassDir = "../Unity/Assets/Scripts/Model/Generate/ClientServer/Config";
+        private const string CSClassDir = "../Unity/Assets/Scripts/Model/Share/Generate/Config";
 
         private const string excelDir = "../Unity/Assets/Config/Excel/";
 
