@@ -76,10 +76,12 @@ namespace ET
 
         private const string excelDir = "../Unity/Assets/Config/Excel/";
 
-        private const string jsonDir = "../Config/Json/{0}/";
-
+        private const string jsonDir = "../ConfigExport/Json/{0}/";
+        private const string serverProtoDir = "../ConfigExport/Excel/{0}/";
+        
+        
+        
         private const string clientProtoDir = "../Unity/Assets/Bundles/Config";
-        private const string serverProtoDir = "../Config/Excel/{0}/";
         private const string replaceStr = "/{0}/{1}";
         private static Assembly[] configAssemblies = new Assembly[3];
 
@@ -239,8 +241,8 @@ namespace ET
                 }
 
                 // 7.拷贝proto数据加载 Unity文件
-                FileHelper.CopyDirectory("../Config/Excel/c", clientProtoDir);
-                FileHelper.CopyDirectory("../Config/Excel/cs", clientProtoDir);
+                FileHelper.CopyDirectory("../ConfigExport/Excel/c", clientProtoDir);
+                FileHelper.CopyDirectory("../ConfigExport/Excel/cs", clientProtoDir);
 
                 Log.Console("Export Excel Sucess!");
             }

@@ -7,7 +7,7 @@ namespace ET
     {
         public override byte[] Handle(NavmeshComponent.RecastFileLoader args)
         {
-            return File.ReadAllBytes(Path.Combine("../Config/Recast", args.Name));
+            return File.ReadAllBytes(Path.Combine("../ConfigExport/Recast", args.Name));
         }
     }
 }

@@ -14,10 +14,10 @@ namespace ET
             foreach (Type configType in configTypes)
             {
                 string configFilePath = null;
-                configFilePath = $"../Config/Excel/s/{configType.Name}.bytes";
+                configFilePath = $"../ConfigExport/Excel/s/{configType.Name}.bytes";
                 if (!File.Exists(configFilePath))
                 {
-                    configFilePath = $"../Config/Excel/cs/{configType.Name}.bytes";
+                    configFilePath = $"../ConfigExport/Excel/cs/{configType.Name}.bytes";
                 }
 
                 if (!File.Exists(configFilePath))
@@ -39,10 +39,10 @@ namespace ET
         public override async ETTask<byte[]> Handle(ConfigLoader.GetOneConfigBytes args)
         {
             string configFilePath = null;
-            configFilePath = $"../Config/Excel/s/{args.Type.Name}.bytes";
+            configFilePath = $"../ConfigExport/Excel/s/{args.Type.Name}.bytes";
             if (!File.Exists(configFilePath))
             {
-                configFilePath = $"../Config/Excel/cs/{args.Type.Name}.bytes";
+                configFilePath = $"../ConfigExport/Excel/cs/{args.Type.Name}.bytes";
             }
 
             if (!File.Exists(configFilePath))

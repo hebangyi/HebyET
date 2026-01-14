@@ -43,7 +43,7 @@ public class ProcessConfig : Singleton<ProcessConfig>,ISingletonAwake
     
     public void Load()
     {
-        var configPath = $"../Config/Process/{Options.Instance.ProcessConfig}";
+        var configPath = $"../ConfigExport/Process/{Options.Instance.ProcessConfig}";
         Log.Info($"开始加载服务器启动配置文件 : {configPath}");
         if (string.IsNullOrWhiteSpace(configPath))
         {
