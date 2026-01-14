@@ -129,7 +129,7 @@ message GizmosPlayerAOICell // IUnitEntityElemData
 // 未登录的常规协议
 
 //// 网络
-// ResponseType G2C_Ping
+// ResponseType G2C_Ping Battle BattleRole
 message C2G_Ping // ISessionRequest
 {
 	int32 RpcId = 1;
@@ -283,13 +283,13 @@ message B2C_PlayeBattleReday // IClientResponse
 }
 
 // 5.玩家准备好进入战斗
+// ResponseType B2C_PlayerUseSkill Battle BattleRole
 message C2B_PlayerUseSkill // IClientRequest
 {
     int32 RpcId = 99;
     int64 SkillId = 1;
 }
 
-// ResponseType B2C_PlayerUseSkill
 message B2C_PlayerUseSkill // IClientResponse
 {
     int32 RpcId = 97;

@@ -6,7 +6,6 @@ C2B_PlayerUploadDirtyElemData
 Main2NetBattleLogin
 C2B_Login
 C2B_PlayerReadyCompleted
-C2G_Ping
 C2G_Benchmark
 Main2NetLobbyLogin
 C2A_Login
@@ -24,3 +23,5 @@ ObjectUnLockRequest
 ObjectRemoveRequest
 ObjectGetRequest
 M2M_UnitTransferRequest
+C2G_Ping
+C2B_PlayerUseSkill

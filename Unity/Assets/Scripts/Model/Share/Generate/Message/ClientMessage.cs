@@ -815,7 +815,7 @@ this._CellIds.Clear();
     /// </summary>
     [MemoryPackable]
     [Message(ClientMessage.C2G_Ping)]
-    [ResponseType(nameof(G2C_Ping))]
+    [ResponseType(nameof(G2C_Ping), "Battle", "BattleRole")]
     public partial class C2G_Ping : MessageObject, ISessionRequest
     {
         private long m_InstanceId;
@@ -1530,6 +1530,7 @@ this._CellIds.Clear();
     // 5.玩家准备好进入战斗
     [MemoryPackable]
     [Message(ClientMessage.C2B_PlayerUseSkill)]
+    [ResponseType(nameof(B2C_PlayerUseSkill), "Battle", "BattleRole")]
     public partial class C2B_PlayerUseSkill : MessageObject, IClientRequest
     {
         private long m_InstanceId;
@@ -1561,7 +1562,6 @@ this._CellIds.Clear();
 
     [MemoryPackable]
     [Message(ClientMessage.B2C_PlayerUseSkill)]
-    [ResponseType(nameof(B2C_PlayerUseSkill))]
     public partial class B2C_PlayerUseSkill : MessageObject, IClientResponse
     {
         private long m_InstanceId;

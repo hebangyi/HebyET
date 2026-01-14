@@ -23,7 +23,17 @@ namespace ET.Client
             self.View.OpButton.TouchArea.onTouchBegin.Add(self.OnTouchBegin);
             self.View.OpButton.TouchArea.onTouchMove.Add(self.OnTouchMove);
             self.View.OpButton.TouchArea.onTouchEnd.Add(self.OnTouchEnd);
+            
+            
+            // 攻击按钮点击
+            self.View.BattleButton.button.onClick.Add(self.AttackBtnOnClick);
         }
+
+        public static void AttackBtnOnClick(this DlgFGUIBattleOperationMainView self, EventContext context)
+        {
+            MainPlayerHelper.OnClickAttack();
+        }
+
 
         // 第一次按下按钮
         public static void OnTouchBegin(this DlgFGUIBattleOperationMainView self, EventContext context)

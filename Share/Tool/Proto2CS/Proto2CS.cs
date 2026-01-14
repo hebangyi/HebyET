@@ -144,7 +144,12 @@ namespace ET
             bool isMsgStart = false;
             bool isUnitElementData = false;
             string msgName = "";
+            string responseTypeStr = "";
             string responseType = "";
+            string scene = "";
+            string entity = "";
+            
+            
             StringBuilder sbDispose = new();
             Regex responseTypeRegex = ResponseTypeRegex();
             foreach (string line in s.Split('\n'))
@@ -157,8 +162,26 @@ namespace ET
 
                 if (responseTypeRegex.IsMatch(newline))
                 {
-                    responseType = responseTypeRegex.Replace(newline, string.Empty);
-                    responseType = responseType.Trim().Split(' ')[0].TrimEnd('\r', '\n');
+                    responseTypeStr = responseTypeRegex.Replace(newline, string.Empty);
+                    string[] strArr = responseTypeStr.Trim().Split(' ');
+
+                    for (int i = 0; i < strArr.Length; i++)
+                    {
+                        if (i == 0)
+                        {
+                            responseType = strArr[i];    
+                        }
+
+                        if (i == 1)
+                        {
+                            scene = strArr[i];
+                        }
+
+                        if (i == 2)
+                        {
+                            entity = strArr[i];
+                        }
+                    }
                     continue;
                 }
 
@@ -195,7 +218,16 @@ namespace ET
 
                     sb.Append($"\t[MemoryPackable]\n");
                     sb.Append($"\t[Message({className}.{msgName})]\n");
-                    if (!string.IsNullOrEmpty(responseType))
+
+                    if (!string.IsNullOrEmpty(entity))
+                    {
+                        sb.Append($"\t[ResponseType(nameof({responseType}), \"{scene}\", \"{entity}\")]\n");
+                    }
+                    else if (!string.IsNullOrEmpty(scene))
+                    {
+                        sb.Append($"\t[ResponseType(nameof({responseType}), \"{scene}\")]\n");
+                    }
+                    else if (!string.IsNullOrEmpty(responseType))
                     {
                         sb.Append($"\t[ResponseType(nameof({responseType}))]\n");
                     }
@@ -259,7 +291,10 @@ namespace ET
                     if (newline.StartsWith('}'))
                     {
                         isMsgStart = false;
+                        responseTypeStr = "";
                         responseType = "";
+                        scene = "";
+                        entity = "";
 
                         // 加了no dispose则自己去定义dispose函数，不要自动生成
                         if (!newline.Contains("// no dispose"))

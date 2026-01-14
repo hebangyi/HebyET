@@ -17,7 +17,7 @@ namespace ET
             var battlePlayer = BattlePlayerCategory.Instance.GetOne();
             foreach (var skillId in battlePlayer.SkillIds)
             {
-                UnitEntityPlayerSkillDataItem unitEntityPlayerSkillDataItem = new UnitEntityPlayerSkillDataItem();
+                UnitEntityPlayerSkillDataItem unitEntityPlayerSkillDataItem = UnitEntityPlayerSkillDataItem.Create();
                 unitEntityPlayerSkillDataItem.SkillId = skillId;
                 unitEntityPlayerSkillDataItem.SkillStatusEnum = SkillStatusEnum.Ready;
                 

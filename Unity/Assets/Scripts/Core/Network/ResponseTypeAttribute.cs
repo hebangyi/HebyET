@@ -6,7 +6,7 @@ namespace ET
     {
         public string Type { get; }
 
-        public ResponseTypeAttribute(string type)
+        public ResponseTypeAttribute(string type, string scene = null, string entity = null)
         {
             this.Type = type;
         }

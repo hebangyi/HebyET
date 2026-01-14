@@ -11,10 +11,37 @@ namespace ET.Client
            
        }
 
-       public static void InitSkillData(UnitEntity unitEntity)
+       public static void InitSkillData(this PlayerClientSkillComponent self, UnitEntity unitEntity)
        {
+           // 清理数据
+           self.NormalAttackSkill = null;
+           
+           
            var unitEntityPlayerSkill = unitEntity.GetUnitEntityElemData<UnitEntityPlayerSkill>();
-           var skillId = unitEntityPlayerSkill.SkillId;
+           foreach (var skillDataItem in unitEntityPlayerSkill.SkillDataItems)
+           {
+               SkillStatusEnum skillStatusEnum = skillDataItem.SkillStatusEnum;
+               var skillConfig = SkillConfigCategory.Instance.GetById(skillDataItem.SkillId);
+               if (skillConfig.PlayerSkillTag == PlayerSkillTagEnum.NormalAttack)
+               {
+                   self.NormalAttackSkill = skillDataItem;
+               }
+           }
+       }
+
+       public static void OnClickAttack(this PlayerClientSkillComponent self, UnitEntity unitEntity)
+       {
+           if (self.NormalAttackSkill == null)
+           {
+               return;
+           }
+
+           Log.Info("发送普通技能");
+           /*
+           C2B_PlayerUseSkill playerUseSkill = C2B_PlayerUseSkill.Create();
+           playerUseSkill.SkillId = self.NormalAttackSkill.SkillId;
+           ClientBattleSenderComponent.Instance.Send(playerUseSkill);
+           */
        }
    }
 }

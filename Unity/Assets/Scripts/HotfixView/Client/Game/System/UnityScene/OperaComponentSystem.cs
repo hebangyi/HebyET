@@ -14,33 +14,6 @@ namespace ET.Client
         [EntitySystem]
         private static void Update(this OperaComponent self)
         {
-            var clientWorld = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
-            if (clientWorld == null)
-            {
-                return;
-            }
-
-            var mainPlayer = clientWorld.MainPlayer;
-            if (mainPlayer == null)
-            {
-                return;
-            }
-
-            /*if (self.OperaAngel != self.lastAngel)
-            {
-                var playerCacheDataComponent = mainPlayer.GetComponent<MyPlayerCacheDataComponent>();
-                if (playerCacheDataComponent == null)
-                {
-                    return;
-                }
-
-                int moveAngle = self.OperaAngel != -1000 ? self.OperaAngel - playerCacheDataComponent.CameraAngleOffSet : self.OperaAngel;
-                playerCacheDataComponent.TowardAngle = moveAngle;
-
-                ClientBattleSenderComponent.Instance.Send(message);
-                self.lastAngel = self.OperaAngel;
-            }*/
-
             if (Input.GetMouseButtonDown(1))
             {
                 /*if (Physics.Raycast(ray, out hit, 1000, self.mapMask))
@@ -59,13 +32,7 @@ namespace ET.Client
         /// <param name="angle"></param>
         public static void SetOperaMoveAngle(this OperaComponent self, int angle)
         {
-            var clientWorld = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
-            if (clientWorld == null)
-            {
-                return;
-            }
-
-            var mainPlayer = clientWorld.MainPlayer;
+            var mainPlayer = MainPlayerHelper.GetCurrentWorldMainPlayer();
             if (mainPlayer == null)
             {
                 return;
