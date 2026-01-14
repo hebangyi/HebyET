@@ -1561,6 +1561,7 @@ this._CellIds.Clear();
 
     [MemoryPackable]
     [Message(ClientMessage.B2C_PlayerUseSkill)]
+    [ResponseType(nameof(B2C_PlayerUseSkill))]
     public partial class B2C_PlayerUseSkill : MessageObject, IClientResponse
     {
         private long m_InstanceId;

@@ -289,6 +289,7 @@ message C2B_PlayerUseSkill // IClientRequest
     int64 SkillId = 1;
 }
 
+// ResponseType B2C_PlayerUseSkill
 message B2C_PlayerUseSkill // IClientResponse
 {
     int32 RpcId = 97;

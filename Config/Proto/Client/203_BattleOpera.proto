@@ -1,4 +1,5 @@
 // 5.玩家准备好进入战斗
+// ResponseType B2C_PlayerUseSkill
 message C2B_PlayerUseSkill // IClientRequest
 {
     int32 RpcId = 99;
