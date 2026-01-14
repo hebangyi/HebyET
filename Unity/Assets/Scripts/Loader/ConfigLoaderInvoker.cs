@@ -6,81 +6,32 @@ using UnityEngine;
 namespace ET
 {
     [Invoke]
-    public class GetAllConfigBytes: AInvokeHandler<ConfigLoader.GetAllConfigBytes, ETTask<Dictionary<Type, byte[]>>>
+    public class GetAllConfigBytes : AInvokeHandler<ConfigLoader.GetAllConfigTypes, ETTask<List<Type>>>
     {
-        public override async ETTask<Dictionary<Type, byte[]>> Handle(ConfigLoader.GetAllConfigBytes args)
+        public override async ETTask<List<Type>> Handle(ConfigLoader.GetAllConfigTypes args)
         {
-            Dictionary<Type, byte[]> output = new Dictionary<Type, byte[]>();
-            HashSet<Type> configTypes = CodeTypes.Instance.GetAttributeTypes(typeof (ConfigAttribute));
-            
-            if (Define.IsEditor)
+            List<Type> ret = new List<Type>();
+            HashSet<Type> configTypes = CodeTypes.Instance.GetAttributeTypes(typeof(ConfigAttribute));
+
+            foreach (var configType in configTypes)
             {
-                string ct = "cs";
-                GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
-                CodeMode codeMode = globalConfig.CodeMode;
-                switch (codeMode)
+                if (ResourcesComponent.Instance.IsAssetExist($"Assets/Bundles/Config/{configType.Name}.bytes"))
                 {
-                    case CodeMode.Client:
-                        ct = "c";
-                        break;
-                    case CodeMode.Server:
-                        ct = "s";
-                        break;
-                    case CodeMode.ClientServer:
-                        ct = "cs";
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-                List<string> startConfigs = new List<string>()
-                {
-                    "StartMachineConfigCategory", 
-                    "StartProcessConfigCategory", 
-                    "StartSceneConfigCategory", 
-                    "StartZoneConfigCategory",
-                };
-                foreach (Type configType in configTypes)
-                {
-                    string configFilePath;
-                    if (startConfigs.Contains(configType.Name))
-                    {
-                        configFilePath = $"../Config/Excel/{ct}/{Options.Instance.StartConfig}/{configType.Name}.bytes";    
-                    }
-                    else
-                    {
-                        configFilePath = $"../Config/Excel/{ct}/{configType.Name}.bytes";
-                    }
-                    output[configType] = File.ReadAllBytes(configFilePath);
-                }
-            }
-            else
-            {
-                foreach (Type type in configTypes)
-                {
-                    TextAsset v = await ResourcesComponent.Instance.LoadAssetAsync<TextAsset>($"Assets/Bundles/Config/{type.Name}.bytes");
-                    output[type] = v.bytes;
+                    ret.Add(configType);
                 }
             }
 
-            return output;
+            return ret;
         }
     }
-    
+
     [Invoke]
-    public class GetOneConfigBytes: AInvokeHandler<ConfigLoader.GetOneConfigBytes, ETTask<byte[]>>
+    public class GetOneConfigBytes : AInvokeHandler<ConfigLoader.GetOneConfigBytes, ETTask<byte[]>>
     {
         public override async ETTask<byte[]> Handle(ConfigLoader.GetOneConfigBytes args)
         {
-            string configName = args.Type.Name;
-                
-            string configFilePath = $"../Config/Excel/cs/{configName}.bytes";
-            if (!File.Exists(configFilePath))
-            {
-                configFilePath = $"../Config/Excel/c/{configName}.bytes";
-            }
-
-            await ETTask.CompletedTask;
-            return File.ReadAllBytes(configFilePath);
+            TextAsset v = await ResourcesComponent.Instance.LoadAssetAsync<TextAsset>($"Assets/Bundles/Config/{args.Type.Name}.bytes");
+            return v.bytes;
         }
     }
 }

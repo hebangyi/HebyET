@@ -5,13 +5,12 @@ using System.IO;
 namespace ET
 {
     [Invoke]
-    public class GetAllConfigBytes: AInvokeHandler<ConfigLoader.GetAllConfigTypes, ETTask<List<Type>>>
+    public class GetAllConfigTypes : AInvokeHandler<ConfigLoader.GetAllConfigTypes, ETTask<List<Type>>>
     {
-        
         public override async ETTask<List<Type>> Handle(ConfigLoader.GetAllConfigTypes args)
         {
             List<Type> ret = new List<Type>();
-            HashSet<Type> configTypes = CodeTypes.Instance.GetAttributeTypes(typeof (ConfigAttribute));
+            HashSet<Type> configTypes = CodeTypes.Instance.GetAttributeTypes(typeof(ConfigAttribute));
             foreach (Type configType in configTypes)
             {
                 string configFilePath = null;
@@ -20,12 +19,12 @@ namespace ET
                 {
                     configFilePath = $"../Config/Excel/cs/{configType.Name}.bytes";
                 }
-                
-                if(!File.Exists(configFilePath))
+
+                if (!File.Exists(configFilePath))
                 {
-                   continue; 
+                    continue;
                 }
-                
+
                 ret.Add(configType);
             }
 
@@ -33,11 +32,11 @@ namespace ET
             return ret;
         }
     }
-    
+
     [Invoke]
-    public class GetOneConfigBytes: AInvokeHandler<ConfigLoader.GetOneConfigBytes, byte[]>
+    public class GetOneConfigBytes : AInvokeHandler<ConfigLoader.GetOneConfigBytes, ETTask<byte[]>>
     {
-        public override byte[] Handle(ConfigLoader.GetOneConfigBytes args)
+        public override async ETTask<byte[]> Handle(ConfigLoader.GetOneConfigBytes args)
         {
             string configFilePath = null;
             configFilePath = $"../Config/Excel/s/{args.Type.Name}.bytes";
@@ -45,13 +44,14 @@ namespace ET
             {
                 configFilePath = $"../Config/Excel/cs/{args.Type.Name}.bytes";
             }
-                
-            if(!File.Exists(configFilePath))
+
+            if (!File.Exists(configFilePath))
             {
                 return new byte[] { };
             }
-            
+
             byte[] configBytes = File.ReadAllBytes(configFilePath);
+            await ETTask.CompletedTask;
             return configBytes;
         }
     }

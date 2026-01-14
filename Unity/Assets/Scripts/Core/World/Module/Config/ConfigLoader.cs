@@ -40,45 +40,18 @@ namespace ET
         public async ETTask LoadAsync()
         {
             
-
-/*#if DOTNET || UNITY_STANDALONE
-            using ListComponent<Task> listTasks = ListComponent<Task>.Create();
-
-            foreach (Type type in configBytes.Keys)
-            {
-                byte[] oneConfigBytes = configBytes[type];
-                // TODO 这里使用这种方式加载会让内存增加
-                Task task = Task.Run(() => LoadOneConfig(type, oneConfigBytes));
-                listTasks.Add(task);
-            }
-
-            await Task.WhenAll(listTasks.ToArray());
-#else
-#endif
-*/
-# if DOTNET
             List<Type> configTypes = await EventSystem.Instance.Invoke<GetAllConfigTypes, ETTask<List<Type>>>(new GetAllConfigTypes());
             foreach (var configType in configTypes)
             {
                 var bytes = await EventSystem.Instance.Invoke<GetOneConfigBytes, ETTask<byte[]>>(new GetOneConfigBytes(){ Type = configType});
                 LoadOneConfig(configType, bytes);
             }
-#else
-            Dictionary<Type, byte[]> configBytes = await EventSystem.Instance.Invoke<GetAllConfigBytes, ETTask<Dictionary<Type, byte[]>>>(new GetAllConfigBytes());
-            foreach (Type type in configBytes.Keys)
-            {
-                LoadOneConfig(type, configBytes[type]);
-            }
-
-#endif
         }
 
         private static void LoadOneConfig(Type configType, byte[] oneConfigBytes)
         {
             object category = MongoHelper.Deserialize(configType, oneConfigBytes, 0, oneConfigBytes.Length);
-            // TODO 条数不是bytes TODO 内存优雅加载
             Log.Info($"加载配置 [{configType.Name} 配置条数 [{oneConfigBytes.Length}]]");
-
             if (category is IBaseCategory baseCategory)
             {
                 baseCategory.AfterLoadData();
