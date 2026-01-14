@@ -74,7 +74,7 @@ namespace ET
 
         private const string CSClassDir = "../Unity/Assets/Scripts/Model/Share/Generate/Config";
 
-        private const string excelDir = "../Unity/Assets/Config/Excel/";
+        private const string excelDir = "../Config/Excel/";
 
         private const string jsonDir = "../ConfigExport/Json/{0}/";
         private const string serverProtoDir = "../ConfigExport/Excel/{0}/";

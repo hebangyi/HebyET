@@ -23,13 +23,13 @@ namespace ET
 
     public static partial class InnerProto2CS
     {
-        private const string clientProtoDir = "../Unity/Assets/Config/Proto/Client";
-        private const string clientOutputTempFilePath = "../Unity/Assets/Config/Proto/Temp/Client.proto";
+        private const string clientProtoDir = "../Config/Proto/Client";
+        private const string clientOutputTempFilePath = "../Config/Proto/Temp/Client.proto";
         
         
         
-        private const string serverProtoDir = "../Unity/Assets/Config/Proto/Server";
-        private const string serverOutputTempFilePath = "../Unity/Assets/Config/Proto/Temp/Server.proto";
+        private const string serverProtoDir = "../Config/Proto/Server";
+        private const string serverOutputTempFilePath = "../Config/Proto/Temp/Server.proto";
         
         
         private const string clientMessagePath = "../Unity/Assets/Scripts/Model/Client/Generate/Message/";
