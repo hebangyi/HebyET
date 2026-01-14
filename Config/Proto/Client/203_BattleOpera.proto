@@ -1,1 +1,13 @@
+// 5.玩家准备好进入战斗
+message C2B_PlayerUseSkill // IClientRequest
+{
+    int32 RpcId = 99;
+    int64 SkillId = 1;
+}
 
+message B2C_PlayerUseSkill // IClientResponse
+{
+    int32 RpcId = 97;
+	int32 Error = 98;
+	string Message = 99;
+}

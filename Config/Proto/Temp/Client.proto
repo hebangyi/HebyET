@@ -282,8 +282,19 @@ message B2C_PlayeBattleReday // IClientResponse
 	string Message = 3;
 }
 
+// 5.玩家准备好进入战斗
+message C2B_PlayerUseSkill // IClientRequest
+{
+    int32 RpcId = 99;
+    int64 SkillId = 1;
+}
 
-
+message B2C_PlayerUseSkill // IClientResponse
+{
+    int32 RpcId = 97;
+	int32 Error = 98;
+	string Message = 99;
+}
 
 
 //// 客户端Main向Lobby网络线程发送消息
