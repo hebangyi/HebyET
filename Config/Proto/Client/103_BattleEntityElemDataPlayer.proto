@@ -16,7 +16,13 @@ message UnitEntityCameraData // IUnitEntityElemData
 // 玩家技能
 message UnitEntityPlayerSkill // IUnitEntityElemData
 {
-    int32 SkillId = 1;
+    repeated UnitEntityPlayerSkillDataItem SkillDataItems = 1;   // 技能数据
+}
+
+// 玩家技能DataItem
+message UnitEntityPlayerSkillDataItem
+{
+    int64 SkillId = 1;
     SkillStatusEnum SkillStatusEnum = 2;    // 技能状态
     uint32 startFrame = 3;                  // 如果开始 技能当前的帧数是多少
 }

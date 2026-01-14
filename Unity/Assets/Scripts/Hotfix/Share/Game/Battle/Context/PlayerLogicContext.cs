@@ -11,8 +11,19 @@ namespace ET
             var unitEntityInitContext = unitEntity.GetComponent<UnitEntityInitContext>();
             unitEntity.CreateUnitEntityElemData<GizmosPlayerAOICell>();
             unitEntity.CreateUnitEntityElemData<UnitEntityCameraData>();
-            unitEntity.CreateUnitEntityElemData<UnitEntityPlayerSkill>();
-
+            // 设置技能
+            var unitEntityPlayerSkill = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerSkill>();
+            // TODO 随机配置
+            var battlePlayer = BattlePlayerCategory.Instance.GetOne();
+            foreach (var skillId in battlePlayer.SkillIds)
+            {
+                UnitEntityPlayerSkillDataItem unitEntityPlayerSkillDataItem = new UnitEntityPlayerSkillDataItem();
+                unitEntityPlayerSkillDataItem.SkillId = skillId;
+                unitEntityPlayerSkillDataItem.SkillStatusEnum = SkillStatusEnum.Ready;
+                
+                unitEntityPlayerSkill.SkillDataItems.Add(unitEntityPlayerSkillDataItem);
+            }
+            
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             unitEntityPosition.Position = new float2(0f, 0f);
             

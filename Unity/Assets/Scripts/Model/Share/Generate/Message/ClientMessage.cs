@@ -487,42 +487,17 @@ this._CameraAngleOffSet = default;
             return instance;
         }
 
-        private int _SkillId;
+        /// <summary>
+        /// 技能数据
+        /// </summary>
+        private List<UnitEntityPlayerSkillDataItem> _SkillDataItems = new();
 
         [MemoryPackOrder(0)]
-        public int SkillId
+        public List<UnitEntityPlayerSkillDataItem> SkillDataItems
         {
-            get => _SkillId;
+            get => _SkillDataItems;
             set {
-                _SkillId = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 技能状态
-        /// </summary>
-        private SkillStatusEnum _SkillStatusEnum;
-
-        [MemoryPackOrder(1)]
-        public SkillStatusEnum SkillStatusEnum
-        {
-            get => _SkillStatusEnum;
-            set {
-                _SkillStatusEnum = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
-            }
-        }
-        /// <summary>
-        /// 如果开始 技能当前的帧数是多少
-        /// </summary>
-        private uint _startFrame;
-
-        [MemoryPackOrder(2)]
-        public uint startFrame
-        {
-            get => _startFrame;
-            set {
-                _startFrame = value;
+                _SkillDataItems = value;
                 this.m_DirtyHandler?.Dirty(m_InstanceId, this);
             }
         }
@@ -536,9 +511,49 @@ this._CameraAngleOffSet = default;
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
             
-this._SkillId = default;
-            this._SkillStatusEnum = default;
-            this._startFrame = default;
+this._SkillDataItems.Clear();
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 玩家技能DataItem
+    [MemoryPackable]
+    [Message(ClientMessage.UnitEntityPlayerSkillDataItem)]
+    public partial class UnitEntityPlayerSkillDataItem : MessageObject
+    {
+        private long m_InstanceId;
+
+        public static UnitEntityPlayerSkillDataItem Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerSkillDataItem), isFromPool) as UnitEntityPlayerSkillDataItem;
+        }
+
+        [MemoryPackOrder(0)]
+        public long SkillId { get; set; }
+
+        /// <summary>
+        /// 技能状态
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public SkillStatusEnum SkillStatusEnum { get; set; }
+
+        /// <summary>
+        /// 如果开始 技能当前的帧数是多少
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public uint startFrame { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            this.SkillId = default;
+            this.SkillStatusEnum = default;
+            this.startFrame = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -2299,50 +2314,51 @@ this._CellIds.Clear();
         public const ushort UnitEntityPlayerInfo = 10008;
         public const ushort UnitEntityCameraData = 10009;
         public const ushort UnitEntityPlayerSkill = 10010;
-        public const ushort UnitEntityMapMessage = 10011;
-        public const ushort PlantInfo = 10012;
-        public const ushort CellInfo = 10013;
-        public const ushort GizmosPlantInfo = 10014;
-        public const ushort GizmosPlayerAOICell = 10015;
-        public const ushort C2G_Ping = 10016;
-        public const ushort G2C_Ping = 10017;
-        public const ushort C2G_Benchmark = 10018;
-        public const ushort G2C_Benchmark = 10019;
-        public const ushort Main2NetBattleLogin = 10020;
-        public const ushort NetBattle2MainLogin = 10021;
-        public const ushort C2B_Login = 10022;
-        public const ushort B2C_Login = 10023;
-        public const ushort C2B_PlayerReadyCompleted = 10024;
-        public const ushort B2C_PlayerReadyCompleted = 10025;
-        public const ushort C2B_PlayerGetAllAOIWorldData = 10026;
-        public const ushort B2C_PlayerGetAllAOIWorldData = 10027;
-        public const ushort C2B_PlayerBattleWorldPing = 10028;
-        public const ushort B2C_PlayerBattleWorldPing = 10029;
-        public const ushort L2C_PlayerAOIWorldDirtyPush = 10030;
-        public const ushort C2B_PlayerUploadDirtyElemData = 10031;
-        public const ushort B2C_PlayerUploadDirtyElemData = 10032;
-        public const ushort C2B_PlayeBattleReday = 10033;
-        public const ushort B2C_PlayeBattleReday = 10034;
-        public const ushort Main2NetLobbyLogin = 10035;
-        public const ushort NetLobby2MainLogin = 10036;
-        public const ushort C2A_Login = 10037;
-        public const ushort A2C_Login = 10038;
-        public const ushort C2L_LoginLobby = 10039;
-        public const ushort L2C_LoginLobby = 10040;
-        public const ushort G2C_SessionDisconnect = 10041;
-        public const ushort HttpGetRouterResponse = 10042;
-        public const ushort SyncDataUnitStruct = 10043;
-        public const ushort DataUnitBytes = 10044;
-        public const ushort C2L_GetAllDataUnits = 10045;
-        public const ushort L2C_GetAllDataUnits = 10046;
-        public const ushort L2C_SyncDirtyDataUnits = 10047;
-        public const ushort RoleInfoUnitData = 10048;
-        public const ushort C2L_StartMatchBattle = 10049;
-        public const ushort L2C_StartMatchBattle = 10050;
-        public const ushort L2C_MatchBattleSuccess = 10051;
-        public const ushort C2B_DebugStartWorld = 10052;
-        public const ushort B2C_DebugStartWorld = 10053;
-        public const ushort C2B_DebugWorldPlush = 10054;
-        public const ushort B2C_DebugWorldPlush = 10055;
+        public const ushort UnitEntityPlayerSkillDataItem = 10011;
+        public const ushort UnitEntityMapMessage = 10012;
+        public const ushort PlantInfo = 10013;
+        public const ushort CellInfo = 10014;
+        public const ushort GizmosPlantInfo = 10015;
+        public const ushort GizmosPlayerAOICell = 10016;
+        public const ushort C2G_Ping = 10017;
+        public const ushort G2C_Ping = 10018;
+        public const ushort C2G_Benchmark = 10019;
+        public const ushort G2C_Benchmark = 10020;
+        public const ushort Main2NetBattleLogin = 10021;
+        public const ushort NetBattle2MainLogin = 10022;
+        public const ushort C2B_Login = 10023;
+        public const ushort B2C_Login = 10024;
+        public const ushort C2B_PlayerReadyCompleted = 10025;
+        public const ushort B2C_PlayerReadyCompleted = 10026;
+        public const ushort C2B_PlayerGetAllAOIWorldData = 10027;
+        public const ushort B2C_PlayerGetAllAOIWorldData = 10028;
+        public const ushort C2B_PlayerBattleWorldPing = 10029;
+        public const ushort B2C_PlayerBattleWorldPing = 10030;
+        public const ushort L2C_PlayerAOIWorldDirtyPush = 10031;
+        public const ushort C2B_PlayerUploadDirtyElemData = 10032;
+        public const ushort B2C_PlayerUploadDirtyElemData = 10033;
+        public const ushort C2B_PlayeBattleReday = 10034;
+        public const ushort B2C_PlayeBattleReday = 10035;
+        public const ushort Main2NetLobbyLogin = 10036;
+        public const ushort NetLobby2MainLogin = 10037;
+        public const ushort C2A_Login = 10038;
+        public const ushort A2C_Login = 10039;
+        public const ushort C2L_LoginLobby = 10040;
+        public const ushort L2C_LoginLobby = 10041;
+        public const ushort G2C_SessionDisconnect = 10042;
+        public const ushort HttpGetRouterResponse = 10043;
+        public const ushort SyncDataUnitStruct = 10044;
+        public const ushort DataUnitBytes = 10045;
+        public const ushort C2L_GetAllDataUnits = 10046;
+        public const ushort L2C_GetAllDataUnits = 10047;
+        public const ushort L2C_SyncDirtyDataUnits = 10048;
+        public const ushort RoleInfoUnitData = 10049;
+        public const ushort C2L_StartMatchBattle = 10050;
+        public const ushort L2C_StartMatchBattle = 10051;
+        public const ushort L2C_MatchBattleSuccess = 10052;
+        public const ushort C2B_DebugStartWorld = 10053;
+        public const ushort B2C_DebugStartWorld = 10054;
+        public const ushort C2B_DebugWorldPlush = 10055;
+        public const ushort B2C_DebugWorldPlush = 10056;
     }
 }

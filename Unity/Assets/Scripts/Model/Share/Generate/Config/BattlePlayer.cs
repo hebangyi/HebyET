@@ -8,22 +8,22 @@ using System.ComponentModel;
 namespace ET
 {
     [Config]
-    public partial class SkillConfigCategory : BaseCategory<SkillConfigCategory>
+    public partial class BattlePlayerCategory : BaseCategory<BattlePlayerCategory>
     {
         [BsonElement]
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
-        private Dictionary<long, SkillConfig> dict = new();
+        private Dictionary<long, BattlePlayer> dict = new();
 		
         public override void Merge(object o)
         {
-            SkillConfigCategory s = o as SkillConfigCategory;
+            BattlePlayerCategory s = o as BattlePlayerCategory;
             foreach (var kv in s.dict)
             {
                 this.dict.Add(kv.Key, kv.Value);
             }
         }
 		
-        public SkillConfig GetById(long id)
+        public BattlePlayer GetById(long id)
         {
             return this.dict.GetValueOrDefault(id);
         }
@@ -33,12 +33,12 @@ namespace ET
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<long, SkillConfig> GetAll()
+        public Dictionary<long, BattlePlayer> GetAll()
         {
             return this.dict;
         }
 
-        public SkillConfig GetOne()
+        public BattlePlayer GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -51,14 +51,12 @@ namespace ET
         }
     }
 
-	public partial class SkillConfig: ProtoObject, IConfig
+	public partial class BattlePlayer: ProtoObject, IConfig
 	{
 		/// <summary>Id</summary>
 		public long Id { get; set; }
-		/// <summary>技能Tag</summary>
-		public PlayerSkillTagEnum PlayerSkillTag { get; set; }
-		/// <summary>技能CD</summary>
-		public int CD { get; set; }
+		/// <summary>普攻技能</summary>
+		public long[] SkillIds { get; set; }
 
 	}
 }
