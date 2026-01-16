@@ -95,18 +95,7 @@ namespace ET.Client
         
         public static void AddTargetCameraRotate(this UnitySceneCameraComponent self, int yAngle)
         {
-            var clientWorld = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
-            if (clientWorld == null)
-            {
-                return;
-            }
-            
-            
-            var mainPlayer = clientWorld.MainPlayer;
-            if (mainPlayer == null)
-            {
-                return;
-            }
+            var mainPlayer = MainPlayerHelper.GetCurrentWorldMainPlayer();
             
             var playerCacheDataComponent = mainPlayer.GetComponent<MyPlayerCacheDataComponent>();
             if (playerCacheDataComponent == null)
@@ -121,13 +110,7 @@ namespace ET.Client
 
         public static void CameraRotateUpdate(this UnitySceneCameraComponent self, long deleteTime)
         {
-            var clientWorld = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
-            if (clientWorld == null)
-            {
-                return;
-            }
-            
-            var mainPlayer = clientWorld.MainPlayer;
+            var mainPlayer = MainPlayerHelper.GetCurrentWorldMainPlayer();
             if (mainPlayer == null)
             {
                 return;

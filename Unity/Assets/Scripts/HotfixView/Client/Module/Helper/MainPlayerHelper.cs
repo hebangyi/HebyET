@@ -16,25 +16,27 @@
                 return null;
             }
 
-            return null;
+            return mainPlayer;
         }
         
         
         public static void OnClickAttack()
         {
-            var unitEntity = GetCurrentWorldMainPlayer();
-            if (unitEntity == null)
+            Log.Info("OnClickAttack");
+            var mainPlayer = GetCurrentWorldMainPlayer();
+            if (mainPlayer == null)
             {
                 return;
             }
             
-            var playerClientSkillComponent = unitEntity.GetComponent<PlayerClientSkillComponent>();
+            var playerClientSkillComponent = mainPlayer.GetComponent<PlayerClientSkillComponent>();
             if (playerClientSkillComponent == null)
             {
                 return;
             }
             
-            playerClientSkillComponent.OnClickAttack(unitEntity);
+            Log.Info("OnClickAttack1");
+            playerClientSkillComponent.OnClickAttack();
         }
     }    
 }

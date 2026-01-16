@@ -15,6 +15,13 @@ namespace ET.Client
         [EntitySystem]
         private static void Update(this ET.Client.ClientInputComponent self)
         {
+            var mainPlayer = MainPlayerHelper.GetCurrentWorldMainPlayer();
+            if (mainPlayer == null)
+            {
+                return;
+            }
+            
+            
             var operaComponent = UnitySceneManagerComponent.Instance.UnityScene?.GetComponent<OperaComponent>();
             if (operaComponent == null)
             {
@@ -30,19 +37,7 @@ namespace ET.Client
             {
                 operaComponent.AddCameraAngelOffset(-GameConstant.GameOperaAngle);
             }
-
-            var clientWorld = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
-            if (clientWorld == null)
-            {
-                return;
-            }
-
-            var mainPlayer = clientWorld.MainPlayer;
-            if (mainPlayer == null)
-            {
-                return;
-            }
-
+            
             var playerCacheDataComponent = mainPlayer.GetComponent<MyPlayerCacheDataComponent>();
             if (playerCacheDataComponent == null)
             {

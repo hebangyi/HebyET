@@ -50,17 +50,7 @@ namespace ET.Client
 
         public static void SetEndMoving(this OperaComponent self)
         {
-            var clientWorld = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
-            if (clientWorld == null)
-            {
-                return;
-            }
-
-            var mainPlayer = clientWorld.MainPlayer;
-            if (mainPlayer == null)
-            {
-                return;
-            }
+            var mainPlayer = MainPlayerHelper.GetCurrentWorldMainPlayer();
 
             var playerCacheDataComponent = mainPlayer.GetComponent<MyPlayerCacheDataComponent>();
             if (playerCacheDataComponent == null)

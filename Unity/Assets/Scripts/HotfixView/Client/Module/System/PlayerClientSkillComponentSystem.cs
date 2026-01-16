@@ -29,7 +29,7 @@ namespace ET.Client
            }
        }
 
-       public static void OnClickAttack(this PlayerClientSkillComponent self, UnitEntity unitEntity)
+       public static void OnClickAttack(this PlayerClientSkillComponent self)
        {
            if (self.NormalAttackSkill == null)
            {
