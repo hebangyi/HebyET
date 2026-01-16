@@ -9,7 +9,7 @@ namespace ET.Client
     public class FGUIBattleButton: FGUI, IAwake<GObject>, IDestroy
     {   
         //// 组件变量
-		public GImage button;
+		public GButton Attack;
 
     }
 }

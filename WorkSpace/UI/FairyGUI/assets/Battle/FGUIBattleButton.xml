@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="250,250">
   <displayList>
-    <image id="n0_i52o" name="button" src="i52o7" fileName="Resource/Button.png" xy="0,0" size="250,250">
-      <relation target="" sidePair="width-width%,height-height%,center-center,middle-middle"/>
-    </image>
+    <component id="n3_qpd6" name="Attack" src="qpd68" fileName="Attack.xml" xy="2,0" size="247,249"/>
   </displayList>
 </component>

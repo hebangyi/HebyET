@@ -16,7 +16,7 @@ namespace ET.Client
 	        self.FUIName = "FGUIBattleButton";
 			self.GObject = go;
             var com = go.asCom;
-			self.button = (GImage)com.GetChild("button");
+			self.Attack = (GButton)com.GetChild("Attack");
 
         }
         
@@ -24,7 +24,8 @@ namespace ET.Client
         [EntitySystem]
         public static void Destroy(this FGUIBattleButton self)
         {
-			self.button = null;
+			self.Attack?.Dispose();
+			self.Attack = null;
 
         }
     }

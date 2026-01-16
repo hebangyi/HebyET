@@ -98,7 +98,11 @@ namespace ET.Client
                 self.IsKeyDown = true;
                 return;
             }
-
+            
+            if (Input.GetKey(KeyCode.J))
+            {
+                MainPlayerHelper.OnClickAttack();
+            }
             
             if(self.IsKeyDown)
             {

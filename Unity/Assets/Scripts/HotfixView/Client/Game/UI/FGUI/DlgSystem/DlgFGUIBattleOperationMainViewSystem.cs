@@ -26,7 +26,7 @@ namespace ET.Client
             
             
             // 攻击按钮点击
-            self.View.BattleButton.button.onClick.Add(self.AttackBtnOnClick);
+            self.View.BattleButton.Attack.onClick.Add(self.AttackBtnOnClick);
         }
 
         public static void AttackBtnOnClick(this DlgFGUIBattleOperationMainView self, EventContext context)

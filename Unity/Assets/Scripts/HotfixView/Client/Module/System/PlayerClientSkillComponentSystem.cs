@@ -15,12 +15,10 @@ namespace ET.Client
        {
            // 清理数据
            self.NormalAttackSkill = null;
-           
-           
            var unitEntityPlayerSkill = unitEntity.GetUnitEntityElemData<UnitEntityPlayerSkill>();
            foreach (var skillDataItem in unitEntityPlayerSkill.SkillDataItems)
            {
-               SkillStatusEnum skillStatusEnum = skillDataItem.SkillStatusEnum;
+               Log.Info($"Skill Id : {skillDataItem.SkillId}");
                var skillConfig = SkillConfigCategory.Instance.GetById(skillDataItem.SkillId);
                if (skillConfig.PlayerSkillTag == PlayerSkillTagEnum.NormalAttack)
                {
@@ -36,12 +34,10 @@ namespace ET.Client
                return;
            }
 
-           Log.Info("发送普通技能");
-           /*
+           Log.Info($"发送普通技能 {self.NormalAttackSkill.SkillId}");
            C2B_PlayerUseSkill playerUseSkill = C2B_PlayerUseSkill.Create();
            playerUseSkill.SkillId = self.NormalAttackSkill.SkillId;
            ClientBattleSenderComponent.Instance.Send(playerUseSkill);
-           */
        }
    }
 }
