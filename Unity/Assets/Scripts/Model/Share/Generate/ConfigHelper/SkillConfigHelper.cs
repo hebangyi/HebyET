@@ -4,7 +4,10 @@
     {
         public override void AfterLoadData()
         {
-            Log.Info("AfterLoadData");
+            foreach (var skillConfig in this.dict.Values)
+            {
+                Log.Info($"skillConfig , Id :{skillConfig.Id}, PlayerSkillTag : {skillConfig.PlayerSkillTag}, CD : {skillConfig.CD}");    
+            }
         }
     }
 }

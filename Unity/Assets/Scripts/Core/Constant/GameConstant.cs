@@ -31,7 +31,7 @@
         
         
         public const int AOIWatchRadius = 100; // AOI 监听半径
-        
+        public const int LogicInterval = 10;
         
         public const float Rad2Deg = 57.29578f;
     }

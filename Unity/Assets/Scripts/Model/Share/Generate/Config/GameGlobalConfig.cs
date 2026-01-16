@@ -18,6 +18,16 @@ namespace ET
             GameGlobalConfigCategory s = o as GameGlobalConfigCategory;
             this.Config = s.Config;
         }
+        
+        
+        public override int Count()
+        {
+            if(Config == null)
+            {
+                return 0;
+            }
+            return 1;
+        }
     }
 
 	public partial class GameGlobalConfig: ProtoObject, IKeyConfig

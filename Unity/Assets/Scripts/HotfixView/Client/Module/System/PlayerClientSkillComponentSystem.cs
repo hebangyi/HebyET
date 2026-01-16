@@ -11,15 +11,23 @@ namespace ET.Client
            
        }
 
-       public static void InitSkillData(this PlayerClientSkillComponent self, UnitEntity unitEntity)
+       public static void InitSkillData(this PlayerClientSkillComponent self)
        {
            // 清理数据
+           UnitEntity unitEntity = self.GetParent<UnitEntity>();
+           
            self.NormalAttackSkill = null;
            var unitEntityPlayerSkill = unitEntity.GetUnitEntityElemData<UnitEntityPlayerSkill>();
            foreach (var skillDataItem in unitEntityPlayerSkill.SkillDataItems)
            {
                Log.Info($"Skill Id : {skillDataItem.SkillId}");
                var skillConfig = SkillConfigCategory.Instance.GetById(skillDataItem.SkillId);
+               if (skillConfig == null)
+               {
+                   Log.Error($"初始化角色技能失败 找不到技能ID : {skillDataItem.SkillId}");
+                   continue;
+               }
+               
                if (skillConfig.PlayerSkillTag == PlayerSkillTagEnum.NormalAttack)
                {
                    self.NormalAttackSkill = skillDataItem;

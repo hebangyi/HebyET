@@ -29,7 +29,7 @@ namespace ET.Client
                 
                 // 技能组件
                 var playerClientSkillComponent = unitEntity.AddComponent<PlayerClientSkillComponent>();
-                playerClientSkillComponent.InitSkillData(unitEntity);
+                playerClientSkillComponent.InitSkillData();
                 
                 // 修改Scene 世界组件
                 var unitySceneCameraComponent = unityScene.GetComponent<UnitySceneCameraComponent>();

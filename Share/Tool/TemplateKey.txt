@@ -18,6 +18,16 @@ namespace ET
             (ConfigName)Category s = o as (ConfigName)Category;
             this.Config = s.Config;
         }
+        
+        
+        public override int Count()
+        {
+            if(Config == null)
+            {
+                return 0;
+            }
+            return 1;
+        }
     }
 
 	public partial class (ConfigName): ProtoObject, IKeyConfig

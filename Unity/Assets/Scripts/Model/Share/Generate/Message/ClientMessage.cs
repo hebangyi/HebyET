@@ -39,7 +39,6 @@ namespace ET
             {
                 return;
             }
-
             this.Frame = default;
             this.WorldStatus = default;
 
@@ -76,7 +75,6 @@ namespace ET
             {
                 return;
             }
-
             this.InsId = default;
             this.EleDatas.Clear();
 
@@ -113,7 +111,6 @@ namespace ET
             {
                 return;
             }
-
             this.CompId = default;
             this.ElemDatas = default;
 
@@ -148,7 +145,7 @@ namespace ET
             get => _UnitEntityType;
             set {
                 _UnitEntityType = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         private UELayerTypeEnum _UELayerTypeEnum;
@@ -159,7 +156,7 @@ namespace ET
             get => _UELayerTypeEnum;
             set {
                 _UELayerTypeEnum = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         private Dictionary<string, string> _Datas = new();
@@ -171,7 +168,7 @@ namespace ET
             get => _Datas;
             set {
                 _Datas = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         /// <summary>
@@ -185,7 +182,7 @@ namespace ET
             get => _ConfigId;
             set {
                 _ConfigId = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         public override void Dispose()
@@ -194,18 +191,22 @@ namespace ET
             {
                 return;
             }
-
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
-            
-this._UnitEntityType = default;
+
+            this._UnitEntityType = default;
             this._UELayerTypeEnum = default;
             this._Datas.Clear();
-            
-this._ConfigId = default;
+            this._ConfigId = default;
 
             ObjectPool.Instance.Recycle(this);
         }
+
+        public void Dirty()
+        {
+            this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+        }
+
     }
 
     // 动画
@@ -235,7 +236,7 @@ this._ConfigId = default;
             get => _AnimateState;
             set {
                 _AnimateState = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         public override void Dispose()
@@ -244,14 +245,19 @@ this._ConfigId = default;
             {
                 return;
             }
-
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
-            
-this._AnimateState = default;
+
+            this._AnimateState = default;
 
             ObjectPool.Instance.Recycle(this);
         }
+
+        public void Dirty()
+        {
+            this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+        }
+
     }
 
     // 位置
@@ -281,7 +287,7 @@ this._AnimateState = default;
             get => _Position;
             set {
                 _Position = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         public override void Dispose()
@@ -290,14 +296,19 @@ this._AnimateState = default;
             {
                 return;
             }
-
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
-            
-this._Position = default;
+
+            this._Position = default;
 
             ObjectPool.Instance.Recycle(this);
         }
+
+        public void Dirty()
+        {
+            this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+        }
+
     }
 
     // 朝向角度
@@ -327,7 +338,7 @@ this._Position = default;
             get => _TowardAngle;
             set {
                 _TowardAngle = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         public override void Dispose()
@@ -336,14 +347,19 @@ this._Position = default;
             {
                 return;
             }
-
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
-            
-this._TowardAngle = default;
+
+            this._TowardAngle = default;
 
             ObjectPool.Instance.Recycle(this);
         }
+
+        public void Dirty()
+        {
+            this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+        }
+
     }
 
     /// <summary>
@@ -376,7 +392,7 @@ this._TowardAngle = default;
             get => _PlayerId;
             set {
                 _PlayerId = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         /// <summary>
@@ -390,7 +406,7 @@ this._TowardAngle = default;
             get => _IsOnline;
             set {
                 _IsOnline = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         /// <summary>
@@ -404,7 +420,7 @@ this._TowardAngle = default;
             get => _LastLoginTime;
             set {
                 _LastLoginTime = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         public override void Dispose()
@@ -413,16 +429,21 @@ this._TowardAngle = default;
             {
                 return;
             }
-
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
-            
-this._PlayerId = default;
+
+            this._PlayerId = default;
             this._IsOnline = default;
             this._LastLoginTime = default;
 
             ObjectPool.Instance.Recycle(this);
         }
+
+        public void Dirty()
+        {
+            this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+        }
+
     }
 
     // 玩家数据
@@ -452,7 +473,7 @@ this._PlayerId = default;
             get => _CameraAngleOffSet;
             set {
                 _CameraAngleOffSet = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         public override void Dispose()
@@ -461,14 +482,19 @@ this._PlayerId = default;
             {
                 return;
             }
-
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
-            
-this._CameraAngleOffSet = default;
+
+            this._CameraAngleOffSet = default;
 
             ObjectPool.Instance.Recycle(this);
         }
+
+        public void Dirty()
+        {
+            this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+        }
+
     }
 
     // 玩家技能
@@ -498,7 +524,7 @@ this._CameraAngleOffSet = default;
             get => _SkillDataItems;
             set {
                 _SkillDataItems = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         public override void Dispose()
@@ -507,14 +533,19 @@ this._CameraAngleOffSet = default;
             {
                 return;
             }
-
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
-            
-this._SkillDataItems.Clear();
+
+            this._SkillDataItems.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
+
+        public void Dirty()
+        {
+            this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+        }
+
     }
 
     // 玩家技能DataItem
@@ -550,7 +581,6 @@ this._SkillDataItems.Clear();
             {
                 return;
             }
-
             this.SkillId = default;
             this.SkillStatusEnum = default;
             this.startFrame = default;
@@ -589,7 +619,7 @@ this._SkillDataItems.Clear();
             get => _AreaSize;
             set {
                 _AreaSize = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         /// <summary>
@@ -603,7 +633,7 @@ this._SkillDataItems.Clear();
             get => _PlantInfo;
             set {
                 _PlantInfo = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         public override void Dispose()
@@ -612,15 +642,20 @@ this._SkillDataItems.Clear();
             {
                 return;
             }
-
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
-            
-this._AreaSize = default;
+
+            this._AreaSize = default;
             this._PlantInfo = default;
 
             ObjectPool.Instance.Recycle(this);
         }
+
+        public void Dirty()
+        {
+            this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+        }
+
     }
 
     [MemoryPackable]
@@ -646,7 +681,6 @@ this._AreaSize = default;
             {
                 return;
             }
-
             this.CellInfos.Clear();
 
             ObjectPool.Instance.Recycle(this);
@@ -679,7 +713,6 @@ this._AreaSize = default;
             {
                 return;
             }
-
             this.CenterPoint = default;
             this.Borders.Clear();
 
@@ -714,7 +747,7 @@ this._AreaSize = default;
             get => _CenterPoints;
             set {
                 _CenterPoints = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         /// <summary>
@@ -728,7 +761,7 @@ this._AreaSize = default;
             get => _Borders;
             set {
                 _Borders = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         /// <summary>
@@ -742,7 +775,7 @@ this._AreaSize = default;
             get => _AreaSize;
             set {
                 _AreaSize = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         public override void Dispose()
@@ -751,16 +784,21 @@ this._AreaSize = default;
             {
                 return;
             }
-
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
-            
-this._CenterPoints.Clear();
+
+            this._CenterPoints.Clear();
             this._Borders.Clear();
             this._AreaSize = default;
 
             ObjectPool.Instance.Recycle(this);
         }
+
+        public void Dirty()
+        {
+            this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+        }
+
     }
 
     // 玩家AOI辅助线
@@ -790,7 +828,7 @@ this._CenterPoints.Clear();
             get => _CellIds;
             set {
                 _CellIds = value;
-                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                this.Dirty();
             }
         }
         public override void Dispose()
@@ -799,14 +837,19 @@ this._CenterPoints.Clear();
             {
                 return;
             }
-
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
-            
-this._CellIds.Clear();
+
+            this._CellIds.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
+
+        public void Dirty()
+        {
+            this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+        }
+
     }
 
     // 未登录的常规协议
@@ -834,7 +877,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -870,7 +912,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -901,7 +942,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -934,7 +974,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -988,7 +1027,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.OwnerFiberId = default;
             this.RouterAddress = default;
@@ -1025,7 +1063,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -1059,7 +1096,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Token = default;
 
@@ -1093,7 +1129,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -1124,7 +1159,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -1157,7 +1191,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -1191,7 +1224,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -1242,7 +1274,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -1280,7 +1311,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.ClientTime = default;
 
@@ -1323,7 +1353,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -1382,7 +1411,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.LastSyncFrame = default;
             this.CurrentSyncFrame = default;
             this.AddUnitEntiities.Clear();
@@ -1421,7 +1449,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.BattleUnitEntity = default;
 
@@ -1455,7 +1482,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -1485,7 +1511,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -1518,7 +1543,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -1552,7 +1576,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.SkillId = default;
 
@@ -1586,7 +1609,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -1634,7 +1656,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.OwnerFiberId = default;
             this.Account = default;
@@ -1673,7 +1694,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -1717,7 +1737,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Account = default;
             this.Password = default;
@@ -1764,7 +1783,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -1803,7 +1821,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Token = default;
 
@@ -1840,7 +1857,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -1874,7 +1890,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.Error = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -1904,7 +1919,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.Routers.Clear();
             this.Accounts.Clear();
 
@@ -1944,7 +1958,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.Frame = default;
             this.DataUnitBytes.Clear();
 
@@ -1982,7 +1995,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.UnitId = default;
             this.UnitBytes = default;
 
@@ -2016,7 +2028,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -2055,7 +2066,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -2088,7 +2098,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.UnitStructData = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -2122,7 +2131,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.NickName = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -2157,7 +2165,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -2190,7 +2197,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -2235,7 +2241,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RouterAddress = default;
             this.BattleAddress = default;
             this.Token = default;
@@ -2265,7 +2270,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -2298,7 +2302,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;
@@ -2328,7 +2331,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -2361,7 +2363,6 @@ this._CellIds.Clear();
             {
                 return;
             }
-
             this.RpcId = default;
             this.Error = default;
             this.Message = default;

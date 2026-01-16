@@ -5,6 +5,12 @@ namespace ET.Server
     {
         protected override void Run(BattleRole battlerole, C2B_PlayerUseSkill request, B2C_PlayerUseSkill response)
         {
+            var skillId = request.SkillId;
+            
+            
+            
+            
+            
             Log.Info("使用技能");
         }
     }

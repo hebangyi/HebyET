@@ -38,6 +38,8 @@ namespace ET
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             var gizmosPlayerAOICell = unitEntity.GetUnitEntityElemData<GizmosPlayerAOICell>();
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
+            var unitEntityPlayerSkill = unitEntity.GetUnitEntityElemData<UnitEntityPlayerSkill>();
+            
             unitEntity.LogicWorld().PlayerId2Players[playerInfo.PlayerId] = unitEntity;
             
             // 随机选择一个地块
@@ -54,8 +56,11 @@ namespace ET
             
 
             unitEntity.AddComponent<PlayerAOISeeUnitEntity>();
+            var playerServerSkillComponent = unitEntity.AddComponent<PlayerServerSkillComponent>();
             unitEntity.AddComponent<AOIUnitEntity, float2, UETypeEnum>(unitEntityPosition.Position, UETypeEnum.Player);
             
+            
+            playerServerSkillComponent.InitSkillData();
             
             var cellIds = AOIHelper.GetAOICellIds(unitEntityPosition.Position);
             gizmosPlayerAOICell.CellIds.AddRange(cellIds);

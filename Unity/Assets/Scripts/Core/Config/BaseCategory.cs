@@ -4,13 +4,18 @@
     {
         public abstract void Merge(object o);
 
+        public abstract int Count();
+        
         public virtual void AfterLoadData()
         {
         }
+        
     }
 
     public interface IBaseCategory
     {
         void AfterLoadData();
+
+        int Count();
     }
 }

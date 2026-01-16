@@ -17,13 +17,12 @@ namespace ET
         // 下一次更新的时间
         public long NowMilliTime;
         public long NextUpdateMillTime;
-        public int Interval = 100;
 
         public float IntervalMillis
         {
             get
             {
-                return this.Interval * 1.0f / 1000;
+                return GameConstant.LogicInterval * 1.0f / 1000;
             }
         }
 

@@ -352,3 +352,4 @@ M2M_UnitTransferRequest
 M2M_UnitTransferResponse
 SceneNodeInfo
 ServerMessage
+PlayerServerSkillComponent

@@ -278,8 +278,8 @@ namespace ET
                             sb.Append($"\t\t\treturn instance;");
                             sb.Append($"\n\t\t}}\n\n");
                             
-                            sbDispose.AppendLine($"this.m_DirtyHandler = null;");
-                            sbDispose.AppendLine($"\t\t\tthis.m_InstanceId = default;\n\t\t\t");
+                            sbDispose.AppendLine($"\t\t\tthis.m_DirtyHandler = null;");
+                            sbDispose.AppendLine($"\t\t\tthis.m_InstanceId = default;\n");
                         }
                         else
                         {
@@ -299,7 +299,21 @@ namespace ET
                         // 加了no dispose则自己去定义dispose函数，不要自动生成
                         if (!newline.Contains("// no dispose"))
                         {
-                            sb.Append($"\t\tpublic override void Dispose()\n\t\t{{\n\t\t\tif (!this.IsFromPool)\n\t\t\t{{\n\t\t\t\treturn;\n\t\t\t}}\n\n\t\t\t{sbDispose.ToString().TrimEnd('\t')}\n\t\t\tObjectPool.Instance.Recycle(this);\n\t\t}}\n");
+                            sb.Append($"\t\tpublic override void Dispose()\n\t\t{{\n\t\t\tif (!this.IsFromPool)\n\t\t\t{{\n\t\t\t\treturn;\n\t\t\t}}\n{sbDispose.ToString().TrimEnd('\t')}\n\t\t\tObjectPool.Instance.Recycle(this);\n\t\t}}\n");
+                        }
+
+                        if (isUnitElementData)
+                        {
+                            sb.AppendLine();
+                            sb.AppendLine("""
+                                                  public void Dirty()
+                                                  {
+                                                      this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                                                  }
+                                          """);
+                                    
+                            
+                            sb.AppendLine();
                         }
 
                         sb.Append("\t}\n\n");
@@ -424,12 +438,12 @@ namespace ET
                                     get => _{{v}};
                                     set {
                                         _{{v}} = value;
-                                        this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                                        this.Dirty();
                                     }
                                 }
                         """);
 
-            sbDispose.AppendLine($"this._{v}.Clear();\n\t\t\t");
+            sbDispose.AppendLine($"\t\t\tthis._{v}.Clear();");
         }
         
         
@@ -450,7 +464,7 @@ namespace ET
             sb.Append($"\t\t[MemoryPackOrder({n - 1})]\n");
             sb.Append($"\t\tpublic Dictionary<{keyType}, {valueType}> {v} {{ get; set; }} = new();\n");
 
-            sbDispose.Append($"this.{v}.Clear();\n\t\t\t");
+            sbDispose.AppendLine($"\t\t\tthis.{v}.Clear();");
         }
 
         private static void UnitEntityElemDataRepeated(StringBuilder sb, string newline, StringBuilder sbDispose)
@@ -474,13 +488,13 @@ namespace ET
                                             get => _{{name}};
                                             set {
                                                 _{{name}} = value;
-                                                this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                                                this.Dirty();
                                             }
                                         }
                                 """);
                 
                 
-                sbDispose.Append($"this._{name}.Clear();\n\t\t\t");
+                sbDispose.AppendLine($"\t\t\tthis._{name}.Clear();");
             }
             catch (Exception e)
             {
@@ -503,7 +517,7 @@ namespace ET
                 sb.Append($"\t\t[MemoryPackOrder({n - 1})]\n");
                 sb.Append($"\t\tpublic List<{type}> {name} {{ get; set; }} = new();\n\n");
 
-                sbDispose.Append($"this.{name}.Clear();\n\t\t\t");
+                sbDispose.AppendLine($"\t\t\tthis.{name}.Clear();");
             }
             catch (Exception e)
             {
@@ -547,7 +561,7 @@ namespace ET
                                         get => _{{name}};
                                         set {
                                             _{{name}} = value;
-                                            this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+                                            this.Dirty();
                                         }
                                     }
                             """);
@@ -561,7 +575,7 @@ namespace ET
                         break;
                     }
                     default:
-                        sbDispose.Append($"this._{name} = default;\n\t\t\t");
+                        sbDispose.AppendLine($"\t\t\tthis._{name} = default;");
                         break;
                 }
             }
@@ -593,7 +607,7 @@ namespace ET
                         break;
                     }
                     default:
-                        sbDispose.Append($"this.{name} = default;\n\t\t\t");
+                        sbDispose.AppendLine($"\t\t\tthis.{name} = default;");
                         break;
                 }
             }

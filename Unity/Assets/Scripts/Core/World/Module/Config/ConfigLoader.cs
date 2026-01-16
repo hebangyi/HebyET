@@ -51,9 +51,10 @@ namespace ET
         private static void LoadOneConfig(Type configType, byte[] oneConfigBytes)
         {
             object category = MongoHelper.Deserialize(configType, oneConfigBytes, 0, oneConfigBytes.Length);
-            Log.Info($"加载配置 [{configType.Name} 配置条数 [{oneConfigBytes.Length}]]");
+            
             if (category is IBaseCategory baseCategory)
             {
+                Log.Info($"加载配置 [{configType.Name} 配置size [{oneConfigBytes.Length}]] 配置条数 [{baseCategory.Count()}]");
                 baseCategory.AfterLoadData();
             }
             

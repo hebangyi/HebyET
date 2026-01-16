@@ -179,11 +179,11 @@ public static partial class BattleWorldManagerComponentSystem
             
             if (world.NextUpdateMillTime == 0)
             {
-                world.NextUpdateMillTime = now + world.Interval;    
+                world.NextUpdateMillTime = now + GameConstant.LogicInterval;    
             }
             else
             {
-                world.NextUpdateMillTime += world.Interval;
+                world.NextUpdateMillTime += GameConstant.LogicInterval;
             }
             world.Tick();
             self.UpdateQueue.AddLast(world);

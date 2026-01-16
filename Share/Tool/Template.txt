@@ -49,6 +49,11 @@ namespace ET
             enumerator.MoveNext();
             return enumerator.Current; 
         }
+        
+        public override int Count()
+        {
+            return this.dict.Count;
+        }
     }
 
 	public partial class (ConfigName): ProtoObject, IConfig
