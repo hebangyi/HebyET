@@ -24,5 +24,5 @@ message UnitEntityPlayerSkillDataItem
 {
     int64 SkillId = 1;
     SkillStatusEnum SkillStatusEnum = 2;    // 技能状态
-    uint32 startFrame = 3;                  // 如果开始 技能当前的帧数是多少
+    uint32 ActiveFrame = 3;                  // 如果开始 技能当前的帧数是多少
 }

@@ -123,6 +123,18 @@ public static class BattleRoleHelper
         return role.GetComponent<BattleRoleWorldManagerComponent>()?.World;
     }
 
+    public static UnitEntity WorldPlayer(this BattleRole battleRole)
+    {
+        var world = battleRole.GetComponent<BattleRoleWorldManagerComponent>()?.World;
+        if (world != null)
+        {
+            return UnitPlayerHelper.GetPlayerUnitEntityByPlayerId(world, battleRole.RoleId);
+        }
+        
+        return null;
+    }
+    
+
     public static BattleRole GetByRoleId(this BattleRoleComponent self, long roleId)
     {
         return self.BattleRoles.GetValueOrDefault(roleId);

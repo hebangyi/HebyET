@@ -40,8 +40,7 @@ namespace ET
        // 使用技能
        public static void PlayerUseSkill(this PlayerServerSkillComponent self, long skillId)
        {
-           // TODO 判断Skill执行
-           
+           // TODO 判断Skill执行器执行
            UnitEntity unitEntity = self.GetParent<UnitEntity>();
            unitEntity.LogicWorld();
            
@@ -51,7 +50,7 @@ namespace ET
            var skillDataItem = skillDataItems.FirstOrDefault(x => x.SkillId == skillId);
            // 激活状态
            skillDataItem.SkillStatusEnum = SkillStatusEnum.Active;
-           skillDataItem.s
+           skillDataItem.ActiveFrame = unitEntity.LogicWorld().Frame;
            
            unitEntityPlayerSkill.Dirty();
        }

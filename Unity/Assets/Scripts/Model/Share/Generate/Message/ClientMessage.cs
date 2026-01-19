@@ -573,7 +573,7 @@ namespace ET
         /// 如果开始 技能当前的帧数是多少
         /// </summary>
         [MemoryPackOrder(2)]
-        public uint startFrame { get; set; }
+        public uint ActiveFrame { get; set; }
 
         public override void Dispose()
         {
@@ -583,7 +583,7 @@ namespace ET
             }
             this.SkillId = default;
             this.SkillStatusEnum = default;
-            this.startFrame = default;
+            this.ActiveFrame = default;
 
             ObjectPool.Instance.Recycle(this);
         }
