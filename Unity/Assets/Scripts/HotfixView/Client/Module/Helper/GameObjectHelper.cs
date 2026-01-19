@@ -28,6 +28,10 @@ namespace ET.Client
             string monsterAssetsName = $"Assets/Bundles/Unit/UnitMonster.prefab";
             GameObject monsterGameObject = await clientWorld.Root().GetComponent<ResourcesLoaderComponent>().LoadAssetAsync<GameObject>(monsterAssetsName);
             clientWorld.UnitMonsterGameObject = monsterGameObject;
+            
+            string playerAssetsName = $"Assets/Bundles/Unit/UnitPlayer.prefab";
+            GameObject playerGameObject = await clientWorld.Root().GetComponent<ResourcesLoaderComponent>().LoadAssetAsync<GameObject>(playerAssetsName);
+            clientWorld.UnitPlayerGameObject = playerGameObject;
         }
 
 
@@ -56,6 +60,13 @@ namespace ET.Client
                 
                 name = $"{unitEntityType}_{monsterConfig.Name}_{monsterConfig.AssetName}_{unitEntity.InsId}";
                 toGameObject = clientWorld.UnitMonsterGameObject.Get<GameObject>(monsterConfig.AssetName);
+            }
+            else if (unitEntityType == UETypeEnum.Player)
+            {
+                var battlePlayerConfig = BattlePlayerConfigCategory.Instance.GetOne();
+                
+                name = $"{unitEntityType}_{battlePlayerConfig.Asset}_{unitEntity.InsId}";
+                toGameObject = clientWorld.UnitPlayerGameObject.Get<GameObject>(battlePlayerConfig.Asset);
             }
             else
             {

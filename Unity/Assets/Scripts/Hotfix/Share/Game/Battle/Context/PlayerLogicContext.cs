@@ -14,7 +14,7 @@ namespace ET
             // 设置技能
             var unitEntityPlayerSkill = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerSkill>();
             // TODO 随机配置
-            var battlePlayer = BattlePlayerCategory.Instance.GetOne();
+            var battlePlayer = BattlePlayerConfigCategory.Instance.GetOne();
             foreach (var skillId in battlePlayer.SkillIds)
             {
                 UnitEntityPlayerSkillDataItem unitEntityPlayerSkillDataItem = UnitEntityPlayerSkillDataItem.Create();
