@@ -22,9 +22,8 @@
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
         public const int GameOperaAngle = 45;  // 相机与地面角度
-        public const int FixedUpdateDeltaTime = 20; // 固定更新 20ms FixedUpdate
+        public const int FixedUpdateDeltaTime = 20; // 固定更新 20ms FixedUpdate 每秒50次更新
         public const int CameraRotationSpeed = 300; // 300ms 旋转90度
-        
         
         public const int AOICellSize = 50;  // AOI 网格
         public const int AOIWatchCellRadius = 5; // AOI 监听的Cell半径数

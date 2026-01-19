@@ -56,8 +56,20 @@ namespace ET.Client
                 r.velocity = Vector2.zero;
             }
         }
-        
-        
+
+
+        public static void PlayerMove()
+        {
+            
+        }
+
+        public static void PlayerStop()
+        {
+            
+        }
+
+
+
         private static void UpdateView(this MyPlayerCacheDataComponent self)
         {
             var unitEntity = self.GetParent<UnitEntity>();

@@ -56,7 +56,7 @@ public static partial class BattleWorldManagerComponentSystem
         var unitEntityMapMessage = unitEntityPlant.GetUnitEntityElemData<UnitEntityMapMessage>();
         foreach (var cellInfo in unitEntityMapMessage.PlantInfo.CellInfos)
         {
-            long monsterId = RandomHelper.NextLong(1, 11);
+            long monsterId = RandomHelper.NextLong(1, 4);
             UnitTreeHelper.Create(world, cellInfo.CenterPoint);
             UnitMonsterHelper.Create(world, monsterId, cellInfo.CenterPoint + new float2(10, 0));
         }
