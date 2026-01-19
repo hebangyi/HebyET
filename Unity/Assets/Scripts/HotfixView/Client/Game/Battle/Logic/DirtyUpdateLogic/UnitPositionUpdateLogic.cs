@@ -3,21 +3,18 @@
 namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class UnitEntityPositionUpdate : IClientEleUpdate
+    public class UnitEntityPositionUpdate : BaseClientEleLogic<UnitEntityPosition>
     {
-        public ushort WatchComponentId()
+        public override void OnInit(UnitEntity unitEntity)
         {
-            return OpcodeType.Instance.GetOpcode(typeof(UnitEntityPosition));
         }
 
-        public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData)
+        public override void OnDestroy(UnitEntity unitEntity)
         {
-            var unitEntityPosition = newData as UnitEntityPosition;
-            if (unitEntityPosition == null)
-            {
-                return;
-            }
+        }
 
+        public override void OnUpdateT(UnitEntity unitEntity, UnitEntityPosition oldData, UnitEntityPosition newData)
+        {
             // 自己的玩家ID 不更新
             var clientWorld = unitEntity.ClientWorld();
             if (clientWorld.MainPlayerId == unitEntity.Id)
@@ -31,7 +28,7 @@ namespace ET.Client
             {
                 // TODO 平移更新
                 unitEntityGameObjectComponent.GameObject.transform.position =
-                        new Vector3(unitEntityPosition.Position.x, unitEntityPosition.Position.y, 0);
+                        new Vector3(newData.Position.x, newData.Position.y, 0);
             }
         }
     }

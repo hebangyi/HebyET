@@ -1,14 +1,17 @@
 ﻿namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class UnitEntityTowardAngleClientEleUpdate: IClientEleUpdate
+    public class UnitEntityTowardAngleClientEleUpdate: BaseClientEleLogic<UnitEntityTowardAngle>
     {
-        public ushort WatchComponentId()
+        public override void OnInit(UnitEntity unitEntity)
         {
-            return OpcodeType.Instance.GetOpcode(typeof(UnitEntityTowardAngle));
         }
 
-        public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData)
+        public override void OnDestroy(UnitEntity unitEntity)
+        {
+        }
+
+        public override void OnUpdateT(UnitEntity unitEntity, UnitEntityTowardAngle oldData, UnitEntityTowardAngle newData)
         {
             var clientWorld = unitEntity.ClientWorld();
             var playerCacheDataComponent = clientWorld.MainPlayer.GetComponent<MyPlayerCacheDataComponent>();

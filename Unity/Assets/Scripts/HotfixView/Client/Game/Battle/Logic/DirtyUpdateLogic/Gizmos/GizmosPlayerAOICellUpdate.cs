@@ -3,24 +3,22 @@
 namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class GizmosPlayerAOICellUpdate: IClientEleUpdate, IClientEleInit
+    public class GizmosPlayerAOICellUpdate: BaseClientEleLogic<GizmosPlayerAOICell>
     {
-        public ushort WatchComponentId()
-        {
-            return OpcodeType.Instance.GetOpcode(typeof(GizmosPlayerAOICell));
-        }
-
-        public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData)
+        public override void OnUpdateT(UnitEntity unitEntity, GizmosPlayerAOICell oldData, GizmosPlayerAOICell newData)
         {
             SetGizmos(unitEntity);
         }
 
-        public void OnInit(UnitEntity unitEntity)
+        public override void OnInit(UnitEntity unitEntity)
         {
             SetGizmos(unitEntity);
         }
-
-
+        
+        public override void OnDestroy(UnitEntity unitEntity)
+        {
+        }
+        
         public void SetGizmos(UnitEntity unitEntity)
         {
             var gizmosPlayerAOICell = unitEntity.GetUnitEntityElemData<GizmosPlayerAOICell>();
@@ -41,9 +39,6 @@ namespace ET.Client
             }
         }
         
-        public void OnDestroy(UnitEntity unitEntity)
-        {
-        }
     }
 }
 

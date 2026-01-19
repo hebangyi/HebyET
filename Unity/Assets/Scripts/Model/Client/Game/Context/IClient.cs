@@ -23,9 +23,30 @@
 
     public interface IClientEleUpdate : IClient
     {
-  
         public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData);
     }
+
+    public abstract class BaseClientEleLogic<T> : IClientEleInit, IClientEleUpdate where T : class
+    {
+        public ushort WatchComponentId()
+        {
+            return OpcodeType.Instance.GetOpcode(typeof(T));
+        }
+        
+        public abstract void OnInit(UnitEntity unitEntity);
+
+        public abstract void OnDestroy(UnitEntity unitEntity);
+
+        public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData)
+        {
+            var oldT = oldData as T;
+            var newT = oldData as T;
+            this.OnUpdateT(unitEntity, oldT, newT);
+        }
+
+        public abstract void OnUpdateT(UnitEntity unitEntity, T oldData, T newData);
+    }
+    
     
     
     public interface IClientUnitEntityContext

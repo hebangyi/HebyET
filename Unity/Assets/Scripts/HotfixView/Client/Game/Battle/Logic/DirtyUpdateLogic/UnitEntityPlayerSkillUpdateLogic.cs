@@ -1,14 +1,17 @@
 ﻿namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class UnitEntityPlayerSkillUpdateLogic: IClientEleUpdate
+    public class UnitEntityPlayerSkillUpdateLogic: BaseClientEleLogic<UnitEntityPlayerSkill>
     {
-        public ushort WatchComponentId()
+        public override void OnInit(UnitEntity unitEntity)
         {
-            return OpcodeType.Instance.GetOpcode(typeof(UnitEntityPlayerSkill));
         }
 
-        public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData)
+        public override void OnDestroy(UnitEntity unitEntity)
+        {
+        }
+
+        public override void OnUpdateT(UnitEntity unitEntity, UnitEntityPlayerSkill oldData, UnitEntityPlayerSkill newData)
         {
             var playerClientSkillComponent = unitEntity.GetComponent<PlayerClientSkillComponent>();
             Log.Info("技能Dirty");

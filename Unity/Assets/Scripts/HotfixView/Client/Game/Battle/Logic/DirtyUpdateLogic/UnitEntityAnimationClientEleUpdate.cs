@@ -1,14 +1,17 @@
 ﻿namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class UnitEntityAnimationClientEleUpdate : IClientEleUpdate
+    public class UnitEntityAnimationClientEleUpdate : BaseClientEleLogic<UnitEntityAnimation>
     {
-        public ushort WatchComponentId()
+        public override void OnInit(UnitEntity unitEntity)
         {
-            return OpcodeType.Instance.GetOpcode(typeof(UnitEntityAnimation));
         }
 
-        public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData)
+        public override void OnDestroy(UnitEntity unitEntity)
+        {
+        }
+        
+        public override void OnUpdateT(UnitEntity unitEntity, UnitEntityAnimation oldData, UnitEntityAnimation newData)
         {
             var spineAnimation = unitEntity.GetSpineAnimation();
             if (spineAnimation == null)
