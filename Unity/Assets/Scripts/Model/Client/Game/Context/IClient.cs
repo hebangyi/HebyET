@@ -14,10 +14,10 @@
     public interface IClientEleInit : IClient
     {
         // 创建初始化Entity的时触发
-        void OnInit(UnitEntity unitEntity);
+        void OnInit(UnitEntity unitEntity, object eleData);
 
         // 在销毁的时候触发
-        void OnDestroy(UnitEntity unitEntity);
+        void OnDestroy(UnitEntity unitEntity, object eleData);
     }
 
 
@@ -32,10 +32,22 @@
         {
             return OpcodeType.Instance.GetOpcode(typeof(T));
         }
-        
-        public abstract void OnInit(UnitEntity unitEntity);
 
-        public abstract void OnDestroy(UnitEntity unitEntity);
+        public void OnInit(UnitEntity unitEntity, object eleData)
+        {
+            var elemData = eleData as T;
+            OnInitT(unitEntity, elemData);
+        }
+
+        public void OnDestroy(UnitEntity unitEntity, object eleData)
+        {
+            var elemData = eleData as T;
+            OnDestroyT(unitEntity, elemData);
+        }
+        
+        public abstract void OnInitT(UnitEntity unitEntity, T elemData);
+
+        public abstract void OnDestroyT(UnitEntity unitEntity, T elemData);
 
         public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData)
         {
@@ -45,6 +57,7 @@
         }
 
         public abstract void OnUpdateT(UnitEntity unitEntity, T oldData, T newData);
+
     }
     
     

@@ -47,5 +47,6 @@ public class C2B_PlayerGetAllAOIWorldDataHandler : MessageClientHandler<BattleRo
         response.BattleFieldUnitEntity.Add(logicWorld.PlantMessageUnitEntity.ToBattleUnitEntity());
         response.BattleFieldUnitEntity.Add(logicWorld.GizmosDebugUnitEntity.ToBattleUnitEntity());
         response.BattleWorld.Frame = battleRole.LastSyncWorldFrame;
+        response.LogicInterval = GameConstant.LogicInterval;
     }
 }

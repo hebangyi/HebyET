@@ -5,6 +5,6 @@
         Idle = 0,
         Walk,
         Run,
-        Attack,
+        Skill,
     }
 }

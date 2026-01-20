@@ -5,7 +5,12 @@ namespace ET.Client
     [UnitEntityViewLogic]
     public class CommonDataEleInitLogic: IClientEleInit
     {
-        public void OnInit(UnitEntity unitEntity)
+        public ushort WatchComponentId()
+        {
+            return OpcodeType.Instance.GetOpcode(typeof(UnitEntityCommonData));
+        }
+
+        public void OnInit(UnitEntity unitEntity, object eleData)
         {
             var unitEntityElemData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
             var clientWorld = unitEntity.ClientWorld();
@@ -17,7 +22,7 @@ namespace ET.Client
             }
         }
 
-        public void OnDestroy(UnitEntity unitEntity)
+        public void OnDestroy(UnitEntity unitEntity, object eleData)
         {
             var unitEntityElemData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
             var clientWorld = unitEntity.ClientWorld();
@@ -26,11 +31,6 @@ namespace ET.Client
             {
                 clientWorld.EvnUnitEntities.Remove(unitEntity.Id);
             }
-        }
-
-        public ushort WatchComponentId()
-        {
-            return OpcodeType.Instance.GetOpcode(typeof(UnitEntityCommonData));
         }
     }
 }

@@ -15,8 +15,8 @@ namespace ET
             unitEntityCommonData.UnitEntityType = ueTypeEnum;
             unitEntityCommonData.UELayerTypeEnum = layerType;
             
-            // 动画
-            var unitEntityAnimation = unitEntity.CreateUnitEntityElemData<UnitEntityAnimation>();
+            // 动画状态信息
+            var unitEntityAnimation = unitEntity.CreateUnitEntityElemData<UnitEntityAnimationStateData>();
             unitEntityAnimation.AnimateState = AnimateStateEnum.Idle;
             
             // 朝向角度

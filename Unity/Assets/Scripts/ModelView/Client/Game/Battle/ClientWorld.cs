@@ -13,7 +13,11 @@ namespace ET.Client
         
         public Dictionary<long, UnitEntity> EvnUnitEntities = new ();
         
+        // 逻辑帧
         public uint Frame;
+
+        // 逻辑帧间隔
+        public int LogicInterval;
         
         // 我的玩家信息
         public UnitEntity MainPlayer;

@@ -6,7 +6,7 @@
         public void Enter(MonsterStateMachineComponent component)
         {
             var unitEntity = component.GetParent<UnitEntity>();
-            unitEntity.ChangeAnimateStatus(AnimateStateEnum.Attack);
+            unitEntity.ChangeAnimateStatus(AnimateStateEnum.Skill);
         }
 
         public void Execute(MonsterStateMachineComponent component)

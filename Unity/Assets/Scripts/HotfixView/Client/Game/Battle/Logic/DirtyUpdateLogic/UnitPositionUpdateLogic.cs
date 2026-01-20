@@ -5,11 +5,11 @@ namespace ET.Client
     [UnitEntityViewLogic]
     public class UnitEntityPositionUpdate : BaseClientEleLogic<UnitEntityPosition>
     {
-        public override void OnInit(UnitEntity unitEntity)
+        public override void OnInitT(UnitEntity unitEntity, UnitEntityPosition elemData)
         {
         }
 
-        public override void OnDestroy(UnitEntity unitEntity)
+        public override void OnDestroyT(UnitEntity unitEntity, UnitEntityPosition elemData)
         {
         }
 

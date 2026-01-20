@@ -209,17 +209,17 @@ namespace ET
 
     }
 
-    // 动画
+    // 动画状态
     [MemoryPackable]
-    [Message(ClientMessage.UnitEntityAnimation)]
-    public partial class UnitEntityAnimation : MessageObject, IUnitEntityElemData
+    [Message(ClientMessage.UnitEntityAnimationStateData)]
+    public partial class UnitEntityAnimationStateData : MessageObject, IUnitEntityElemData
     {
         private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
-        public static UnitEntityAnimation Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        public static UnitEntityAnimationStateData Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
         {
-            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityAnimation), isFromPool) as UnitEntityAnimation;
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityAnimationStateData), isFromPool) as UnitEntityAnimationStateData;
             instance.m_DirtyHandler = dirtyHandler;
             instance.m_InstanceId = instanceId;
             return instance;
@@ -239,6 +239,20 @@ namespace ET
                 this.Dirty();
             }
         }
+        /// <summary>
+        /// 当前状态开始的逻辑帧
+        /// </summary>
+        private uint _CurrentStateStartFrame;
+
+        [MemoryPackOrder(1)]
+        public uint CurrentStateStartFrame
+        {
+            get => _CurrentStateStartFrame;
+            set {
+                _CurrentStateStartFrame = value;
+                this.Dirty();
+            }
+        }
         public override void Dispose()
         {
             if (!this.IsFromPool)
@@ -249,6 +263,7 @@ namespace ET
             this.m_InstanceId = default;
 
             this._AnimateState = default;
+            this._CurrentStateStartFrame = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -1268,6 +1283,12 @@ namespace ET
         [MemoryPackOrder(6)]
         public BattleUnitEntity MyPlayerUnitEntity { get; set; }
 
+        /// <summary>
+        /// 逻辑间隔
+        /// </summary>
+        [MemoryPackOrder(7)]
+        public int LogicInterval { get; set; }
+
         public override void Dispose()
         {
             if (!this.IsFromPool)
@@ -1281,6 +1302,7 @@ namespace ET
             this.AOIBattleUnitEntity.Clear();
             this.BattleFieldUnitEntity.Clear();
             this.MyPlayerUnitEntity = default;
+            this.LogicInterval = default;
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -2377,7 +2399,7 @@ namespace ET
         public const ushort BattleUnitEntity = 10002;
         public const ushort UnitEntityElemData = 10003;
         public const ushort UnitEntityCommonData = 10004;
-        public const ushort UnitEntityAnimation = 10005;
+        public const ushort UnitEntityAnimationStateData = 10005;
         public const ushort UnitEntityPosition = 10006;
         public const ushort UnitEntityTowardAngle = 10007;
         public const ushort UnitEntityPlayerInfo = 10008;

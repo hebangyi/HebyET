@@ -16,7 +16,8 @@ message B2C_PlayerGetAllAOIWorldData // IClientResponse
     BattleWorld BattleWorld = 4;
     repeated BattleUnitEntity AOIBattleUnitEntity = 5;
     repeated BattleUnitEntity BattleFieldUnitEntity = 6;    // 环境相关的UnitEntity 变化
-    BattleUnitEntity MyPlayerUnitEntity = 7; // 我的UnitEntity
+    BattleUnitEntity MyPlayerUnitEntity = 7;                // 我的UnitEntity
+    int32 LogicInterval = 8;                                // 逻辑间隔
 }
 
 // 2.战斗场景玩家心跳

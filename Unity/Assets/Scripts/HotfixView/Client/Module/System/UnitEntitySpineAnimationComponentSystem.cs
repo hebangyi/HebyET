@@ -43,7 +43,7 @@ namespace ET.Client
            return self.SkeletonAnimation.AnimationState.Data.SkeletonData.Animations.FirstOrDefault(x => x.Name == name);
        }
 
-       public static void SetAnimationAtTime(this UnitEntitySpineAnimationComponent self, string name, float time, bool isLoop = true)
+       public static void SetAnimationAtTime(this UnitEntitySpineAnimationComponent self, string name, float time, bool isLoop)
        {
            var animation = self.GetAnimationByName(name);
            if (animation == null)

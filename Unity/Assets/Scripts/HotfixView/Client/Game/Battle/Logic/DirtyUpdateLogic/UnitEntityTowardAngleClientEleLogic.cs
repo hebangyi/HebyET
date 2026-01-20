@@ -1,13 +1,13 @@
 ﻿namespace ET.Client
 {
     [UnitEntityViewLogic]
-    public class UnitEntityTowardAngleClientEleUpdate: BaseClientEleLogic<UnitEntityTowardAngle>
+    public class UnitEntityTowardAngleClientEleLogic: BaseClientEleLogic<UnitEntityTowardAngle>
     {
-        public override void OnInit(UnitEntity unitEntity)
+        public override void OnInitT(UnitEntity unitEntity, UnitEntityTowardAngle elemData)
         {
         }
 
-        public override void OnDestroy(UnitEntity unitEntity)
+        public override void OnDestroyT(UnitEntity unitEntity, UnitEntityTowardAngle elemData)
         {
         }
 

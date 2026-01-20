@@ -13,7 +13,7 @@
             {
                 foreach (var logic in logics)
                 {
-                    logic.OnInit(unitEntity);
+                    logic.OnInit(unitEntity, args.UnitEntityElemData);
                 }
             }
         }

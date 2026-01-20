@@ -13,7 +13,7 @@
             {
                 foreach (var logic in logics)
                 {
-                    logic.OnDestroy(unitEntity);
+                    logic.OnDestroy(unitEntity, args.UnitEntityElemData);
                 }
             }
         }

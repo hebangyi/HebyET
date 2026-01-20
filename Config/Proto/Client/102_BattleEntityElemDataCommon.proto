@@ -9,10 +9,11 @@ message UnitEntityCommonData // IUnitEntityElemData
     int64 ConfigId = 4;                     // 配置ID
 }
 
-// 动画
-message UnitEntityAnimation // IUnitEntityElemData
+// 动画状态
+message UnitEntityAnimationStateData // IUnitEntityElemData
 {
     AnimateStateEnum AnimateState = 1;    // 动画状态
+    uint32 CurrentStateStartFrame = 2;    // 当前状态开始的逻辑帧
 }
 
 

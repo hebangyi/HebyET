@@ -1,9 +1,9 @@
 ﻿namespace ET
 {
     [UnitEntityLogic]
-    public class UnitEntityAnimationClientInput : BaseLogicClientInput<UnitEntityAnimation>
+    public class UnitEntityAnimationClientInput : BaseLogicClientInput<UnitEntityAnimationStateData>
     {
-        public override bool CanInput(UnitEntityAnimation elementData)
+        public override bool CanInput(UnitEntityAnimationStateData elementData)
         {
             return true;
         }
