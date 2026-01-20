@@ -15,9 +15,6 @@ namespace ET
             var unitEntity = self.GetParent<UnitEntity>();
             var logicWorld = unitEntity.LogicWorld();
             var aoiManagerComponent = logicWorld.GetComponent<AOIManagerComponent>();
-            
-            Log.Info($"AOIUnitEntity X: {(int)position.x}, Y: {(int)position.y} , Type = {unitEntity.GetUnitEntityElemData<UnitEntityCommonData>().UnitEntityType}");
-            
             var cellId = AOIHelper.GetCellId(position);
             aoiManagerComponent.AwakeCellUnitEntity(self, cellId);
         }

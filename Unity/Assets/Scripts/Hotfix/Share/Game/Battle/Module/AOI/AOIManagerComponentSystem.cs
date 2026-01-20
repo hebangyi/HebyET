@@ -95,6 +95,7 @@ namespace ET
 
         public static void AwakeCellUnitEntity(this AOIManagerComponent aoiManagerComponent, AOIUnitEntity aoiUnitEntity, long toCellId)
         {
+            aoiUnitEntity.CellId = AOIHelper.GetCellId(-1000, -1000);
             aoiManagerComponent.MoveCell(aoiUnitEntity, toCellId);
         }
 
