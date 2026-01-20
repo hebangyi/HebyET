@@ -40,7 +40,7 @@
         public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData)
         {
             var oldT = oldData as T;
-            var newT = oldData as T;
+            var newT = newData as T;
             this.OnUpdateT(unitEntity, oldT, newT);
         }
 

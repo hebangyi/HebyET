@@ -122,8 +122,8 @@ namespace ET.Client
 
             var ins = GetGameObjectIns(unitEntity, unitEntityCommonData.ConfigId);
             
-            var unitEntityGameObjectComponent = unitEntity.TryAddComponent<UnitEntityGameObjectComponent>();
-            unitEntityGameObjectComponent.GameObject = ins;
+            var unitEntityGameObjectComponent = unitEntity.AddComponent<UnitEntityGameObjectComponent, GameObject>(ins);
+            unitEntity.AddComponent<UnitEntitySpineAnimationComponent, GameObject>(ins);
 
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             if (unitEntityPosition != null)

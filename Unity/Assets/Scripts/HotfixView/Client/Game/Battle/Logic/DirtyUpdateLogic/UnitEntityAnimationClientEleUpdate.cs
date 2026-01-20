@@ -10,7 +10,7 @@
         public override void OnDestroy(UnitEntity unitEntity)
         {
         }
-        
+
         public override void OnUpdateT(UnitEntity unitEntity, UnitEntityAnimation oldData, UnitEntityAnimation newData)
         {
             var spineAnimation = unitEntity.GetSpineAnimation();
@@ -19,21 +19,19 @@
                 return;
             }
             
-            var unitEntityAnimation = newData as UnitEntityAnimation;
-            AnimateStateEnum animateState = unitEntityAnimation.AnimateState;
-            switch (animateState)
+            switch (newData.AnimateState)
             {
                 case AnimateStateEnum.Idle:
-                    spineAnimation.state.SetAnimation(0, "idle", true);
+                    unitEntity.GetComponent<UnitEntitySpineAnimationComponent>().SetAnimationAtTime("idle", 0);
                     break;
                 case AnimateStateEnum.Walk:
-                    spineAnimation.state.SetAnimation(0, "walk", true);
+                    unitEntity.GetComponent<UnitEntitySpineAnimationComponent>().SetAnimationAtTime("walk", 0);
                     break;
                 case AnimateStateEnum.Run:
-                    spineAnimation.state.SetAnimation(0, "run", true);
+                    unitEntity.GetComponent<UnitEntitySpineAnimationComponent>().SetAnimationAtTime("run", 0);
                     break;
                 case AnimateStateEnum.Attack:
-                    spineAnimation.state.SetAnimation(0, "skill_1", true);
+                    unitEntity.GetComponent<UnitEntitySpineAnimationComponent>().SetAnimationAtTime("skill_1", 0, false);
                     break;
             }
         }

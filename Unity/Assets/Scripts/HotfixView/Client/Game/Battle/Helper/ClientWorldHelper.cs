@@ -65,6 +65,7 @@ namespace ET.Client
 
         public static UnitEntity PublishUnitEntityCreateEvent(this ClientWorld self, UnitEntity unitEntity)
         {
+            Log.Info($"Create UnitEntity : {unitEntity.InsId}");
             // 初始化 UnitEntity
             self.PublishEvent(new ClientCreateUnitEntity0() { UnitEntity = unitEntity });
             self.PublishEvent(new ClientCreateUnitEntity1() { UnitEntity = unitEntity });

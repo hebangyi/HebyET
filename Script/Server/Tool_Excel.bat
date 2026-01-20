@@ -9,5 +9,4 @@ IF %WTERELEV% EQU 0 (
 ) ELSE (
 	PowerShell -ExecutionPolicy unrestricted -File "%~dp0./Run/Tool_Excel.ps1" "cmd" > nul 2>&1
 )
-pause
 @echo on

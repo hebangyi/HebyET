@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using Spine.Unity;
+using UnityEngine;
 
 namespace ET.Client
 {
     [ComponentOf(typeof(UnitEntity))]
-    public class UnitEntityGameObjectComponent : Entity, IAwake, IDestroy
+    public class UnitEntityGameObjectComponent : Entity, IAwake<GameObject>, IDestroy
     {
         
         private GameObject gameObject;

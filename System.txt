@@ -353,3 +353,7 @@ M2M_UnitTransferResponse
 SceneNodeInfo
 ServerMessage
 PlayerServerSkillComponent
+UnitEntitySpineAnimationComponent
+BattlePlayerConfigCategory
+BattlePlayerConfig
+BaseClientEleLogic
