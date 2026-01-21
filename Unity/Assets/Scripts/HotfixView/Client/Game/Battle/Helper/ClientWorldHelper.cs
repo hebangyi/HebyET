@@ -156,6 +156,7 @@ namespace ET.Client
 
         public static void UpdateDirty(this ClientWorld self, List<BattleUnitEntity> battleUnitEntities)
         {
+            List<ClientUpdateElementData> clientUpdateElementDatas = new List<ClientUpdateElementData>();
             foreach (var battleUnitEntity in battleUnitEntities)
             {
                 UnitEntity unitEntity = self.AllEntities.GetValueOrDefault(battleUnitEntity.InsId);
@@ -179,13 +180,20 @@ namespace ET.Client
                     var newUnitEntityElemData =
                             MemoryPackHelper.Deserialize(unitElemType, elemData.ElemDatas, 0, elemData.ElemDatas.Length) as IUnitEntityElemData;
                     var oleUnitEntityElemData = unitEntity.UnitEntityData.GetValueOrDefault(componentId);
+                    // 更新数据
                     unitEntity.UnitEntityData[componentId] = newUnitEntityElemData;
-                    self.PublishEvent(new ClientUpdateElementData()
+                    clientUpdateElementDatas.Add(new ClientUpdateElementData()
                     {
                         ComponentId = componentId, UnitEntity = unitEntity, OldUnitEntityElemData = oleUnitEntityElemData,
                         NewUnitEntityElemData = newUnitEntityElemData
                     });
                 }
+            }
+
+            // 抛出事件
+            foreach (var clientUpdateElementData in clientUpdateElementDatas)
+            {
+                self.PublishEvent(clientUpdateElementData);
             }
         }
     }

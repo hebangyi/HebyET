@@ -14,7 +14,6 @@
         public override void OnUpdateT(UnitEntity unitEntity, UnitEntityPlayerSkill oldData, UnitEntityPlayerSkill newData)
         {
             var playerClientSkillComponent = unitEntity.GetComponent<PlayerClientSkillComponent>();
-            Log.Info("技能Dirty");
         }
     }    
 }

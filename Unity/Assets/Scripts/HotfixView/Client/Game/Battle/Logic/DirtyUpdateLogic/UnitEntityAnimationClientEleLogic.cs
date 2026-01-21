@@ -39,16 +39,9 @@
             }
             
             float subTime = subFrame * clientWorld.LogicInterval * 1.0f / 1000;
-            
-            if (subTime > 0)
-            {
-                Log.Error($"播放动画:{animateStateEnum} subTime {subTime}");
-            }
-            
-            Log.Info($"{clientWorld.Frame} -- {startFrame} -- {subFrame} -- {subTime}");
-            
             if (animateStateEnum == AnimateStateEnum.Skill)
             {
+                
                 // TODO 播放技能动画
                 unitEntity.GetComponent<UnitEntitySpineAnimationComponent>().SetAnimationAtTime("skill_1", subTime, false);
                 return;
