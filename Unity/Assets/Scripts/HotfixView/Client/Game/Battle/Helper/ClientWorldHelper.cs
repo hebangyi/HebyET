@@ -5,10 +5,10 @@ namespace ET.Client
 {
     public static class ClientWorldHelper
     {
-        public static async ETTask InitWorld(this ClientWorld world, BattleWorld battleWorld)
+        public static void InitWorld(this ClientWorld world, BattleWorld battleWorld, int logicInterval)
         {
             world.Frame = battleWorld.Frame;
-            Log.Error($"初始化世界 : Frame{world.Frame}");
+            world.LogicInterval = logicInterval;
         }
 
         public static void HandleDirtyMessage(this ClientWorld world, L2C_PlayerAOIWorldDirtyPush message)

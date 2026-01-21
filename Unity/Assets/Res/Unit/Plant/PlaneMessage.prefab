@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4273174469683361482}
   - component: {fileID: 1952243880148988928}
   - component: {fileID: 9134810093387299989}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,7 +158,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9171196048988221797}
   - component: {fileID: 532145943555978293}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 3918919215463229385}
   - component: {fileID: 846007763503344187}
   - component: {fileID: 7289513764953931793}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Boarder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,7 +385,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7160683280062650596}
   - component: {fileID: 8594185115351331906}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlaneMessage
   m_TagString: Untagged
   m_Icon: {fileID: 0}

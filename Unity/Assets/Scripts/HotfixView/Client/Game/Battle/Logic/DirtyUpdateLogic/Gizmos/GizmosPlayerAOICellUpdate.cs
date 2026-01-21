@@ -12,7 +12,6 @@ namespace ET.Client
 
         public override void OnDestroyT(UnitEntity unitEntity, GizmosPlayerAOICell elemData)
         {
-            throw new System.NotImplementedException();
         }
 
         public override void OnUpdateT(UnitEntity unitEntity, GizmosPlayerAOICell oldData, GizmosPlayerAOICell newData)

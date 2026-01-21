@@ -5,35 +5,29 @@
     {
         public override void OnInitT(UnitEntity unitEntity, UnitEntityAnimationStateData elemData)
         {
-            
-            var spineAnimation = unitEntity.GetSpineAnimation();
-            if (spineAnimation == null)
-            {
-                return;
-            }
-            
             PlayAnimation(unitEntity, elemData);
         }
 
         public override void OnDestroyT(UnitEntity unitEntity, UnitEntityAnimationStateData elemData)
         {
-            throw new System.NotImplementedException();
         }
 
         public override void OnUpdateT(UnitEntity unitEntity, UnitEntityAnimationStateData oldData, UnitEntityAnimationStateData newData)
         {
-            var spineAnimation = unitEntity.GetSpineAnimation();
-            if (spineAnimation == null)
-            {
-                return;
-            }
-
+      
             PlayAnimation(unitEntity, newData);
         }
 
 
         public void PlayAnimation(UnitEntity unitEntity, UnitEntityAnimationStateData animationStateData)
         {
+            var spineAnimation = unitEntity.GetSpineAnimation();
+            if (spineAnimation == null)
+            {
+                return;
+            }
+            
+            
             var animateStateEnum = animationStateData.AnimateState;
             var startFrame = animationStateData.CurrentStateStartFrame;
             var clientWorld = unitEntity.ClientWorld();
@@ -43,8 +37,15 @@
             {
                 subFrame = clientWorld.Frame - startFrame;
             }
-
+            
             float subTime = subFrame * clientWorld.LogicInterval * 1.0f / 1000;
+            
+            if (subTime > 0)
+            {
+                Log.Error($"播放动画:{animateStateEnum} subTime {subTime}");
+            }
+            
+            Log.Info($"{clientWorld.Frame} -- {startFrame} -- {subFrame} -- {subTime}");
             
             if (animateStateEnum == AnimateStateEnum.Skill)
             {

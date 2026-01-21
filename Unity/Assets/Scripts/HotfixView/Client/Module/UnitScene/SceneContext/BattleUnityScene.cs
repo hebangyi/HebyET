@@ -20,7 +20,7 @@ namespace ET.Client
             ClientWorld clientWorld = UnitySceneClientWorldManagerComponent.Instance.CreateWorld();
             clientWorld.CacheDirtyMessage.Clear();
             clientWorld.ClientWorldStatusEnum = ClientWorldStatusEnum.InitData;
-            await clientWorld.InitWorld(response.BattleWorld);
+            clientWorld.InitWorld(response.BattleWorld, response.LogicInterval);
             
             clientWorld.MainPlayerId = response.MyPlayerUnitEntity.InsId;
             
@@ -38,7 +38,6 @@ namespace ET.Client
                 var dirtyMessage = clientWorld.CacheDirtyMessage[i];
                 if (clientWorld.Frame != dirtyMessage.LastSyncFrame)
                 {
-                    // TODO
                     Log.Error("初始化世界处理缓存推送数据帧数异常 重新初始化!");
                     return;
                 }
