@@ -1573,7 +1573,7 @@ namespace ET
         }
     }
 
-    // 5.玩家准备好进入战斗
+    // 1.玩家使用技能
     [MemoryPackable]
     [Message(ClientMessage.C2B_PlayerUseSkill)]
     [ResponseType(nameof(B2C_PlayerUseSkill), "Battle", "BattleRole")]
@@ -1614,6 +1614,136 @@ namespace ET
         public static B2C_PlayerUseSkill Create(bool isFromPool = false)
         {
             return ObjectPool.Instance.Fetch(typeof(B2C_PlayerUseSkill), isFromPool) as B2C_PlayerUseSkill;
+        }
+
+        [MemoryPackOrder(96)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(97)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(98)]
+        public string Message { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 2.玩家移动
+    [MemoryPackable]
+    [Message(ClientMessage.C2B_PlayerMove)]
+    public partial class C2B_PlayerMove : MessageObject, IClientRequest
+    {
+        private long m_InstanceId;
+
+        public static C2B_PlayerMove Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2B_PlayerMove), isFromPool) as C2B_PlayerMove;
+        }
+
+        [MemoryPackOrder(98)]
+        public int RpcId { get; set; }
+
+        /// <summary>
+        /// 目标点
+        /// </summary>
+        [MemoryPackOrder(0)]
+        public Unity.Mathematics.float2 Position { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+            this.RpcId = default;
+            this.Position = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.B2C_PlayerMove)]
+    public partial class B2C_PlayerMove : MessageObject, IClientResponse
+    {
+        private long m_InstanceId;
+
+        public static B2C_PlayerMove Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(B2C_PlayerMove), isFromPool) as B2C_PlayerMove;
+        }
+
+        [MemoryPackOrder(96)]
+        public int RpcId { get; set; }
+
+        [MemoryPackOrder(97)]
+        public int Error { get; set; }
+
+        [MemoryPackOrder(98)]
+        public string Message { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+            this.RpcId = default;
+            this.Error = default;
+            this.Message = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    // 3.玩家停止移动
+    [MemoryPackable]
+    [Message(ClientMessage.C2B_PlayerMoveStop)]
+    [ResponseType(nameof(B2C_PlayerMoveStop), "Battle", "BattleRole")]
+    public partial class C2B_PlayerMoveStop : MessageObject, IClientRequest
+    {
+        private long m_InstanceId;
+
+        public static C2B_PlayerMoveStop Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(C2B_PlayerMoveStop), isFromPool) as C2B_PlayerMoveStop;
+        }
+
+        [MemoryPackOrder(98)]
+        public int RpcId { get; set; }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+            this.RpcId = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+    }
+
+    [MemoryPackable]
+    [Message(ClientMessage.B2C_PlayerMoveStop)]
+    public partial class B2C_PlayerMoveStop : MessageObject, IClientResponse
+    {
+        private long m_InstanceId;
+
+        public static B2C_PlayerMoveStop Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(B2C_PlayerMoveStop), isFromPool) as B2C_PlayerMoveStop;
         }
 
         [MemoryPackOrder(96)]
@@ -2432,26 +2562,30 @@ namespace ET
         public const ushort B2C_PlayeBattleReday = 10035;
         public const ushort C2B_PlayerUseSkill = 10036;
         public const ushort B2C_PlayerUseSkill = 10037;
-        public const ushort Main2NetLobbyLogin = 10038;
-        public const ushort NetLobby2MainLogin = 10039;
-        public const ushort C2A_Login = 10040;
-        public const ushort A2C_Login = 10041;
-        public const ushort C2L_LoginLobby = 10042;
-        public const ushort L2C_LoginLobby = 10043;
-        public const ushort G2C_SessionDisconnect = 10044;
-        public const ushort HttpGetRouterResponse = 10045;
-        public const ushort SyncDataUnitStruct = 10046;
-        public const ushort DataUnitBytes = 10047;
-        public const ushort C2L_GetAllDataUnits = 10048;
-        public const ushort L2C_GetAllDataUnits = 10049;
-        public const ushort L2C_SyncDirtyDataUnits = 10050;
-        public const ushort RoleInfoUnitData = 10051;
-        public const ushort C2L_StartMatchBattle = 10052;
-        public const ushort L2C_StartMatchBattle = 10053;
-        public const ushort L2C_MatchBattleSuccess = 10054;
-        public const ushort C2B_DebugStartWorld = 10055;
-        public const ushort B2C_DebugStartWorld = 10056;
-        public const ushort C2B_DebugWorldPlush = 10057;
-        public const ushort B2C_DebugWorldPlush = 10058;
+        public const ushort C2B_PlayerMove = 10038;
+        public const ushort B2C_PlayerMove = 10039;
+        public const ushort C2B_PlayerMoveStop = 10040;
+        public const ushort B2C_PlayerMoveStop = 10041;
+        public const ushort Main2NetLobbyLogin = 10042;
+        public const ushort NetLobby2MainLogin = 10043;
+        public const ushort C2A_Login = 10044;
+        public const ushort A2C_Login = 10045;
+        public const ushort C2L_LoginLobby = 10046;
+        public const ushort L2C_LoginLobby = 10047;
+        public const ushort G2C_SessionDisconnect = 10048;
+        public const ushort HttpGetRouterResponse = 10049;
+        public const ushort SyncDataUnitStruct = 10050;
+        public const ushort DataUnitBytes = 10051;
+        public const ushort C2L_GetAllDataUnits = 10052;
+        public const ushort L2C_GetAllDataUnits = 10053;
+        public const ushort L2C_SyncDirtyDataUnits = 10054;
+        public const ushort RoleInfoUnitData = 10055;
+        public const ushort C2L_StartMatchBattle = 10056;
+        public const ushort L2C_StartMatchBattle = 10057;
+        public const ushort L2C_MatchBattleSuccess = 10058;
+        public const ushort C2B_DebugStartWorld = 10059;
+        public const ushort B2C_DebugStartWorld = 10060;
+        public const ushort C2B_DebugWorldPlush = 10061;
+        public const ushort B2C_DebugWorldPlush = 10062;
     }
 }

@@ -51,7 +51,8 @@ namespace ET
         {
             Console.WriteLine("开始检测生成 Component System");
             string rootPath = Path.GetFullPath("../");
-            string SystemTxt = File.ReadAllText(Path.Combine(rootPath, SystemFile));
+
+            var systemFiles = File.ReadAllLines(Path.Combine(rootPath, SystemFile));
 
             List<SolutionLoader> loaders = new List<SolutionLoader>();
             SolutionLoader clientModelViewLoader = new();
@@ -87,7 +88,7 @@ namespace ET
                             .OfType<ClassDeclarationSyntax>();
                     foreach (var classDecl in classes)
                     {
-                        GenerateSystemFile(loader, classDecl, SystemTxt, rootPath);
+                        GenerateSystemFile(loader, classDecl, systemFiles, rootPath);
                     }
                 }
             }
@@ -95,7 +96,7 @@ namespace ET
             Console.WriteLine("生成 Component System 完成");
         }
 
-        public static void GenerateSystemFile(SolutionLoader solutionLoader, ClassDeclarationSyntax classDeclarationSyntax, string SystemTxt,
+        public static void GenerateSystemFile(SolutionLoader solutionLoader, ClassDeclarationSyntax classDeclarationSyntax, string[] systemFiles,
         string rootPath)
         {
             string className = classDeclarationSyntax.Identifier.Text;
@@ -107,7 +108,7 @@ namespace ET
             }
 
             
-            if (SystemTxt.Contains(className))
+            if (systemFiles.Contains(className))
             {
                 return;
             }
@@ -135,7 +136,7 @@ namespace ET
 
             if (classDeclarationSyntax.BaseList != null)
             {
-                if (classDeclarationSyntax.BaseList.Types.FirstOrDefault(x => x.Type.ToString().Contains("Entity")) == null)
+                if (classDeclarationSyntax.BaseList.Types.FirstOrDefault(x => x.Type.ToString().Trim() == "Entity") == null)
                 {
                     return;
                 }

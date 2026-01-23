@@ -284,7 +284,8 @@ message B2C_PlayeBattleReday // IClientResponse
 	string Message = 3;
 }
 
-// 5.玩家准备好进入战斗
+
+// 1.玩家使用技能
 // ResponseType B2C_PlayerUseSkill Battle BattleRole
 message C2B_PlayerUseSkill // IClientRequest
 {
@@ -293,6 +294,36 @@ message C2B_PlayerUseSkill // IClientRequest
 }
 
 message B2C_PlayerUseSkill // IClientResponse
+{
+    int32 RpcId = 97;
+	int32 Error = 98;
+	string Message = 99;
+}
+
+// 2.玩家移动
+ResponseType B2C_PlayerMove Battle BattleRole
+message C2B_PlayerMove // IClientRequest
+{
+    int32 RpcId = 99;
+    Unity.Mathematics.float2 Position = 1;      // 目标点
+}
+
+message B2C_PlayerMove // IClientResponse
+{
+    int32 RpcId = 97;
+	int32 Error = 98;
+	string Message = 99;
+}
+
+
+// 3.玩家停止移动
+// ResponseType B2C_PlayerMoveStop Battle BattleRole
+message C2B_PlayerMoveStop // IClientRequest
+{
+    int32 RpcId = 99;
+}
+
+message B2C_PlayerMoveStop // IClientResponse
 {
     int32 RpcId = 97;
 	int32 Error = 98;

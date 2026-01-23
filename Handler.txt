@@ -25,3 +25,4 @@ ObjectGetRequest
 M2M_UnitTransferRequest
 C2G_Ping
 C2B_PlayerUseSkill
+C2B_PlayerMoveStop
