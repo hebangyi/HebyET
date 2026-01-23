@@ -1642,6 +1642,7 @@ namespace ET
     // 2.玩家移动
     [MemoryPackable]
     [Message(ClientMessage.C2B_PlayerMove)]
+    [ResponseType(nameof(B2C_PlayerMove), "Battle", "BattleRole")]
     public partial class C2B_PlayerMove : MessageObject, IClientRequest
     {
         private long m_InstanceId;

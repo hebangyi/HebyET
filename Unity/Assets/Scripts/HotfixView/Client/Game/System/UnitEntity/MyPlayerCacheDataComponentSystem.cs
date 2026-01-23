@@ -49,6 +49,7 @@ namespace ET.Client
                 
                 r.velocity = new Vector2((int)deltaX, (int)deltaY).normalized * speed;
                 self.Position = new float2(gameObject.transform.position.x, gameObject.transform.position.y);
+                self.IsMoving = true;
             }
             else
             {
@@ -97,7 +98,7 @@ namespace ET.Client
                 var unitEntityCameraData = unitEntity.GetUnitEntityElemData<UnitEntityCameraData>();
                 // var unitEntityPlayerAnimateStatus = unitEntity.GetUnitEntityElemData<UnitEntityPlayerAnimateStatus>();
 
-                if (!unitEntityPosition.Position.Equals(self.Position))
+                if (self.IsDragging && !unitEntityPosition.Position.Equals(self.Position))
                 {
                     // 将缓存坐标更新到ElemData
                     unitEntityPosition.Position = self.Position;
@@ -120,17 +121,6 @@ namespace ET.Client
                     unitEntityElemData.ElemDatas = MemoryPackHelper.Serialize(unitEntityCameraData);
                     battleUnitEntity.EleDatas.Add(unitEntityElemData);
                 }
-                
-                /*if (unitEntityPlayerAnimateStatus.Status != self.animateStatusEnum)
-                {
-                    unitEntityPlayerAnimateStatus.Status = self.animateStatusEnum;
-                    
-                    ushort compId = OpcodeType.Instance.GetOpcode(typeof(UnitEntityPlayerAnimateStatus));
-                    var unitEntityElemData = UnitEntityElemData.Create();
-                    unitEntityElemData.CompId = compId;
-                    unitEntityElemData.ElemDatas = MemoryPackHelper.Serialize(unitEntityCameraData);
-                    battleUnitEntity.EleDatas.Add(unitEntityElemData);
-                }*/
 
                 if (battleUnitEntity.EleDatas.Count > 0)
                 {
@@ -138,6 +128,13 @@ namespace ET.Client
                     C2B_PlayerUploadDirtyElemData request = C2B_PlayerUploadDirtyElemData.Create();
                     request.BattleUnitEntity = battleUnitEntity;
                     B2C_PlayerUploadDirtyElemData response = (B2C_PlayerUploadDirtyElemData)await clientBattleSenderComponent.Call(request);
+                }
+
+                if (!self.IsDragging && self.IsMoving)
+                {
+                    self.IsMoving = false;
+                    C2B_PlayerMoveStop request = C2B_PlayerMoveStop.Create();
+                    B2C_PlayerMoveStop response = (B2C_PlayerMoveStop)await ClientBattleSenderComponent.Instance.Call(request);
                 }
                 
                 battleUnitEntity.Dispose();

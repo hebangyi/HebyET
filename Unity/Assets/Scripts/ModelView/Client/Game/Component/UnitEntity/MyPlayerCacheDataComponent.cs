@@ -21,7 +21,10 @@
 
         // 是否拖拽正在移动
         public bool IsDragging { get; set; }
-        
+
+        // 是否正在移动
+        public bool IsMoving { get; set; }
+
         // 上次更新时间
         public long LastUpdateTime { get; set; }
         

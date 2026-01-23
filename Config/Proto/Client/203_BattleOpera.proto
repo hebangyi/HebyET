@@ -14,7 +14,7 @@ message B2C_PlayerUseSkill // IClientResponse
 }
 
 // 2.玩家移动
-ResponseType B2C_PlayerMove Battle BattleRole
+// ResponseType B2C_PlayerMove Battle BattleRole
 message C2B_PlayerMove // IClientRequest
 {
     int32 RpcId = 99;

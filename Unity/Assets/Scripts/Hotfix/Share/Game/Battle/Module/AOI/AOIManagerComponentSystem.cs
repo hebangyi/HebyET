@@ -108,6 +108,8 @@ namespace ET
                 return;
             }
 
+            Log.Info($"MoveCell {newCellId}");
+            
             var oldCellId = aoiUnitEntity.CellId;
             
             var (oldX, oldY) = AOIHelper.GetCellXY(oldCellId);

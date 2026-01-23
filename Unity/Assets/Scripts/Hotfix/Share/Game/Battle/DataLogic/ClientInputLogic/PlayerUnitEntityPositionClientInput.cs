@@ -12,9 +12,10 @@ namespace ET
 
         public override void Updated(UnitEntity unitEntity)
         {
-            var playerAOICell = unitEntity.GetUnitEntityElemData<GizmosPlayerAOICell>();
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
-
+            
+            # if DEBUG
+            var playerAOICell = unitEntity.GetUnitEntityElemData<GizmosPlayerAOICell>();
             var cellIds = playerAOICell.CellIds;
             var newCellIds = AOIHelper.GetAOICellIds(unitEntityPosition.Position);
 
@@ -38,17 +39,11 @@ namespace ET
             {
                 playerAOICell.CellIds = newCellIds.ToList();
             }
+            # endif
             
             // 更新AOI
-            var logicWorld = unitEntity.LogicWorld();
-            var aoiManagerComponent = logicWorld.GetComponent<AOIManagerComponent>();
-
-            var newCellId = AOIHelper.GetCellId(unitEntityPosition.Position);
-            var aoiUnitEntity = unitEntity.GetComponent<AOIUnitEntity>();
-            if (aoiUnitEntity != null && newCellId != aoiUnitEntity.CellId)
-            {
-                aoiManagerComponent.MoveCell(aoiUnitEntity, newCellId);
-            }
+            // 设置动画状态
+            unitEntity.ChangeAnimateStatus(AnimateStateEnum.Run);
         }
     }
 }

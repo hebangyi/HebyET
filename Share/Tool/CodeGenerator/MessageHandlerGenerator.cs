@@ -16,7 +16,7 @@ namespace ET
             Console.WriteLine("检测生成 Handler");
 
             string rootPath = Path.GetFullPath("../");
-            string handlerText = File.ReadAllText(Path.Combine(rootPath, HandlerFile));
+            var handlers = File.ReadAllLines(Path.Combine(rootPath, HandlerFile));
 
             var floders = new string[]
             {
@@ -43,7 +43,7 @@ namespace ET
                         {
                             if (attribute.ToString().Contains("ResponseType"))
                             {
-                                GenerateFile(rootPath, handlerText, classDecl, attribute);
+                                GenerateFile(rootPath, handlers, classDecl, attribute);
                             }
                         }
                     }
@@ -53,10 +53,10 @@ namespace ET
             Console.WriteLine("检测生成 Handler 完成");
         }
 
-        private static void GenerateFile(string rootPath, string handlerText, ClassDeclarationSyntax classDecl, AttributeListSyntax attribute)
+        private static void GenerateFile(string rootPath, string[] handlers, ClassDeclarationSyntax classDecl, AttributeListSyntax attribute)
         {
             string className = classDecl.Identifier.Text;
-            if (handlerText.Contains(className))
+            if (handlers.Contains(className))
             {
                 return;
             }
