@@ -129,7 +129,7 @@ namespace ET.Client
             
             // 0.5s 转 90度
             // TODO 相机平移
-            var angle = deleteTime * 1.0f / GameConstant.CameraRotationSpeed * 90;
+            var angle = (int)(deleteTime * 1.0f / GameConstant.CameraRotationSpeed * 90);
             if (playerCacheDataComponent.CameraAngleOffSet < playerCacheDataComponent.TargetCameraAngleOffSet)
             {
                 playerCacheDataComponent.CameraAngleOffSet = Math.Min(playerCacheDataComponent.CameraAngleOffSet + angle, playerCacheDataComponent.TargetCameraAngleOffSet);

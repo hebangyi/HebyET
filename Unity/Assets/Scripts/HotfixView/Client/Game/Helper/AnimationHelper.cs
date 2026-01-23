@@ -37,17 +37,6 @@
             {
                 showAngle += 360;
             }
-            
-            /*if (showAngle >= 45 && showAngle < 135)
-            {
-                return UnitEntityAnimationToward.Up;
-            }
-            
-            if (showAngle >= 225 && showAngle < 315)
-            {
-                return UnitEntityAnimationToward.Down;
-            }*/
-
 
             if (showAngle is >= 90 and < 270)
             {

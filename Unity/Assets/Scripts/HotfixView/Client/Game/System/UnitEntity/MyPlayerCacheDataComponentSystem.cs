@@ -35,7 +35,7 @@ namespace ET.Client
             var unitEntity = self.GetParent<UnitEntity>();
             if (self.IsDragging)
             {
-                float towardAngle = self.OperaAngel + self.CameraAngleOffSet % 360;
+                int towardAngle = self.OperaAngel + self.CameraAngleOffSet % 360;
                 self.TowardAngle = towardAngle;
 
                 // TODO
@@ -58,18 +58,6 @@ namespace ET.Client
                 r.velocity = Vector2.zero;
             }
         }
-
-
-        public static void PlayerMove()
-        {
-            
-        }
-
-        public static void PlayerStop()
-        {
-            
-        }
-
 
 
         private static void UpdateView(this MyPlayerCacheDataComponent self)
@@ -96,6 +84,7 @@ namespace ET.Client
                 
                 var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
                 var unitEntityCameraData = unitEntity.GetUnitEntityElemData<UnitEntityCameraData>();
+                var unitEntityTowardAngle = unitEntity.GetUnitEntityElemData<UnitEntityTowardAngle>();
                 // var unitEntityPlayerAnimateStatus = unitEntity.GetUnitEntityElemData<UnitEntityPlayerAnimateStatus>();
 
                 if (self.IsDragging && !unitEntityPosition.Position.Equals(self.Position))
@@ -121,6 +110,17 @@ namespace ET.Client
                     unitEntityElemData.ElemDatas = MemoryPackHelper.Serialize(unitEntityCameraData);
                     battleUnitEntity.EleDatas.Add(unitEntityElemData);
                 }
+                
+                if (unitEntityTowardAngle.TowardAngle != self.TowardAngle)
+                {
+                    unitEntityTowardAngle.TowardAngle = (short)self.TowardAngle;
+                    ushort compId = OpcodeType.Instance.GetOpcode(typeof(UnitEntityTowardAngle));
+                    var unitEntityElemData = UnitEntityElemData.Create();
+                    unitEntityElemData.CompId = compId;
+                    unitEntityElemData.ElemDatas = MemoryPackHelper.Serialize(unitEntityTowardAngle);
+                    battleUnitEntity.EleDatas.Add(unitEntityElemData);
+                }
+                
 
                 if (battleUnitEntity.EleDatas.Count > 0)
                 {

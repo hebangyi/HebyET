@@ -10,14 +10,14 @@
         // 操作角度
         public int OperaAngel { get; set; }
         
-        // 相机目标便宜角度
-        public float TargetCameraAngleOffSet { get; set; }
+        // 相机目标偏移角度
+        public int TargetCameraAngleOffSet { get; set; }
         
         // 相机偏移角度
-        public float CameraAngleOffSet { get; set; }
+        public int CameraAngleOffSet { get; set; }
 
         // 玩家实际朝向 (摄像机+操作角度)
-        public float TowardAngle { get; set; }
+        public int TowardAngle { get; set; }
 
         // 是否拖拽正在移动
         public bool IsDragging { get; set; }
