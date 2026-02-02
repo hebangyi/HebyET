@@ -12,16 +12,17 @@ namespace ET
             unitEntity.CreateUnitEntityElemData<GizmosPlayerAOICell>();
             unitEntity.CreateUnitEntityElemData<UnitEntityCameraData>();
             // 设置技能
-            var unitEntityPlayerSkill = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerSkill>();
-            // TODO 随机配置
-            var battlePlayer = BattlePlayerConfigCategory.Instance.GetOne();
-            foreach (var skillId in battlePlayer.SkillIds)
+            var unitEntitySkillData = unitEntity.CreateUnitEntityElemData<UnitEntitySkillData>();
+            var battlePlayerConfig = BattlePlayerConfigCategory.Instance.GetOne();
+            // 技能
+            // 装填普攻技能
+            var attackSkillConfig = SkillConfigCategory.Instance.GetById(battlePlayerConfig.AttackSkill);
+            if (attackSkillConfig != null)
             {
                 UnitEntityPlayerSkillDataItem unitEntityPlayerSkillDataItem = UnitEntityPlayerSkillDataItem.Create();
-                unitEntityPlayerSkillDataItem.SkillId = skillId;
+                unitEntityPlayerSkillDataItem.SkillId = battlePlayerConfig.AttackSkill;
                 unitEntityPlayerSkillDataItem.SkillStatusEnum = SkillStatusEnum.Ready;
-                
-                unitEntityPlayerSkill.SkillDataItems.Add(unitEntityPlayerSkillDataItem);
+                unitEntitySkillData.SkillDataItems.Add(unitEntityPlayerSkillDataItem);
             }
             
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
@@ -38,7 +39,7 @@ namespace ET
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             var gizmosPlayerAOICell = unitEntity.GetUnitEntityElemData<GizmosPlayerAOICell>();
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
-            var unitEntityPlayerSkill = unitEntity.GetUnitEntityElemData<UnitEntityPlayerSkill>();
+            var unitEntityPlayerSkill = unitEntity.GetUnitEntityElemData<UnitEntitySkillData>();
             
             unitEntity.LogicWorld().PlayerId2Players[playerInfo.PlayerId] = unitEntity;
             
@@ -56,11 +57,7 @@ namespace ET
             
 
             unitEntity.AddComponent<PlayerAOISeeUnitEntity>();
-            var playerServerSkillComponent = unitEntity.AddComponent<PlayerServerSkillComponent>();
             unitEntity.AddComponent<AOIUnitEntity, float2, UETypeEnum>(unitEntityPosition.Position, UETypeEnum.Player);
-            
-            
-            playerServerSkillComponent.InitSkillData();
             
             var cellIds = AOIHelper.GetAOICellIds(unitEntityPosition.Position);
             gizmosPlayerAOICell.CellIds.AddRange(cellIds);

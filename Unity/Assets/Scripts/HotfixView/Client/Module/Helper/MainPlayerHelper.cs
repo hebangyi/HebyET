@@ -29,14 +29,8 @@
                 return;
             }
             
-            var playerClientSkillComponent = mainPlayer.GetComponent<PlayerClientSkillComponent>();
-            if (playerClientSkillComponent == null)
-            {
-                return;
-            }
-            
             Log.Info("OnClickAttack1");
-            playerClientSkillComponent.OnClickAttack();
+            // playerClientSkillComponent.OnClickAttack();
         }
     }    
 }

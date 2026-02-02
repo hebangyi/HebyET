@@ -12,8 +12,15 @@ message UnitEntityCommonData // IUnitEntityElemData
 // 动画状态
 message UnitEntityAnimationStateData // IUnitEntityElemData
 {
-    AnimateStateEnum AnimateState = 1;    // 动画状态
-    uint32 CurrentStateStartFrame = 2;    // 当前状态开始的逻辑帧
+    AnimateStateEnum AnimateState = 1;                              // 动画状态
+    uint32 CurrentStateStartFrame = 2;                              // 当前状态开始的逻辑帧
+    UnitEntityAnimationSkillStateData CurrentSkillStateData = 3;    // 如果动画状态是技能状态,当前技能的信息
+}
+
+message UnitEntityAnimationSkillStateData
+{
+    int64 SkillId = 1;                      // 当前技能
+    uint32 ActiveFrame = 2;                 // 技能如果开始 开始的逻辑帧
 }
 
 
@@ -30,3 +37,17 @@ message UnitEntityTowardAngle // IUnitEntityElemData
     short TowardAngle = 1;                  // 朝向 -180-180
 }
 
+
+// 玩家技能项
+message UnitEntitySkillData // IUnitEntityElemData
+{
+    repeated UnitEntityPlayerSkillDataItem SkillDataItems = 1;   // 技能数据
+}
+
+// 玩家技能DataItem
+message UnitEntityPlayerSkillDataItem
+{
+    int64 SkillId = 1;
+    SkillStatusEnum SkillStatusEnum = 2;    // 技能状态
+    uint32 ActiveFrame = 3;                 // 技能如果开始 开始的逻辑帧
+}

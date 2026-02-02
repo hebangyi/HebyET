@@ -60,8 +60,8 @@ namespace ET
 	{
 		/// <summary>Id</summary>
 		public long Id { get; set; }
-		/// <summary>技能Tag</summary>
-		public PlayerSkillTagEnum PlayerSkillTag { get; set; }
+		/// <summary>技能动画标签</summary>
+		public string SkillAniTag { get; set; }
 		/// <summary>技能CD</summary>
 		public int CD { get; set; }
 

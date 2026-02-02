@@ -60,10 +60,12 @@ namespace ET
 	{
 		/// <summary>Id</summary>
 		public long Id { get; set; }
-		/// <summary>普攻技能</summary>
-		public long[] SkillIds { get; set; }
+		/// <summary>Note说明</summary>
+		public string Note { get; set; }
 		/// <summary>资源</summary>
 		public string Asset { get; set; }
+		/// <summary>普攻技能</summary>
+		public int AttackSkill { get; set; }
 
 	}
 }

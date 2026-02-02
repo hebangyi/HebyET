@@ -1,5 +1,5 @@
 {"dict": [
-[1, {"_t":"MonsterConfig","_id":1,"Note":"","Name":"Hero1","AssetName":"Monster_001"}],
-[2, {"_t":"MonsterConfig","_id":2,"Note":"","Name":"Hero2","AssetName":"Monster_002"}],
-[3, {"_t":"MonsterConfig","_id":3,"Note":"","Name":"Hero3","AssetName":"Monster_003"}],
+[1, {"_t":"MonsterConfig","_id":1,"Note":"","Name":"Hero1","AssetName":"Monster_001","AttackSkill":100001}],
+[2, {"_t":"MonsterConfig","_id":2,"Note":"","Name":"Hero2","AssetName":"Monster_002","AttackSkill":100001}],
+[3, {"_t":"MonsterConfig","_id":3,"Note":"","Name":"Hero3","AssetName":"Monster_003","AttackSkill":100001}],
 ]}

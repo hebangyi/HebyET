@@ -6,7 +6,7 @@
         {
             foreach (var skillConfig in this.dict.Values)
             {
-                Log.Info($"skillConfig , Id :{skillConfig.Id}, PlayerSkillTag : {skillConfig.PlayerSkillTag}, CD : {skillConfig.CD}");    
+                Log.Info($"skillConfig , Id :{skillConfig.Id}, SkillAniTag : {skillConfig.SkillAniTag}, CD : {skillConfig.CD}");    
             }
         }
     }

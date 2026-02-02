@@ -13,16 +13,3 @@ message UnitEntityCameraData // IUnitEntityElemData
     short CameraAngleOffSet = 1;            // 相机偏移角度
 }
 
-// 玩家技能
-message UnitEntityPlayerSkill // IUnitEntityElemData
-{
-    repeated UnitEntityPlayerSkillDataItem SkillDataItems = 1;   // 技能数据
-}
-
-// 玩家技能DataItem
-message UnitEntityPlayerSkillDataItem
-{
-    int64 SkillId = 1;
-    SkillStatusEnum SkillStatusEnum = 2;    // 技能状态
-    uint32 ActiveFrame = 3;                  // 如果开始 技能当前的帧数是多少
-}

@@ -28,9 +28,6 @@ namespace ET.Client
                 var unityScene = UnitySceneManagerComponent.Instance.UnityScene;
                 
                 // 技能组件
-                var playerClientSkillComponent = unitEntity.AddComponent<PlayerClientSkillComponent>();
-                playerClientSkillComponent.InitSkillData();
-                
                 // 修改Scene 世界组件
                 var unitySceneCameraComponent = unityScene.GetComponent<UnitySceneCameraComponent>();
                 // 设置相机跟随物体

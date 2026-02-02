@@ -66,6 +66,8 @@ namespace ET
 		public string Name { get; set; }
 		/// <summary>Asset资源名称</summary>
 		public string AssetName { get; set; }
+		/// <summary>普攻技能</summary>
+		public int AttackSkill { get; set; }
 
 	}
 }
