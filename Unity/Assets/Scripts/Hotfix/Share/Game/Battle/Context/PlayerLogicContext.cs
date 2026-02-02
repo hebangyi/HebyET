@@ -6,16 +6,28 @@ namespace ET
     [LogicUnitEntityContext(UELayerTypeEnum.Player, UETypeEnum.Player)]
     public class PlayerLogicContext : BaseLogicUnitEntityContext
     {
+        public override void InitCommonData(UnitEntity unitEntity)
+        {
+            base.InitCommonData(unitEntity);
+            
+            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
+            var battlePlayerConfig = BattlePlayerConfigCategory.Instance.GetOne();
+            unitEntityCommonData.ConfigId = battlePlayerConfig.Id;
+        }
+
         public override void InitCustomData(UnitEntity unitEntity)
         {
             var unitEntityInitContext = unitEntity.GetComponent<UnitEntityInitContext>();
             unitEntity.CreateUnitEntityElemData<GizmosPlayerAOICell>();
             unitEntity.CreateUnitEntityElemData<UnitEntityCameraData>();
+            
+            
             // 设置技能
             var unitEntitySkillData = unitEntity.CreateUnitEntityElemData<UnitEntitySkillData>();
-            var battlePlayerConfig = BattlePlayerConfigCategory.Instance.GetOne();
+            
             // 技能
             // 装填普攻技能
+            var battlePlayerConfig = BattlePlayerConfigCategory.Instance.GetOne();
             var attackSkillConfig = SkillConfigCategory.Instance.GetById(battlePlayerConfig.AttackSkill);
             if (attackSkillConfig != null)
             {

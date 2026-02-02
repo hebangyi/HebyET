@@ -5,6 +5,16 @@ namespace ET
     [LogicUnitEntityContext(UELayerTypeEnum.Monster, UETypeEnum.Monster)]
     public class MonsterLogicContext : BaseLogicUnitEntityContext
     {
+        public override void InitCommonData(UnitEntity unitEntity)
+        {
+            base.InitCommonData(unitEntity);
+            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
+            
+            var unitEntityInitContext = unitEntity.GetComponent<UnitEntityInitContext>();
+            var genData = unitEntityInitContext.Params as MonsterGenData;
+            unitEntityCommonData.ConfigId = genData.ConfigId;;
+        }
+        
         public override void InitCustomData(UnitEntity unitEntity)
         {
             var unitEntityInitContext = unitEntity.GetComponent<UnitEntityInitContext>();

@@ -40,8 +40,14 @@
             float subTime = subFrame * clientWorld.LogicInterval * 1.0f / 1000;
             if (animateStateEnum == AnimateStateEnum.Skill)
             {
-                // TODO 播放技能动画
-                unitEntity.GetComponent<UnitEntitySpineAnimationComponent>().SetAnimationAtTime("skill_1", subTime, false);
+                if (animationStateData.CurrentSkillStateData != null)
+                {
+                    var skillConfig = SkillConfigCategory.Instance.GetById(animationStateData.CurrentSkillStateData.SkillId);
+                    if (skillConfig != null)
+                    {
+                        unitEntity.GetComponent<UnitEntitySpineAnimationComponent>().SetAnimationAtTime(skillConfig.SkillAniTag, subTime, false);    
+                    }
+                }
                 return;
             }
             

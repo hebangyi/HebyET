@@ -23,14 +23,25 @@
         public static void OnClickAttack()
         {
             Log.Info("OnClickAttack");
+            SendUseAttackSkill().Coroutine();
+            // playerClientSkillComponent.OnClickAttack();
+        }
+
+
+        public static async ETTask SendUseAttackSkill()
+        {
             var mainPlayer = GetCurrentWorldMainPlayer();
             if (mainPlayer == null)
             {
                 return;
             }
             
-            Log.Info("OnClickAttack1");
-            // playerClientSkillComponent.OnClickAttack();
+            var unitEntityCommonData = mainPlayer.GetUnitEntityElemData<UnitEntityCommonData>();
+            BattlePlayerConfig playerConfig = BattlePlayerConfigCategory.Instance.GetById(unitEntityCommonData.ConfigId);
+
+            var request = C2B_PlayerUseSkill.Create();
+            request.SkillId = playerConfig.AttackSkill;
+            var response = await ClientBattleSenderComponent.Instance.Call(request);
         }
     }    
 }

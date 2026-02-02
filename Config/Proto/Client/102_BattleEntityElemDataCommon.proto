@@ -5,8 +5,9 @@ message UnitEntityCommonData // IUnitEntityElemData
 {
     UETypeEnum UnitEntityType = 1;
     UELayerTypeEnum UELayerTypeEnum = 2;
-    map<string, string> Datas = 3;
-    int64 ConfigId = 4;                     // 配置ID
+    int64 ConfigId = 3;                     // 配置ID
+    map<string, string> Datas = 4;
+
 }
 
 // 动画状态

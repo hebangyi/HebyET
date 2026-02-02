@@ -99,7 +99,7 @@ namespace ET.Client
                 return;
             }
             
-            if (Input.GetKey(KeyCode.J))
+            if (Input.GetKeyDown(KeyCode.J))
             {
                 MainPlayerHelper.OnClickAttack();
             }
