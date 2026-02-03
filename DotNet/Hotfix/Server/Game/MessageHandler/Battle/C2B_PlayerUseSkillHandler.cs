@@ -13,7 +13,7 @@ namespace ET.Server
                 return;
             }
             
-            // unitEntityPlayer.GetComponent<PlayerServerSkillComponent>()?.PlayerUseSkill(request.SkillId);
+            unitEntityPlayer.GetComponent<SkillComponent>()?.UseSkill(skillId);
         }
     }
 }

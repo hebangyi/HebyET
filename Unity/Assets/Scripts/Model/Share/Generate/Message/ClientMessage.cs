@@ -159,29 +159,29 @@ namespace ET
                 this.Dirty();
             }
         }
-        private Dictionary<string, string> _Datas = new();
-
-        [MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
-        [MemoryPackOrder(2)]
-        public Dictionary<string, string> Datas 
-        {
-            get => _Datas;
-            set {
-                _Datas = value;
-                this.Dirty();
-            }
-        }
         /// <summary>
         /// 配置ID
         /// </summary>
         private long _ConfigId;
 
-        [MemoryPackOrder(3)]
+        [MemoryPackOrder(2)]
         public long ConfigId
         {
             get => _ConfigId;
             set {
                 _ConfigId = value;
+                this.Dirty();
+            }
+        }
+        private Dictionary<string, string> _Datas = new();
+
+        [MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
+        [MemoryPackOrder(3)]
+        public Dictionary<string, string> Datas 
+        {
+            get => _Datas;
+            set {
+                _Datas = value;
                 this.Dirty();
             }
         }
@@ -196,8 +196,8 @@ namespace ET
 
             this._UnitEntityType = default;
             this._UELayerTypeEnum = default;
-            this._Datas.Clear();
             this._ConfigId = default;
+            this._Datas.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -242,14 +242,14 @@ namespace ET
         /// <summary>
         /// 当前状态开始的逻辑帧
         /// </summary>
-        private uint _CurrentStateStartFrame;
+        private uint _ActiveFrame;
 
         [MemoryPackOrder(1)]
-        public uint CurrentStateStartFrame
+        public uint ActiveFrame
         {
-            get => _CurrentStateStartFrame;
+            get => _ActiveFrame;
             set {
-                _CurrentStateStartFrame = value;
+                _ActiveFrame = value;
                 this.Dirty();
             }
         }
@@ -277,7 +277,7 @@ namespace ET
             this.m_InstanceId = default;
 
             this._AnimateState = default;
-            this._CurrentStateStartFrame = default;
+            this._ActiveFrame = default;
             this._CurrentSkillStateData = default;
 
             ObjectPool.Instance.Recycle(this);
@@ -447,10 +447,10 @@ namespace ET
         /// <summary>
         /// 技能数据
         /// </summary>
-        private List<UnitEntityPlayerSkillDataItem> _SkillDataItems = new();
+        private List<UnitEntitySkillDataItem> _SkillDataItems = new();
 
         [MemoryPackOrder(0)]
-        public List<UnitEntityPlayerSkillDataItem> SkillDataItems
+        public List<UnitEntitySkillDataItem> SkillDataItems
         {
             get => _SkillDataItems;
             set {
@@ -481,14 +481,14 @@ namespace ET
 
     // 玩家技能DataItem
     [MemoryPackable]
-    [Message(ClientMessage.UnitEntityPlayerSkillDataItem)]
-    public partial class UnitEntityPlayerSkillDataItem : MessageObject
+    [Message(ClientMessage.UnitEntitySkillDataItem)]
+    public partial class UnitEntitySkillDataItem : MessageObject
     {
         private long m_InstanceId;
 
-        public static UnitEntityPlayerSkillDataItem Create(bool isFromPool = false)
+        public static UnitEntitySkillDataItem Create(bool isFromPool = false)
         {
-            return ObjectPool.Instance.Fetch(typeof(UnitEntityPlayerSkillDataItem), isFromPool) as UnitEntityPlayerSkillDataItem;
+            return ObjectPool.Instance.Fetch(typeof(UnitEntitySkillDataItem), isFromPool) as UnitEntitySkillDataItem;
         }
 
         [MemoryPackOrder(0)]
@@ -2586,7 +2586,7 @@ namespace ET
         public const ushort UnitEntityPosition = 10007;
         public const ushort UnitEntityTowardAngle = 10008;
         public const ushort UnitEntitySkillData = 10009;
-        public const ushort UnitEntityPlayerSkillDataItem = 10010;
+        public const ushort UnitEntitySkillDataItem = 10010;
         public const ushort UnitEntityPlayerInfo = 10011;
         public const ushort UnitEntityCameraData = 10012;
         public const ushort UnitEntityMapMessage = 10013;

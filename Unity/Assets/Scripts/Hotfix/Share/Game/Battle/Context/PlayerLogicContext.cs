@@ -31,10 +31,10 @@ namespace ET
             var attackSkillConfig = SkillConfigCategory.Instance.GetById(battlePlayerConfig.AttackSkill);
             if (attackSkillConfig != null)
             {
-                UnitEntityPlayerSkillDataItem unitEntityPlayerSkillDataItem = UnitEntityPlayerSkillDataItem.Create();
-                unitEntityPlayerSkillDataItem.SkillId = battlePlayerConfig.AttackSkill;
-                unitEntityPlayerSkillDataItem.SkillStatusEnum = SkillStatusEnum.Ready;
-                unitEntitySkillData.SkillDataItems.Add(unitEntityPlayerSkillDataItem);
+                UnitEntitySkillDataItem unitEntitySkillDataItem = UnitEntitySkillDataItem.Create();
+                unitEntitySkillDataItem.SkillId = battlePlayerConfig.AttackSkill;
+                unitEntitySkillDataItem.SkillStatusEnum = SkillStatusEnum.Ready;
+                unitEntitySkillData.SkillDataItems.Add(unitEntitySkillDataItem);
             }
             
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
@@ -69,6 +69,7 @@ namespace ET
             
 
             unitEntity.AddComponent<PlayerAOISeeUnitEntity>();
+            unitEntity.AddComponent<SkillComponent>();
             unitEntity.AddComponent<AOIUnitEntity, float2, UETypeEnum>(unitEntityPosition.Position, UETypeEnum.Player);
             
             var cellIds = AOIHelper.GetAOICellIds(unitEntityPosition.Position);

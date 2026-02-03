@@ -16,7 +16,26 @@
             }
             
             unitEntityAnimation.AnimateState = animateState;
-            unitEntityAnimation.CurrentStateStartFrame = unitEntity.LogicWorld().Frame;
+            unitEntityAnimation.ActiveFrame = unitEntity.LogicWorld().Frame;
+            return true;
+        }
+
+        public static bool ChangeUseSkillStatus(UnitEntity unitEntity, long skillId, uint skillActiveFrame)
+        {
+            var unitEntityAnimation = unitEntity.GetUnitEntityElemData<UnitEntityAnimationStateData>();
+            if (unitEntityAnimation == null)
+            {
+                return false;
+            }
+            
+            unitEntityAnimation.AnimateState = AnimateStateEnum.Skill;
+            unitEntityAnimation.ActiveFrame = unitEntity.LogicWorld().Frame;
+
+            var skillStateData = UnitEntityAnimationSkillStateData.Create();
+            skillStateData.SkillId = skillId;
+            skillStateData.ActiveFrame = skillActiveFrame;
+
+            unitEntityAnimation.CurrentSkillStateData = skillStateData;
             return true;
         }
 

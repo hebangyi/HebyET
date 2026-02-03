@@ -27,21 +27,4 @@ namespace ET
         // 地块玩家
         public Dictionary<long, AOIUnitEntity> PlayerAOIEntities = new Dictionary<long, AOIUnitEntity>();
     }
-    
-    
-    [ComponentOf(typeof(UnitEntity))]
-    public class AOIUnitEntity : Entity, IAwake<float2, UETypeEnum>, IDestroy
-    {
-        public long CellId;
-        
-        public UETypeEnum UETypeEnum { get; set; }
-    }
-
-    [ComponentOf(typeof(UnitEntity))]
-    public class PlayerAOISeeUnitEntity: Entity, IAwake
-    {
-        public List<long> EnterEntityIds = new();
-        public List<long> LeaveEntityIds = new();
-        public HashSet<long> ManageEntityIds = new();
-    }
 }

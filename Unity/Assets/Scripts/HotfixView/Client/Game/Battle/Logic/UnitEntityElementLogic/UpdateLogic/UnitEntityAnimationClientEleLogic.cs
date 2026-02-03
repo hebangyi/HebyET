@@ -28,7 +28,7 @@
             
             
             var animateStateEnum = animationStateData.AnimateState;
-            var startFrame = animationStateData.CurrentStateStartFrame;
+            var startFrame = animationStateData.ActiveFrame;
             var clientWorld = unitEntity.ClientWorld();
 
             uint subFrame = 0;

@@ -609,3 +609,6 @@ LobbyRoleBattleComponent
 LobbySyncUnitDataComponent
 LobbyRoleComponent
 SessionLobbyPlayerComponent
+UnitEntityAnimationSkillStateData
+UnitEntitySkillData
+SkillComponent
