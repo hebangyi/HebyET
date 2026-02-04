@@ -2,3 +2,4 @@ FGUIBattleOperationMainView
 FGUILoadingUIView
 FGUILobbyMainView
 FGUILoginMainView
+FGUIHealthBarMainView

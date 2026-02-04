@@ -612,3 +612,5 @@ SessionLobbyPlayerComponent
 UnitEntityAnimationSkillStateData
 UnitEntitySkillData
 SkillComponent
+FGUIHealthBarMainView
+UnitEntitySkillDataItem

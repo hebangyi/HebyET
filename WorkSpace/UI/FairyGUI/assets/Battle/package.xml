@@ -10,6 +10,8 @@
     <component id="i52o6" name="FGUIBattleButton.xml" path="/" exported="true"/>
     <image id="i52o7" name="Button.png" path="/Resource/" exported="true"/>
     <component id="qpd68" name="Attack.xml" path="/"/>
+    <component id="ixeh9" name="FGUIHealthBarMainView.xml" path="/" exported="true"/>
+    <component id="ixeha" name="HealthBar.xml" path="/"/>
   </resources>
   <publish name="" genCode="true"/>
 </packageDescription>

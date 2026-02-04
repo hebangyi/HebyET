@@ -8,6 +8,7 @@
         FGUILoadingUIView = 3,  // 加载界面
         FGUILobbyMainView = 4,  // 大厅
         FGUIBattleOperationMainView = 5,    // 战斗服操作界面
+        FGUIHealthBarMainView = 6,    // 血量条
     }
     
     
