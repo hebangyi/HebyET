@@ -223,7 +223,7 @@ namespace FairyGUI
         /// <param name="child">A child object</param>
         /// <param name="index">Index</param>
         /// <returns>GObject</returns>
-        virtual public GObject AddChildAt(GObject child, int index)
+        public virtual GObject AddChildAt(GObject child, int index)
         {
             if (index >= 0 && index <= _children.Count)
             {

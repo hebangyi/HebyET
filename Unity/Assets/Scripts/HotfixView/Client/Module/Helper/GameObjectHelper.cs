@@ -130,8 +130,15 @@ namespace ET.Client
             unitEntity.AddComponent<UnitEntityHealthBarComponent>();
             
             var res = FGUIManagerComponent.Instance.GetWindowPackageAndRes(WindowID.FGUIHealthBarMainView);
-            var gobject = await FGUIComponent.Instance.CreateGObject(res.Item1, res.Item2);
-            FGUIComponent.Instance.AddGObjectByWindowType(UIWindowType.Normal, gobject);
+            
+            var gObject = await FGUIComponent.Instance.CreateGObject(res.Item1, res.Item2);
+            
+            
+            
+            var uiBaseWindow = FGUIComponent.Instance.GetUIBaseWindow(WindowID.FGUIBattleOperationMainView);
+            uiBaseWindow.GObject.asCom.AddChild(gObject);
+            
+            // FGUIComponent.Instance.AddGObjectByWindowType(UIWindowType.Normal, gobject);
             
 
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();

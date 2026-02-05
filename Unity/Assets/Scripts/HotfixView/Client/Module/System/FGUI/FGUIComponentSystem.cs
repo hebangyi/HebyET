@@ -57,6 +57,9 @@ namespace ET.Client
                 self.RealCloseWindow(baseWindow, windowId);
             }
         }
+        
+        
+        
 
         public static void CloseWindowAll(this FGUIComponent self)
         {
@@ -65,6 +68,17 @@ namespace ET.Client
             {
                 self.CloseWindow((WindowID)windowId);
             }
+        }
+        
+        
+        public static UIBaseWindow GetUIBaseWindow(this FGUIComponent self, WindowID id)
+        {
+            if (self.AllWindowsDict.ContainsKey((int)id))
+            {
+                return self.AllWindowsDict[(int)id];
+            }
+
+            return null;
         }
         
         # region 私有方法
@@ -123,25 +137,24 @@ namespace ET.Client
 
                 if (baseWindow == null)
                 {
-                    baseWindow = self.AddChild<UIBaseWindow>();
-                    baseWindow.WindowId = id;
-
                     var res = FGUIManagerComponent.Instance.GetWindowPackageAndRes(id);
                     if (res.Item1 == null || res.Item2 == null)
                     {
                         Log.Error($"Window Id : {id} Not Found Package And Resource.");
-                        return baseWindow;
+                        return null;
                     }
-
+                    
                     string packageName = res.Item1;
                     string resourceName = res.Item2;
                     var gobject = await self.CreateGObject(packageName, resourceName);
                     if (gobject == null)
                     {
                         Log.Error($"Create GObject failed: {packageName} {resourceName}");
-                        return baseWindow;
+                        return null;
                     }
-
+                    
+                    baseWindow = self.AddChild<UIBaseWindow, GObject, WindowID>(gobject, id);
+                    baseWindow.WindowId = id;
                     baseWindow.GObject = gobject;
 
                     var eventHandler = FGUIManagerComponent.Instance.GetEventHandlerByWindowID(id);
@@ -153,7 +166,9 @@ namespace ET.Client
 
                     eventHandler.OnInitWindowCoreData(baseWindow);
                     
-                    self.AddGObjectByWindowType(baseWindow.WindowType, gobject);
+                    var fguiLayer = self.AllWindowTypes.GetValueOrDefault(baseWindow.WindowType);
+                    fguiLayer?.AddWindow(gobject);
+                    
                     // baseWindow?.SetRoot(EUIRootHelper.GetTargetRoot(baseWindow.WindowData.windowType));
                     // baseWindow.uiTransform.SetAsLastSibling();
 
@@ -176,12 +191,6 @@ namespace ET.Client
             return null;
         }
 
-        public static void AddGObjectByWindowType(this FGUIComponent self, UIWindowType windowType, GObject gObject)
-        {
-            var fguiLayer = self.AllWindowTypes.GetValueOrDefault(windowType);
-            fguiLayer?.AddWindow(gObject);
-        }
-        
 
         /// <summary>
         /// 异步加载UI窗口实例
@@ -195,15 +204,7 @@ namespace ET.Client
             return gobject;
         }
 
-        private static UIBaseWindow GetUIBaseWindow(this FGUIComponent self, WindowID id)
-        {
-            if (self.AllWindowsDict.ContainsKey((int)id))
-            {
-                return self.AllWindowsDict[(int)id];
-            }
 
-            return null;
-        }
         # endregion
         
     }

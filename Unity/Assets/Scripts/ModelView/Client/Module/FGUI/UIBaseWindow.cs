@@ -6,7 +6,7 @@ namespace ET.Client
 {
     [ChildOf]
     [EnableMethod]
-    public class UIBaseWindow : Entity, IAwake, IDestroy
+    public class UIBaseWindow : Entity, IAwake<GObject, WindowID>, IDestroy
     {
         public WindowID WindowId = WindowID.None;
         // 根节点的GObject

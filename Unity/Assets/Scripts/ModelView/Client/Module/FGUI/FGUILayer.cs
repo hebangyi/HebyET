@@ -13,7 +13,6 @@ namespace ET.Client
 
         public void AddWindow(GObject gObject)
         {
-            string uiName = gObject.name;
             if (this.FGuiChildNode.ContainsKey(gObject.id))
             {
                 throw new Exception($"ui.Name({gObject.id}) already exist");
@@ -25,9 +24,7 @@ namespace ET.Client
 
         public void RemoveWindow(GObject gObject)
         {
-            string uiName = gObject.name;
-            this.FGuiChildNode.Remove(uiName);
-            
+            this.FGuiChildNode.Remove(gObject.id);
             gObject.RemoveFromParent();
         }
     }
