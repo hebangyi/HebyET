@@ -6,6 +6,7 @@ using UnityEngine;
 namespace ET.Client
 {
     public static class DlgFGUIBattleOperationMainViewSystem
+    
     {
         public static void Init(this DlgFGUIBattleOperationMainView self)
         {

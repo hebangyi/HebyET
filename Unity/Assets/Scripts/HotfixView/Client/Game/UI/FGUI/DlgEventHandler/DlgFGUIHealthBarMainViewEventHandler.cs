@@ -12,8 +12,10 @@ namespace ET.Client
 
         public void OnInitComponent(UIBaseWindow uiBaseWindow)
         {
-            uiBaseWindow.AddComponent<DlgFGUIHealthBarMainView>().AddComponent<FGUIHealthBarMainView, GObject>(uiBaseWindow.GObject);
-            uiBaseWindow.GetComponent<DlgFGUIHealthBarMainView>().Init();
+            var dlgComponent = uiBaseWindow.AddComponent<DlgFGUIHealthBarMainView>();
+            DlgFGUIHealthBarMainView.Instance = dlgComponent;
+            dlgComponent.AddComponent<FGUIHealthBarMainView, GObject>(uiBaseWindow.GObject);
+            dlgComponent.Init();
         }
 
         public void OnRegisterUIEvent(UIBaseWindow uiBaseWindow)

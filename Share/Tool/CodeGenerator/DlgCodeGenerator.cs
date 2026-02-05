@@ -143,6 +143,8 @@ namespace ET
                                                 [FGUIDLG(WindowID.{className}, typeof({className}))]
                                                 public class Dlg{className} : Entity,IAwake
                                                 {
+                                                    public static Dlg{className} Instance { get; set; }
+                                                
                                                     public {className} View { get => this.GetComponent<{className}>(); }
                                                     
                                                 }
@@ -195,8 +197,10 @@ namespace ET
                                                         
                                                                 public void OnInitComponent(UIBaseWindow uiBaseWindow)
                                                                 {
-                                                                    uiBaseWindow.AddComponent<Dlg{className}>().AddComponent<{className}, GObject>(uiBaseWindow.GObject);
-                                                                    uiBaseWindow.GetComponent<Dlg{className}>().Init();
+                                                                    var dlgComponent = uiBaseWindow.AddComponent<Dlg{className}>();
+                                                                    Dlg{className}.Instance = dlgComponent;
+                                                                    dlgComponent.AddComponent<{className}, GObject>(uiBaseWindow.GObject);
+                                                                    dlgComponent.Init();
                                                                 }
                                                         
                                                                 public void OnRegisterUIEvent(UIBaseWindow uiBaseWindow)
