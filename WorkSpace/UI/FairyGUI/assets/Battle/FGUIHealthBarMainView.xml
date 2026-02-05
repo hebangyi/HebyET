@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="200,10">
+<component size="200,20">
   <displayList>
-    <component id="n0_ixeh" name="Bar" src="ixeha" fileName="HealthBar.xml" xy="0,0" size="200,10">
+    <component id="n0_ixeh" name="Bar" src="ixeha" fileName="HealthBar.xml" xy="0,0" size="200,20">
       <ProgressBar value="100" max="100"/>
     </component>
+    <text id="n3_ixeh" name="Text" xy="0,0" size="200,20" fontSize="12" align="right" vAlign="middle" autoSize="none" text="10000000000/10000000000"/>
   </displayList>
 </component>

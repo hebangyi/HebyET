@@ -110,6 +110,7 @@ namespace ET
 
             var code = DlgEventHandlerTemplate.Replace("{namespaceName}", namespaceName);
             code = code.Replace("{className}", className);
+            File.WriteAllText(filePath, code);
         }
 
         private static void GenerateDlgSystemByTemplate(string rootPath, string namespaceName, string className)

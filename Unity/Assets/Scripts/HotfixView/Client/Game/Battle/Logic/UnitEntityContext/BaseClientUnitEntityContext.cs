@@ -9,7 +9,7 @@
         public virtual  void CreateView(UnitEntity unitEntity)
         {
             var clientWorld = unitEntity.ClientWorld();
-            GameObjectHelper.CreateGameObjectIns(clientWorld, unitEntity);
+            GameObjectHelper.CreateGameObjectIns(clientWorld, unitEntity).Coroutine();
         }
         
         public virtual void InitView(UnitEntity unitEntity)

@@ -17,6 +17,7 @@ namespace ET.Client
 			self.GObject = go;
             var com = go.asCom;
 			self.Bar = (GProgressBar)com.GetChild("Bar");
+			self.Text = (GTextField)com.GetChild("Text");
 
         }
         
@@ -26,6 +27,7 @@ namespace ET.Client
         {
 			self.Bar?.Dispose();
 			self.Bar = null;
+			self.Text = null;
 
         }
     }

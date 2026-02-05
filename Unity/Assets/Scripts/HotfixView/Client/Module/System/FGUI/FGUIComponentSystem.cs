@@ -152,10 +152,8 @@ namespace ET.Client
                     }
 
                     eventHandler.OnInitWindowCoreData(baseWindow);
-
-                    var fguiLayer = self.AllWindowTypes.GetValueOrDefault(baseWindow.WindowType);
-                    fguiLayer?.AddWindow(baseWindow.GObject);
                     
+                    self.AddGObjectByWindowType(baseWindow.WindowType, gobject);
                     // baseWindow?.SetRoot(EUIRootHelper.GetTargetRoot(baseWindow.WindowData.windowType));
                     // baseWindow.uiTransform.SetAsLastSibling();
 
@@ -178,10 +176,17 @@ namespace ET.Client
             return null;
         }
 
+        public static void AddGObjectByWindowType(this FGUIComponent self, UIWindowType windowType, GObject gObject)
+        {
+            var fguiLayer = self.AllWindowTypes.GetValueOrDefault(windowType);
+            fguiLayer?.AddWindow(gObject);
+        }
+        
+
         /// <summary>
         /// 异步加载UI窗口实例
         /// </summary>
-        private static async ETTask<GObject> CreateGObject(this FGUIComponent self, string packageName, string resourceName)
+        public static async ETTask<GObject> CreateGObject(this FGUIComponent self, string packageName, string resourceName)
         {
             await FGUIPackageComponent.Instance.TryAddPackageAsync(packageName);
             ETTask<GObject> tcs = ETTask<GObject>.Create();

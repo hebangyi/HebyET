@@ -10,6 +10,7 @@ namespace ET.Client
     {   
         //// 组件变量
 		public GProgressBar Bar;
+		public GTextField Text;
 
     }
 }

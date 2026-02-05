@@ -614,3 +614,5 @@ UnitEntitySkillData
 SkillComponent
 FGUIHealthBarMainView
 UnitEntitySkillDataItem
+UnitEntityHealthBarComponent
+DlgFGUIHealthBarMainView

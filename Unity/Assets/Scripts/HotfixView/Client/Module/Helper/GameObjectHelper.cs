@@ -113,7 +113,7 @@ namespace ET.Client
         }
         
         
-        public static GameObject CreateGameObjectIns(ClientWorld clientWorld, UnitEntity unitEntity)
+        public static async ETTask<GameObject> CreateGameObjectIns(ClientWorld clientWorld, UnitEntity unitEntity)
         {
             var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
 
@@ -122,8 +122,17 @@ namespace ET.Client
 
             var ins = GetGameObjectIns(unitEntity, unitEntityCommonData.ConfigId);
             
+            // 实体组件
             var unitEntityGameObjectComponent = unitEntity.AddComponent<UnitEntityGameObjectComponent, GameObject>(ins);
+            // 动画组件
             unitEntity.AddComponent<UnitEntitySpineAnimationComponent, GameObject>(ins);
+            // 血量条组件
+            unitEntity.AddComponent<UnitEntityHealthBarComponent>();
+            
+            var res = FGUIManagerComponent.Instance.GetWindowPackageAndRes(WindowID.FGUIHealthBarMainView);
+            var gobject = await FGUIComponent.Instance.CreateGObject(res.Item1, res.Item2);
+            FGUIComponent.Instance.AddGObjectByWindowType(UIWindowType.Normal, gobject);
+            
 
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             if (unitEntityPosition != null)

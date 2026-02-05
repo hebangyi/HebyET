@@ -55,23 +55,16 @@ MonoBehaviour:
     gameObject: {fileID: 2273086117131228280, guid: 23c8ea80a836ec44e9375d603207bde3,
       type: 3}
   - key: Monster_004
-    gameObject: {fileID: 2273086117131228280, guid: 31f0390c91410e64a8fff6993d0d9105,
-      type: 3}
+    gameObject: {fileID: 0}
   - key: Monster_005
-    gameObject: {fileID: 2273086117131228280, guid: 379398e15a737c941af7cdd2ce2f0485,
-      type: 3}
+    gameObject: {fileID: 0}
   - key: Monster_006
-    gameObject: {fileID: 2273086117131228280, guid: 2342de7ba13da7e42a7133462edbac25,
-      type: 3}
+    gameObject: {fileID: 0}
   - key: Monster_007
-    gameObject: {fileID: 2273086117131228280, guid: 0c54d865c9203b34183e77f3885cb44b,
-      type: 3}
+    gameObject: {fileID: 0}
   - key: Monster_008
-    gameObject: {fileID: 2273086117131228280, guid: 0d69e7c95460e4a429b6618cbb577f42,
-      type: 3}
+    gameObject: {fileID: 0}
   - key: Monster_009
-    gameObject: {fileID: 2273086117131228280, guid: f2f0f84358f1e2247ae9dd6bcfc79ade,
-      type: 3}
+    gameObject: {fileID: 0}
   - key: Monster_010
-    gameObject: {fileID: 2273086117131228280, guid: a3f797b2a303fc347872ab3b5c86abc2,
-      type: 3}
+    gameObject: {fileID: 0}
