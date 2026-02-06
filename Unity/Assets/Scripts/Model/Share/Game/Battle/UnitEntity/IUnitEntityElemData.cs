@@ -1,14 +1,22 @@
 ﻿namespace ET
 {
     /// <summary>
-    /// 表示是战斗传输同步数据
+    /// 瞬间状态类数据 
+    /// </summary>
+    public interface IUnitEntityInstantStateData
+    {
+    }
+
+
+    /// <summary>
+    /// 通用持续化广播数据
     /// </summary>
     public interface IUnitEntityElemData
     {
     }
 
     /// <summary>
-    /// 表示是逻辑数据
+    /// 服务器持续化数据
     /// </summary>
     public interface IUnitEntityLogicElemData
     {

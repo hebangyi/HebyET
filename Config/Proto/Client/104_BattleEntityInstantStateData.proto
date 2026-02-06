@@ -1,0 +1,4 @@
+// 受伤数据
+message UnitEntityBeDamageInstantStateData // IUnitEntityInstantStateData
+{
+}

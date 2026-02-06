@@ -17,7 +17,11 @@ namespace ET.Client
             self.View.OpButton.TouchArea.alpha = 0f;
             self.YaoGanRadius = self.View.OpButton.TouchArea.width / 2;
 
+            InitAllUnitEntityHealthBar();
+        }
 
+        public static void InitAllUnitEntityHealthBar()
+        {
             var clientWorld = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
             if (clientWorld == null)
             {
@@ -31,6 +35,8 @@ namespace ET.Client
                 DlgFGUIBattleOperationMainView.Instance.View.GObject.asCom.AddChild(gObject);
             }
         }
+        
+        
         
         public static void RegisterUIEvent(this DlgFGUIBattleOperationMainView self)
         {

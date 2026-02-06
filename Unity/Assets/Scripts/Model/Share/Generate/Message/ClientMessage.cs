@@ -428,7 +428,7 @@ namespace ET
 
     }
 
-    // 玩家技能项
+    // 技能项
     [MemoryPackable]
     [Message(ClientMessage.UnitEntitySkillData)]
     public partial class UnitEntitySkillData : MessageObject, IUnitEntityElemData
@@ -479,7 +479,7 @@ namespace ET
 
     }
 
-    // 玩家技能DataItem
+    // 技能DataItem
     [MemoryPackable]
     [Message(ClientMessage.UnitEntitySkillDataItem)]
     public partial class UnitEntitySkillDataItem : MessageObject
@@ -518,6 +518,75 @@ namespace ET
 
             ObjectPool.Instance.Recycle(this);
         }
+    }
+
+    /// <summary>
+    /// 数值
+    /// </summary>
+    // UnitEntity 血量数据
+    [MemoryPackable]
+    [Message(ClientMessage.UnitEntityBloodData)]
+    public partial class UnitEntityBloodData : MessageObject, IUnitEntityElemData
+    {
+        private IDirtyHandler m_DirtyHandler;
+        private long m_InstanceId;
+
+        public static UnitEntityBloodData Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        {
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityBloodData), isFromPool) as UnitEntityBloodData;
+            instance.m_DirtyHandler = dirtyHandler;
+            instance.m_InstanceId = instanceId;
+            return instance;
+        }
+
+        /// <summary>
+        /// 当前血量
+        /// </summary>
+        private long _CurrentBlood;
+
+        [MemoryPackOrder(0)]
+        public long CurrentBlood
+        {
+            get => _CurrentBlood;
+            set {
+                _CurrentBlood = value;
+                this.Dirty();
+            }
+        }
+        /// <summary>
+        /// 总血量
+        /// </summary>
+        private long _TotalBlood;
+
+        [MemoryPackOrder(1)]
+        public long TotalBlood
+        {
+            get => _TotalBlood;
+            set {
+                _TotalBlood = value;
+                this.Dirty();
+            }
+        }
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+            this.m_DirtyHandler = null;
+            this.m_InstanceId = default;
+
+            this._CurrentBlood = default;
+            this._TotalBlood = default;
+
+            ObjectPool.Instance.Recycle(this);
+        }
+
+        public void Dirty()
+        {
+            this.m_DirtyHandler?.Dirty(m_InstanceId, this);
+        }
+
     }
 
     /// <summary>
@@ -653,6 +722,29 @@ namespace ET
             this.m_DirtyHandler?.Dirty(m_InstanceId, this);
         }
 
+    }
+
+    // 受伤数据
+    [MemoryPackable]
+    [Message(ClientMessage.UnitEntityBeDamageInstantStateData)]
+    public partial class UnitEntityBeDamageInstantStateData : MessageObject, IUnitEntityInstantStateData
+    {
+        private long m_InstanceId;
+
+        public static UnitEntityBeDamageInstantStateData Create(bool isFromPool = false)
+        {
+            return ObjectPool.Instance.Fetch(typeof(UnitEntityBeDamageInstantStateData), isFromPool) as UnitEntityBeDamageInstantStateData;
+        }
+
+        public override void Dispose()
+        {
+            if (!this.IsFromPool)
+            {
+                return;
+            }
+
+            ObjectPool.Instance.Recycle(this);
+        }
     }
 
     /// <summary>
@@ -2587,58 +2679,60 @@ namespace ET
         public const ushort UnitEntityTowardAngle = 10008;
         public const ushort UnitEntitySkillData = 10009;
         public const ushort UnitEntitySkillDataItem = 10010;
-        public const ushort UnitEntityPlayerInfo = 10011;
-        public const ushort UnitEntityCameraData = 10012;
-        public const ushort UnitEntityMapMessage = 10013;
-        public const ushort PlantInfo = 10014;
-        public const ushort CellInfo = 10015;
-        public const ushort GizmosPlantInfo = 10016;
-        public const ushort GizmosPlayerAOICell = 10017;
-        public const ushort C2G_Ping = 10018;
-        public const ushort G2C_Ping = 10019;
-        public const ushort C2G_Benchmark = 10020;
-        public const ushort G2C_Benchmark = 10021;
-        public const ushort Main2NetBattleLogin = 10022;
-        public const ushort NetBattle2MainLogin = 10023;
-        public const ushort C2B_Login = 10024;
-        public const ushort B2C_Login = 10025;
-        public const ushort C2B_PlayerReadyCompleted = 10026;
-        public const ushort B2C_PlayerReadyCompleted = 10027;
-        public const ushort C2B_PlayerGetAllAOIWorldData = 10028;
-        public const ushort B2C_PlayerGetAllAOIWorldData = 10029;
-        public const ushort C2B_PlayerBattleWorldPing = 10030;
-        public const ushort B2C_PlayerBattleWorldPing = 10031;
-        public const ushort L2C_PlayerAOIWorldDirtyPush = 10032;
-        public const ushort C2B_PlayerUploadDirtyElemData = 10033;
-        public const ushort B2C_PlayerUploadDirtyElemData = 10034;
-        public const ushort C2B_PlayeBattleReday = 10035;
-        public const ushort B2C_PlayeBattleReday = 10036;
-        public const ushort C2B_PlayerUseSkill = 10037;
-        public const ushort B2C_PlayerUseSkill = 10038;
-        public const ushort C2B_PlayerMove = 10039;
-        public const ushort B2C_PlayerMove = 10040;
-        public const ushort C2B_PlayerMoveStop = 10041;
-        public const ushort B2C_PlayerMoveStop = 10042;
-        public const ushort Main2NetLobbyLogin = 10043;
-        public const ushort NetLobby2MainLogin = 10044;
-        public const ushort C2A_Login = 10045;
-        public const ushort A2C_Login = 10046;
-        public const ushort C2L_LoginLobby = 10047;
-        public const ushort L2C_LoginLobby = 10048;
-        public const ushort G2C_SessionDisconnect = 10049;
-        public const ushort HttpGetRouterResponse = 10050;
-        public const ushort SyncDataUnitStruct = 10051;
-        public const ushort DataUnitBytes = 10052;
-        public const ushort C2L_GetAllDataUnits = 10053;
-        public const ushort L2C_GetAllDataUnits = 10054;
-        public const ushort L2C_SyncDirtyDataUnits = 10055;
-        public const ushort RoleInfoUnitData = 10056;
-        public const ushort C2L_StartMatchBattle = 10057;
-        public const ushort L2C_StartMatchBattle = 10058;
-        public const ushort L2C_MatchBattleSuccess = 10059;
-        public const ushort C2B_DebugStartWorld = 10060;
-        public const ushort B2C_DebugStartWorld = 10061;
-        public const ushort C2B_DebugWorldPlush = 10062;
-        public const ushort B2C_DebugWorldPlush = 10063;
+        public const ushort UnitEntityBloodData = 10011;
+        public const ushort UnitEntityPlayerInfo = 10012;
+        public const ushort UnitEntityCameraData = 10013;
+        public const ushort UnitEntityBeDamageInstantStateData = 10014;
+        public const ushort UnitEntityMapMessage = 10015;
+        public const ushort PlantInfo = 10016;
+        public const ushort CellInfo = 10017;
+        public const ushort GizmosPlantInfo = 10018;
+        public const ushort GizmosPlayerAOICell = 10019;
+        public const ushort C2G_Ping = 10020;
+        public const ushort G2C_Ping = 10021;
+        public const ushort C2G_Benchmark = 10022;
+        public const ushort G2C_Benchmark = 10023;
+        public const ushort Main2NetBattleLogin = 10024;
+        public const ushort NetBattle2MainLogin = 10025;
+        public const ushort C2B_Login = 10026;
+        public const ushort B2C_Login = 10027;
+        public const ushort C2B_PlayerReadyCompleted = 10028;
+        public const ushort B2C_PlayerReadyCompleted = 10029;
+        public const ushort C2B_PlayerGetAllAOIWorldData = 10030;
+        public const ushort B2C_PlayerGetAllAOIWorldData = 10031;
+        public const ushort C2B_PlayerBattleWorldPing = 10032;
+        public const ushort B2C_PlayerBattleWorldPing = 10033;
+        public const ushort L2C_PlayerAOIWorldDirtyPush = 10034;
+        public const ushort C2B_PlayerUploadDirtyElemData = 10035;
+        public const ushort B2C_PlayerUploadDirtyElemData = 10036;
+        public const ushort C2B_PlayeBattleReday = 10037;
+        public const ushort B2C_PlayeBattleReday = 10038;
+        public const ushort C2B_PlayerUseSkill = 10039;
+        public const ushort B2C_PlayerUseSkill = 10040;
+        public const ushort C2B_PlayerMove = 10041;
+        public const ushort B2C_PlayerMove = 10042;
+        public const ushort C2B_PlayerMoveStop = 10043;
+        public const ushort B2C_PlayerMoveStop = 10044;
+        public const ushort Main2NetLobbyLogin = 10045;
+        public const ushort NetLobby2MainLogin = 10046;
+        public const ushort C2A_Login = 10047;
+        public const ushort A2C_Login = 10048;
+        public const ushort C2L_LoginLobby = 10049;
+        public const ushort L2C_LoginLobby = 10050;
+        public const ushort G2C_SessionDisconnect = 10051;
+        public const ushort HttpGetRouterResponse = 10052;
+        public const ushort SyncDataUnitStruct = 10053;
+        public const ushort DataUnitBytes = 10054;
+        public const ushort C2L_GetAllDataUnits = 10055;
+        public const ushort L2C_GetAllDataUnits = 10056;
+        public const ushort L2C_SyncDirtyDataUnits = 10057;
+        public const ushort RoleInfoUnitData = 10058;
+        public const ushort C2L_StartMatchBattle = 10059;
+        public const ushort L2C_StartMatchBattle = 10060;
+        public const ushort L2C_MatchBattleSuccess = 10061;
+        public const ushort C2B_DebugStartWorld = 10062;
+        public const ushort B2C_DebugStartWorld = 10063;
+        public const ushort C2B_DebugWorldPlush = 10064;
+        public const ushort B2C_DebugWorldPlush = 10065;
     }
 }
