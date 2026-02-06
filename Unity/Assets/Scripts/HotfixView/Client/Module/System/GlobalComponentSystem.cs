@@ -12,7 +12,6 @@ namespace ET.Client
             GlobalComponent.Instance = self;
             
             self.Global = GameObject.Find("/Global").transform;
-            
             self.CameraPack = GameObject.Find("/Global/CameraPack");
             self.MainCamera = GameObject.Find("/Global/CameraPack/MainCamera").GetComponent<Camera>();
             // self.UICamera = GameObject.Find("/Global/UICamera").GetComponent<Camera>();

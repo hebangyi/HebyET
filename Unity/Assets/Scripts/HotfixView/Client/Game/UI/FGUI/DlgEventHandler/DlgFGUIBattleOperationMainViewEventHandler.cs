@@ -12,8 +12,10 @@ namespace ET.Client
 
         public void OnInitComponent(UIBaseWindow uiBaseWindow)
         {
-            uiBaseWindow.AddComponent<DlgFGUIBattleOperationMainView>().AddComponent<FGUIBattleOperationMainView, GObject>(uiBaseWindow.GObject);
-            uiBaseWindow.GetComponent<DlgFGUIBattleOperationMainView>().Init();
+            var dlgComponent = uiBaseWindow.AddComponent<DlgFGUIBattleOperationMainView>();
+            DlgFGUIBattleOperationMainView.Instance = dlgComponent;
+            DlgFGUIBattleOperationMainView.Instance.AddComponent<FGUIBattleOperationMainView, GObject>(uiBaseWindow.GObject);
+            DlgFGUIBattleOperationMainView.Instance.Init();
         }
 
         public void OnRegisterUIEvent(UIBaseWindow uiBaseWindow)

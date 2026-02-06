@@ -15,8 +15,21 @@ namespace ET.Client
             self.InitYaoGanX = self.View.OpButton.YaoGanImg.x;
             self.InitYaoGanY = self.View.OpButton.YaoGanImg.y;
             self.View.OpButton.TouchArea.alpha = 0f;
-            
             self.YaoGanRadius = self.View.OpButton.TouchArea.width / 2;
+
+
+            var clientWorld = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
+            if (clientWorld == null)
+            {
+                return;
+            }
+
+            foreach (var unitEntity in clientWorld.AllEntities.Values)
+            {
+                var unitEntityHealthBarComponent = unitEntity.GetComponent<UnitEntityHealthBarComponent>();
+                var gObject = unitEntityHealthBarComponent.GObject;
+                DlgFGUIBattleOperationMainView.Instance.View.GObject.asCom.AddChild(gObject);
+            }
         }
         
         public static void RegisterUIEvent(this DlgFGUIBattleOperationMainView self)

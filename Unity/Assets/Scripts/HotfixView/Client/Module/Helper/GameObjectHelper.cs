@@ -1,4 +1,5 @@
 ﻿using System;
+using FairyGUI;
 using Spine.Unity;
 using UnityEngine;
 // using Spine.Unity;
@@ -126,21 +127,12 @@ namespace ET.Client
             var unitEntityGameObjectComponent = unitEntity.AddComponent<UnitEntityGameObjectComponent, GameObject>(ins);
             // 动画组件
             unitEntity.AddComponent<UnitEntitySpineAnimationComponent, GameObject>(ins);
+            
+            
             // 血量条组件
-            unitEntity.AddComponent<UnitEntityHealthBarComponent>();
-            
-            var res = FGUIManagerComponent.Instance.GetWindowPackageAndRes(WindowID.FGUIHealthBarMainView);
-            
-            var gObject = await FGUIComponent.Instance.CreateGObject(res.Item1, res.Item2);
-            
-            
-            
-            var uiBaseWindow = FGUIComponent.Instance.GetUIBaseWindow(WindowID.FGUIBattleOperationMainView);
-            uiBaseWindow.GObject.asCom.AddChild(gObject);
-            
+            var gObject = await FGUIComponent.Instance.CreateGObject(FGUIPackage.PKG_Battle, FGUIResName.RES_Battle_FGUIHealthBarMainView);
+            unitEntity.AddComponent<UnitEntityHealthBarComponent, GObject>(gObject);
             // FGUIComponent.Instance.AddGObjectByWindowType(UIWindowType.Normal, gobject);
-            
-
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             if (unitEntityPosition != null)
             {

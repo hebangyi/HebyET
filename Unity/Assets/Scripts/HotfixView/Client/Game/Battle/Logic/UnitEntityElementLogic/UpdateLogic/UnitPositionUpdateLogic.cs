@@ -30,6 +30,8 @@ namespace ET.Client
                 unitEntityGameObjectComponent.GameObject.transform.position =
                         new Vector3(newData.Position.x, newData.Position.y, 0);
             }
+            
+            unitEntity.GetComponent<UnitEntityHealthBarComponent>()?.UpdateHPBarPosition();
         }
     }
 }

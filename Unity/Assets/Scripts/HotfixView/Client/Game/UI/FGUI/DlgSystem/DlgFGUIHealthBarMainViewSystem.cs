@@ -24,5 +24,6 @@ namespace ET.Client
         public static void BeforeUnload(this DlgFGUIHealthBarMainView self)
         {
         }
+        
     }
 }

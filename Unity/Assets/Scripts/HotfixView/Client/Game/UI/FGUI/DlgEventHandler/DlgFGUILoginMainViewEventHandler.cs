@@ -13,8 +13,9 @@ namespace ET.Client
         public void OnInitComponent(UIBaseWindow uiBaseWindow)
         {
             var dlgFguiLoginMainView = uiBaseWindow.AddComponent<DlgFGUILoginMainView>();
-            dlgFguiLoginMainView.AddComponent<FGUILoginMainView, GObject>(uiBaseWindow.GObject);
-            dlgFguiLoginMainView.Init();
+            DlgFGUILoginMainView.Instance = dlgFguiLoginMainView; 
+            DlgFGUILoginMainView.Instance.AddComponent<FGUILoginMainView, GObject>(uiBaseWindow.GObject);
+            DlgFGUILoginMainView.Instance.Init();
             
         }
 
