@@ -28,6 +28,10 @@ public static partial class BattleWorldManagerComponentSystem
         
         // AI组件
         world.AddComponent<AIComponent>();
+
+        // 世界技能执行器
+        world.AddComponent<WorldSkillExecuteComponent>();
+        
         
         // 创建地图
         var config = BattleGlobalConfigCategory.Instance.Config;

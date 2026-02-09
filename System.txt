@@ -618,3 +618,7 @@ UnitEntityHealthBarComponent
 DlgFGUIHealthBarMainView
 UnitEntityBloodData
 UnitEntityBeDamageInstantStateData
+FGUIHealthBar
+WorldSkillExecuteComponent
+UnitEntitySkill
+UnitEntitySkillItem
