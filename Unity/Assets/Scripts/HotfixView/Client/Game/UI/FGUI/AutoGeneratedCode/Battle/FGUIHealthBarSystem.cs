@@ -4,16 +4,16 @@ using FairyGUI;
 
 namespace ET.Client
 {
-    [EntitySystemOf(typeof(FGUIHealthBarMainView))]
-    public static partial class FGUIHealthBarMainViewSystem
+    [EntitySystemOf(typeof(FGUIHealthBar))]
+    public static partial class FGUIHealthBarSystem
     {
         [EntitySystem]
-        public static void Awake(this FGUIHealthBarMainView self, FairyGUI.GObject go)
+        public static void Awake(this FGUIHealthBar self, FairyGUI.GObject go)
         {
 			self.UIPackageName = "Battle";
-	        self.UIResourceName = "FGUIHealthBarMainView";
-	        self.UIResURL = "ui://Battle/FGUIHealthBarMainView";
-	        self.FUIName = "FGUIHealthBarMainView";
+	        self.UIResourceName = "FGUIHealthBar";
+	        self.UIResURL = "ui://Battle/FGUIHealthBar";
+	        self.FUIName = "FGUIHealthBar";
 			self.GObject = go;
             var com = go.asCom;
 			self.Bar = (GProgressBar)com.GetChild("Bar");
@@ -23,7 +23,7 @@ namespace ET.Client
         
         
         [EntitySystem]
-        public static void Destroy(this FGUIHealthBarMainView self)
+        public static void Destroy(this FGUIHealthBar self)
         {
 			self.Bar?.Dispose();
 			self.Bar = null;

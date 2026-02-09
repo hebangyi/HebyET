@@ -17,7 +17,8 @@ namespace ET
             
             unitEntityContext.InitCommonData(unitEntity);
             unitEntityContext.InitCustomData(unitEntity);
-            unitEntityContext.Init(unitEntity);
+            unitEntityContext.InitNumericalData(unitEntity);
+            unitEntityContext.InitComponent(unitEntity);
         }
     }
 }

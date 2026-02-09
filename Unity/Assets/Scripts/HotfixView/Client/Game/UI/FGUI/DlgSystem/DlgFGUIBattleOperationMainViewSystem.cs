@@ -31,8 +31,11 @@ namespace ET.Client
             foreach (var unitEntity in clientWorld.AllEntities.Values)
             {
                 var unitEntityHealthBarComponent = unitEntity.GetComponent<UnitEntityHealthBarComponent>();
-                var gObject = unitEntityHealthBarComponent.GObject;
-                DlgFGUIBattleOperationMainView.Instance.View.GObject.asCom.AddChild(gObject);
+                if (unitEntityHealthBarComponent != null)
+                {
+                    var gObject = unitEntityHealthBarComponent.GObject;
+                    DlgFGUIBattleOperationMainView.Instance.View.GObject.asCom.AddChild(gObject);
+                }
             }
         }
         

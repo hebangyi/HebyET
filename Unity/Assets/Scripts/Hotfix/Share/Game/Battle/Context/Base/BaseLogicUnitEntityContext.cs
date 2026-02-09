@@ -30,10 +30,14 @@ namespace ET
         {
         }
 
-        public virtual void Init(UnitEntity unitEntity)
+        public virtual void InitNumericalData(UnitEntity unitEntity)
         {
         }
-
+        
+        public virtual void InitComponent(UnitEntity unitEntity)
+        {
+        }
+        
         public virtual void Destroy(UnitEntity unitEntity)
         {
         }

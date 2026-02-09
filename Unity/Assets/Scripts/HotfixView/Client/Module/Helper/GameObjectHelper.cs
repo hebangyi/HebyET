@@ -127,18 +127,24 @@ namespace ET.Client
             var unitEntityGameObjectComponent = unitEntity.AddComponent<UnitEntityGameObjectComponent, GameObject>(ins);
             // 动画组件
             unitEntity.AddComponent<UnitEntitySpineAnimationComponent, GameObject>(ins);
+
+
+            if (unitEntity.HasBloodNumerical())
+            {
+                // 血量条组件
+                var gObject = await FGUIComponent.Instance.CreateGObject(FGUIPackage.PKG_Battle, FGUIResName.RES_Battle_FGUIHealthBar);
+                unitEntity.AddComponent<UnitEntityHealthBarComponent, GObject>(gObject);
+                
+            }
             
             
-            // 血量条组件
-            var gObject = await FGUIComponent.Instance.CreateGObject(FGUIPackage.PKG_Battle, FGUIResName.RES_Battle_FGUIHealthBarMainView);
-            unitEntity.AddComponent<UnitEntityHealthBarComponent, GObject>(gObject);
-            // FGUIComponent.Instance.AddGObjectByWindowType(UIWindowType.Normal, gobject);
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             if (unitEntityPosition != null)
             {
                 unitEntityGameObjectComponent.GameObject.transform.position =
                         new Vector3(unitEntityPosition.Position.x, unitEntityPosition.Position.y, 0);
             }
+
 
             switch (ueLayerTypeEnum)
             {

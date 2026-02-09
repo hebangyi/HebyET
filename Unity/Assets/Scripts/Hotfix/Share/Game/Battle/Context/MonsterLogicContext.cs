@@ -10,6 +10,8 @@ namespace ET
             base.InitCommonData(unitEntity);
             var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
             
+            
+            
             var unitEntityInitContext = unitEntity.GetComponent<UnitEntityInitContext>();
             var genData = unitEntityInitContext.Params as MonsterGenData;
             unitEntityCommonData.ConfigId = genData.ConfigId;;
@@ -32,7 +34,16 @@ namespace ET
             monsterRuntimeAIData.BornPosition = unitEntityPosition.Position;
         }
 
-        public override void Init(UnitEntity unitEntity)
+        public override void InitNumericalData(UnitEntity unitEntity)
+        {
+            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
+            // 血量
+            unitEntityCommonData.NumericalDatas[UnitEntityNumericalTypeEnum.MoveSpeed] = 3;
+            unitEntityCommonData.NumericalDatas[UnitEntityNumericalTypeEnum.Blood] = 100;
+            unitEntity.CreateUnitEntityElemData<UnitEntityBloodData>().CurrentBlood = 100;
+        }
+
+        public override void InitComponent(UnitEntity unitEntity)
         {
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             unitEntity.AddComponent<AOIUnitEntity, float2, UETypeEnum>(unitEntityPosition.Position, UETypeEnum.Monster);

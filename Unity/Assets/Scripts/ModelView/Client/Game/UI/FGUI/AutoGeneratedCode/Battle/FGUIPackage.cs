@@ -16,7 +16,7 @@ namespace ET.Client
 		public const string RES_Battle_FGUIBattleOperationMainView = "FGUIBattleOperationMainView";
 		public const string RES_Battle_FGUIOperateButton = "FGUIOperateButton";
 		public const string RES_Battle_FGUIBattleButton = "FGUIBattleButton";
-		public const string RES_Battle_FGUIHealthBarMainView = "FGUIHealthBarMainView";
+		public const string RES_Battle_FGUIHealthBar = "FGUIHealthBar";
 
 	}
 }

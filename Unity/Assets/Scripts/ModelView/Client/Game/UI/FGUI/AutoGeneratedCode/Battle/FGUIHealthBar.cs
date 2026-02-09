@@ -5,8 +5,8 @@ using FairyGUI;
 namespace ET.Client
 {
 	[ComponentOf]
-	[FGUITag(FGUIPackage.PKG_Battle, FGUIResName.RES_Battle_FGUIHealthBarMainView)]
-    public class FGUIHealthBarMainView: FGUI, IAwake<GObject>, IDestroy
+	[FGUITag(FGUIPackage.PKG_Battle, FGUIResName.RES_Battle_FGUIHealthBar)]
+    public class FGUIHealthBar: FGUI, IAwake<GObject>, IDestroy
     {   
         //// 组件变量
 		public GProgressBar Bar;

@@ -24,7 +24,7 @@
         }
         
 
-        public override void Init(UnitEntity unitEntity)
+        public override void InitComponent(UnitEntity unitEntity)
         {
             unitEntity.LogicWorld().GizmosDebugUnitEntity = unitEntity;
         }

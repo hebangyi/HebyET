@@ -173,15 +173,33 @@ namespace ET
                 this.Dirty();
             }
         }
-        private Dictionary<string, string> _Datas = new();
+        /// <summary>
+        /// 数值
+        /// </summary>
+        private Dictionary<UnitEntityNumericalTypeEnum, long> _NumericalDatas = new();
 
         [MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
         [MemoryPackOrder(3)]
-        public Dictionary<string, string> Datas 
+        public Dictionary<UnitEntityNumericalTypeEnum, long> NumericalDatas 
         {
-            get => _Datas;
+            get => _NumericalDatas;
             set {
-                _Datas = value;
+                _NumericalDatas = value;
+                this.Dirty();
+            }
+        }
+        /// <summary>
+        /// 字符串配置
+        /// </summary>
+        private Dictionary<UnitEntityStringTypeEnum, string> _StringDatas = new();
+
+        [MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
+        [MemoryPackOrder(4)]
+        public Dictionary<UnitEntityStringTypeEnum, string> StringDatas 
+        {
+            get => _StringDatas;
+            set {
+                _StringDatas = value;
                 this.Dirty();
             }
         }
@@ -197,7 +215,8 @@ namespace ET
             this._UnitEntityType = default;
             this._UELayerTypeEnum = default;
             this._ConfigId = default;
-            this._Datas.Clear();
+            this._NumericalDatas.Clear();
+            this._StringDatas.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -553,20 +572,6 @@ namespace ET
                 this.Dirty();
             }
         }
-        /// <summary>
-        /// 总血量
-        /// </summary>
-        private long _TotalBlood;
-
-        [MemoryPackOrder(1)]
-        public long TotalBlood
-        {
-            get => _TotalBlood;
-            set {
-                _TotalBlood = value;
-                this.Dirty();
-            }
-        }
         public override void Dispose()
         {
             if (!this.IsFromPool)
@@ -577,7 +582,6 @@ namespace ET
             this.m_InstanceId = default;
 
             this._CurrentBlood = default;
-            this._TotalBlood = default;
 
             ObjectPool.Instance.Recycle(this);
         }

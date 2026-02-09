@@ -6,5 +6,6 @@ namespace ET.Client
     public class UnitEntityHealthBarComponent: Entity, IAwake<GObject>
     {
         public GObject GObject;
+        public FGUIHealthBar FGUIHealthBar;
     }
 }

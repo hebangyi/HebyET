@@ -20,6 +20,7 @@ namespace ET.Client
 			self.BattleButton = self.AddChild<FGUIBattleButton,GObject>(com.GetChild("BattleButton"));
 			self.OpButton = self.AddChild<FGUIOperateButton,GObject>(com.GetChild("OpButton"));
 			self.angle = (GTextField)com.GetChild("angle");
+
         }
         
         

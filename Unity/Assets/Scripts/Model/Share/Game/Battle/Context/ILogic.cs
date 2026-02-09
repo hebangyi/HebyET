@@ -57,7 +57,10 @@
         // 初始化自定义数据
         void InitCustomData(UnitEntity unitEntity);
         
-        void Init(UnitEntity unitEntity);
+        // 初始化数值
+        void InitNumericalData(UnitEntity unitEntity);
+        // 初始化组件
+        void InitComponent(UnitEntity unitEntity);
         void Destroy(UnitEntity unitEntity);
     }
 

@@ -46,7 +46,7 @@ namespace ET
         }
         
 
-        public override void Init(UnitEntity unitEntity)
+        public override void InitComponent(UnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
             var gizmosPlayerAOICell = unitEntity.GetUnitEntityElemData<GizmosPlayerAOICell>();
