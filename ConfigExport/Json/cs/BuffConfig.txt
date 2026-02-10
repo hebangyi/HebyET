@@ -1,0 +1,4 @@
+{"dict": [
+[10000, {"_t":"BuffConfig","_id":10000,"BuffType":"Sing","DurationTime":100,"BuffParam":""}],
+[20000, {"_t":"BuffConfig","_id":20000,"BuffType":"Damage","DurationTime":0,"BuffParam":""}],
+]}

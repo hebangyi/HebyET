@@ -184,10 +184,12 @@ public static partial class BattleWorldManagerComponentSystem
             
             if (world.NextUpdateMillTime == 0)
             {
+                world.NowMilliTime = now;
                 world.NextUpdateMillTime = now + GameConstant.LogicInterval;    
             }
             else
             {
+                world.NowMilliTime = world.NextUpdateMillTime;
                 world.NextUpdateMillTime += GameConstant.LogicInterval;
             }
             world.Tick();

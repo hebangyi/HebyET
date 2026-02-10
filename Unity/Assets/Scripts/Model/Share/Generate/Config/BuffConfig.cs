@@ -62,6 +62,8 @@ namespace ET
 		public long Id { get; set; }
 		/// <summary>buff执行类型</summary>
 		public BuffTypeEnum BuffType { get; set; }
+		/// <summary>Buff持续时间(毫秒)</summary>
+		public int DurationTime { get; set; }
 		/// <summary>可变参数</summary>
 		public string BuffParam { get; set; }
 

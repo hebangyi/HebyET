@@ -622,3 +622,7 @@ FGUIHealthBar
 WorldSkillExecuteComponent
 UnitEntitySkill
 UnitEntitySkillItem
+BuffConfigCategory
+BuffConfig
+BuffManagerComponent
+BuffAttribute

@@ -12,8 +12,6 @@ namespace ET
         public static void Tick(this LogicWorld self)
         {
             self.Frame++;
-            self.NowMilliTime = TimeInfo.Instance.NowMillTime();
-
             behaviac.Workspace.Instance.DoubleValueSinceStartup = self.NowMilliTime;
             
             // Log.Info($"World Id : {self.Id} Tick Frame: {self.Frame}");

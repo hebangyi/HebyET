@@ -24,6 +24,8 @@ namespace ET.Client
             // 状态机加载类
             root.AddComponent<StateMachineManagerComponent>();
             
+            // buff 配置加载
+            root.AddComponent<BuffManagerComponent>();
             
             // 客户端战斗世界管理器
             root.AddComponent<ClientWorldEventManagerComponent>();

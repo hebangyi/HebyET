@@ -2,6 +2,7 @@
 {
     public enum BuffTypeEnum
     {
-        SingBuff = 0,
+        Sing = 0,
+        Damage = 1,
     }
 }

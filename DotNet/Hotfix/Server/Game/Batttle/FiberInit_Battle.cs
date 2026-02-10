@@ -23,6 +23,8 @@ namespace ET.Server
             // 状态机加载类
             root.AddComponent<StateMachineManagerComponent>();
             
+            // buff 配置加载
+            root.AddComponent<BuffManagerComponent>();
             
             // 业务相关
             root.AddComponent<BattleMatchComponent>();
