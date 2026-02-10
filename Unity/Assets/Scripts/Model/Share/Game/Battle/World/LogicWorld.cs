@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Unity.Mathematics;
+﻿using System;
+using System.Collections.Generic;
 using Random = System.Random;
 
 namespace ET
@@ -25,6 +24,11 @@ namespace ET
                 return GameConstant.LogicInterval * 1.0f / 1000;
             }
         }
+        
+        // 数据类型监听的EntityId
+        public Dictionary<Type, HashSet<long>> DataType2EntityId = new ();
+        
+        
 
         // 世界状态
         public WorldStatusEnum WorldStatusEnum = WorldStatusEnum.Init;

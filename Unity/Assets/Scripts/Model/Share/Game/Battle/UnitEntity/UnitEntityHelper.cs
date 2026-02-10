@@ -21,6 +21,7 @@ namespace ET
             var obj = methodInfo.Invoke(null, new object[]{self.InsId, world.GetComponent<AOIManagerComponent>().DirtyHandler ,true});
             T instance = (T)obj;
             self.UnitEntityData[componentId] = instance;
+            
             return instance;
         }
 
@@ -116,6 +117,5 @@ namespace ET
             
             return battleUnitEntity;
         }
-        
     }
 }

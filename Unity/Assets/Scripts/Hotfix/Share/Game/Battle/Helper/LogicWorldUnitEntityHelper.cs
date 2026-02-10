@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ET.Client;
 
 namespace ET
@@ -20,6 +21,20 @@ namespace ET
             self.AllEntities.Remove(unitEntity.InsId);
             unitEntity.Dispose();
         }
+        
+        
+        public static void AddUnitEntitySystem(UnitEntity unitEntity, Type dataType)
+        {
+            var sets = unitEntity.LogicWorld().DataType2EntityId.GetValueOrDefault(dataType);
+            if (sets == null)
+            {
+                sets = new HashSet<long>();
+                unitEntity.LogicWorld().DataType2EntityId[dataType] = sets;
+            }
+
+            sets.Add(unitEntity.InsId);
+        }
+        
 
         private static UnitEntity
                 CreateEntity(this LogicWorld self)
