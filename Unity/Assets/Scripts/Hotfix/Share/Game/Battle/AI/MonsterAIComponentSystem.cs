@@ -11,22 +11,18 @@
             MonsterAIAgentProxy monsterAIAgentProxy = new();
             var unitEntity = self.GetParent<UnitEntity>();
             monsterAIAgentProxy.UnitEntity = unitEntity;
-            var logicWorld = unitEntity.LogicWorld();
-            var aiComponent = logicWorld.GetComponent<AIComponent>();
-
+            // 行为树逻辑
             self.Proxy = monsterAIAgentProxy;
-            
-            
-            // 企业微信
+            // BT行为树
             MonsterAIAgent monsterAIAgent = new (monsterAIAgentProxy);
             monsterAIAgent.btsetcurrent("MonsterAITree");
-            
-            aiComponent.MonsterAIAgents[unitEntity.InsId] = monsterAIAgent;
+            self.MonsterAIAgent = monsterAIAgent;
         }
 
         [EntitySystem]
         private static void Destroy(this MonsterAIComponent self)
         {
+            // TODO AITree 能否复用 效率怎么样 
         }
     }
 }

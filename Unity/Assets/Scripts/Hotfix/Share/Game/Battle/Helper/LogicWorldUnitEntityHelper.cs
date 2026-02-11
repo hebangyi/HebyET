@@ -24,16 +24,32 @@ namespace ET
         }
         
         
-        public static void AddUnitEntitySystem(UnitEntity unitEntity, Type dataType)
+        public static void BindUnitEntitySystem(UnitEntity unitEntity)
         {
-            var sets = unitEntity.LogicWorld().DataTypeEntityIds.GetValueOrDefault(dataType);
-            if (sets == null)
+            foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
             {
-                sets = new HashSet<long>();
-                unitEntity.LogicWorld().DataTypeEntityIds[dataType] = sets;
+                var type = unitEntityElemDataKv.Value.GetType();
+                var sets = unitEntity.LogicWorld().DataTypeEntityIds.GetValueOrDefault(type);
+                if (sets == null)
+                {
+                    sets = new HashSet<long>();
+                    unitEntity.LogicWorld().DataTypeEntityIds[type] = sets;
+                }
+
+                sets.Add(unitEntity.InsId);
             }
 
-            sets.Add(unitEntity.InsId);
+            foreach (var unitEntityElemDataKv in unitEntity.UnitEntityLogicData)
+            {
+                var type = unitEntityElemDataKv.Key;
+                var sets = unitEntity.LogicWorld().DataTypeEntityIds.GetValueOrDefault(type);
+                if (sets == null)
+                {
+                    sets = new HashSet<long>();
+                    unitEntity.LogicWorld().DataTypeEntityIds[type] = sets;
+                }
+                sets.Add(unitEntity.InsId);
+            }
         }
 
         public static void RemoveUnitEntitySystem(UnitEntity unitEntity)

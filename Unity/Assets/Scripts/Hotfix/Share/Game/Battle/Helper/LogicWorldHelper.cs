@@ -14,7 +14,7 @@ namespace ET
         /// <summary>
         /// 查询拥有指定组件组合的所有实体
         /// </summary>
-        public static IEnumerable<UnitEntity> GetEntitiesWithComponents(this LogicWorld logicWorld, params Type[] componentTypes)
+        public static IEnumerable<UnitEntity> GetEntityIdsWithDataType(this LogicWorld logicWorld, params Type[] componentTypes)
         {
             if (componentTypes.Length == 0) yield break;
 
@@ -54,9 +54,6 @@ namespace ET
                 var logicHandler = comId2LogicsKv.Value;
                 logicHandler.OnTick(self);
             }
-
-            // AI 更新
-            self.GetComponent<AIComponent>().UpdateAITick();
 
             // 同步AOI数据
             self.GetComponent<AOIManagerComponent>()?.SyncHandler?.Sync();

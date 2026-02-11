@@ -25,9 +25,6 @@ public static partial class BattleWorldManagerComponentSystem
         world.AddComponent<AOIManagerComponent, IDirtyHandler, ISyncHandler>(logicDirtyHandler, syncDirtyDataHandler);
         world.WorldStatusEnum = WorldStatusEnum.Init;
         world.RandomGenerator = new Random(Guid.NewGuid().GetHashCode());
-        
-        // AI组件
-        world.AddComponent<AIComponent>();
 
         // 世界技能执行器
         world.AddComponent<WorldSkillExecuteComponent>();

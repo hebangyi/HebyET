@@ -19,6 +19,7 @@ namespace ET
             unitEntityContext.InitCustomData(unitEntity);
             unitEntityContext.InitNumericalData(unitEntity);
             unitEntityContext.InitComponent(unitEntity);
+            LogicWorldUnitEntityHelper.BindUnitEntitySystem(unitEntity);
         }
     }
 }

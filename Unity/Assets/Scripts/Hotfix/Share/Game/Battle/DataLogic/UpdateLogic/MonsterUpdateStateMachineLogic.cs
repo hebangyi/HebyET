@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Unity.Mathematics;
 
 namespace ET
@@ -8,9 +9,12 @@ namespace ET
     {
         public void OnTick(LogicWorld logicWorld)
         {
-            // 更新所有怪物状态
-            foreach (var unitEntity in logicWorld.Monsters.Values)
+            // 执行怪物AI选择器
+            
+            foreach (UnitEntity unitEntity in logicWorld.GetEntityIdsWithDataType(typeof(MonsterRuntimeData)))
             {
+                // 执行怪物的状态器
+                unitEntity.GetComponent<MonsterAIComponent>().MonsterAIAgent.btexec();
                 unitEntity.GetComponent<MonsterStateMachineComponent>().Execute();
             }
         }

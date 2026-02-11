@@ -27,7 +27,6 @@ namespace ET
             }
         }
 
-
         public static void Execute(this MonsterStateMachineComponent monsterStateMachineComponent)
         {
             var currentState = monsterStateMachineComponent.CurrentState;

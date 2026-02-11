@@ -10,9 +10,8 @@ namespace ET
             root.AddComponent<ObjectWait>();
             root.AddComponent<MailBoxComponent, MailBoxType>(MailBoxType.UnOrderedMessage);
             root.AddComponent<ProcessInnerSender>();
-
-
             
+            behaviac.Workspace.Instance.FileFormat = behaviac.Workspace.EFileFormat.EFF_cs;
             await ETTask.CompletedTask;
         }
     }

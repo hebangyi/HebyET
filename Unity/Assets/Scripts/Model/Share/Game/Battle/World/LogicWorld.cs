@@ -42,7 +42,6 @@ namespace ET
         
         // 玩家数据 PlayerId 2 Entity
         public Dictionary<long, UnitEntity> PlayerId2Players = new();
-        public Dictionary<long, UnitEntity> Monsters = new ();
         
         // 逻辑帧脏数据
         public Dictionary<long, SyncDirtyUnitEntity> DirtyUnitEntities = new ();

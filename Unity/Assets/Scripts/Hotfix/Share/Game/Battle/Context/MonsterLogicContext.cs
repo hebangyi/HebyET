@@ -50,15 +50,10 @@ namespace ET
             unitEntity.AddComponent<MonsterAIComponent>();
             // 怪物状态机
             unitEntity.AddComponent<MonsterStateMachineComponent>();
-            
-            var logicWorld = unitEntity.LogicWorld();
-            logicWorld.Monsters[unitEntity.InsId] = unitEntity;
         }
 
         public override void Destroy(UnitEntity unitEntity)
         {
-            var logicWorld = unitEntity.LogicWorld();
-            logicWorld.Monsters.Remove(unitEntity.InsId);
         }
     }
 }
