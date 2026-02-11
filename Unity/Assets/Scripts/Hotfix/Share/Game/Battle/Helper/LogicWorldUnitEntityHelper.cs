@@ -26,11 +26,11 @@ namespace ET
         
         public static void AddUnitEntitySystem(UnitEntity unitEntity, Type dataType)
         {
-            var sets = unitEntity.LogicWorld().Components.GetValueOrDefault(dataType);
+            var sets = unitEntity.LogicWorld().DataTypeEntityIds.GetValueOrDefault(dataType);
             if (sets == null)
             {
                 sets = new HashSet<long>();
-                unitEntity.LogicWorld().Components[dataType] = sets;
+                unitEntity.LogicWorld().DataTypeEntityIds[dataType] = sets;
             }
 
             sets.Add(unitEntity.InsId);
@@ -41,7 +41,7 @@ namespace ET
             foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
             {
                 var type = unitEntityElemDataKv.Value.GetType();
-                var set = unitEntity.LogicWorld().Components.GetValueOrDefault(type);
+                var set = unitEntity.LogicWorld().DataTypeEntityIds.GetValueOrDefault(type);
                 if (set != null)
                 {
                     set.Remove(unitEntity.InsId);
@@ -51,7 +51,7 @@ namespace ET
             foreach (var unitEntityElemDataKv in unitEntity.UnitEntityLogicData)
             {
                 var type = unitEntityElemDataKv.Key;
-                var set = unitEntity.LogicWorld().Components.GetValueOrDefault(type);
+                var set = unitEntity.LogicWorld().DataTypeEntityIds.GetValueOrDefault(type);
                 if (set != null)
                 {
                     set.Remove(unitEntity.InsId);

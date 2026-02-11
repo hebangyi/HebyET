@@ -19,7 +19,7 @@ namespace ET
             if (componentTypes.Length == 0) yield break;
 
             // 先获取第一个组件类型的所有实体ID
-            var firstComponent = logicWorld.Components.GetValueOrDefault(componentTypes[0]);
+            var firstComponent = logicWorld.DataTypeEntityIds.GetValueOrDefault(componentTypes[0]);
             if (firstComponent == null) yield break;
 
             foreach (var entityId in firstComponent)
@@ -28,10 +28,9 @@ namespace ET
                 bool hasAllComponents = true;
                 foreach (var type in componentTypes.Skip(1))
                 {
-                    if (!logicWorld.Components.ContainsKey(type) || !logicWorld.Components[type].Contains(entityId))
+                    if (!logicWorld.DataTypeEntityIds.ContainsKey(type) || !logicWorld.DataTypeEntityIds[type].Contains(entityId))
                     {
-                        
-                        = false;
+                        hasAllComponents = false;
                         break;
                     }
                 }

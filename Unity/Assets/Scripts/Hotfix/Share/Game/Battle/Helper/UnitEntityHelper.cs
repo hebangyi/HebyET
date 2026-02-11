@@ -21,8 +21,6 @@ namespace ET
             var obj = methodInfo.Invoke(null, new object[]{self.InsId, world.GetComponent<AOIManagerComponent>().DirtyHandler ,true});
             T instance = (T)obj;
             self.UnitEntityData[componentId] = instance;
-            
-            LogicWorldUnitEntityHelper.AddUnitEntitySystem(self, typeof(T));
             return instance;
         }
 
@@ -42,8 +40,6 @@ namespace ET
             }
             
             self.UnitEntityLogicData[type] = logicElemData;
-            
-            LogicWorldUnitEntityHelper.AddUnitEntitySystem(self, typeof(T));
             return (T)logicElemData;
         }
         

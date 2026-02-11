@@ -26,7 +26,7 @@ namespace ET
         }
         
         // 数据类型监听的EntityId
-        public Dictionary<Type, HashSet<long>> Components = new ();
+        public Dictionary<Type, HashSet<long>> DataTypeEntityIds = new ();
         
         
 
