@@ -17,6 +17,7 @@ namespace ET
 
         public static void RemoveEntity(this LogicWorld self, UnitEntity unitEntity)
         {
+            RemoveUnitEntitySystem(unitEntity);
             self.PublishEvent(new RemoveUnitEntity() { UnitEntity = unitEntity });
             self.AllEntities.Remove(unitEntity.InsId);
             unitEntity.Dispose();
@@ -25,16 +26,40 @@ namespace ET
         
         public static void AddUnitEntitySystem(UnitEntity unitEntity, Type dataType)
         {
-            var sets = unitEntity.LogicWorld().DataType2EntityId.GetValueOrDefault(dataType);
+            var sets = unitEntity.LogicWorld().Components.GetValueOrDefault(dataType);
             if (sets == null)
             {
                 sets = new HashSet<long>();
-                unitEntity.LogicWorld().DataType2EntityId[dataType] = sets;
+                unitEntity.LogicWorld().Components[dataType] = sets;
             }
 
             sets.Add(unitEntity.InsId);
         }
-        
+
+        public static void RemoveUnitEntitySystem(UnitEntity unitEntity)
+        {
+            foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
+            {
+                var type = unitEntityElemDataKv.Value.GetType();
+                var set = unitEntity.LogicWorld().Components.GetValueOrDefault(type);
+                if (set != null)
+                {
+                    set.Remove(unitEntity.InsId);
+                }
+            }
+            
+            foreach (var unitEntityElemDataKv in unitEntity.UnitEntityLogicData)
+            {
+                var type = unitEntityElemDataKv.Key;
+                var set = unitEntity.LogicWorld().Components.GetValueOrDefault(type);
+                if (set != null)
+                {
+                    set.Remove(unitEntity.InsId);
+                }
+            }
+        }
+
+
 
         private static UnitEntity
                 CreateEntity(this LogicWorld self)
