@@ -43,6 +43,9 @@ namespace ET
             var unitEntityPlayerInfo = unitEntity.CreateUnitEntityElemData<UnitEntityPlayerInfo>();
             var playerId = unitEntityInitContext.Params as long?;
             unitEntityPlayerInfo.PlayerId = playerId.GetValueOrDefault();
+
+            // 技能信息
+            unitEntity.CreateUnitEntityLogicElemData<SkillRuntimeData>();
         }
         
 

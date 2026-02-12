@@ -2,34 +2,39 @@
 
 namespace ET
 {
-    public class SkillRuntimeData
+    public class SkillRuntimeData : IUnitEntityLogicElemData
     {
-        public bool IsExecuting;
-        public long GlobalCDTime;       // 全局CD时间
-
-
-        public Dictionary<uint, BuffData> RuntimeBuffDatas = new ();    // 正在执行的Buff
+        public uint BuffIdGen;
+        public long GlobalSkillCD; // 全局CD
+        
+        public List<SkillData> RuntimeSkillDatas = new();
+        public List<BuffData> RunningBuffDatas = new(); // 持续执行的Buff
     }
-
 
     public class SkillData
     {
-        public uint SkillId;
-        public SkillConfig BuffConfig;
-        public long UnitInsId;                      // 释放的Unit
+        public SkillData ParentSkillData; // 如果有 可能为Null
+        public long UnitInsId; // 释放的Unit
+        public SkillConfig SkillConfig;
+      
+        public bool IsRun = false;
+        public long SkillStartTime;
         
-        
-        public List<BuffData> BuffDatas = new ();   // 参数的Buff
+        public List<BuffData> AllBuffDatas = new(); // 所有的 BuffData
+        public int ExecutedBuffCount;               // 已经执行完成Buff数量
     }
 
     public class BuffData
     {
         public uint BuffId;
-        public SkillData SkillData;   // 释放的技能
-        public bool IsExecuted = false;
-     
         public BuffConfig BuffConfig;
-        public long BuffStartTime;    // Buff 执行时间
+        public SkillData SkillData;     // 释放的技能
+        public int OffExecuteTime;      // buff相对技能释放时间
+        
+        
+        public bool IsRun = false;
+        public long BuffStartTime;       // Buff 执行时间
         public long BuffEndTime;
+        public bool IsExit = false;
     }
 }

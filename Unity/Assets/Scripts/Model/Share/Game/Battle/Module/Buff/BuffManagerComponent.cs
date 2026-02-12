@@ -8,30 +8,25 @@ namespace ET
         public static BuffManagerComponent Instance { get; set; }
 
         public Dictionary<BuffTypeEnum, IBuffExecutor> BuffType2BuffConfigs = new();
-        public Dictionary<BuffTypeEnum, IBuffExecutor> Tick2BuffConfigs = new();
+        public Dictionary<BuffTypeEnum, IBuffExecutorTick> Tick2BuffConfigs = new();
     }
 
     public interface IBuffExecutor
     {
         // 初始化进入
-        void Init(UnitEntity unitEntity);
-        // 打断
-        void Interrupt(UnitEntity unitEntity);
+        void Enter(UnitEntity unitEntity, BuffData buffData);
         // 正常退出
-        void Exit(UnitEntity unitEntity);
+        void Exit(UnitEntity unitEntity, BuffData buffData);
     }
 
     public interface IBuffExecutorTick : IBuffExecutor
     {
-        void Tick(UnitEntity unitEntity, BuffExcuteContext buffExcuteContext);
+        // 打断
+        void Interrupt(UnitEntity unitEntity, BuffData buffData);
+        // tick
+        void Tick(UnitEntity unitEntity, BuffData buffData);
     }
-
-
-    public struct BuffExcuteContext
-    {
-        public long BuffStartTime; // buff执行的时间
-    }
-
+    
     public class BuffAttribute : BaseAttribute
     {
         public BuffTypeEnum BuffTypeEnum;

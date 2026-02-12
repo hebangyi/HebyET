@@ -64,6 +64,8 @@ namespace ET
 		public string SkillAniTag { get; set; }
 		/// <summary>技能CD</summary>
 		public int CD { get; set; }
+		/// <summary>buff执行栈</summary>
+		public BuffStack[] BuffStacks { get; set; }
 
 	}
 }

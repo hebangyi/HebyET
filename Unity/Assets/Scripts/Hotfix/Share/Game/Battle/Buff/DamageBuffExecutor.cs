@@ -3,16 +3,14 @@
     [Buff(BuffTypeEnum.Damage)]
     public class DamageBuffExecutor: IBuffExecutor
     {
-        public void Init(UnitEntity unitEntity)
+        public void Enter(UnitEntity unitEntity, BuffData buffData)
         {
+            Log.Info($"{buffData.BuffConfig.Id} DamageBuff Enter...");
         }
-
-        public void Interrupt(UnitEntity unitEntity)
+        
+        public void Exit(UnitEntity unitEntity, BuffData buffData)
         {
-        }
-
-        public void Exit(UnitEntity unitEntity)
-        {
+            Log.Info($"{buffData.BuffConfig.Id} DamageBuff Exit...");
         }
     }
 }

@@ -3,23 +3,24 @@
     [Buff(BuffTypeEnum.Sing)]
     public class SingBuffExecutor : IBuffExecutorTick
     {
-        public void Init(UnitEntity unitEntity)
+        public void Enter(UnitEntity unitEntity, BuffData buffData)
         {
-            Log.Info("SingBuff Init...");
+            Log.Info($"{buffData.BuffConfig.Id} SingBuff Init...");
         }
 
-        public void Interrupt(UnitEntity unitEntity)
+        public void Interrupt(UnitEntity unitEntity, BuffData buffData)
         {
+            Log.Info($"{buffData.BuffConfig.Id} SingBuff Interrupt...");
         }
 
-        public void Tick(UnitEntity unitEntity, BuffExcuteContext buffExcuteContext)
+        public void Tick(UnitEntity unitEntity, BuffData buffData)
         {
-            Log.Info("SingBuff ExecuteUpdate ...");
+            Log.Info($"{buffData.BuffConfig.Id} SingBuff Tick ...");
         }
 
-        public void Exit(UnitEntity unitEntity)
+        public void Exit(UnitEntity unitEntity, BuffData buffData)
         {
-            Log.Info("SingBuff Exit");
+            Log.Info($"{buffData.BuffConfig.Id} SingBuff Exit");
         }
     }
 }

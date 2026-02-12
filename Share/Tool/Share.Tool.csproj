@@ -34,14 +34,21 @@
         <Compile Include="..\..\Unity\Assets\Mono\Core\**\*.cs">
             <Link>Core\%(RecursiveDir)%(FileName)%(Extension)</Link>
         </Compile>
+
+        <Compile Include="..\..\Unity\Assets\Scripts\Model\Share\Generate\ConfigJosnBean\*.cs">
+            <Link>ExcelExporter\ConfigJosnBean\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        </Compile>
         
         <Compile Include="..\..\Unity\Assets\Scripts\Core\Network\OpcodeRangeDefine.cs">
             <Link>Proto2CS\OpcodeRangeDefine.cs</Link>
         </Compile>
-
+        
         <Compile Include="..\..\Unity\Assets\Scripts\Model\Share\Game\Battle\Enum\*.cs">
             <Link>ExcelExporter\Enum\%(RecursiveDir)%(FileName)%(Extension)</Link>
         </Compile>
+
+        
+
     </ItemGroup>
     
     <ItemGroup>

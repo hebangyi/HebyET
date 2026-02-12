@@ -35,7 +35,7 @@ namespace ET
            unitEntitySkillData.Dirty();
            
            AnimationLogicHelper.ChangeUseSkillStatus(unitEntity, skillId, unitEntitySkillDataItem.ActiveFrame);
-           // TODO SkillManager
+           SkillHelper.UseSkill(unitEntity, skillId);
        }
    }
 }
