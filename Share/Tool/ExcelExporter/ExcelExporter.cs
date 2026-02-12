@@ -624,75 +624,10 @@ namespace ET
 
         private static string Convert(string type, string value)
         {
+            value = value.Trim('~');
             switch (type)
             {
-                case "uint[]":
-                case "int[]":
-                case "int32[]":
-                {
-                    if (string.IsNullOrWhiteSpace(value))
-                        return new BsonArray().ToString();
-                    value = value.Trim('\'');
-                    value = value.Trim('~');
-                    value = value.Replace('|', ',');
-                    var arr = value.Split(',');
-                    var ret = new BsonArray();
-                    for (global::System.Int32 i = 0; i < arr.Length; i++)
-                    {
-                        ret.Add(BsonInt32.Create(arr[i]));
-                    }
-
-                    return ret.ToString();
-                }
-                case "long[]":
-                {
-                    if (string.IsNullOrWhiteSpace(value))
-                        return new BsonArray().ToString();
-                    value = value.Trim('\'');
-                    value = value.Trim('~');
-                    value = value.Replace('|', ',');
-                    var arr = value.Split(',');
-                    var ret = new BsonArray();
-                    for (global::System.Int32 i = 0; i < arr.Length; i++)
-                    {
-                        ret.Add(BsonInt64.Create(arr[i]));
-                    }
-
-                    return ret.ToString();
-                }
-                case "float[]":
-                case "double[]":
-                {
-                    if (string.IsNullOrWhiteSpace(value))
-                        return new BsonArray().ToString();
-                    value = value.Trim('\'');
-                    value = value.Trim('~');
-                    value = value.Replace('|', ',');
-                    var arr = value.Split(',');
-                    var ret = new BsonArray();
-                    for (global::System.Int32 i = 0; i < arr.Length; i++)
-                    {
-                        ret.Add(BsonDouble.Create(arr[i]));
-                    }
-
-                    return ret.ToString();
-                }
-                case "string[]":
-                {
-                    if (string.IsNullOrWhiteSpace(value))
-                        return new BsonArray().ToString();
-                    value = value.Trim('\'');
-                    value = value.Trim('~');
-                    value = value.Replace('|', ',');
-                    var arr = value.Split(',');
-                    var ret = new BsonArray();
-                    for (global::System.Int32 i = 0; i < arr.Length; i++)
-                    {
-                        ret.Add(BsonString.Create(arr[i]));
-                    }
-
-                    return ret.ToString();
-                }
+                // 如果是数值类型
                 case "int":
                 case "uint":
                 case "int32":
@@ -706,20 +641,23 @@ namespace ET
                     }
 
                     return value;
+                // 如果是字符类型
                 case "string":
-                    value = value.Trim('~');
+                    
                     value = value.Replace("\\", "\\\\");
                     value = value.Replace("\"", "\\\"");
                     return $"\"{value}\"";
                 default:
                 {
+                    // 如果是枚举类型
                     var enumType = Type.GetType($"ET.{type}");
                     if (enumType != null && enumType.IsEnum)
                     {
-                        return $"\"{Enum.Parse(enumType, value).ToString()}\"";
+                        return $"\"{value}\"";
                     }
-
-                    throw new Exception($"不支持此类型: {type}");
+                    
+                    // 其他类型 为原值
+                    return value;
                 }
             }
         }

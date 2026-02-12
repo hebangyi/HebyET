@@ -1,4 +1,4 @@
 {"dict": [
-[100001, {"_t":"SkillConfig","_id":100001,"SkillAniTag":"skill_1","CD":2000}],
 [101, {"_t":"SkillConfig","_id":101,"SkillAniTag":"skill_1","CD":2000}],
+[100001, {"_t":"SkillConfig","_id":100001,"SkillAniTag":"skill_1","CD":2000}],
 ]}
