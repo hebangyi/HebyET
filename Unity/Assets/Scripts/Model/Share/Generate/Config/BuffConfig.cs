@@ -64,7 +64,7 @@ namespace ET
 		public BuffTypeEnum BuffType { get; set; }
 		/// <summary>Buff持续时间(毫秒)</summary>
 		public int DurationTime { get; set; }
-		/// <summary>可变参数</summary>
+		/// <summary>可变Json参数</summary>
 		public string BuffParam { get; set; }
 
 	}
