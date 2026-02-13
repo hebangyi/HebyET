@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using DG.Tweening;
 
 namespace ET.Client
 {
@@ -29,9 +30,11 @@ namespace ET.Client
                 // TODO 平移更新
                 unitEntityGameObjectComponent.GameObject.transform.position =
                         new Vector3(newData.Position.x, newData.Position.y, 0);
+                
+                unitEntityGameObjectComponent.GameObject.transform.DOMove(new Vector3(newData.Position.x, newData.Position.y, 0), 0.5f);
             }
             
-            unitEntity.GetComponent<UnitEntityHealthBarComponent>()?.UpdateHPBarPosition();
+            // unitEntity.GetComponent<UnitEntityHealthBarComponent>()?.UpdateHPBarPosition();
         }
     }
 }

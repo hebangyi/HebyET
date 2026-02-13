@@ -864,11 +864,24 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: UNITY;ENABLE_VIEW
+    Android: UNITY;ENABLE_VIEW;DOTWEEN
+    EmbeddedLinux: DOTWEEN
+    GameCoreScarlett: DOTWEEN
+    GameCoreXboxOne: DOTWEEN
+    LinuxHeadlessSimulation: DOTWEEN
+    Nintendo Switch: DOTWEEN
+    PS4: DOTWEEN
+    PS5: DOTWEEN
+    QNX: DOTWEEN
     Server: UNITY;ENABLE_VIEW
-    Standalone: UNITY;ENABLE_VIEW;BEHAVIAC_NOT_USE_MONOBEHAVIOUR;BEHAVIAC_NOT_USE_UNITY;BEHAVIAC_RELEASE
-    WebGL: UNITY;ENABLE_VIEW
-    iPhone: UNITY;ENABLE_VIEW
+    Stadia: DOTWEEN
+    Standalone: UNITY;ENABLE_VIEW;BEHAVIAC_NOT_USE_MONOBEHAVIOUR;BEHAVIAC_NOT_USE_UNITY;BEHAVIAC_RELEASE;DOTWEEN
+    VisionOS: DOTWEEN
+    WebGL: UNITY;ENABLE_VIEW;DOTWEEN
+    Windows Store Apps: DOTWEEN
+    XboxOne: DOTWEEN
+    iPhone: UNITY;ENABLE_VIEW;DOTWEEN
+    tvOS: DOTWEEN
   additionalCompilerArguments: {}
   platformArchitecture:
     iPhone: 1

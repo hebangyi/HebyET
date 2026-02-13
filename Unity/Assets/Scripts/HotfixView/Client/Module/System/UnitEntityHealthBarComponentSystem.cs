@@ -18,6 +18,13 @@ namespace ET.Client
        }
        
        
+       [EntitySystem]
+       private static void Update(this UnitEntityHealthBarComponent self)
+       {
+           self.UpdateHPBarPosition();
+       }
+       
+       
        public static void UpdateHPBarPosition(this UnitEntityHealthBarComponent self)
        {
            var unitEntity = self.GetParent<UnitEntity>();
