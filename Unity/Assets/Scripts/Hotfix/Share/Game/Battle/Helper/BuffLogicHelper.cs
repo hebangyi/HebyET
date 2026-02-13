@@ -10,6 +10,11 @@
         public static void Damage(UnitEntity self, UnitEntity target)
         {
             var unitEntityBloodData = target.GetUnitEntityElemData<UnitEntityBloodData>();
+            if (unitEntityBloodData == null)
+            {
+                return;
+            }
+            
             unitEntityBloodData.CurrentBlood -= 1;
             if (unitEntityBloodData.CurrentBlood < 0)
             {
