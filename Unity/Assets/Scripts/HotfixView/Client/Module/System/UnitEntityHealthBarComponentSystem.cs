@@ -14,21 +14,9 @@ namespace ET.Client
        {
            self.GObject = GObject;
            self.FGUIHealthBar = self.AddComponent<FGUIHealthBar, GObject>(GObject);
-           self.InitHPNumerical();
+           self.RefreashBar();
        }
-
-       public static void InitHPNumerical(this UnitEntityHealthBarComponent self)
-       {
-           var unitEntity = self.GetParent<UnitEntity>();
-           var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
-           
-           var totalBlood = unitEntityCommonData.NumericalDatas.GetValueOrDefault(UnitEntityNumericalTypeEnum.Blood);
-           var currentBlood = unitEntity.GetUnitEntityElemData<UnitEntityBloodData>().CurrentBlood;
-           self.FGUIHealthBar.Bar.value = currentBlood;
-           self.FGUIHealthBar.Bar.max = totalBlood;
-
-           self.FGUIHealthBar.Text.text = $"{currentBlood}/{totalBlood}";
-       }
+       
        
        public static void UpdateHPBarPosition(this UnitEntityHealthBarComponent self)
        {
@@ -46,6 +34,17 @@ namespace ET.Client
            var hpBar = self.GObject.asCom;
            hpBar.SetPosition(fguiPos.x - hpBar.width / 2, fguiPos.y, 0f);
        }
-       
+
+       public static void RefreashBar(this UnitEntityHealthBarComponent self)
+       {
+           var unitEntity = self.GetParent<UnitEntity>();
+           var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
+           
+           var totalBlood = unitEntityCommonData.NumericalDatas.GetValueOrDefault(UnitEntityNumericalTypeEnum.Blood);
+           var currentBlood = unitEntity.GetUnitEntityElemData<UnitEntityBloodData>().CurrentBlood;
+           self.FGUIHealthBar.Bar.value = currentBlood;
+           self.FGUIHealthBar.Bar.max = totalBlood;
+           self.FGUIHealthBar.Text.text = $"{currentBlood}/{totalBlood}";
+       }
    }
 }

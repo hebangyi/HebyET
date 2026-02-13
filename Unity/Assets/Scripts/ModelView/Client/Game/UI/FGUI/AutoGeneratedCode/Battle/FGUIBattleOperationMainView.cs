@@ -9,7 +9,6 @@ namespace ET.Client
     public class FGUIBattleOperationMainView: FGUI, IAwake<GObject>, IDestroy
     {   
         //// 组件变量
-		public GTextField title;
 		public FGUIBattleButton BattleButton;
 		public FGUIOperateButton OpButton;
 		public GTextField angle;

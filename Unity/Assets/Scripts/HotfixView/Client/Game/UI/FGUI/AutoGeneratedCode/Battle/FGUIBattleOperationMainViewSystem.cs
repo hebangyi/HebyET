@@ -16,7 +16,6 @@ namespace ET.Client
 	        self.FUIName = "FGUIBattleOperationMainView";
 			self.GObject = go;
             var com = go.asCom;
-			self.title = (GTextField)com.GetChild("title");
 			self.BattleButton = self.AddChild<FGUIBattleButton,GObject>(com.GetChild("BattleButton"));
 			self.OpButton = self.AddChild<FGUIOperateButton,GObject>(com.GetChild("OpButton"));
 			self.angle = (GTextField)com.GetChild("angle");
@@ -27,7 +26,6 @@ namespace ET.Client
         [EntitySystem]
         public static void Destroy(this FGUIBattleOperationMainView self)
         {
-			self.title = null;
 			self.BattleButton?.Dispose();
 			self.BattleButton = null;
 			self.OpButton?.Dispose();
