@@ -17,6 +17,7 @@ public enum MatchRule
 {
     None = 0,
     TimeOut = 1,
+    TestMatchPlayer = 2,
 }
 
 public class MatchOrder

@@ -1,5 +1,6 @@
 ﻿
 
+/*
 using System.Collections.Generic;
 
 namespace ET.Server;
@@ -41,4 +42,4 @@ public class TimeOutMatchRuleFuncHandler : IMatchRuleFunc
             BattleMatchComponent.Instance.AllMatchOrders.Remove(timeOutOrderId);
         }
     }
-}
+}*/
