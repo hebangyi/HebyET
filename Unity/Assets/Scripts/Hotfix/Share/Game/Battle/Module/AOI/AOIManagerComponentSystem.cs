@@ -51,8 +51,6 @@ namespace ET
         {
             var aoiCell = aoiManagerComponent.GetOrCreateCellData(aoiUnitEntity.CellId);
             aoiCell.AllUnitEntities[aoiUnitEntity.Id] = aoiUnitEntity;
-            
-
             if (aoiUnitEntity.UETypeEnum == UETypeEnum.Player)
             {
                 aoiCell.PlayerAOIEntities[aoiUnitEntity.CellId] = aoiUnitEntity;
@@ -108,10 +106,7 @@ namespace ET
                 return;
             }
 
-            Log.Info($"MoveCell {newCellId}");
-            
             var oldCellId = aoiUnitEntity.CellId;
-            
             var (oldX, oldY) = AOIHelper.GetCellXY(oldCellId);
             var (newX, newY) = AOIHelper.GetCellXY(newCellId);
 
@@ -152,6 +147,11 @@ namespace ET
             aoiUnitEntity.CellId = newCellId;
             aoiManagerComponent.BindUnitEntity(aoiUnitEntity);
         }
+        
+        
+        
+        
+        
 
         public static void DestroyCellUnitEntity(this AOIManagerComponent aoiManagerComponent, AOIUnitEntity aoiUnitEntity)
         {
