@@ -147,11 +147,6 @@ namespace ET
             aoiUnitEntity.CellId = newCellId;
             aoiManagerComponent.BindUnitEntity(aoiUnitEntity);
         }
-        
-        
-        
-        
-        
 
         public static void DestroyCellUnitEntity(this AOIManagerComponent aoiManagerComponent, AOIUnitEntity aoiUnitEntity)
         {
@@ -200,19 +195,27 @@ namespace ET
         */
         
 
-        public static void EnterCellScope(this AOIManagerComponent aoiManagerComponent, AIOCell targetCell, AOIUnitEntity aoiUnitEntity)
+        public static void EnterCellScope(this AOIManagerComponent aoiManagerComponent, AIOCell targetCell, AOIUnitEntity myAOIUnitEntity)
         {
             foreach (var playerAOIEntity in targetCell.PlayerAOIEntities.Values)
             {
-                playerAOIEntity.PlayerSeeUnit(aoiUnitEntity.Id);
+                playerAOIEntity.PlayerSeeUnit(myAOIUnitEntity.Id);
+                if (myAOIUnitEntity.UETypeEnum == UETypeEnum.Player)
+                {
+                    myAOIUnitEntity.PlayerSeeUnit(playerAOIEntity.Id);    
+                }
             }
         }
-
-        public static void LeaveCellScope(this AOIManagerComponent aoiManagerComponent, AIOCell targetCell, AOIUnitEntity aoiUnitEntity)
+        
+        public static void LeaveCellScope(this AOIManagerComponent aoiManagerComponent, AIOCell targetCell, AOIUnitEntity myAOIUnitEntity)
         {
             foreach (var playerAOIEntity in targetCell.PlayerAOIEntities.Values)
             {
-                playerAOIEntity.PlayerLeaveUnit(aoiUnitEntity.Id);
+                playerAOIEntity.PlayerLeaveUnit(myAOIUnitEntity.Id);
+                if (myAOIUnitEntity.UETypeEnum == UETypeEnum.Player)
+                {
+                    myAOIUnitEntity.PlayerLeaveUnit(playerAOIEntity.Id);
+                }
             }
         }
     }

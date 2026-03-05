@@ -21,7 +21,7 @@
         public const int OneWeekSecond = 7 * 24 * 60 * 60;
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-        public const int GameOperaAngle = 45;  // 相机与地面角度
+        public const int GameOperaAngle = 45;  // 相机单次旋转角度
         public const int FixedUpdateDeltaTime = 20; // 固定更新 20ms FixedUpdate 每秒50次更新
         public const int CameraRotationSpeed = 300; // 300ms 旋转90度
         
