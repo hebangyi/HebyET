@@ -20,9 +20,32 @@ namespace ET.Client
                 unitEntity.AddComponent<UnitEntityHealthBarComponent, GObject>(gObject);
             }
         }
+
+        /// <summary>
+        /// 同步 Rotaion 数据到现实 GameObject
+        /// </summary>
+        /// <param name="unitEntity"></param>
+        public static void SyncData2Rotaion(this UnitEntity unitEntity)
+        {
+            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
+            var ueLayerTypeEnum = unitEntityCommonData.UELayerTypeEnum;
+
+            var gameObject = unitEntity.GetGameObject();
+            switch (ueLayerTypeEnum)
+            {
+                case UELayerTypeEnum.Env:
+                case UELayerTypeEnum.Player:
+                case UELayerTypeEnum.Monster:
+                {
+                    gameObject.transform.rotation = Camera.main.transform.rotation;
+                    break;
+                }
+            }
+        }
+        
         
         /// <summary>
-        /// 同步Position数据到现实
+        /// 同步 Position 数据到 GameObject
         /// </summary>
         /// <param name="unitEntity"></param>
         public static void SyncData2TransPos(this UnitEntity unitEntity)
@@ -51,12 +74,9 @@ namespace ET.Client
                 var meshRenderer = spineAnimation.GetComponent<MeshRenderer>();
                 if (meshRenderer == null)
                 {
-                    Log.Info("meshRenderer is null");
                     return;
                 }
                 meshRenderer.sortingOrder = -(int)(unitEntityPosition.Position.y * 100);
-                Log.Info($"修改 UnitEntity Order Layer {meshRenderer.sortingOrder}");
-                //spineAnimation.order
             }
             else
             {
@@ -64,7 +84,6 @@ namespace ET.Client
                 if (spriteRenderer != null)
                 {
                     spriteRenderer.sortingOrder = -(int)(unitEntityPosition.Position.y * 100);
-                    Log.Info($"修改 UnitEntity Order Layer {spriteRenderer.sortingOrder}");
                 }
             }
         }

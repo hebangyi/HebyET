@@ -26,7 +26,7 @@ namespace ET.Client
             clientWorld.UnitPlayerGameObject = playerGameObject;
         }
 
-        public static GameObject GetGameObjectIns(UnitEntity unitEntity, long id)
+        public static GameObject CreateGameObjectIns(UnitEntity unitEntity, long id)
         {
             ClientWorld clientWorld = unitEntity.ClientWorld();
 
@@ -105,33 +105,19 @@ namespace ET.Client
         {
             var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
             // var unitEntityType = unitEntityCommonData.UnitEntityType;
-            var ueLayerTypeEnum = unitEntityCommonData.UELayerTypeEnum;
+            // var ueLayerTypeEnum = unitEntityCommonData.UELayerTypeEnum;
 
-            var ins = GetGameObjectIns(unitEntity, unitEntityCommonData.ConfigId);
-
+            var instance = CreateGameObjectIns(unitEntity, unitEntityCommonData.ConfigId);
             // 实体组件
-            unitEntity.AddComponent<UnitEntityGameObjectComponent, GameObject>(ins);
+            unitEntity.AddComponent<UnitEntityGameObjectComponent, GameObject>(instance);
             // 动画组件
-            unitEntity.AddComponent<UnitEntitySpineAnimationComponent, GameObject>(ins);
+            unitEntity.AddComponent<UnitEntitySpineAnimationComponent, GameObject>(instance);
             
             await unitEntity.AddData2HealthBar();
             unitEntity.SyncData2TransPos();
             unitEntity.UpdateOrderLayer();
-            
-            switch (ueLayerTypeEnum)
-            {
-                case UELayerTypeEnum.Env:
-                case UELayerTypeEnum.Player:
-                case UELayerTypeEnum.Monster:
-                {
-                    ins.transform.rotation = Camera.main.transform.rotation;
-                    break;
-                }
-            }
-
-            return ins;
+            return instance;
         }
-
 
     }
 }
