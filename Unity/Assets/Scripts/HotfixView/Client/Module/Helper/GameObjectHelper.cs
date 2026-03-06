@@ -115,8 +115,8 @@ namespace ET.Client
             unitEntity.AddComponent<UnitEntitySpineAnimationComponent, GameObject>(ins);
             
             await unitEntity.AddData2HealthBar();
-            // unitEntity.SyncData2TransPos();
-            // unitEntity.UpdateOrderLayer();
+            unitEntity.SyncData2TransPos();
+            unitEntity.UpdateOrderLayer();
             
             switch (ueLayerTypeEnum)
             {
