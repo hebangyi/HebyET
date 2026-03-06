@@ -42,9 +42,6 @@
             var request = C2B_PlayerUseSkill.Create();
             request.SkillId = playerConfig.AttackSkill;
             var response = await ClientBattleSenderComponent.Instance.Call(request);
-            
-            var req = C2B_PlayerGetAllAOIWorldData.Create();
-            await ClientBattleSenderComponent.Instance.Call(req);
         }
     }    
 }

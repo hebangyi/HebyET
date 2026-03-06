@@ -126,7 +126,7 @@ public static partial class BattleWorldManagerComponentSystem
             }
 
             if (hasDirtyData)
-            {
+            {   
                 var battleRole = BattleRoleComponent.Instance.GetByRoleId(playerId);
                 if (battleRole != null)
                 {

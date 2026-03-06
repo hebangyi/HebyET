@@ -16,6 +16,8 @@ namespace ET.Client
 
         public override void OnUpdateT(UnitEntity unitEntity, UnitEntityPosition oldData, UnitEntityPosition newData)
         {
+            unitEntity.UpdateOrderLayer();
+            
             // 自己的玩家ID 不更新
             var clientWorld = unitEntity.ClientWorld();
             if (clientWorld.MainPlayerId == unitEntity.Id)
@@ -27,14 +29,8 @@ namespace ET.Client
             var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
             if (unitEntityGameObjectComponent != null && unitEntityGameObjectComponent.GameObject)
             {
-                // TODO 平移更新
-                unitEntityGameObjectComponent.GameObject.transform.position =
-                        new Vector3(newData.Position.x, newData.Position.y, 0);
-                
-                unitEntityGameObjectComponent.GameObject.transform.DOMove(new Vector3(newData.Position.x, newData.Position.y, 0), 0.5f);
+                unitEntityGameObjectComponent.GameObject.transform.DOMove(new Vector3(newData.Position.x, newData.Position.y, 0), 0.2f);
             }
-            
-            // unitEntity.GetComponent<UnitEntityHealthBarComponent>()?.UpdateHPBarPosition();
         }
     }
 }
