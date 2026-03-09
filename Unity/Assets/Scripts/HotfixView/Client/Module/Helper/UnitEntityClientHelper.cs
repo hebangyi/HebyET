@@ -13,7 +13,7 @@ namespace ET.Client
         /// <param name="unitEntity"></param>
         public static async ETTask AddData2HealthBar(this UnitEntity unitEntity)
         {
-            if (unitEntity.HasBloodNumerical())
+            if (unitEntity.HasBloodNumericalData())
             {
                 // 血量条组件
                 var gObject = await FGUIComponent.Instance.CreateGObject(FGUIPackage.PKG_Battle, FGUIResName.RES_Battle_FGUIHealthBar);
@@ -22,10 +22,10 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 同步 Rotaion 数据到现实 GameObject
+        /// 同步 Rotation 数据到现实 GameObject
         /// </summary>
         /// <param name="unitEntity"></param>
-        public static void SyncData2Rotaion(this UnitEntity unitEntity)
+        public static void SyncData2Rotation(this UnitEntity unitEntity)
         {
             var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
             var ueLayerTypeEnum = unitEntityCommonData.UELayerTypeEnum;
@@ -59,7 +59,10 @@ namespace ET.Client
             }
         }
         
-        
+        /// <summary>
+        /// 设置unitEntity 在2D战斗上的显示排序 按Y坐标排序
+        /// </summary>
+        /// <param name="unitEntity"></param>
         public static void UpdateOrderLayer(this UnitEntity unitEntity)
         {
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();

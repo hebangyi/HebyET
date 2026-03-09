@@ -7,7 +7,7 @@
             return unitEntity.GetParent<ClientWorld>();
         }
 
-        public static bool HasBloodNumerical(this UnitEntity unitEntity)
+        public static bool HasBloodNumericalData(this UnitEntity unitEntity)
         {
             if (!unitEntity.HasUnitEntityElementData<UnitEntityCommonData>() || !unitEntity.HasUnitEntityElementData<UnitEntityBloodData>())
             {

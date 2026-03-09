@@ -27,7 +27,7 @@ namespace ET.Client
             {
                 return;
             }
-
+            
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 operaComponent.AddCameraAngelOffset(GameConstant.GameOperaAngle);
