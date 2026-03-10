@@ -16,7 +16,7 @@ namespace ET.Client
             world.Frame = message.CurrentSyncFrame;
             world.AddBattleUnits(message.AddUnitEntiities);
             world.UpdateDirty(message.DirtyUnitEntities);
-            world.DeleteEntities(message.DeleteUnitEntites);
+            world.HandleDeleteEntities(message.DeleteUnitEntites);
         }
 
         
@@ -81,7 +81,7 @@ namespace ET.Client
             return unitEntity;
         }
 
-        public static void DeleteEntities(this ClientWorld self, List<long> instanceIds)
+        public static void HandleDeleteEntities(this ClientWorld self, List<long> instanceIds)
         {
             foreach (var instanceId in instanceIds)
             {
@@ -90,19 +90,20 @@ namespace ET.Client
                 {
                     continue;
                 }
-
-                foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
-                {
-                    self.PublishEvent(new ClientDestroyElementData()
-                            { UnitEntity = unitEntity, UnitEntityElemData = unitEntityElemDataKv.Value, ComponentId = unitEntityElemDataKv.Key });
-                }
                 
-                self.PublishEvent(new ClientRemoveUnitEntity() { UnitEntity = unitEntity });
-                self.AllEntities.Remove(unitEntity.InsId);
                 unitEntity.Dispose();
             }
         }
 
+        public static void RemoveEntity(this ClientWorld self, ClientUnitEntity unitEntity)
+        {
+            self.PublishEvent(new ClientRemoveUnitEntity() { UnitEntity = unitEntity });
+            self.AllEntities.Remove(unitEntity.InsId);
+            unitEntity.Dispose();
+        }
+        
+        
+        
         public static void PublishEvent<T>(this ClientWorld self, T args) where T : struct
         {
             var events = ClientWorldEventManagerComponent.Instance.AllEvents.GetValueOrDefault(typeof(T));

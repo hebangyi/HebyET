@@ -28,6 +28,8 @@ namespace ET
                 unitEntityContext = LogicWorldLogicManagerComponent.Instance.UnitEntityContexts.GetValueOrDefault(UETypeEnum.None);
             }
             unitEntityContext.Destroy(unitEntity);
+            
+            LogicWorldUnitEntityHelper.UnBindUnitEntitySystem(unitEntity);
         }
     }
 }

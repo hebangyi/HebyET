@@ -16,6 +16,12 @@ namespace ET.Client
        [EntitySystem]
        private static void Destroy(this ClientUnitEntity self)
        {
+           var world = self.GetParent<ClientWorld>();
+           if (world != null)
+           {
+               world.RemoveEntity(self);
+           }
+           
            foreach (var dataElement in self.UnitEntityData.Values)
            {
                if (dataElement is MessageObject messageObject)
