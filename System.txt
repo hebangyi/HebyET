@@ -632,3 +632,4 @@ BuffComponent
 SkillRuntimeData
 SkillData
 BuffData
+ClientUnitEntity

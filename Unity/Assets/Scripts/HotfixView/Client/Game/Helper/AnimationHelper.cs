@@ -2,7 +2,7 @@
 {
     public static class AnimationHelper
     {
-        public static void ReCalUnitEntityAnimationSkeleton(UnitEntity unitEntity)
+        public static void ReCalUnitEntityAnimationSkeleton(ClientUnitEntity unitEntity)
         { 
             var spineAnimation = unitEntity.GetSpineAnimation();
             if (spineAnimation == null)

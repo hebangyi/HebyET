@@ -32,7 +32,7 @@ namespace ET.Client
         private static void LateUpdate(this UnitySceneCameraComponent self)
         {
             // TODO 研究一下需不需要控制频率
-            UnitEntity flowUnitEntity = self.FlowUnitEntity;
+            ClientUnitEntity flowUnitEntity = self.FlowUnitEntity;
             if (flowUnitEntity != null)
             {
                 var unitEntityGameObjectComponent = flowUnitEntity.GetComponent<UnitEntityGameObjectComponent>();
@@ -43,7 +43,7 @@ namespace ET.Client
             }
         }
 
-        public static void SetFlowUnitEntity(this UnitySceneCameraComponent self, UnitEntity unitEntity)
+        public static void SetFlowUnitEntity(this UnitySceneCameraComponent self, ClientUnitEntity unitEntity)
         {
             self.FlowUnitEntity = unitEntity;
         }

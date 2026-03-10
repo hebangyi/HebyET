@@ -3,7 +3,7 @@
     public struct ClientUpdateElementData
     {
         public ushort ComponentId;
-        public UnitEntity UnitEntity;
+        public ClientUnitEntity UnitEntity;
         public IUnitEntityElemData OldUnitEntityElemData;
         public IUnitEntityElemData NewUnitEntityElemData;
     }

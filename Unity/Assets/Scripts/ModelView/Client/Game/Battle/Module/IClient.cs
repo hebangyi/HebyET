@@ -14,16 +14,16 @@
     public interface IClientEleInit : IClient
     {
         // 创建初始化Entity的时触发
-        void OnInit(UnitEntity unitEntity, object eleData);
+        void OnInit(ClientUnitEntity unitEntity, object eleData);
 
         // 在销毁的时候触发
-        void OnDestroy(UnitEntity unitEntity, object eleData);
+        void OnDestroy(ClientUnitEntity unitEntity, object eleData);
     }
 
 
     public interface IClientEleUpdate : IClient
     {
-        public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData);
+        public void OnUpdate(ClientUnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData);
     }
 
     public abstract class BaseClientEleLogic<T> : IClientEleInit, IClientEleUpdate where T : class
@@ -33,30 +33,30 @@
             return OpcodeType.Instance.GetOpcode(typeof(T));
         }
 
-        public void OnInit(UnitEntity unitEntity, object eleData)
+        public void OnInit(ClientUnitEntity unitEntity, object eleData)
         {
             var elemData = eleData as T;
             OnInitT(unitEntity, elemData);
         }
 
-        public void OnDestroy(UnitEntity unitEntity, object eleData)
+        public void OnDestroy(ClientUnitEntity unitEntity, object eleData)
         {
             var elemData = eleData as T;
             OnDestroyT(unitEntity, elemData);
         }
         
-        public abstract void OnInitT(UnitEntity unitEntity, T elemData);
+        public abstract void OnInitT(ClientUnitEntity unitEntity, T elemData);
 
-        public abstract void OnDestroyT(UnitEntity unitEntity, T elemData);
+        public abstract void OnDestroyT(ClientUnitEntity unitEntity, T elemData);
 
-        public void OnUpdate(UnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData)
+        public void OnUpdate(ClientUnitEntity unitEntity, IUnitEntityElemData oldData, IUnitEntityElemData newData)
         {
             var oldT = oldData as T;
             var newT = newData as T;
             this.OnUpdateT(unitEntity, oldT, newT);
         }
 
-        public abstract void OnUpdateT(UnitEntity unitEntity, T oldData, T newData);
+        public abstract void OnUpdateT(ClientUnitEntity unitEntity, T oldData, T newData);
 
     }
     
@@ -64,10 +64,10 @@
     
     public interface IClientUnitEntityContext
     {
-        void Init(UnitEntity unitEntity);
-        void CreateView(UnitEntity unitEntity);
-        void InitView(UnitEntity unitEntity);
-        void Destroy(UnitEntity unitEntity);
+        void Init(ClientUnitEntity unitEntity);
+        void CreateView(ClientUnitEntity unitEntity);
+        void InitView(ClientUnitEntity unitEntity);
+        void Destroy(ClientUnitEntity unitEntity);
     }
 
     public class ClientUnitEntityContext : BaseAttribute

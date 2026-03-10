@@ -10,7 +10,7 @@ namespace ET.Client
             return OpcodeType.Instance.GetOpcode(typeof(UnitEntityCommonData));
         }
 
-        public void OnInit(UnitEntity unitEntity, object eleData)
+        public void OnInit(ClientUnitEntity unitEntity, object eleData)
         {
             var unitEntityElemData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
             var clientWorld = unitEntity.ClientWorld();
@@ -22,7 +22,7 @@ namespace ET.Client
             }
         }
 
-        public void OnDestroy(UnitEntity unitEntity, object eleData)
+        public void OnDestroy(ClientUnitEntity unitEntity, object eleData)
         {
             var unitEntityElemData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
             var clientWorld = unitEntity.ClientWorld();

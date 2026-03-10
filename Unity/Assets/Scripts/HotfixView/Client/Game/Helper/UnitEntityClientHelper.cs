@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FairyGUI;
 using Spine.Unity;
 using UnityEngine;
@@ -8,25 +9,28 @@ namespace ET.Client
     public static class UnitEntityClientHelper
     {
         
-        public static ClientWorld ClientWorld(this UnitEntity unitEntity)
+        public static bool HasUnitEntityElementData<T>(this ClientUnitEntity self) where T : IUnitEntityElemData
+        {
+            Type type = typeof(T);
+            var componentId = OpcodeType.Instance.GetOpcode(type);
+            return self.UnitEntityData.ContainsKey(componentId);
+        }
+
+        public static T GetUnitEntityElemData<T>(this ClientUnitEntity self) where T : class, IUnitEntityElemData
+        {
+            Type type = typeof(T);
+            var componentId = OpcodeType.Instance.GetOpcode(type);
+            T elemData = self.UnitEntityData.GetValueOrDefault(componentId) as T;
+            return elemData;
+        }
+        
+        
+        public static ClientWorld ClientWorld(this ClientUnitEntity unitEntity)
         {
             return unitEntity.GetParent<ClientWorld>();
         }
 
-        public static bool HasBloodNumericalData(this UnitEntity unitEntity)
-        {
-            if (!unitEntity.HasUnitEntityElementData<UnitEntityCommonData>() || !unitEntity.HasUnitEntityElementData<UnitEntityBloodData>())
-            {
-                return false;
-            }
 
-            if (!unitEntity.GetUnitEntityElemData<UnitEntityCommonData>().NumericalDatas.ContainsKey(UnitEntityNumericalTypeEnum.Blood))
-            {
-                return false;
-            }
-
-            return true;
-        }
 
 
         /// <summary>
@@ -51,7 +55,7 @@ namespace ET.Client
         /// 同步血量数据到血量条
         /// </summary>
         /// <param name="unitEntity"></param>
-        public static async ETTask AddData2HealthBar(this UnitEntity unitEntity)
+        public static async ETTask AddData2HealthBar(this ClientUnitEntity unitEntity)
         {
             if (unitEntity.HasBloodNumericalData())
             {
@@ -65,7 +69,7 @@ namespace ET.Client
         /// 同步 Rotation 数据到现实 GameObject
         /// </summary>
         /// <param name="unitEntity"></param>
-        public static void SyncData2Rotation(this UnitEntity unitEntity)
+        public static void SyncData2Rotation(this ClientUnitEntity unitEntity)
         {
             var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
             var ueLayerTypeEnum = unitEntityCommonData.UELayerTypeEnum;
@@ -88,7 +92,7 @@ namespace ET.Client
         /// 同步 Position 数据到 GameObject
         /// </summary>
         /// <param name="unitEntity"></param>
-        public static void SyncData2TransPos(this UnitEntity unitEntity)
+        public static void SyncData2TransPos(this ClientUnitEntity unitEntity)
         {
             var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
@@ -103,7 +107,7 @@ namespace ET.Client
         /// 设置unitEntity 在2D战斗上的显示排序 按Y坐标排序
         /// </summary>
         /// <param name="unitEntity"></param>
-        public static void UpdateOrderLayer(this UnitEntity unitEntity)
+        public static void UpdateOrderLayer(this ClientUnitEntity unitEntity)
         {
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             if (unitEntityPosition == null)
@@ -141,7 +145,7 @@ namespace ET.Client
             }
         }
         
-        public static SkeletonAnimation GetSpineAnimation(this UnitEntity unitEntity)
+        public static SkeletonAnimation GetSpineAnimation(this ClientUnitEntity unitEntity)
         {
             var spineAnimationObj = unitEntity.GetGameObject()?.Get<GameObject>("SpineAnimation");
 
@@ -153,7 +157,7 @@ namespace ET.Client
             return null;
         }
 
-        public static SpriteRenderer GetSpriteRenderer(this UnitEntity unitEntity)
+        public static SpriteRenderer GetSpriteRenderer(this ClientUnitEntity unitEntity)
         {
             var spriteObj = unitEntity.GetGameObject()?.Get<GameObject>("Sprite");
             if (spriteObj != null)
@@ -165,7 +169,7 @@ namespace ET.Client
         }
         
         
-        public static GameObject GetGameObject(this UnitEntity unitEntity)
+        public static GameObject GetGameObject(this ClientUnitEntity unitEntity)
         {
             return unitEntity.GetComponent<UnitEntityGameObjectComponent>()?.GameObject;
         }
@@ -181,6 +185,21 @@ namespace ET.Client
             {
                 throw new Exception($"获取{gameObject.name}的ReferenceCollector key失败, key: {key}", e);
             }
+        }
+        
+        
+        public static bool HasBloodNumericalData(this ClientUnitEntity unitEntity)
+        {
+            if (!unitEntity.HasUnitEntityElementData<UnitEntityCommonData>() || !unitEntity.HasUnitEntityElementData<UnitEntityBloodData>())
+            {
+                return false;
+            }
+
+            if (!unitEntity.GetUnitEntityElemData<UnitEntityCommonData>().NumericalDatas.ContainsKey(UnitEntityNumericalTypeEnum.Blood))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace ET.Client
     [ClientUnitEntityContext(UETypeEnum.PlantMessage)]
     public class PlaneMessageClientContext : BaseClientUnitEntityContext
     {
-        public override void CreateView(UnitEntity unitEntity)
+        public override void CreateView(ClientUnitEntity unitEntity)
         {
             base.CreateView(unitEntity);
 
@@ -21,16 +21,16 @@ namespace ET.Client
             var plant_ground_red = go.Get<TileBase>("plant_ground_red");
             var tilemap = go.Get<GameObject>("TileMap").GetComponent<Tilemap>();
             var boarderTilemap = go.Get<GameObject>("Boarder").GetComponent<Tilemap>();
-            
+
             List<Vector3Int> CellBoarderList = new List<Vector3Int>();
-            
+
             var unitEntityMapMessage = unitEntity.GetUnitEntityElemData<UnitEntityMapMessage>();
             int unitSize = BattleGlobalConfigCategory.Instance.Config.TileMapUnitSize;
             int unitRadius = unitSize / 2;
 
             var plantInfo = unitEntityMapMessage.PlantInfo;
             long titleMapCount = 0;
-            
+
             for (int i = 0; i < plantInfo.CellInfos.Count; i++)
             {
                 var cellInfo = plantInfo.CellInfos[i];
@@ -91,7 +91,7 @@ namespace ET.Client
                 var toX = (int)(plantMaxX / unitSize) + 2;
                 var formY = (int)(plantMinY / unitSize) - 1;
                 var toY = (int)(plantMaxY / unitSize) + 2;
-                
+
                 for (var x = formX; x < toX; x++)
                 {
                     for (var y = formY; y < toY; y++)
@@ -99,7 +99,7 @@ namespace ET.Client
                         var centerX = x * unitSize + unitRadius;
                         var centerY = y * unitSize + unitRadius;
                         Vector3Int position = new Vector3Int(x, y, 0);
-                        
+
                         if (BattleMapHelper.IsPointInPolygon(new float2(centerX, centerY), cellInfo.Borders))
                         {
                             tilemap.SetTile(position, current_plant);
@@ -112,12 +112,12 @@ namespace ET.Client
                     }
                 }
             }
-            
+
             foreach (var cellBoarder in CellBoarderList)
             {
                 if (!tilemap.HasTile(cellBoarder))
                 {
-                    boarderTilemap.SetTile(cellBoarder, plant_ground_red);    
+                    boarderTilemap.SetTile(cellBoarder, plant_ground_red);
                 }
             }
 
@@ -126,7 +126,7 @@ namespace ET.Client
             Log.Error($"创建 TileMap 数量 : {titleMapCount}");
         }
 
-        public override void Destroy(UnitEntity unitEntity)
+        public override void Destroy(ClientUnitEntity unitEntity)
         {
             unitEntity.ClientWorld().UnitEntityMap = null;
         }

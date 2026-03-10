@@ -6,15 +6,15 @@ namespace ET.Client
     [UnitEntityViewLogic]
     public class UnitEntityPositionUpdate : BaseClientEleLogic<UnitEntityPosition>
     {
-        public override void OnInitT(UnitEntity unitEntity, UnitEntityPosition elemData)
+        public override void OnInitT(ClientUnitEntity unitEntity, UnitEntityPosition elemData)
         {
         }
 
-        public override void OnDestroyT(UnitEntity unitEntity, UnitEntityPosition elemData)
+        public override void OnDestroyT(ClientUnitEntity unitEntity, UnitEntityPosition elemData)
         {
         }
 
-        public override void OnUpdateT(UnitEntity unitEntity, UnitEntityPosition oldData, UnitEntityPosition newData)
+        public override void OnUpdateT(ClientUnitEntity unitEntity, UnitEntityPosition oldData, UnitEntityPosition newData)
         {
             unitEntity.UpdateOrderLayer();
             

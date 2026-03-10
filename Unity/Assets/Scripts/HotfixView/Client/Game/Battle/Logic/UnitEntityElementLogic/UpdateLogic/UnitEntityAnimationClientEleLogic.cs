@@ -3,22 +3,22 @@
     [UnitEntityViewLogic]
     public class UnitEntityAnimationClientEleLogic : BaseClientEleLogic<UnitEntityAnimationStateData>
     {
-        public override void OnInitT(UnitEntity unitEntity, UnitEntityAnimationStateData elemData)
+        public override void OnInitT(ClientUnitEntity unitEntity, UnitEntityAnimationStateData elemData)
         {
             PlayAnimation(unitEntity, elemData);
         }
 
-        public override void OnDestroyT(UnitEntity unitEntity, UnitEntityAnimationStateData elemData)
+        public override void OnDestroyT(ClientUnitEntity unitEntity, UnitEntityAnimationStateData elemData)
         {
         }
 
-        public override void OnUpdateT(UnitEntity unitEntity, UnitEntityAnimationStateData oldData, UnitEntityAnimationStateData newData)
+        public override void OnUpdateT(ClientUnitEntity unitEntity, UnitEntityAnimationStateData oldData, UnitEntityAnimationStateData newData)
         {
             PlayAnimation(unitEntity, newData);
         }
 
 
-        public void PlayAnimation(UnitEntity unitEntity, UnitEntityAnimationStateData animationStateData)
+        public void PlayAnimation(ClientUnitEntity unitEntity, UnitEntityAnimationStateData animationStateData)
         {
             var spineAnimation = unitEntity.GetSpineAnimation();
             if (spineAnimation == null)

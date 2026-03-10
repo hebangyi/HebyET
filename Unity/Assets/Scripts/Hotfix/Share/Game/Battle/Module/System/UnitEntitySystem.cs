@@ -23,7 +23,6 @@ namespace ET
                 world.RemoveEntity(self);
             }
             
-            // TODO 客户端 服务器分开
             // 回收所有的EntityData
             foreach (var dataElement in self.UnitEntityData.Values)
             {
