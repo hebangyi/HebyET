@@ -6,8 +6,9 @@ using UnityEngine;
 
 namespace ET.Client
 {
-    public static class UnitEntityClientHelper
+    public static class ClientUnitEntityHelper
     {
+
         
         public static bool HasUnitEntityElementData<T>(this ClientUnitEntity self) where T : IUnitEntityElemData
         {
@@ -48,21 +49,6 @@ namespace ET.Client
             // TODO 不要挂在MainPlayer上
             var playerCacheDataComponent = clientWorld.MainPlayer.GetComponent<MyPlayerCacheDataComponent>();
             return playerCacheDataComponent.CameraAngleOffSet % 360;
-        }
-        
-        
-        /// <summary>
-        /// 同步血量数据到血量条
-        /// </summary>
-        /// <param name="unitEntity"></param>
-        public static async ETTask AddData2HealthBar(this ClientUnitEntity unitEntity)
-        {
-            if (unitEntity.HasBloodNumericalData())
-            {
-                // 血量条组件
-                var gObject = await FGUIComponent.Instance.CreateGObject(FGUIPackage.PKG_Battle, FGUIResName.RES_Battle_FGUIHealthBar);
-                unitEntity.AddComponent<UnitEntityHealthBarComponent, GObject>(gObject);
-            }
         }
 
         /// <summary>
@@ -109,22 +95,20 @@ namespace ET.Client
         /// <param name="unitEntity"></param>
         public static void UpdateOrderLayer(this ClientUnitEntity unitEntity)
         {
+            if (unitEntity.UnitEntityType() == UETypeEnum.PlantMessage
+                || unitEntity.UnitEntityType() == UETypeEnum.GizmosDebug)
+            {
+                return;
+            }
+            
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             if (unitEntityPosition == null)
             {
                 return;
             }
-            
-            var cameraAngleOffSet = unitEntity.ClientWorld().GetCameraAngleOffSet();
-            var angle = cameraAngleOffSet / GameConstant.Rad2Deg;
 
-            var position = GlobalComponent.Instance.MainCamera.transform.position;
-            var xValue = Math.Sin(angle) * (unitEntityPosition.Position.x - position.x);
-            var yValue = Math.Cos(angle) * (unitEntityPosition.Position.y - position.y);
-            
-            var totalValue = xValue + yValue;
-            Log.Info($"UnitEntity {unitEntity.InsId}, 更新 Order Layer : {-totalValue}");
-            
+            var gameObject = unitEntity.GetGameObject();
+            float distance = Vector3.Distance(gameObject.transform.position, GlobalComponent.Instance.MainCamera.transform.position);
             var spineAnimation = unitEntity.GetSpineAnimation();
             if (spineAnimation != null)
             {
@@ -133,14 +117,14 @@ namespace ET.Client
                 {
                     return;
                 }
-                meshRenderer.sortingOrder = -(int)(totalValue * 100);
+                meshRenderer.sortingOrder = -(int)(distance * 100);
             }
             else
             {
                 var spriteRenderer = unitEntity.GetSpriteRenderer();
                 if (spriteRenderer != null)
                 {
-                    spriteRenderer.sortingOrder = -(int)(totalValue * 100);
+                    spriteRenderer.sortingOrder = -(int)(distance * 100);
                 }
             }
         }
@@ -188,18 +172,6 @@ namespace ET.Client
         }
         
         
-        public static bool HasBloodNumericalData(this ClientUnitEntity unitEntity)
-        {
-            if (!unitEntity.HasUnitEntityElementData<UnitEntityCommonData>() || !unitEntity.HasUnitEntityElementData<UnitEntityBloodData>())
-            {
-                return false;
-            }
 
-            if (!unitEntity.GetUnitEntityElemData<UnitEntityCommonData>().NumericalDatas.ContainsKey(UnitEntityNumericalTypeEnum.Blood))
-            {
-                return false;
-            }
-            return true;
-        }
     }
 }
