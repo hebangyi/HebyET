@@ -30,7 +30,7 @@
         
         public static UnitEntityAnimationToward CalUnitEntityAnimationToward(int cameraAngle, int regionTowardAngle)
         {
-            int showAngle = cameraAngle + regionTowardAngle;
+            int showAngle = regionTowardAngle - cameraAngle;
             showAngle %= 360;
 
             if (showAngle < 0)

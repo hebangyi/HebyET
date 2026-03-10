@@ -35,7 +35,7 @@ namespace ET.Client
             var unitEntity = self.GetParent<UnitEntity>();
             if (self.IsDragging)
             {
-                int towardAngle = self.OperaAngel + self.CameraAngleOffSet % 360;
+                int towardAngle = (self.OperaAngel + self.CameraAngleOffSet) % 360;
                 self.TowardAngle = towardAngle;
 
                 // TODO

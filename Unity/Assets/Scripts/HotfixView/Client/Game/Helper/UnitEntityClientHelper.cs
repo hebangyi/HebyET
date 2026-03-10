@@ -7,6 +7,46 @@ namespace ET.Client
 {
     public static class UnitEntityClientHelper
     {
+        
+        public static ClientWorld ClientWorld(this UnitEntity unitEntity)
+        {
+            return unitEntity.GetParent<ClientWorld>();
+        }
+
+        public static bool HasBloodNumericalData(this UnitEntity unitEntity)
+        {
+            if (!unitEntity.HasUnitEntityElementData<UnitEntityCommonData>() || !unitEntity.HasUnitEntityElementData<UnitEntityBloodData>())
+            {
+                return false;
+            }
+
+            if (!unitEntity.GetUnitEntityElemData<UnitEntityCommonData>().NumericalDatas.ContainsKey(UnitEntityNumericalTypeEnum.Blood))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
+        /// <summary>
+        /// 相机的旋转角度
+        /// </summary>
+        /// <param name="clientWorld"></param>
+        /// <returns></returns>
+        public static int GetCameraAngleOffSet(this ClientWorld clientWorld)
+        {
+            if (clientWorld.MainPlayer == null)
+            {
+                return 0;
+            }
+            
+            // TODO 不要挂在MainPlayer上
+            var playerCacheDataComponent = clientWorld.MainPlayer.GetComponent<MyPlayerCacheDataComponent>();
+            return playerCacheDataComponent.CameraAngleOffSet % 360;
+        }
+        
+        
         /// <summary>
         /// 同步血量数据到血量条
         /// </summary>
@@ -71,6 +111,16 @@ namespace ET.Client
                 return;
             }
             
+            var cameraAngleOffSet = unitEntity.ClientWorld().GetCameraAngleOffSet();
+            var angle = cameraAngleOffSet / GameConstant.Rad2Deg;
+
+            var position = GlobalComponent.Instance.MainCamera.transform.position;
+            var xValue = Math.Sin(angle) * (unitEntityPosition.Position.x - position.x);
+            var yValue = Math.Cos(angle) * (unitEntityPosition.Position.y - position.y);
+            
+            var totalValue = xValue + yValue;
+            Log.Info($"UnitEntity {unitEntity.InsId}, 更新 Order Layer : {-totalValue}");
+            
             var spineAnimation = unitEntity.GetSpineAnimation();
             if (spineAnimation != null)
             {
@@ -79,14 +129,14 @@ namespace ET.Client
                 {
                     return;
                 }
-                meshRenderer.sortingOrder = -(int)(unitEntityPosition.Position.y * 100);
+                meshRenderer.sortingOrder = -(int)(totalValue * 100);
             }
             else
             {
                 var spriteRenderer = unitEntity.GetSpriteRenderer();
                 if (spriteRenderer != null)
                 {
-                    spriteRenderer.sortingOrder = -(int)(unitEntityPosition.Position.y * 100);
+                    spriteRenderer.sortingOrder = -(int)(totalValue * 100);
                 }
             }
         }
