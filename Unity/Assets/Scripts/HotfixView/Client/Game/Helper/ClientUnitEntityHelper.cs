@@ -109,23 +109,34 @@ namespace ET.Client
 
             var gameObject = unitEntity.GetGameObject();
             float distance = Vector3.Distance(gameObject.transform.position, GlobalComponent.Instance.MainCamera.transform.position);
+            
+            var sortingOrder =  -(int)(distance * 100);
+            
+            // 动画 图片
             var spineAnimation = unitEntity.GetSpineAnimation();
-            if (spineAnimation != null)
+            if (spineAnimation != null) 
             {
                 var meshRenderer = spineAnimation.GetComponent<MeshRenderer>();
                 if (meshRenderer == null)
                 {
                     return;
                 }
-                meshRenderer.sortingOrder = -(int)(distance * 100);
+                meshRenderer.sortingOrder = sortingOrder;
             }
             else
             {
                 var spriteRenderer = unitEntity.GetSpriteRenderer();
                 if (spriteRenderer != null)
                 {
-                    spriteRenderer.sortingOrder = -(int)(distance * 100);
+                    spriteRenderer.sortingOrder = sortingOrder;
                 }
+            }
+
+            // 血量条
+            var unitEntityHealthBarComponent = unitEntity.GetComponent<UnitEntityHealthBarComponent>();
+            if (unitEntityHealthBarComponent != null)
+            {
+                unitEntityHealthBarComponent.GObject.sortingOrder = sortingOrder;
             }
         }
         
