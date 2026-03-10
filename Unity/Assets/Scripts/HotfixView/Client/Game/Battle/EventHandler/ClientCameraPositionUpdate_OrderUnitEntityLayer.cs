@@ -5,7 +5,6 @@
     {
         protected override async ETTask Run(ClientWorld world, ClientCameraPositionUpdate args)
         {
-            Log.Info($"更新Position Update");
             var allEntities = world.AllEntities;
             foreach (var allEntity in allEntities.Values)
             {

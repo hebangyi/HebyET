@@ -13,9 +13,8 @@
             var clientWorld = unitEntity.ClientWorld();
             var playerCacheDataComponent = clientWorld.MainPlayer.GetComponent<MyPlayerCacheDataComponent>();
             var towardAngle = unitEntity.GetUnitEntityElemData<UnitEntityTowardAngle>();
-
-            var toward = CalUnitEntityAnimationToward((int)playerCacheDataComponent.CameraAngleOffSet, towardAngle.TowardAngle);
-
+            
+            var toward = CalUnitEntityAnimationToward(playerCacheDataComponent.CameraAngleOffSet, towardAngle.TowardAngle);
 
             if (toward == UnitEntityAnimationToward.Left)
             {
