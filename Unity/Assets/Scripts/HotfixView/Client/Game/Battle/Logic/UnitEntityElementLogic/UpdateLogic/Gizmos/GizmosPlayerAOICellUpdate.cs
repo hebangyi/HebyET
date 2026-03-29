@@ -5,22 +5,22 @@ namespace ET.Client
     [UnitEntityViewLogic]
     public class GizmosPlayerAOICellUpdate: BaseClientEleLogic<GizmosPlayerAOICell>
     {
-        public override void OnInitT(UnitEntity unitEntity, GizmosPlayerAOICell elemData)
+        public override void OnInitT(ClientUnitEntity unitEntity, GizmosPlayerAOICell elemData)
         {
             SetGizmos(unitEntity, elemData);
         }
 
-        public override void OnDestroyT(UnitEntity unitEntity, GizmosPlayerAOICell elemData)
+        public override void OnDestroyT(ClientUnitEntity unitEntity, GizmosPlayerAOICell elemData)
         {
         }
 
-        public override void OnUpdateT(UnitEntity unitEntity, GizmosPlayerAOICell oldData, GizmosPlayerAOICell newData)
+        public override void OnUpdateT(ClientUnitEntity unitEntity, GizmosPlayerAOICell oldData, GizmosPlayerAOICell newData)
         {
             SetGizmos(unitEntity, newData);
         }
         
         
-        public void SetGizmos(UnitEntity unitEntity, GizmosPlayerAOICell gizmosPlayerAOICell)
+        public void SetGizmos(ClientUnitEntity unitEntity, GizmosPlayerAOICell gizmosPlayerAOICell)
         {
             var instance = GizmosDebug.Instance;
             if (instance == null)

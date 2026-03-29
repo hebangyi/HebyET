@@ -7,11 +7,11 @@ namespace ET.Client
     public class ClientWorld : World
     {
         // AllEntity
-        public Dictionary<long, UnitEntity> AllEntities = new ();
+        public Dictionary<long, ClientUnitEntity> AllEntities = new ();
         // 玩家id-地图UnitEntity
-        public Dictionary<long, UnitEntity> PlayerUnitEntities = new ();
+        public Dictionary<long, ClientUnitEntity> PlayerUnitEntities = new ();
         
-        public Dictionary<long, UnitEntity> EvnUnitEntities = new ();
+        public Dictionary<long, ClientUnitEntity> EvnUnitEntities = new ();
         
         // 逻辑帧
         public uint Frame;
@@ -20,12 +20,12 @@ namespace ET.Client
         public int LogicInterval;
         
         // 我的玩家信息
-        public UnitEntity MainPlayer;
+        public ClientUnitEntity MainPlayer;
         
         public long MainPlayerId;
         
         // 地图 PlantMessage
-        public UnitEntity UnitEntityMap;
+        public ClientUnitEntity UnitEntityMap;
 
         // Unit GameObject 资源
         public GameObject UnitGameObject;

@@ -48,7 +48,7 @@ namespace ET.Client
            var animation = self.GetAnimationByName(name);
            if (animation == null)
            {
-               Log.Error($"设置Spine 动画错误! {self.GetParent<UnitEntity>().InsId} 找不到动画 {name}");
+               Log.Error($"设置Spine 动画错误! {self.GetParent<ClientUnitEntity>().InsId} 找不到动画 {name}");
                return;
            }
 

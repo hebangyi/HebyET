@@ -27,7 +27,7 @@ namespace ET.Client
        
        public static void UpdateHPBarPosition(this UnitEntityHealthBarComponent self)
        {
-           var unitEntity = self.GetParent<UnitEntity>();
+           var unitEntity = self.GetParent<ClientUnitEntity>();
            var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
            if (unitEntityPosition == null)
            {
@@ -44,7 +44,7 @@ namespace ET.Client
 
        public static void RefreashBar(this UnitEntityHealthBarComponent self)
        {
-           var unitEntity = self.GetParent<UnitEntity>();
+           var unitEntity = self.GetParent<ClientUnitEntity>();
            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
            
            var totalBlood = unitEntityCommonData.NumericalDatas.GetValueOrDefault(UnitEntityNumericalTypeEnum.Blood);

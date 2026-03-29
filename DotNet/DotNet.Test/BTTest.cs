@@ -52,7 +52,10 @@ public static class BTTest
     
     public static void Test4()
     {
-        Console.WriteLine(Math.Atan2(1, 0) * 57.29578f);
+        Console.WriteLine(Math.Atan2(0, 10) * 57.29578f);
+        Console.WriteLine(Math.Atan2(10, 0) * 57.29578f);
+        Console.WriteLine(Math.Atan2(0, -10) * 57.29578f);
+        Console.WriteLine(Math.Atan2(-10, 0) * 57.29578f);
     }
     
     public static void Test5()

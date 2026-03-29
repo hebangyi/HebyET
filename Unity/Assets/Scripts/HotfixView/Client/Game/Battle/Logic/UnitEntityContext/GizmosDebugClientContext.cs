@@ -5,10 +5,10 @@ namespace ET.Client
     [ClientUnitEntityContext(UETypeEnum.GizmosDebug)]
     public class GizmosDebugClientContext : BaseClientUnitEntityContext
     {
-        public override void CreateView(UnitEntity unitEntity)
+        public override void CreateView(ClientUnitEntity unitEntity)
         {
             base.CreateView(unitEntity);
-            
+
             var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
             var go = unitEntityGameObjectComponent.GameObject;
 

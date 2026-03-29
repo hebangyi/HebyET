@@ -2,7 +2,7 @@
 {
     public static class MainPlayerHelper
     {
-        public static UnitEntity GetCurrentWorldMainPlayer()
+        public static ClientUnitEntity GetCurrentWorldMainPlayer()
         {
             var clientWorld = UnitySceneClientWorldManagerComponent.Instance.CurrentClientWorld;
             if (clientWorld == null)

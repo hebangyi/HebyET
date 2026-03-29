@@ -2,7 +2,7 @@
 {
     public static class AnimationHelper
     {
-        public static void ReCalUnitEntityAnimationSkeleton(UnitEntity unitEntity)
+        public static void ReCalUnitEntityAnimationSkeleton(ClientUnitEntity unitEntity)
         { 
             var spineAnimation = unitEntity.GetSpineAnimation();
             if (spineAnimation == null)
@@ -13,9 +13,8 @@
             var clientWorld = unitEntity.ClientWorld();
             var playerCacheDataComponent = clientWorld.MainPlayer.GetComponent<MyPlayerCacheDataComponent>();
             var towardAngle = unitEntity.GetUnitEntityElemData<UnitEntityTowardAngle>();
-
-            var toward = CalUnitEntityAnimationToward((int)playerCacheDataComponent.CameraAngleOffSet, towardAngle.TowardAngle);
-
+            
+            var toward = CalUnitEntityAnimationToward(playerCacheDataComponent.CameraAngleOffSet, towardAngle.TowardAngle);
 
             if (toward == UnitEntityAnimationToward.Left)
             {
@@ -30,7 +29,7 @@
         
         public static UnitEntityAnimationToward CalUnitEntityAnimationToward(int cameraAngle, int regionTowardAngle)
         {
-            int showAngle = cameraAngle + regionTowardAngle;
+            int showAngle = regionTowardAngle - cameraAngle;
             showAngle %= 360;
 
             if (showAngle < 0)

@@ -1,31 +1,61 @@
 ﻿using System;
+using System.Collections.Generic;
 using FairyGUI;
 using Spine.Unity;
 using UnityEngine;
 
 namespace ET.Client
 {
-    public static class UnitEntityClientHelper
+    public static class ClientUnitEntityHelper
     {
-        /// <summary>
-        /// 同步血量数据到血量条
-        /// </summary>
-        /// <param name="unitEntity"></param>
-        public static async ETTask AddData2HealthBar(this UnitEntity unitEntity)
+
+        
+        public static bool HasUnitEntityElementData<T>(this ClientUnitEntity self) where T : IUnitEntityElemData
         {
-            if (unitEntity.HasBloodNumericalData())
+            Type type = typeof(T);
+            var componentId = OpcodeType.Instance.GetOpcode(type);
+            return self.UnitEntityData.ContainsKey(componentId);
+        }
+
+        public static T GetUnitEntityElemData<T>(this ClientUnitEntity self) where T : class, IUnitEntityElemData
+        {
+            Type type = typeof(T);
+            var componentId = OpcodeType.Instance.GetOpcode(type);
+            T elemData = self.UnitEntityData.GetValueOrDefault(componentId) as T;
+            return elemData;
+        }
+        
+        
+        public static ClientWorld ClientWorld(this ClientUnitEntity unitEntity)
+        {
+            return unitEntity.GetParent<ClientWorld>();
+        }
+
+
+
+
+        /// <summary>
+        /// 相机的旋转角度
+        /// </summary>
+        /// <param name="clientWorld"></param>
+        /// <returns></returns>
+        public static int GetCameraAngleOffSet(this ClientWorld clientWorld)
+        {
+            if (clientWorld.MainPlayer == null)
             {
-                // 血量条组件
-                var gObject = await FGUIComponent.Instance.CreateGObject(FGUIPackage.PKG_Battle, FGUIResName.RES_Battle_FGUIHealthBar);
-                unitEntity.AddComponent<UnitEntityHealthBarComponent, GObject>(gObject);
+                return 0;
             }
+            
+            // TODO 不要挂在MainPlayer上
+            var playerCacheDataComponent = clientWorld.MainPlayer.GetComponent<MyPlayerCacheDataComponent>();
+            return playerCacheDataComponent.CameraAngleOffSet % 360;
         }
 
         /// <summary>
         /// 同步 Rotation 数据到现实 GameObject
         /// </summary>
         /// <param name="unitEntity"></param>
-        public static void SyncData2Rotation(this UnitEntity unitEntity)
+        public static void SyncData2Rotation(this ClientUnitEntity unitEntity)
         {
             var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
             var ueLayerTypeEnum = unitEntityCommonData.UELayerTypeEnum;
@@ -48,7 +78,7 @@ namespace ET.Client
         /// 同步 Position 数据到 GameObject
         /// </summary>
         /// <param name="unitEntity"></param>
-        public static void SyncData2TransPos(this UnitEntity unitEntity)
+        public static void SyncData2TransPos(this ClientUnitEntity unitEntity)
         {
             var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
@@ -63,35 +93,54 @@ namespace ET.Client
         /// 设置unitEntity 在2D战斗上的显示排序 按Y坐标排序
         /// </summary>
         /// <param name="unitEntity"></param>
-        public static void UpdateOrderLayer(this UnitEntity unitEntity)
+        public static void UpdateOrderLayer(this ClientUnitEntity unitEntity)
         {
+            if (unitEntity.UnitEntityType() == UETypeEnum.PlantMessage
+                || unitEntity.UnitEntityType() == UETypeEnum.GizmosDebug)
+            {
+                return;
+            }
+            
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
             if (unitEntityPosition == null)
             {
                 return;
             }
+
+            var gameObject = unitEntity.GetGameObject();
+            float distance = Vector3.Distance(gameObject.transform.position, GlobalComponent.Instance.MainCamera.transform.position);
             
+            var sortingOrder =  -(int)(distance * 100);
+            
+            // 动画 图片
             var spineAnimation = unitEntity.GetSpineAnimation();
-            if (spineAnimation != null)
+            if (spineAnimation != null) 
             {
                 var meshRenderer = spineAnimation.GetComponent<MeshRenderer>();
                 if (meshRenderer == null)
                 {
                     return;
                 }
-                meshRenderer.sortingOrder = -(int)(unitEntityPosition.Position.y * 100);
+                meshRenderer.sortingOrder = sortingOrder;
             }
             else
             {
                 var spriteRenderer = unitEntity.GetSpriteRenderer();
                 if (spriteRenderer != null)
                 {
-                    spriteRenderer.sortingOrder = -(int)(unitEntityPosition.Position.y * 100);
+                    spriteRenderer.sortingOrder = sortingOrder;
                 }
+            }
+
+            // 血量条
+            var unitEntityHealthBarComponent = unitEntity.GetComponent<UnitEntityHealthBarComponent>();
+            if (unitEntityHealthBarComponent != null)
+            {
+                unitEntityHealthBarComponent.GObject.sortingOrder = sortingOrder;
             }
         }
         
-        public static SkeletonAnimation GetSpineAnimation(this UnitEntity unitEntity)
+        public static SkeletonAnimation GetSpineAnimation(this ClientUnitEntity unitEntity)
         {
             var spineAnimationObj = unitEntity.GetGameObject()?.Get<GameObject>("SpineAnimation");
 
@@ -103,7 +152,7 @@ namespace ET.Client
             return null;
         }
 
-        public static SpriteRenderer GetSpriteRenderer(this UnitEntity unitEntity)
+        public static SpriteRenderer GetSpriteRenderer(this ClientUnitEntity unitEntity)
         {
             var spriteObj = unitEntity.GetGameObject()?.Get<GameObject>("Sprite");
             if (spriteObj != null)
@@ -115,7 +164,7 @@ namespace ET.Client
         }
         
         
-        public static GameObject GetGameObject(this UnitEntity unitEntity)
+        public static GameObject GetGameObject(this ClientUnitEntity unitEntity)
         {
             return unitEntity.GetComponent<UnitEntityGameObjectComponent>()?.GameObject;
         }
@@ -132,5 +181,8 @@ namespace ET.Client
                 throw new Exception($"获取{gameObject.name}的ReferenceCollector key失败, key: {key}", e);
             }
         }
+        
+        
+
     }
 }

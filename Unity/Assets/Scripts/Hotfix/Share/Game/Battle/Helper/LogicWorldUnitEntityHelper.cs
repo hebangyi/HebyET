@@ -15,12 +15,36 @@ namespace ET
             return unitEntity;
         }
 
+
         public static void RemoveEntity(this LogicWorld self, UnitEntity unitEntity)
         {
-            RemoveUnitEntitySystem(unitEntity);
             self.PublishEvent(new RemoveUnitEntity() { UnitEntity = unitEntity });
             self.AllEntities.Remove(unitEntity.InsId);
             unitEntity.Dispose();
+        }
+
+
+        public static void UnBindUnitEntitySystem(UnitEntity unitEntity)
+        {
+            foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
+            {
+                var type = unitEntityElemDataKv.Value.GetType();
+                var set = unitEntity.LogicWorld().DataTypeEntityIds.GetValueOrDefault(type);
+                if (set != null)
+                {
+                    set.Remove(unitEntity.InsId);
+                }
+            }
+            
+            foreach (var unitEntityElemDataKv in unitEntity.UnitEntityLogicData)
+            {
+                var type = unitEntityElemDataKv.Key;
+                var set = unitEntity.LogicWorld().DataTypeEntityIds.GetValueOrDefault(type);
+                if (set != null)
+                {
+                    set.Remove(unitEntity.InsId);
+                }
+            }
         }
         
         
@@ -51,30 +75,6 @@ namespace ET
                 sets.Add(unitEntity.InsId);
             }
         }
-
-        public static void RemoveUnitEntitySystem(UnitEntity unitEntity)
-        {
-            foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
-            {
-                var type = unitEntityElemDataKv.Value.GetType();
-                var set = unitEntity.LogicWorld().DataTypeEntityIds.GetValueOrDefault(type);
-                if (set != null)
-                {
-                    set.Remove(unitEntity.InsId);
-                }
-            }
-            
-            foreach (var unitEntityElemDataKv in unitEntity.UnitEntityLogicData)
-            {
-                var type = unitEntityElemDataKv.Key;
-                var set = unitEntity.LogicWorld().DataTypeEntityIds.GetValueOrDefault(type);
-                if (set != null)
-                {
-                    set.Remove(unitEntity.InsId);
-                }
-            }
-        }
-
 
 
         private static UnitEntity

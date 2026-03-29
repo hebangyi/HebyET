@@ -3,7 +3,7 @@
     public struct ClientDestroyElementData
     {
         public ushort ComponentId;
-        public UnitEntity UnitEntity;
+        public ClientUnitEntity UnitEntity;
         public IUnitEntityElemData UnitEntityElemData;
     }
 }

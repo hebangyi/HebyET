@@ -26,7 +26,7 @@ namespace ET.Client
             clientWorld.UnitPlayerGameObject = playerGameObject;
         }
 
-        public static GameObject CreateGameObjectIns(UnitEntity unitEntity, long id)
+        public static GameObject CreateGameObjectIns(ClientUnitEntity unitEntity, long id)
         {
             ClientWorld clientWorld = unitEntity.ClientWorld();
 
@@ -101,7 +101,7 @@ namespace ET.Client
             return ins;
         }
 
-        public static async ETTask<GameObject> CreateGameObjectIns(ClientWorld clientWorld, UnitEntity unitEntity)
+        public static async ETTask<GameObject> CreateGameObjectIns(ClientWorld clientWorld, ClientUnitEntity unitEntity)
         {
             var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
             // var unitEntityType = unitEntityCommonData.UnitEntityType;

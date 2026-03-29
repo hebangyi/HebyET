@@ -16,7 +16,7 @@ namespace ET.Client
             world.Frame = message.CurrentSyncFrame;
             world.AddBattleUnits(message.AddUnitEntiities);
             world.UpdateDirty(message.DirtyUnitEntities);
-            world.DeleteEntities(message.DeleteUnitEntites);
+            world.HandleDeleteEntities(message.DeleteUnitEntites);
         }
 
         
@@ -40,9 +40,9 @@ namespace ET.Client
             world.PublishUnitEntityCreateEvent(unitEntity);
         }
 
-        public static UnitEntity DeserializeUnitEntity(this ClientWorld self, BattleUnitEntity battleUnitEntity)
+        public static ClientUnitEntity DeserializeUnitEntity(this ClientWorld self, BattleUnitEntity battleUnitEntity)
         {
-            var unitEntity = self.AddChildWithId<UnitEntity>(battleUnitEntity.InsId);
+            var unitEntity = self.AddChildWithId<ClientUnitEntity>(battleUnitEntity.InsId);
             unitEntity.InsId = battleUnitEntity.InsId;
             self.AllEntities[unitEntity.InsId] = unitEntity;
             foreach (var elemData in battleUnitEntity.EleDatas)
@@ -63,7 +63,7 @@ namespace ET.Client
             return unitEntity;
         }
 
-        public static UnitEntity PublishUnitEntityCreateEvent(this ClientWorld self, UnitEntity unitEntity)
+        public static ClientUnitEntity PublishUnitEntityCreateEvent(this ClientWorld self, ClientUnitEntity unitEntity)
         {
             Log.Info($"Create UnitEntity : {unitEntity.InsId}");
             // 初始化 UnitEntity
@@ -81,7 +81,7 @@ namespace ET.Client
             return unitEntity;
         }
 
-        public static void DeleteEntities(this ClientWorld self, List<long> instanceIds)
+        public static void HandleDeleteEntities(this ClientWorld self, List<long> instanceIds)
         {
             foreach (var instanceId in instanceIds)
             {
@@ -90,19 +90,20 @@ namespace ET.Client
                 {
                     continue;
                 }
-
-                foreach (var unitEntityElemDataKv in unitEntity.UnitEntityData)
-                {
-                    self.PublishEvent(new ClientDestroyElementData()
-                            { UnitEntity = unitEntity, UnitEntityElemData = unitEntityElemDataKv.Value, ComponentId = unitEntityElemDataKv.Key });
-                }
                 
-                self.PublishEvent(new RemoveUnitEntity() { UnitEntity = unitEntity });
-                self.AllEntities.Remove(unitEntity.InsId);
                 unitEntity.Dispose();
             }
         }
 
+        public static void RemoveEntity(this ClientWorld self, ClientUnitEntity unitEntity)
+        {
+            self.PublishEvent(new ClientRemoveUnitEntity() { UnitEntity = unitEntity });
+            self.AllEntities.Remove(unitEntity.InsId);
+            unitEntity.Dispose();
+        }
+        
+        
+        
         public static void PublishEvent<T>(this ClientWorld self, T args) where T : struct
         {
             var events = ClientWorldEventManagerComponent.Instance.AllEvents.GetValueOrDefault(typeof(T));
@@ -159,7 +160,7 @@ namespace ET.Client
             List<ClientUpdateElementData> clientUpdateElementDatas = new List<ClientUpdateElementData>();
             foreach (var battleUnitEntity in battleUnitEntities)
             {
-                UnitEntity unitEntity = self.AllEntities.GetValueOrDefault(battleUnitEntity.InsId);
+                ClientUnitEntity unitEntity = self.AllEntities.GetValueOrDefault(battleUnitEntity.InsId);
                 if (unitEntity == null)
                 {
                     Log.Error($"UpdateDirty 出错, 没有找到实体 {battleUnitEntity.InsId}");

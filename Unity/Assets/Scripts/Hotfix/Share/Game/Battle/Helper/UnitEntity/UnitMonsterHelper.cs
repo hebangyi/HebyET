@@ -121,7 +121,7 @@ namespace ET
             bool overMoveDistance = moveMax >= distance;
             var targetFraction = overMoveDistance ? finalPosition
                     : math.normalize(subPos) * speed * logicWorld.IntervalMillis + fromPosition;
-            towardAngle = (short)(Math.Atan2(-subPos.y, subPos.x) * GameConstant.Rad2Deg);
+            towardAngle = (short)(Math.Atan2(subPos.y, subPos.x) * GameConstant.Rad2Deg);
 
             if (MonsterCanMove(logicWorld, targetFraction))
             {

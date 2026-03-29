@@ -32,10 +32,10 @@ namespace ET.Client
             long subTime = nowTime - self.LastUpdateTime;
             self.LastUpdateTime = nowTime;
             
-            var unitEntity = self.GetParent<UnitEntity>();
+            var unitEntity = self.GetParent<ClientUnitEntity>();
             if (self.IsDragging)
             {
-                int towardAngle = self.OperaAngel + self.CameraAngleOffSet % 360;
+                int towardAngle = (self.OperaAngel + self.CameraAngleOffSet) % 360;
                 self.TowardAngle = towardAngle;
 
                 // TODO
@@ -62,7 +62,7 @@ namespace ET.Client
 
         private static void UpdateView(this MyPlayerCacheDataComponent self)
         {
-            var unitEntity = self.GetParent<UnitEntity>();
+            var unitEntity = self.GetParent<ClientUnitEntity>();
 
             var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
             if (unitEntityGameObjectComponent == null)
@@ -79,7 +79,7 @@ namespace ET.Client
             {
                 BattleUnitEntity battleUnitEntity = BattleUnitEntity.Create(true);
 
-                var unitEntity = self.GetParent<UnitEntity>();
+                var unitEntity = self.GetParent<ClientUnitEntity>();
                 battleUnitEntity.InsId = unitEntity.InsId;
                 
                 var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();

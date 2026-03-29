@@ -118,7 +118,17 @@ public class DictionaryTest
         long y = cellId & 0xFFFF;
         return new Tuple<long, long>(x, y);
     }*/
-
+    public static void Test8()
+    {
+        double angle90 = 90;   // 90度
+        double rad90 = angle90 * Math.PI / 180;
+        
+        
+        
+        Console.WriteLine($"{Math.Cos(rad90):F6}");
+        // Console.WriteLine(Math.Cos(90));
+    }
+    
     public static long GetCellId(int x, int y)
     {
         return ((long) x << 32) | (uint)y;
