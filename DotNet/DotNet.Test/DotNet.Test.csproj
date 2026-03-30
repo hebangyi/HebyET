@@ -17,7 +17,6 @@
 
     <ItemGroup>
       <Folder Include="Box2DTest\Abstractions\" />
-      <Folder Include="Box2DTest\Samples\" />
       <Folder Include="Box2DTest\Testbed\" />
     </ItemGroup>
 

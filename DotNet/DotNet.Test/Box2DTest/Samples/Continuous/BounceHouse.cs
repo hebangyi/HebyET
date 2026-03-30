@@ -67,7 +67,7 @@ public class BounceHouse : SampleBase
             Shape.CreateSegmentShape(groundId, shapeDef, segment);
         }
 
-        m_shapeType = TestShapeType.e_circleShape;
+        m_shapeType = TestShapeType.e_capsuleShape;
         m_bodyId = BodyId.NullId;
         m_enableHitEvents = true;
 
@@ -149,5 +149,8 @@ public class BounceHouse : SampleBase
                 Draw.DrawString(e.Point, e.Speed.ToString("F1"));
             }
         }
+        
+        
+        DrawString($"ContactEvents Count: {events.HitCount}");
     }
 }
