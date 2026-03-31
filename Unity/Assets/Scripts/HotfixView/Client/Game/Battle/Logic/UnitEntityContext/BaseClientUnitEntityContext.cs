@@ -14,6 +14,7 @@
 
         public virtual void InitView(ClientUnitEntity unitEntity)
         {
+            
         }
 
         public virtual void Destroy(ClientUnitEntity unitEntity)

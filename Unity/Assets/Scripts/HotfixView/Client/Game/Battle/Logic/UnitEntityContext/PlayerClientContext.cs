@@ -40,6 +40,19 @@ namespace ET.Client
             clientWorld.PlayerUnitEntities[playerInfo.PlayerId] = unitEntity;
         }
 
+        public override void InitView(ClientUnitEntity unitEntity)
+        {
+            
+            var clientWorld = unitEntity.ClientWorld();
+            if (unitEntity.InsId == clientWorld.MainPlayerId)
+            {
+                // 加入触发器监听
+                var gameObject = unitEntity.GetGameObject();
+                gameObject.AddComponent<TriggerComponent>();
+            }
+        }
+
+
         public override void Destroy(ClientUnitEntity unitEntity)
         {
             var playerInfo = unitEntity.GetUnitEntityElemData<UnitEntityPlayerInfo>();
