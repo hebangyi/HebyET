@@ -38,7 +38,7 @@ public class GameTest : SampleBase
         // static Box
         {
             BodyDef bodyDef = BodyDef.DefaultBodyDef();
-            bodyDef.Type = BodyType.DynamicBody;
+            bodyDef.Type = BodyType.StaticBody;
             BodyId bodyId = Body.CreateBody(WorldId, bodyDef);
             
             Polygon box = Geometry.MakeOffsetBox(1.0f, 3.0f, (-1.0f, 3.0f), Rot.Identity);
