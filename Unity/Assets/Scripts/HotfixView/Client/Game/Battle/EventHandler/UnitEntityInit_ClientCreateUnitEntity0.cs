@@ -15,6 +15,7 @@
             
             unitEntityContext.Init(unitEntity);
             unitEntityContext.CreateView(unitEntity);
+            unitEntityContext.InitView(unitEntity);
         }
     }
 }

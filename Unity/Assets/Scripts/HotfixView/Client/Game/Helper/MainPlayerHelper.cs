@@ -1,4 +1,6 @@
-﻿namespace ET.Client
+﻿using UnityEngine;
+
+namespace ET.Client
 {
     public static class MainPlayerHelper
     {
@@ -9,7 +11,7 @@
             {
                 return null;
             }
-            
+
             var mainPlayer = clientWorld.MainPlayer;
             if (mainPlayer == null)
             {
@@ -18,15 +20,13 @@
 
             return mainPlayer;
         }
-        
-        
+
         public static void OnClickAttack()
         {
             Log.Info("OnClickAttack");
             SendUseAttackSkill().Coroutine();
             // playerClientSkillComponent.OnClickAttack();
         }
-
 
         public static async ETTask SendUseAttackSkill()
         {
@@ -35,7 +35,7 @@
             {
                 return;
             }
-            
+
             var unitEntityCommonData = mainPlayer.GetUnitEntityElemData<UnitEntityCommonData>();
             BattlePlayerConfig playerConfig = BattlePlayerConfigCategory.Instance.GetById(unitEntityCommonData.ConfigId);
 
@@ -43,6 +43,25 @@
             request.SkillId = playerConfig.AttackSkill;
             var response = await ClientBattleSenderComponent.Instance.Call(request);
         }
-    }    
-}
 
+        // 辅助判断：是否朝向边界移动
+        public static bool IsMovingTowardsBoundary(ClientUnitEntity unitEntity, Collider2D boundary, Vector2 moveVelocity)
+        {
+            var gameObject = unitEntity.GetGameObject();
+            // 计算物体中心到边界中心的方向
+            Vector2 dirToBoundary = (boundary.bounds.center - gameObject.transform.position).normalized;
+            // 点乘：速度方向与边界方向同向 → 朝向边界
+            return Vector2.Dot(moveVelocity.normalized, dirToBoundary) > 0.1f;
+        }
+
+        public static void SetForceStop(ClientUnitEntity unitEntity, bool IsStop)
+        {
+            if (IsStop)
+            {
+                var gameObject = unitEntity.GetGameObject();
+                var rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+                rigidbody2D.velocity = Vector2.zero;
+            }
+        }
+    }
+}

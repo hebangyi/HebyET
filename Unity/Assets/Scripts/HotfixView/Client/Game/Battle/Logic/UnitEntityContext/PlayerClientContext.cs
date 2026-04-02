@@ -42,16 +42,35 @@ namespace ET.Client
 
         public override void InitView(ClientUnitEntity unitEntity)
         {
-            
+            Log.Info("InitView");
             var clientWorld = unitEntity.ClientWorld();
             if (unitEntity.InsId == clientWorld.MainPlayerId)
             {
                 // 加入触发器监听
                 var gameObject = unitEntity.GetGameObject();
-                gameObject.AddComponent<TriggerComponent>();
+                var trigetEvent = gameObject.GetComponent<TrigetEvent>();
+                Log.Info($"AddComponent : {trigetEvent}");
+
+                // 注册事件
+                trigetEvent.OnTriggerEnter2DAction = col =>
+                {
+                    unitEntity.ClientWorld().PublishEvent(new MyPlayerTriggerEnterEvent() { col = col });
+                };
+                
+                
+                trigetEvent.OnTriggerStay2DAction = col =>
+                {
+                    unitEntity.ClientWorld().PublishEvent(new MyPlayerTriggerStayEvent() { col = col });
+                };
+                
+                
+                trigetEvent.OnTriggerExitAction = col =>
+                {
+                    unitEntity.ClientWorld().PublishEvent(new MyPlayerTriggerExitEvent() { col = col });
+                };
+                
             }
         }
-
 
         public override void Destroy(ClientUnitEntity unitEntity)
         {

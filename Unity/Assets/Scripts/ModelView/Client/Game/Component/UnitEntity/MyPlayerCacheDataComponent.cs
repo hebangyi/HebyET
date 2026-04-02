@@ -1,4 +1,6 @@
-﻿namespace ET.Client
+﻿using UnityEngine;
+
+namespace ET.Client
 {
     // 玩家缓存信息
     [ComponentOf(typeof(UnitEntity))]
