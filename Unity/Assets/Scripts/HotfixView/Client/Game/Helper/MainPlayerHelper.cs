@@ -53,15 +53,6 @@ namespace ET.Client
             // 点乘：速度方向与边界方向同向 → 朝向边界
             return Vector2.Dot(moveVelocity.normalized, dirToBoundary) > 0.1f;
         }
-
-        public static void SetForceStop(ClientUnitEntity unitEntity, bool IsStop)
-        {
-            if (IsStop)
-            {
-                var gameObject = unitEntity.GetGameObject();
-                var rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
-                rigidbody2D.velocity = Vector2.zero;
-            }
-        }
+        
     }
 }

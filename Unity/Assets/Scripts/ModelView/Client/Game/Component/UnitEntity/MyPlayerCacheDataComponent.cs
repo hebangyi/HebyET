@@ -4,7 +4,7 @@ namespace ET.Client
 {
     // 玩家缓存信息
     [ComponentOf(typeof(UnitEntity))]
-    public class MyPlayerCacheDataComponent: Entity, IAwake, IUpdate
+    public class MyPlayerCacheDataComponent: Entity, IAwake
     {
         // 位置
         public Unity.Mathematics.float2 Position { get; set; }

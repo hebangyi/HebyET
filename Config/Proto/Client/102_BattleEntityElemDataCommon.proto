@@ -51,6 +51,7 @@ message UnitEntitySkillDataItem
     int64 SkillId = 1;
     SkillStatusEnum SkillStatusEnum = 2;    // 技能状态
     uint32 ActiveFrame = 3;                 // 技能如果开始 开始的逻辑帧
+    bool IsActive = 4;                      // 技能是否激活
 }
 
 

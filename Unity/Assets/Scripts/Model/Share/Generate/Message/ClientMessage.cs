@@ -525,6 +525,12 @@ namespace ET
         [MemoryPackOrder(2)]
         public uint ActiveFrame { get; set; }
 
+        /// <summary>
+        /// 技能是否激活
+        /// </summary>
+        [MemoryPackOrder(3)]
+        public bool IsActive { get; set; }
+
         public override void Dispose()
         {
             if (!this.IsFromPool)
@@ -534,6 +540,7 @@ namespace ET
             this.SkillId = default;
             this.SkillStatusEnum = default;
             this.ActiveFrame = default;
+            this.IsActive = default;
 
             ObjectPool.Instance.Recycle(this);
         }

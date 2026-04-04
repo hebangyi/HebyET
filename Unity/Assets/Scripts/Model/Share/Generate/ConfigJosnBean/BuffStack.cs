@@ -3,6 +3,6 @@
     public class BuffStack
     {
         public long BuffId;
-        public int StartTime;
+        public int OffExecuteTime;
     }
 }

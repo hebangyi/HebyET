@@ -4,53 +4,6 @@ using UnityEngine;
 
 namespace ET.Client
 {
-    [ClientWorldEventHandler]
-    public class MyPlayerTriggerEnterEvent_StopPlayerMove : AClientWorldEvent<MyPlayerTriggerEnterEvent>
-    {
-        protected override async ETTask Run(ClientWorld world, MyPlayerTriggerEnterEvent args)
-        {
-            var mainPlayer = world.MainPlayer;
-            if (mainPlayer == null)
-            {
-                return;
-            }
-
-            MainPlayerHelper.SetForceStop(mainPlayer, true);
-        }
-    }
-
-    /*
-    [ClientWorldEventHandler]
-    public class MyPlayerTriggerStayEvent_StopPlayerMove : AClientWorldEvent<MyPlayerTriggerStayEvent>
-    {
-        protected override async ETTask Run(ClientWorld world, MyPlayerTriggerStayEvent args)
-        {
-            var mainPlayer = world.MainPlayer;
-            if (mainPlayer == null)
-            {
-                return;
-            }
-            
-
-            MainPlayerHelper.SetForceStop(mainPlayer, true);
-        }
-    }*/
-
-    [ClientWorldEventHandler]
-    public class MyPlayerTriggerExitEvent_StopPlayerMove : AClientWorldEvent<MyPlayerTriggerExitEvent>
-    {
-        protected override async ETTask Run(ClientWorld world, MyPlayerTriggerExitEvent args)
-        {
-            var mainPlayer = world.MainPlayer;
-            if (mainPlayer == null)
-            {
-                return;
-            }
-
-            MainPlayerHelper.SetForceStop(mainPlayer, false);
-        }
-    }
-
     [EntitySystemOf(typeof(MyPlayerCacheDataComponent))]
     [FriendOf(typeof(MyPlayerCacheDataComponent))]
     public static partial class MyPlayerCacheDataComponentSystem
@@ -58,27 +11,15 @@ namespace ET.Client
         [EntitySystem]
         private static void Awake(this MyPlayerCacheDataComponent self)
         {
-            UpdateLogicManagerComponent.Instance.AddTaskUpdateFunc(self.SyncData);
+            UpdateLogicManagerComponent.Instance.
+                    AddTaskUpdateFunc(self.SyncData);
+            
+            UpdateLogicManagerComponent.Instance.AddFixedUpdateFunc(self.PlayerMove);
+            
         }
-
-        [EntitySystem]
-        private static void Update(this MyPlayerCacheDataComponent self)
+        
+        public static void PlayerMove(this MyPlayerCacheDataComponent self, long deltaTime)
         {
-            self.UpdateLogic();
-            self.UpdateView();
-        }
-
-        private static void UpdateLogic(this MyPlayerCacheDataComponent self)
-        {
-            long nowTime = TimeInfo.Instance.NowMillTime();
-            if (self.LastUpdateTime == nowTime)
-            {
-                return;
-            }
-
-            long subTime = nowTime - self.LastUpdateTime;
-            self.LastUpdateTime = nowTime;
-
             var unitEntity = self.GetParent<ClientUnitEntity>();
             if (self.IsDragging)
             {
@@ -93,25 +34,18 @@ namespace ET.Client
                 var deltaY = Math.Sin(atan2) * 10000;
                 var gameObject = unitEntity.GetComponent<UnitEntityGameObjectComponent>().GameObject;
                 var r = gameObject.GetComponent<Rigidbody2D>();
-                var v = new Vector2((int)deltaX, (int)deltaY).normalized * speed;
-
-                var checkDistance = 0.5f;
-
+                var vDistance = new Vector2((int)deltaX, (int)deltaY).normalized * speed * deltaTime * 1.0f / 1000;
+                var distance = vDistance.magnitude;
+                
+                
                 var hit2D = Physics2D.Raycast(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y),
-                    new Vector2((float)deltaX, (float)deltaY).normalized, checkDistance);
-                
-
-                if (hit2D.collider != null)
+                    new Vector2((float)deltaX, (float)deltaY).normalized, distance);
+                if (hit2D.collider == null)
                 {
-                    Log.Info(hit2D.collider.gameObject.name);
-                    Log.Info("Raycast");
-                    r.velocity = Vector2.zero;
-                    return;
+                    var position = gameObject.transform.position;
+                    position = new Vector3(position.x + vDistance.x, position.y + vDistance.y, 0f);
+                    gameObject.transform.position = position;
                 }
-                
-                
-                Log.Info("Move...");
-                r.velocity = v;
                 
                 self.Position = new float2(gameObject.transform.position.x, gameObject.transform.position.y);
                 self.IsMoving = true;
@@ -122,19 +56,6 @@ namespace ET.Client
                 var r = gameObject.GetComponent<Rigidbody2D>();
                 r.velocity = Vector2.zero;
             }
-        }
-
-        private static void UpdateView(this MyPlayerCacheDataComponent self)
-        {
-            var unitEntity = self.GetParent<ClientUnitEntity>();
-
-            var unitEntityGameObjectComponent = unitEntity.GetComponent<UnitEntityGameObjectComponent>();
-            if (unitEntityGameObjectComponent == null)
-            {
-                return;
-            }
-
-            var gameObject = unitEntityGameObjectComponent.GameObject;
         }
 
         private static async ETTask SyncData(this MyPlayerCacheDataComponent self)

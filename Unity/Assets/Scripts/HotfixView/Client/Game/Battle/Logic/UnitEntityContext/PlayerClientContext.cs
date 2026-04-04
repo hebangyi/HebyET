@@ -48,26 +48,8 @@ namespace ET.Client
             {
                 // 加入触发器监听
                 var gameObject = unitEntity.GetGameObject();
-                var trigetEvent = gameObject.GetComponent<TrigetEvent>();
-                Log.Info($"AddComponent : {trigetEvent}");
-
-                // 注册事件
-                trigetEvent.OnTriggerEnter2DAction = col =>
-                {
-                    unitEntity.ClientWorld().PublishEvent(new MyPlayerTriggerEnterEvent() { col = col });
-                };
                 
                 
-                trigetEvent.OnTriggerStay2DAction = col =>
-                {
-                    unitEntity.ClientWorld().PublishEvent(new MyPlayerTriggerStayEvent() { col = col });
-                };
-                
-                
-                trigetEvent.OnTriggerExitAction = col =>
-                {
-                    unitEntity.ClientWorld().PublishEvent(new MyPlayerTriggerExitEvent() { col = col });
-                };
                 
             }
         }

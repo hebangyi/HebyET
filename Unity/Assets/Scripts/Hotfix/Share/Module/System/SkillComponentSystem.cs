@@ -32,9 +32,10 @@ namespace ET
 
            var skillStatusEnum = unitEntitySkillDataItem.SkillStatusEnum;
            unitEntitySkillDataItem.ActiveFrame = unitEntity.LogicWorld().Frame;
-           unitEntitySkillData.Dirty();
+           unitEntitySkillDataItem.IsActive = true;
            
-           AnimationLogicHelper.ChangeUseSkillStatus(unitEntity, skillId, unitEntitySkillDataItem.ActiveFrame);
+           // 技能信息更新
+           unitEntitySkillData.Dirty();
            SkillHelper.UseSkill(unitEntity, skillId);
        }
    }

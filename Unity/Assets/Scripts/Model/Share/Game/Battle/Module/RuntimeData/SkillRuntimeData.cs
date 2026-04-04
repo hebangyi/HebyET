@@ -17,10 +17,16 @@ namespace ET
         public long UnitInsId; // 释放的Unit
         public SkillConfig SkillConfig;
       
-        public bool IsRun = false;
+        public long SkillAddTime;
         public long SkillStartTime;
-        
+
+        // 是否释放了buff
+        public bool IsRunBuff = false;
         public List<BuffData> AllBuffDatas = new(); // 所有的 BuffData
+        
+        // 是否使用动画
+        public bool IsRunAnimation = false;
+        
         public int ExecutedBuffCount;               // 已经执行完成Buff数量
     }
 

@@ -13,9 +13,13 @@
 
             var skillRuntimeData = unitEntity.GetUnitEntityLogicElemData<SkillRuntimeData>();
 
+            
+            // 创建技能信息
+            // TODO 使用缓存 防止 new 重复使用
             SkillData skillData = new SkillData();
             skillData.UnitInsId = unitEntity.InsId;
             skillData.SkillConfig = skillConfig;
+            skillData.SkillStartTime = unitEntity.LogicWorld().NowMilliTime;
             
             // 创建BuffData
             foreach (var buffStack in skillConfig.BuffStacks)
@@ -31,14 +35,13 @@
                 buffData.BuffId = skillRuntimeData.BuffIdGen++;
                 buffData.BuffConfig = buffConfig;
                 buffData.SkillData = skillData;
-                buffData.OffExecuteTime = buffStack.StartTime;
+                buffData.OffExecuteTime = buffStack.OffExecuteTime;
                 
                 skillData.AllBuffDatas.Add(buffData);
             }
             
             // 加入正在执行的技能
             skillRuntimeData.RuntimeSkillDatas.Add(skillData);
-            
         }
     }    
 }

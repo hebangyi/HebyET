@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿/*
+using UnityEngine;
 
 namespace ET.Client
 {
@@ -17,3 +18,4 @@ namespace ET.Client
     public Collider2D col;
     }
 }
+*/
