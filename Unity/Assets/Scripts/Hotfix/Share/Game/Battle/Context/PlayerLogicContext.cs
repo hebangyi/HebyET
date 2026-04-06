@@ -25,6 +25,9 @@ namespace ET
             // 设置技能
             var unitEntitySkillData = unitEntity.CreateUnitEntityElemData<UnitEntitySkillData>();
             
+            // 设置Buff
+            unitEntity.CreateUnitEntityElemData<UnitEntityBuffData>();
+            
             // 技能
             // 装填普攻技能
             var battlePlayerConfig = BattlePlayerConfigCategory.Instance.GetOne();

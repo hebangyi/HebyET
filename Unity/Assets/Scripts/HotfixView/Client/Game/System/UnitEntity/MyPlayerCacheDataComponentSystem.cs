@@ -23,7 +23,6 @@ namespace ET.Client
             var unitEntity = self.GetParent<ClientUnitEntity>();
             if (self.IsDragging)
             {
-                
                 int towardAngle = (self.OperaAngel + self.CameraAngleOffSet) % 360;
                 self.TowardAngle = towardAngle;
 
@@ -33,10 +32,10 @@ namespace ET.Client
                 var deltaX = Math.Cos(atan2) * 10000;
                 var deltaY = Math.Sin(atan2) * 10000;
                 var gameObject = unitEntity.GetComponent<UnitEntityGameObjectComponent>().GameObject;
-                var r = gameObject.GetComponent<Rigidbody2D>();
                 var vDistance = new Vector2((int)deltaX, (int)deltaY).normalized * speed * deltaTime * 1.0f / 1000;
                 var distance = vDistance.magnitude;
                 
+                Log.Info($"{deltaTime} {distance}");
                 
                 var hit2D = Physics2D.Raycast(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y),
                     new Vector2((float)deltaX, (float)deltaY).normalized, distance);
@@ -49,12 +48,6 @@ namespace ET.Client
                 
                 self.Position = new float2(gameObject.transform.position.x, gameObject.transform.position.y);
                 self.IsMoving = true;
-            }
-            else
-            {
-                var gameObject = unitEntity.GetComponent<UnitEntityGameObjectComponent>().GameObject;
-                var r = gameObject.GetComponent<Rigidbody2D>();
-                r.velocity = Vector2.zero;
             }
         }
 

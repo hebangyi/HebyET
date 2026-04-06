@@ -17,8 +17,7 @@ namespace ET
         public long UnitInsId; // 释放的Unit
         public SkillConfig SkillConfig;
       
-        public long SkillAddTime;
-        public long SkillStartTime;
+        public long SkillStartFrame;
 
         // 是否释放了buff
         public bool IsRunBuff = false;
@@ -35,12 +34,11 @@ namespace ET
         public uint BuffId;
         public BuffConfig BuffConfig;
         public SkillData SkillData;     // 释放的技能
-        public int OffExecuteTime;      // buff相对技能释放时间
         
         
         public bool IsRun = false;
-        public long BuffStartTime;       // Buff 执行时间
-        public long BuffEndTime;
+        public long BuffStartFrame;       // Buff 执行时间
+        public long BuffEndFrame;
         public bool IsExit = false;
     }
 }

@@ -19,7 +19,7 @@
             SkillData skillData = new SkillData();
             skillData.UnitInsId = unitEntity.InsId;
             skillData.SkillConfig = skillConfig;
-            skillData.SkillStartTime = unitEntity.LogicWorld().NowMilliTime;
+            skillData.SkillStartFrame = unitEntity.LogicWorld().Frame;
             
             // 创建BuffData
             foreach (var buffStack in skillConfig.BuffStacks)
@@ -35,7 +35,6 @@
                 buffData.BuffId = skillRuntimeData.BuffIdGen++;
                 buffData.BuffConfig = buffConfig;
                 buffData.SkillData = skillData;
-                buffData.OffExecuteTime = buffStack.OffExecuteTime;
                 
                 skillData.AllBuffDatas.Add(buffData);
             }

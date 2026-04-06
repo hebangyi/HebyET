@@ -86,6 +86,20 @@ message UnitEntitySkillDataItem
 }
 
 
+// Buff数据
+message UnitEntityBuffData // IUnitEntityElemData
+{
+    repeated UnitEntityBuffDataItem BuffDataItems = 1;   // buff数据
+}
+
+// Buff DataItem
+message UnitEntityBuffDataItem
+{
+    int64 BuffId = 1;                      // buffID
+}
+
+
+
 ////////////////////////// 数值
 // UnitEntity 血量数据
 message UnitEntityBloodData // IUnitEntityElemData

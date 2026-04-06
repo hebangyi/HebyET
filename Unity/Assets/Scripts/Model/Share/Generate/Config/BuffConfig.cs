@@ -60,10 +60,14 @@ namespace ET
 	{
 		/// <summary>Id</summary>
 		public long Id { get; set; }
-		/// <summary>buff执行类型</summary>
-		public BuffTypeEnum BuffType { get; set; }
+		/// <summary>执行便宜时间</summary>
+		public int OffExecuteTime { get; set; }
+		/// <summary>持续类型</summary>
+		public int DurationType { get; set; }
 		/// <summary>Buff持续时间(毫秒)</summary>
 		public int DurationTime { get; set; }
+		/// <summary>buff执行类型</summary>
+		public BuffTypeEnum BuffType { get; set; }
 		/// <summary>可变Json参数</summary>
 		public string BuffParam { get; set; }
 

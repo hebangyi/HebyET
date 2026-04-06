@@ -12,6 +12,9 @@
         public const int OneDayHour = 24;
         public const int OneHourMinute = 60;
         
+        //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Logic
+        public const int LogicInterval = 50;
+        //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Logic
         
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         public const int DayStartHour = 0; // 程序起始的时间点
@@ -30,7 +33,7 @@
 
         public const int BattleSearchCell = 2;   // 战斗Cell半径数
         
-        public const int LogicInterval = 50;
+   
         
         public const float Rad2Deg = 57.29578f;
     }

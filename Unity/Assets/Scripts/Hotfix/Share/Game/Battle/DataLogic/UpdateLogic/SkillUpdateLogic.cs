@@ -5,13 +5,12 @@
     {
         public void OnTick(LogicWorld logicWorld)
         {
-            var now = logicWorld.NowMilliTime;
             foreach (UnitEntity unitEntity in logicWorld.GetEntityIdsWithDataType(typeof(SkillRuntimeData)))
             {
                 var skillRuntimeData = unitEntity.GetUnitEntityLogicElemData<SkillRuntimeData>();
                 foreach (var runtimeBuffData in skillRuntimeData.RunningBuffDatas)
                 {
-                    if (now > runtimeBuffData.BuffEndTime)
+                    if (logicWorld.Frame >= runtimeBuffData.BuffEndFrame)
                     {
                         BuffHelper.OnBuffExit(unitEntity, runtimeBuffData);
                         continue;
@@ -28,16 +27,23 @@
                 {
                     if (!runtimeSkillData.IsRunBuff)
                     {
-                        var checkTime = runtimeSkillData.SkillConfig.BuffOffSetSTime + runtimeSkillData.SkillStartTime;
+                        var checkFrame = FrameHelper.CalFrameNum(runtimeSkillData.SkillConfig.BuffOffSetSTime) + runtimeSkillData.SkillStartFrame;
                         // 释放Buff时间判断
-                        if (now >= checkTime)
+                        if (logicWorld.Frame >= checkFrame)
                         {
                             runtimeSkillData.IsRunBuff = true;
                             // 技能加入执行队列
                             foreach (var buffData in runtimeSkillData.AllBuffDatas)
                             {
-                                buffData.BuffStartTime = checkTime + buffData.OffExecuteTime;
-                                buffData.BuffEndTime = buffData.BuffStartTime + buffData.BuffConfig.DurationTime; // Buff持续时间
+                                buffData.BuffStartFrame = checkFrame + buffData.BuffConfig.OffExecuteTime;
+                                if (buffData.BuffConfig.DurationType == 0)
+                                {
+                                    buffData.BuffEndFrame = buffData.BuffStartFrame;
+                                }
+                                else if (buffData.BuffConfig.DurationType == 1)
+                                {
+                                    buffData.BuffEndFrame = buffData.BuffStartFrame + FrameHelper.CalFrameNum(buffData.BuffConfig.DurationTime);
+                                }
                             }
                         }
                     }
@@ -53,7 +59,7 @@
                             }
 
                             // 没到Buff执行时间
-                            if (buffData.BuffStartTime > now)
+                            if (buffData.BuffStartFrame > logicWorld.Frame)
                             {
                                 continue;
                             }
@@ -61,7 +67,7 @@
                             buffData.IsRun = true;
                             BuffHelper.OnBuffEnter(unitEntity, buffData);
                             // 立即执行
-                            if (buffData.BuffStartTime == buffData.BuffEndTime)
+                            if (buffData.BuffStartFrame == buffData.BuffEndFrame)
                             {
                                 BuffHelper.OnBuffExit(unitEntity, buffData);
                             }
@@ -71,14 +77,13 @@
                             }
                         }
                     }
-                    
 
                     // 技能动画
                     if (!runtimeSkillData.IsRunAnimation)
                     {
-                        var checkTime = runtimeSkillData.SkillConfig.SkillAnimationSTime + runtimeSkillData.SkillStartTime;
+                        var checkFrame = FrameHelper.CalFrameNum(runtimeSkillData.SkillConfig.SkillAnimationSTime) + runtimeSkillData.SkillStartFrame;
                         // 释放Buff时间判断
-                        if (now >= checkTime)
+                        if (logicWorld.Frame >= checkFrame)
                         {
                             // 设置动画
                             AnimationLogicHelper.ChangeUseSkillStatus(unitEntity, runtimeSkillData.SkillConfig.Id, logicWorld.Frame);

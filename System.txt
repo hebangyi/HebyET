@@ -628,8 +628,11 @@ BuffManagerComponent
 BuffAttribute
 UnitEntityUIOrderLayerComponent
 BuffStack
-BuffComponent
 SkillRuntimeData
 SkillData
 BuffData
 ClientUnitEntity
+RigidityBuffParam
+UnitEntityBuffData
+UnitEntityBuffDataItem
+BuffComponent
