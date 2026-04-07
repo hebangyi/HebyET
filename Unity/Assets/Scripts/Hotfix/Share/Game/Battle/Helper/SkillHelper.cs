@@ -32,7 +32,7 @@
                 }
                 
                 BuffData buffData = new BuffData();
-                buffData.BuffId = skillRuntimeData.BuffIdGen++;
+                buffData.BuffId = buffConfig.Id;
                 buffData.BuffConfig = buffConfig;
                 buffData.SkillData = skillData;
                 

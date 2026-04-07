@@ -3,7 +3,7 @@
     [UnitEntityLogic]
     public class UnitEntityTowardAngleClientInput : BaseLogicClientInput<UnitEntityTowardAngle>
     {
-        public override bool CanInput(UnitEntityTowardAngle elementData)
+        public override bool CanInput(UnitEntity unitEntity, UnitEntityTowardAngle elementData)
         {
             return true;
         }

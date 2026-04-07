@@ -5,8 +5,13 @@ namespace ET
     [UnitEntityLogic]
     public class PlayerUnitEntityPositionClientInput : BaseLogicClientInput<UnitEntityPosition>
     {
-        public override bool CanInput(UnitEntityPosition elementData)
+        public override bool CanInput(UnitEntity unitEntity, UnitEntityPosition elementData)
         {
+            if (BuffHelper.IsRigidity(unitEntity))
+            {
+                return false;
+            }
+            
             return true;
         }
 

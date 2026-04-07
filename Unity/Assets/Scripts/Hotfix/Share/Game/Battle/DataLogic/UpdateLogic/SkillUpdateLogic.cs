@@ -20,9 +20,6 @@
                     BuffHelper.OnBuffTick(unitEntity, runtimeBuffData);
                 }
 
-                // 移除已经执行完的Skill
-                skillRuntimeData.RunningBuffDatas.RemoveAll(x => x.IsExit);
-
                 foreach (var runtimeSkillData in skillRuntimeData.RuntimeSkillDatas)
                 {
                     if (!runtimeSkillData.IsRunBuff)
@@ -93,6 +90,9 @@
                 }
 
                 // 技能Tick
+                // 移除已经执行完的Buff
+                skillRuntimeData.RunningBuffDatas.RemoveAll(x => x.IsExit);
+                
                 // 移除已经执行完的BuffData
                 skillRuntimeData.RuntimeSkillDatas.RemoveAll(x => x.AllBuffDatas.Count == x.ExecutedBuffCount);
             }
