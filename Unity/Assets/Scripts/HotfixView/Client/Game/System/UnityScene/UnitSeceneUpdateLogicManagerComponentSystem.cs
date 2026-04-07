@@ -6,7 +6,7 @@ namespace ET.Client
     [EntitySystemOf(typeof(UnitSeceneUpdateLogicManagerComponent))]
     [FriendOf(typeof(UnitSeceneUpdateLogicManagerComponent))]    
     public static partial class UnitSeceneUpdateLogicManagerComponentSystem
-    {       
+    {
         [EntitySystem]
         private static void Awake(this UnitSeceneUpdateLogicManagerComponent self)
         {

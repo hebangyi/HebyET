@@ -74,7 +74,6 @@ GameObjectPoolComponentSystem.cs
 OperaComponentSystem.cs
 UnitySceneCameraComponentSystem.cs
 ResourcesLoaderComponentSystem.cs
-UpdateLogicManagerComponentSystem.cs
 ClientInputComponentSystem.cs
 UnitySceneClientWorldManagerComponentSystem.cs
 CoroutineLockSystem.cs
@@ -386,7 +385,6 @@ OperaComponent
 ResourcesLoaderComponent
 UnitySceneCameraComponent
 UnitySceneClientWorldManagerComponent
-UpdateLogicManagerComponent
 ClientTaskUpdateContext
 FGUIEventAttribute
 FGUIDLGAttribute
@@ -636,3 +634,6 @@ RigidityBuffParam
 UnitEntityBuffData
 UnitEntityBuffDataItem
 BuffComponent
+UnitSeceneUpdateLogicManagerComponent
+ClientLobbyQueueMessage
+UpdateLogicManagerComponent
