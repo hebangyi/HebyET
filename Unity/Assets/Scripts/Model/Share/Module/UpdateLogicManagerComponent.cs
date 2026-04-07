@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ET
 {
     [ComponentOf(typeof(Scene))]
-    public class UpdateLogicManagerComponent: Entity, IAwake
+    public class UpdateLogicManagerComponent: Entity, IAwake, IUpdate, IDestroy
     {
         public long LastUpdateTime = TimeInfo.Instance.NowMillTime();
         

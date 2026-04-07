@@ -11,6 +11,8 @@ namespace ET.Client
         public ActorId netClientActorId;
 
         public static ClientLobbySenderComponent Instance;
+
+        public bool IsSending;
         
         // 需要发送信息的队列
         public Queue<ClientLobbyQueueMessage> SendMessageQueue = new();

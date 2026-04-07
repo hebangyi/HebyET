@@ -12,13 +12,23 @@ namespace ET.Client
         private static void Awake(this ClientLobbySenderComponent self)
         {
             ClientLobbySenderComponent.Instance = self;
+            UpdateLogicManagerComponent.Instance.AddTaskUpdateFunc(self.ExecuteUpdate);
         }
-        
+
         [EntitySystem]
         private static void Destroy(this ClientLobbySenderComponent self)
         {
             ClientLobbySenderComponent.Instance = null;
             self.RemoveFiberAsync().Coroutine();
+        }
+
+        public static async ETTask ExecuteUpdate(this ClientLobbySenderComponent self)
+        {
+            Log.Info("ExecuteUpdate");
+            while (self.SendMessageQueue.TryDequeue(out var context))
+            {
+                await self.Call(context.Request);
+            }
         }
 
         private static async ETTask RemoveFiberAsync(this ClientLobbySenderComponent self)
@@ -33,7 +43,7 @@ namespace ET.Client
             await FiberManager.Instance.Remove(fiberId);
         }
 
-        public static async ETTask<(int,long)> LoginAsync(this ClientLobbySenderComponent self, string account, string password)
+        public static async ETTask<(int, long)> LoginAsync(this ClientLobbySenderComponent self, string account, string password)
         {
             self.fiberId = await FiberManager.Instance.Create(SchedulerType.ThreadPool, 0, SceneType.NetLobby, "");
             self.netClientActorId = new ActorId(self.Fiber().Process, self.fiberId);
@@ -42,7 +52,9 @@ namespace ET.Client
             main2NetClientLoginHandler.OwnerFiberId = self.Fiber().Id;
             main2NetClientLoginHandler.Account = account;
             main2NetClientLoginHandler.Password = password;
-            NetLobby2MainLogin response = await self.Root().GetComponent<ProcessInnerSender>().Call(self.netClientActorId, main2NetClientLoginHandler) as NetLobby2MainLogin;
+            NetLobby2MainLogin response =
+                    await self.Root().GetComponent<ProcessInnerSender>()
+                            .Call(self.netClientActorId, main2NetClientLoginHandler) as NetLobby2MainLogin;
             return (response.Error, response.PlayerId);
         }
 
@@ -57,11 +69,11 @@ namespace ET.Client
         {
             A2NetClient_Request a2NetClientRequest = A2NetClient_Request.Create();
             a2NetClientRequest.MessageObject = request;
-            using A2NetClient_Response a2NetClientResponse = await self.Root().GetComponent<ProcessInnerSender>().Call(self.netClientActorId, a2NetClientRequest) as A2NetClient_Response;
+            using A2NetClient_Response a2NetClientResponse =
+                    await self.Root().GetComponent<ProcessInnerSender>().Call(self.netClientActorId, a2NetClientRequest) as A2NetClient_Response;
             IResponse response = a2NetClientResponse.MessageObject;
 
             return response;
         }
-
     }
 }

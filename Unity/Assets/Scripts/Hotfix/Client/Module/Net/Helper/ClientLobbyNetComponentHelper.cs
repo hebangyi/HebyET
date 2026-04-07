@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ET.Client
 {
-    public static class ClientLobbySenderComponentHelper
+    public static class ClientLobbyNetComponentHelper
     {
         public static void Send(IMessage message)
         {
