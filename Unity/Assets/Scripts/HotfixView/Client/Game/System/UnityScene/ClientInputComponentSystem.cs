@@ -21,7 +21,6 @@ namespace ET.Client
                 return;
             }
             
-            
             var operaComponent = UnitySceneManagerComponent.Instance.UnityScene?.GetComponent<OperaComponent>();
             if (operaComponent == null)
             {
@@ -44,8 +43,25 @@ namespace ET.Client
                 return;
             }
             
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+                MainPlayerHelper.OnClickAttack();
+            }
+
+            self.ListenMove();
+        }
+
+        public static void ListenMove(this ClientInputComponent self)
+        {
+            var operaComponent = UnitySceneManagerComponent.Instance.UnityScene?.GetComponent<OperaComponent>();
+            if (operaComponent == null)
+            {
+                return;
+            }
+            
             if (Input.GetKeyDown(KeyCode.W) && Input.GetKeyDown(KeyCode.D))
             {
+                self.IsKeyDown = true;
                 operaComponent.SetOperaMoveAngle(45);
                 return;
             }
@@ -97,15 +113,11 @@ namespace ET.Client
                 operaComponent.SetOperaMoveAngle(0);
                 self.IsKeyDown = true;
                 return;
-            }
-            
-            if (Input.GetKeyDown(KeyCode.J))
-            {
-                MainPlayerHelper.OnClickAttack();
-            }
+            } 
             
             if(self.IsKeyDown)
             {
+                Log.Info("IsKeyDown");
                 self.IsKeyDown = false;
                 operaComponent.SetEndMoving();    
             }

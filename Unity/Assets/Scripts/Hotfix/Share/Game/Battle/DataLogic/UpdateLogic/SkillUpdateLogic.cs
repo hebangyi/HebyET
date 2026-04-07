@@ -81,9 +81,9 @@
                     // 技能动画
                     if (!runtimeSkillData.IsRunAnimation)
                     {
-                        var checkFrame = FrameHelper.CalFrameNum(runtimeSkillData.SkillConfig.SkillAnimationSTime) + runtimeSkillData.SkillStartFrame;
+                        var animationFrame = FrameHelper.CalFrameNum(runtimeSkillData.SkillConfig.SkillAnimationSTime) + runtimeSkillData.SkillStartFrame;
                         // 释放Buff时间判断
-                        if (logicWorld.Frame >= checkFrame)
+                        if (logicWorld.Frame >= animationFrame)
                         {
                             // 设置动画
                             AnimationLogicHelper.ChangeUseSkillStatus(unitEntity, runtimeSkillData.SkillConfig.Id, logicWorld.Frame);
