@@ -17,8 +17,9 @@ namespace ET.Client
             // 客户端战斗世界管理器
             root.AddComponent<ClientWorldEventManagerComponent>();
             root.AddComponent<ClientWorldLogicManagerComponent>();
+            root.AddComponent<UpdateLogicManagerComponent>();
             
-            //// FGUI 
+            // FGUI 
             // FGUI 包管理器组件
             root.AddComponent<FGUIPackageComponent>();
             // FGUI 事件
