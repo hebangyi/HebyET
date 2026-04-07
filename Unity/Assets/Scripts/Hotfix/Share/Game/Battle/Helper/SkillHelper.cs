@@ -2,18 +2,10 @@
 {
     public static class SkillHelper
     {
-        public static void UseSkill(UnitEntity unitEntity, long skillCId)
+        public static void UseSkill(UnitEntity unitEntity, SkillConfig skillConfig)
         {
-            var skillConfig = SkillConfigCategory.Instance.GetById(skillCId);
-            if (skillConfig == null)
-            {
-                Log.Error($"技能使用异常 找不到配置ID {skillCId}");
-                return;
-            }
-
             var skillRuntimeData = unitEntity.GetUnitEntityLogicElemData<SkillRuntimeData>();
 
-            
             // 创建技能信息
             // TODO 使用缓存 防止 new 重复使用
             SkillData skillData = new SkillData();
@@ -27,7 +19,7 @@
                 BuffConfig buffConfig = BuffConfigCategory.Instance.GetById(buffStack.BuffId);
                 if (buffConfig == null)
                 {
-                    Log.Error($"使用技能{skillCId}异常, 找不到BuffID {buffStack.BuffId}");
+                    Log.Error($"使用技能 {skillConfig.Id} 异常, 找不到BuffID {buffStack.BuffId}");
                     continue;
                 }
                 

@@ -466,14 +466,15 @@ namespace ET
         /// <summary>
         /// 技能数据
         /// </summary>
-        private List<UnitEntitySkillDataItem> _SkillDataItems = new();
+        private Dictionary<long, UnitEntitySkillDataItem> _SkillId2UnitEntitySkillDataItems = new();
 
+        [MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
         [MemoryPackOrder(0)]
-        public List<UnitEntitySkillDataItem> SkillDataItems
+        public Dictionary<long, UnitEntitySkillDataItem> SkillId2UnitEntitySkillDataItems 
         {
-            get => _SkillDataItems;
+            get => _SkillId2UnitEntitySkillDataItems;
             set {
-                _SkillDataItems = value;
+                _SkillId2UnitEntitySkillDataItems = value;
                 this.Dirty();
             }
         }
@@ -486,7 +487,7 @@ namespace ET
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
 
-            this._SkillDataItems.Clear();
+            this._SkillId2UnitEntitySkillDataItems.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -526,10 +527,10 @@ namespace ET
         public uint ActiveFrame { get; set; }
 
         /// <summary>
-        /// 技能是否激活
+        /// CD的Frame 帧数
         /// </summary>
         [MemoryPackOrder(3)]
-        public bool IsActive { get; set; }
+        public uint CDFrame { get; set; }
 
         public override void Dispose()
         {
@@ -540,7 +541,7 @@ namespace ET
             this.SkillId = default;
             this.SkillStatusEnum = default;
             this.ActiveFrame = default;
-            this.IsActive = default;
+            this.CDFrame = default;
 
             ObjectPool.Instance.Recycle(this);
         }

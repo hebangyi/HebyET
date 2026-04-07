@@ -12,8 +12,15 @@ namespace ET.Server
                 response.Error = ErrorCode.NotFoundWorldPlayer;
                 return;
             }
+
+            var skillComponent = unitEntityPlayer.GetComponent<SkillComponent>();
+            if (skillComponent == null)
+            {
+                response.Error = ErrorCode.NotFoundWorldPlayer;
+                return;
+            }
             
-            unitEntityPlayer.GetComponent<SkillComponent>()?.UseSkill(skillId);
+            response.Error = skillComponent.UseSkill(skillId);
         }
     }
 }

@@ -37,7 +37,7 @@ namespace ET
                 UnitEntitySkillDataItem unitEntitySkillDataItem = UnitEntitySkillDataItem.Create();
                 unitEntitySkillDataItem.SkillId = battlePlayerConfig.AttackSkill;
                 unitEntitySkillDataItem.SkillStatusEnum = SkillStatusEnum.Ready;
-                unitEntitySkillData.SkillDataItems.Add(unitEntitySkillDataItem);
+                unitEntitySkillData.SkillId2UnitEntitySkillDataItems.Add(battlePlayerConfig.AttackSkill, unitEntitySkillDataItem);
             }
             
             var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();

@@ -32,8 +32,8 @@
         public const int AOIWatchCellRadius = 1; // AOI 监听的Cell半径数
 
         public const int BattleSearchCell = 2;   // 战斗Cell半径数
-        
-   
+
+        public const int ClientTimeOut = 5000;  // 客户端超时
         
         public const float Rad2Deg = 57.29578f;
     }

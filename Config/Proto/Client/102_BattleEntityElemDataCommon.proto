@@ -42,7 +42,7 @@ message UnitEntityTowardAngle // IUnitEntityElemData
 // 技能项
 message UnitEntitySkillData // IUnitEntityElemData
 {
-    repeated UnitEntitySkillDataItem SkillDataItems = 1;   // 技能数据
+    map<int64, UnitEntitySkillDataItem> SkillId2UnitEntitySkillDataItems = 1;   // 技能数据
 }
 
 // 技能DataItem
@@ -51,7 +51,7 @@ message UnitEntitySkillDataItem
     int64 SkillId = 1;
     SkillStatusEnum SkillStatusEnum = 2;    // 技能状态
     uint32 ActiveFrame = 3;                 // 技能如果开始 开始的逻辑帧
-    bool IsActive = 4;                      // 技能是否激活
+    uint32 CDFrame = 4;                     // CD的Frame 帧数
 }
 
 

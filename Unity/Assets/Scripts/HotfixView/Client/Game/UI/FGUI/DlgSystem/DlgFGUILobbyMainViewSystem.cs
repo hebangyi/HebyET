@@ -18,7 +18,7 @@ namespace ET.Client
         {
             Log.Info("OnClick StartBattle");
             var request = C2L_StartMatchBattle.Create();
-            var response = await ClientLobbySenderComponent.Instance.Call(request) as L2C_StartMatchBattle;
+            var response = await ClientLobbySenderComponentHelper.Call(request) as L2C_StartMatchBattle;
             if (response == null)
             {
                 return;
