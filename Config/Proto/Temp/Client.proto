@@ -89,7 +89,7 @@ message UnitEntitySkillDataItem
 // Buff数据
 message UnitEntityBuffData // IUnitEntityElemData
 {
-    repeated UnitEntityBuffDataItem BuffDataItems = 1;   // buff数据
+    map<int64, UnitEntityBuffDataItem> BuffId2BuffDataItems = 4;     // 数值
 }
 
 // Buff DataItem

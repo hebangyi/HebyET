@@ -21,6 +21,11 @@ namespace ET.Client
         public static void PlayerMove(this MyPlayerCacheDataComponent self, long deltaTime)
         {
             var unitEntity = self.GetParent<ClientUnitEntity>();
+            if (ClientBuffHelper.IsRigidity(unitEntity))
+            {
+                return;
+            }
+            
             if (self.IsDragging)
             {
                 int towardAngle = (self.OperaAngel + self.CameraAngleOffSet) % 360;
@@ -34,8 +39,6 @@ namespace ET.Client
                 var gameObject = unitEntity.GetComponent<UnitEntityGameObjectComponent>().GameObject;
                 var vDistance = new Vector2((int)deltaX, (int)deltaY).normalized * speed * deltaTime * 1.0f / 1000;
                 var distance = vDistance.magnitude;
-                
-                Log.Info($"{deltaTime} {distance}");
                 
                 var hit2D = Physics2D.Raycast(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y),
                     new Vector2((float)deltaX, (float)deltaY).normalized, distance);

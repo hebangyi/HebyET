@@ -44,6 +44,8 @@ namespace ET.Client
             var response = await ClientBattleSenderComponent.Instance.Call(request);
         }
 
+        
+
         // 辅助判断：是否朝向边界移动
         public static bool IsMovingTowardsBoundary(ClientUnitEntity unitEntity, Collider2D boundary, Vector2 moveVelocity)
         {

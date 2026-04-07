@@ -75,7 +75,10 @@ namespace ET
             
 
             unitEntity.AddComponent<PlayerAOISeeUnitEntity>();
+            // 技能系统
             unitEntity.AddComponent<SkillComponent>();
+            // buff系统
+            unitEntity.AddComponent<BuffComponent>();
             unitEntity.AddComponent<AOIUnitEntity, float2, UETypeEnum>(unitEntityPosition.Position, UETypeEnum.Player);
             
             var cellIds = AOIHelper.GetAOICellIds(unitEntityPosition.Position);

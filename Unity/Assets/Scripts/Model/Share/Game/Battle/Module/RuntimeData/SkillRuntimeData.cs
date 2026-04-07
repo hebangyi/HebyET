@@ -4,7 +4,6 @@ namespace ET
 {
     public class SkillRuntimeData : IUnitEntityLogicElemData
     {
-        public uint BuffIdGen;
         public long GlobalSkillCD; // 全局CD
         
         public List<SkillData> RuntimeSkillDatas = new();
@@ -31,7 +30,7 @@ namespace ET
 
     public class BuffData
     {
-        public uint BuffId;
+        public long BuffId;
         public BuffConfig BuffConfig;
         public SkillData SkillData;     // 释放的技能
         

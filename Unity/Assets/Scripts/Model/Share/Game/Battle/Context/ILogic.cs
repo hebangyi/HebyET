@@ -77,10 +77,10 @@
                 return false;
             }
 
-            return CanInput(t);
+            return CanInput(unitEntity, t);
         }
 
-        public abstract bool CanInput(T elementData);
+        public abstract bool CanInput(UnitEntity unitEntity, T elementData);
         
         public abstract void Updated(UnitEntity unitEntity);
 

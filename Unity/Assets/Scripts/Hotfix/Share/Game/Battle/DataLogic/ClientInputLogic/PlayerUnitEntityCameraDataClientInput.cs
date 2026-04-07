@@ -3,7 +3,7 @@
     [UnitEntityLogic]
     public class PlayerUnitEntityCameraDataClientInput: BaseLogicClientInput<UnitEntityCameraData>
     {
-        public override bool CanInput(UnitEntityCameraData elementData)
+        public override bool CanInput(UnitEntity unitEntity, UnitEntityCameraData elementData)
         {
             return true;
         }

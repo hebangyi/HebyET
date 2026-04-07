@@ -563,16 +563,17 @@ namespace ET
         }
 
         /// <summary>
-        /// buff数据
+        /// 数值
         /// </summary>
-        private List<UnitEntityBuffDataItem> _BuffDataItems = new();
+        private Dictionary<long, UnitEntityBuffDataItem> _BuffId2BuffDataItems = new();
 
-        [MemoryPackOrder(0)]
-        public List<UnitEntityBuffDataItem> BuffDataItems
+        [MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
+        [MemoryPackOrder(3)]
+        public Dictionary<long, UnitEntityBuffDataItem> BuffId2BuffDataItems 
         {
-            get => _BuffDataItems;
+            get => _BuffId2BuffDataItems;
             set {
-                _BuffDataItems = value;
+                _BuffId2BuffDataItems = value;
                 this.Dirty();
             }
         }
@@ -585,7 +586,7 @@ namespace ET
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
 
-            this._BuffDataItems.Clear();
+            this._BuffId2BuffDataItems.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
