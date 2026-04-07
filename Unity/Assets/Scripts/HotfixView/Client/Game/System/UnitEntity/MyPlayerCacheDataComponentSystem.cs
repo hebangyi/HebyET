@@ -11,10 +11,10 @@ namespace ET.Client
         [EntitySystem]
         private static void Awake(this MyPlayerCacheDataComponent self)
         {
-            UpdateLogicManagerComponent.Instance.
+            UnitSeceneUpdateLogicManagerComponent.Instance.
                     AddTaskUpdateFunc(self.SyncData);
             
-            UpdateLogicManagerComponent.Instance.AddFixedUpdateFunc(self.PlayerMove);
+            UnitSeceneUpdateLogicManagerComponent.Instance.AddFixedUpdateFunc(self.PlayerMove);
             
         }
         

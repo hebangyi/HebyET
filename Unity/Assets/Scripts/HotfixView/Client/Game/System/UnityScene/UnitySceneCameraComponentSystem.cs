@@ -23,7 +23,7 @@ namespace ET.Client
             transform.rotation = Quaternion.identity;
             self.MainCamera.transform.transform.Rotate(new Vector3(-45, 0, 0));
             
-            UpdateLogicManagerComponent.Instance.AddUpdateFunc(self.CameraRotateUpdate);
+            UnitSeceneUpdateLogicManagerComponent.Instance.AddUpdateFunc(self.CameraRotateUpdate);
         }
 
         
