@@ -19,20 +19,21 @@ namespace ET.Client
         /// <returns></returns>
         public static ETTask<IResponse> Call(IRequest request, bool checkRepeated = true)
         {
-            var task = ETTask<IResponse>.Create();
+            var responseTask = ETTask<IResponse>.Create();
             if (checkRepeated)
             {
                 if (ClientLobbySenderComponent.Instance.SendMessageQueue.Any(x => x.RequestType == request.GetType()))
                 {
                     var response = MessageHelper.CreateResponse(request.GetType(), 0, ErrorCore.ERR_NotFoundActor);
-                    return response;
+                    responseTask.SetResult(response);
+                    return responseTask;
                 }
             }
 
             ClientLobbyQueueMessage queueMessage = new ();
             queueMessage.RequestType = request.GetType();
             queueMessage.Request = request;
-            queueMessage.Response = ;
+            queueMessage.Response = responseTask;
             
             ClientLobbySenderComponent.Instance.SendMessageQueue.Enqueue(queueMessage);
             return queueMessage.Response;

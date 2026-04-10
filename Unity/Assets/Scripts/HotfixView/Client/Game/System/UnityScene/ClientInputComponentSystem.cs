@@ -42,12 +42,12 @@ namespace ET.Client
             {
                 return;
             }
-            
-            if (Input.GetKeyDown(KeyCode.J))
+
+            if (Input.GetKey(KeyCode.J))
             {
                 MainPlayerHelper.OnClickAttack();
             }
-
+            
             self.ListenMove();
         }
 

@@ -1,0 +1,1 @@
+{"Config": {,"MatchTimeOutSecond":10,"TestMatchPlayerCount":1}}

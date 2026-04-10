@@ -24,7 +24,7 @@ public class MatchOrder
 {
     // 玩家ID
     public long PlayerId;
-    // 匹配时间
+    // 加入匹配时间
     public long MatchTime;
     // 物理地址通知匹配成功
     public ActorId ActorId;

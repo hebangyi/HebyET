@@ -637,3 +637,7 @@ BuffComponent
 UnitSeceneUpdateLogicManagerComponent
 ClientLobbyQueueMessage
 UpdateLogicManagerComponent
+ClientSkillComponent
+TaskUpdateContext
+MatchGlobalConfigCategory
+MatchGlobalConfig

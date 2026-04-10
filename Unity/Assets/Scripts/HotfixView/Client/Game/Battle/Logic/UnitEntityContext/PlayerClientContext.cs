@@ -12,7 +12,9 @@ namespace ET.Client
             {
                 // 客户端缓存组件
                 var playerCacheDataComponent = unitEntity.AddComponent<MyPlayerCacheDataComponent>();
-
+                // 客户端技能CD
+                unitEntity.AddComponent<ClientSkillComponent>();
+                
                 var unitEntityPosition = unitEntity.GetUnitEntityElemData<UnitEntityPosition>();
 
                 playerCacheDataComponent.Position = unitEntityPosition.Position;

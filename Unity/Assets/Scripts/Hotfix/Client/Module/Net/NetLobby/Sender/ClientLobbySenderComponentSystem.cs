@@ -24,10 +24,10 @@ namespace ET.Client
 
         public static async ETTask ExecuteUpdate(this ClientLobbySenderComponent self)
         {
-            Log.Info("ExecuteUpdate");
             while (self.SendMessageQueue.TryDequeue(out var context))
             {
-                await self.Call(context.Request);
+                var response = await self.Call(context.Request);
+                context.Response.SetResult(response);
             }
         }
 

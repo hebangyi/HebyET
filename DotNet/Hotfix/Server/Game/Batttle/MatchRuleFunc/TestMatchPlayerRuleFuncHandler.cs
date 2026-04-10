@@ -5,7 +5,7 @@
     {
         public void DoMatch()
         {
-            if (BattleMatchComponent.Instance.AllMatchOrders.Count <= 0)
+            if (BattleMatchComponent.Instance.AllMatchOrders.Count < MatchGlobalConfigCategory.Instance.Config.TestMatchPlayerCount)
             {
                 return;
             }
