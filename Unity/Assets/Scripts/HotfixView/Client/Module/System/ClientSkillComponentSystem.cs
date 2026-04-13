@@ -11,7 +11,7 @@ namespace ET.Client
         {
         }
 
-        public static void UseSkill(this ClientSkillComponent self, long skillId)
+        public static void AddSkillCD(this ClientSkillComponent self, long skillId)
         {
             var skillConfig = SkillConfigCategory.Instance.GetById(skillId);
             if (skillConfig == null)
@@ -19,18 +19,17 @@ namespace ET.Client
                 return;
             }
 
-            var cdTime = FrameHelper.CalFrameNum(skillConfig.CD) * GameConstant.LogicInterval;
+            
+            var cdTime = FrameHelper.CalFrameNum(skillConfig.CDTime) * GameConstant.LogicInterval;
             var nowTime = TimeInfo.Instance.NowMillTime();
 
             self.SkillCDS[skillId] = nowTime + cdTime;
-            Log.Info($"Skill In Cd :{self.SkillCDS[skillId]}");
         }
 
-        public static bool SkillInCD(this ClientSkillComponent self, long skillId)
+        public static bool CheckSkillInCD(this ClientSkillComponent self, long skillId)
         {
             if (!self.SkillCDS.ContainsKey(skillId))
             {
-                Log.Info($"Skill not In Cd");
                 return false;
             }
 
@@ -38,11 +37,9 @@ namespace ET.Client
             var cdTime = self.SkillCDS.GetValueOrDefault(skillId);
             if (nowTime >= cdTime)
             {
-                Log.Info($"Skill In Cd :{nowTime} {cdTime}");
                 return false;
             }
 
-            Log.Info($"Skill not In Cd True");
             return true;
         }
     }

@@ -10,15 +10,48 @@ namespace ET.Client
         private static void Awake(this ClientBattleSenderComponent self)
         {
             ClientBattleSenderComponent.Instance = self;
+            self.TimerContext = UpdateLogicManagerComponent.Instance.AddTaskUpdateFunc(self.ExecuteUpdate);
         }
         
         [EntitySystem]
         private static void Destroy(this ClientBattleSenderComponent self)
         {
+            if (self.TimerContext != null)
+            {
+                self.TimerContext.IsRemove = true;
+            }
+            
             ClientBattleSenderComponent.Instance = null;
             self.RemoveFiberAsync().Coroutine();
         }
+        
+        public static async ETTask ExecuteUpdate(this ClientBattleSenderComponent self, UpdateLogicManagerComponent.TaskIntervalUpdateContext c)
+        {
+            foreach (var kv in self.Type2ClientMessage)
+            {
+                var context = kv.Value;
+                if (context.IsSend)
+                {
+                    continue;
+                }
 
+                self.CallContext(context).Coroutine();
+            }
+
+            await ETTask.CompletedTask;
+        }
+
+        public static async ETTask CallContext(this ClientBattleSenderComponent self, ClientBattleQueueMessage context)
+        {
+            context.IsSend = true;
+            var response = await self.Call(context.Request);
+            context.Response.SetResult(response);
+
+            // 移除
+            self.Type2ClientMessage.Remove(context.RequestType);
+        }
+        
+        
         public static async ETTask<int> SessionLogin(this ClientBattleSenderComponent self, string routerAddress, string address, string token)
         {
             self.fiberId = await FiberManager.Instance.Create(SchedulerType.ThreadPool, 0, SceneType.NetBattle, "");
@@ -55,7 +88,7 @@ namespace ET.Client
         }
         
         
-        public static async ETTask<IResponse> Call(this ClientBattleSenderComponent self, IRequest request)
+        private static async ETTask<IResponse> Call(this ClientBattleSenderComponent self, IRequest request)
         {
             A2NetClient_Request a2NetClientRequest = A2NetClient_Request.Create();
             a2NetClientRequest.MessageObject = request;

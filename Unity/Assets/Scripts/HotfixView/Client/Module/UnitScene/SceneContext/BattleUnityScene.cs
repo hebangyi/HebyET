@@ -9,7 +9,7 @@ namespace ET.Client
         {
             var clientBattleSenderComponent = unityScene.Root().GetComponent<ClientBattleSenderComponent>();
             C2B_PlayerGetAllAOIWorldData request = C2B_PlayerGetAllAOIWorldData.Create();
-            B2C_PlayerGetAllAOIWorldData response = (B2C_PlayerGetAllAOIWorldData)await clientBattleSenderComponent.Call(request);
+            B2C_PlayerGetAllAOIWorldData response = (B2C_PlayerGetAllAOIWorldData)await ClientBattleNetComponentHelper.Call(request);
             
             if (response.Error != ErrorCode.ERR_Success)
             {

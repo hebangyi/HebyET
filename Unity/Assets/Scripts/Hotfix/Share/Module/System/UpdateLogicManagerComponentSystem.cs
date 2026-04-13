@@ -34,7 +34,7 @@ namespace ET
                 UpdateLogicManagerComponent.Instance.LastUpdateTime = time;
             }
 
-            self.DoTaskUpdate();
+            self.DoIntervalUpdate();
         }
 
         [EntitySystem]
@@ -43,19 +43,53 @@ namespace ET
             UpdateLogicManagerComponent.Instance = null;
         }
 
+        /// <summary>
+        /// FixedUpdate 频率更新方法 FixedUpdateDeltaTime 频率
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="deltaTime"></param>
         private static void DoFixedUpdate(this UpdateLogicManagerComponent self, long deltaTime)
         {
-            foreach (var fixedUpdateHandler in self.FixedUpdateHandlers)
+            for (int i = 0; i < self.FixedUpdateContexts.Count; i++)
             {
-                fixedUpdateHandler.Invoke(deltaTime);
+                if (self.FixedUpdateContexts.TryDequeue(out var context))
+                {
+                    if (context.IsRemove)
+                    {
+                        continue;
+                    }
+                    
+                    context.deltaTime = deltaTime;
+                    context.Func.Invoke(context);
+                    
+                    
+                    self.FixedUpdateContexts.Enqueue(context);
+                }
             }
         }
 
+        /// <summary>
+        /// Update频率更新方法
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="deltaTime"></param>
         private static void DoUpdate(this UpdateLogicManagerComponent self, long deltaTime)
         {
-            foreach (var updateHandler in self.UpdateHandlers)
+            for (int i = 0; i < self.UpdateContexts.Count; i++)
             {
-                updateHandler.Invoke(deltaTime);
+                if (self.UpdateContexts.TryDequeue(out var context))
+                {
+                    if (context.IsRemove)
+                    {
+                        continue;
+                    }
+                    
+                    context.deltaTime = deltaTime;
+                    context.Func.Invoke(context);
+                    
+                    
+                    self.UpdateContexts.Enqueue(context);
+                }
             }
         }
 
@@ -63,44 +97,59 @@ namespace ET
         /// 方法只能同时执行一次
         /// </summary>
         /// <param name="self"></param>
-        private static void DoTaskUpdate(this UpdateLogicManagerComponent self)
+        private static void DoIntervalUpdate(this UpdateLogicManagerComponent self)
         {
-            if (self.TaskUpdateQueues.TryDequeue(out var context))
+            for (int i = 0; i < self.TaskIntervalUpdateQueues.Count; i++)
             {
-                ExecTaskUpdate0(self, context).Coroutine();
+                if (self.TaskIntervalUpdateQueues.TryDequeue(out var context))
+                {
+                    if (context.IsRemove)
+                    {
+                        continue;
+                    }
+                    
+                    ExecTaskUpdate0(self, context).Coroutine();
+                }
             }
         }
 
-        private static async ETTask ExecTaskUpdate0(this UpdateLogicManagerComponent self, UpdateLogicManagerComponent.TaskUpdateContext context)
+        private static async ETTask ExecTaskUpdate0(this UpdateLogicManagerComponent self, UpdateLogicManagerComponent.TaskIntervalUpdateContext context)
         {
-            await context.Func.Invoke();
+            await context.Func.Invoke(context);
             await self.Root().GetComponent<TimerComponent>().WaitAsync(context.MinInterval);
-            self.TaskUpdateQueues.Enqueue(context);
+            self.TaskIntervalUpdateQueues.Enqueue(context);
         }
 
-        public static void AddFixedUpdateFunc(this UpdateLogicManagerComponent self, Action<long> func)
+        public static void AddFixedUpdateFunc(this UpdateLogicManagerComponent self, Action<UpdateLogicManagerComponent.FixedUpdateContext> func)
         {
-            self.FixedUpdateHandlers.Add(func);
+            UpdateLogicManagerComponent.FixedUpdateContext fixedUpdateContext = new ();
+            fixedUpdateContext.Func = func;
+            
+            self.FixedUpdateContexts.Enqueue(fixedUpdateContext);
         }
 
-        public static void AddUpdateFunc(this UpdateLogicManagerComponent self, Action<long> func)
+        public static void AddUpdateFunc(this UpdateLogicManagerComponent self, Action<UpdateLogicManagerComponent.UpdateContext> func)
         {
-            self.UpdateHandlers.Add(func);
+            UpdateLogicManagerComponent.UpdateContext updateContext = new();
+            updateContext.Func = func;
+            self.UpdateContexts.Enqueue(updateContext);
         }
 
         /// <summary>
-        /// 方法只能同时执行一次
+        /// Interval 定时器方法
         /// </summary>
         /// <param name="self"></param>
         /// <param name="func"></param>
-        /// <param name="minInterval">最小的时间间隔</param>
-        public static void AddTaskUpdateFunc(this UpdateLogicManagerComponent self, Func<ETTask> func, long minInterval = 0)
+        /// <param name="minInterval"></param>
+        /// <returns></returns>
+        public static UpdateLogicManagerComponent.TaskIntervalUpdateContext AddTaskUpdateFunc(this UpdateLogicManagerComponent self, Func<UpdateLogicManagerComponent.TaskIntervalUpdateContext, ETTask> func, long minInterval = 0)
         {
-            UpdateLogicManagerComponent.TaskUpdateContext updateContext = new();
-            updateContext.Func = func;
-            updateContext.MinInterval = minInterval;
+            UpdateLogicManagerComponent.TaskIntervalUpdateContext intervalUpdateContext = new();
+            intervalUpdateContext.Func = func;
+            intervalUpdateContext.MinInterval = minInterval;
 
-            self.TaskUpdateQueues.Enqueue(updateContext);
+            self.TaskIntervalUpdateQueues.Enqueue(intervalUpdateContext);
+            return intervalUpdateContext;
         }
     }
 }

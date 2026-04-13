@@ -44,7 +44,7 @@ namespace ET
 
            var skillStatusEnum = skillDataItem.SkillStatusEnum;
            skillDataItem.ActiveFrame = unitEntity.LogicWorld().Frame;
-           skillDataItem.CDFrame = skillDataItem.ActiveFrame + FrameHelper.CalFrameNum(skillConfig.CD);
+           skillDataItem.CDFrame = skillDataItem.ActiveFrame + FrameHelper.CalFrameNum(skillConfig.CDTime);
            
            // 技能信息更新
            unitEntitySkillData.Dirty();

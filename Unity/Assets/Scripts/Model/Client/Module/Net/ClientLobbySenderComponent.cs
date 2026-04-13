@@ -16,6 +16,8 @@ namespace ET.Client
         
         // 需要发送信息的队列
         public Queue<ClientLobbyQueueMessage> SendMessageQueue = new();
+
+        public UpdateLogicManagerComponent.TaskIntervalUpdateContext TimerContext;
     }
 
     public class ClientLobbyQueueMessage

@@ -10,17 +10,32 @@ namespace ET
         
         public long LastFixedUpdateTime = TimeInfo.Instance.NowMillTime();
         
-        public  List<Action<long>> UpdateHandlers = new ();
-        public  List<Action<long>> FixedUpdateHandlers = new ();
-
-        public Queue<TaskUpdateContext> TaskUpdateQueues = new ();
+        public Queue<UpdateContext> UpdateContexts = new ();
+        public Queue<FixedUpdateContext> FixedUpdateContexts = new ();
+        public Queue<TaskIntervalUpdateContext> TaskIntervalUpdateQueues = new ();
+        
         
         public static UpdateLogicManagerComponent Instance;
         
-        
-        public class TaskUpdateContext
+        public class FixedUpdateContext
         {
-            public Func<ETTask> Func;
+            public bool IsRemove = false;
+            public Action<FixedUpdateContext> Func;
+            public long deltaTime;
+        }
+        
+        
+        public class UpdateContext
+        {
+            public bool IsRemove = false;
+            public Action<UpdateContext> Func;
+            public long deltaTime;
+        }
+        
+        public class TaskIntervalUpdateContext
+        {
+            public bool IsRemove = false;
+            public Func<TaskIntervalUpdateContext, ETTask> Func;
             public long MinInterval;
         }
     }

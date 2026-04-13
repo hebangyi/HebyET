@@ -23,6 +23,7 @@ namespace ET.Client
             var unitEntity = self.GetParent<ClientUnitEntity>();
             if (ClientBuffHelper.IsRigidity(unitEntity))
             {
+                Log.Info("僵直中...");
                 return;
             }
             
@@ -107,14 +108,14 @@ namespace ET.Client
                     var clientBattleSenderComponent = ClientBattleSenderComponent.Instance;
                     C2B_PlayerUploadDirtyElemData request = C2B_PlayerUploadDirtyElemData.Create();
                     request.BattleUnitEntity = battleUnitEntity;
-                    B2C_PlayerUploadDirtyElemData response = (B2C_PlayerUploadDirtyElemData)await clientBattleSenderComponent.Call(request);
+                    B2C_PlayerUploadDirtyElemData response = (B2C_PlayerUploadDirtyElemData)await ClientBattleNetComponentHelper.Call(request);
                 }
 
                 if (!self.IsDragging && self.IsMoving)
                 {
                     self.IsMoving = false;
                     C2B_PlayerMoveStop request = C2B_PlayerMoveStop.Create();
-                    B2C_PlayerMoveStop response = (B2C_PlayerMoveStop)await ClientBattleSenderComponent.Instance.Call(request);
+                    B2C_PlayerMoveStop response = (B2C_PlayerMoveStop)await ClientBattleNetComponentHelper.Call(request);
                 }
 
                 battleUnitEntity.Dispose();

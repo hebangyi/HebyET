@@ -1,4 +1,6 @@
-﻿namespace ET.Client
+﻿using UnityEngine;
+
+namespace ET.Client
 {
     public static class ClientSkillHelper
     {
@@ -12,17 +14,20 @@
 
             if (SkillInCD(mainPlayer, skillId))
             {
-                Log.Info($"技能[{skillId}] 在CD中");
                 return;
             }
             
             var request = C2B_PlayerUseSkill.Create();
             request.SkillId = skillId;
-            var response = await ClientBattleSenderComponent.Instance.Call(request);
-
+            
+            var response = await ClientBattleNetComponentHelper.Call(request);
             if (response.Error == ErrorCode.ERR_Success)
             {
                 UseSkillCacheCD(unitEntity, skillId);
+            }
+            else
+            {
+                Log.Info($"Skill Is Error : {response.Error}]");
             }
         }
         
@@ -35,7 +40,7 @@
                 return false;
             }
 
-            return clientSkillComponent.SkillInCD(skillId);
+            return clientSkillComponent.CheckSkillInCD(skillId);
         }
 
         public static void UseSkillCacheCD(ClientUnitEntity unitEntity, long skillId)
@@ -46,7 +51,7 @@
                 return;
             }
             
-            clientSkillComponent.UseSkill(skillId);
+            clientSkillComponent.AddSkillCD(skillId);
         }
     }    
 }

@@ -12,17 +12,22 @@ namespace ET.Client
         private static void Awake(this ClientLobbySenderComponent self)
         {
             ClientLobbySenderComponent.Instance = self;
-            UpdateLogicManagerComponent.Instance.AddTaskUpdateFunc(self.ExecuteUpdate);
+            self.TimerContext = UpdateLogicManagerComponent.Instance.AddTaskUpdateFunc(self.ExecuteUpdate);
         }
 
         [EntitySystem]
         private static void Destroy(this ClientLobbySenderComponent self)
         {
+            if (self.TimerContext != null)
+            {
+                self.TimerContext.IsRemove = true;
+            }
+            
             ClientLobbySenderComponent.Instance = null;
             self.RemoveFiberAsync().Coroutine();
         }
 
-        public static async ETTask ExecuteUpdate(this ClientLobbySenderComponent self)
+        public static async ETTask ExecuteUpdate(this ClientLobbySenderComponent self, UpdateLogicManagerComponent.TaskIntervalUpdateContext c)
         {
             while (self.SendMessageQueue.TryDequeue(out var context))
             {
