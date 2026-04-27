@@ -40,7 +40,9 @@ namespace ET
             // 血量
             unitEntityCommonData.NumericalDatas[UnitEntityNumericalTypeEnum.MoveSpeed] = 3;
             unitEntityCommonData.NumericalDatas[UnitEntityNumericalTypeEnum.Blood] = 100;
-            unitEntity.CreateUnitEntityElemData<UnitEntityBloodData>().CurrentBlood = 100;
+
+            var unitEntityCurrentNumericalData = unitEntity.CreateUnitEntityElemData<UnitEntityCurrentNumericalData>();
+            unitEntityCurrentNumericalData.NumericalDatas[UnitEntityNumericalTypeEnum.Blood] = 100;
         }
 
         public override void InitComponent(UnitEntity unitEntity)

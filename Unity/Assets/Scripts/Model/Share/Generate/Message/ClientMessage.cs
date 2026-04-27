@@ -632,33 +632,34 @@ namespace ET
     /// <summary>
     /// 数值
     /// </summary>
-    // UnitEntity 血量数据
+    // 当前数值数据
     [MemoryPackable]
-    [Message(ClientMessage.UnitEntityBloodData)]
-    public partial class UnitEntityBloodData : MessageObject, IUnitEntityElemData
+    [Message(ClientMessage.UnitEntityCurrentNumericalData)]
+    public partial class UnitEntityCurrentNumericalData : MessageObject, IUnitEntityElemData
     {
         private IDirtyHandler m_DirtyHandler;
         private long m_InstanceId;
 
-        public static UnitEntityBloodData Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
+        public static UnitEntityCurrentNumericalData Create(long instanceId, IDirtyHandler dirtyHandler, bool isFromPool = false)
         {
-            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityBloodData), isFromPool) as UnitEntityBloodData;
+            var instance = ObjectPool.Instance.Fetch(typeof(UnitEntityCurrentNumericalData), isFromPool) as UnitEntityCurrentNumericalData;
             instance.m_DirtyHandler = dirtyHandler;
             instance.m_InstanceId = instanceId;
             return instance;
         }
 
         /// <summary>
-        /// 当前血量
+        /// 数值
         /// </summary>
-        private long _CurrentBlood;
+        private Dictionary<UnitEntityNumericalTypeEnum, long> _NumericalDatas = new();
 
+        [MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
         [MemoryPackOrder(0)]
-        public long CurrentBlood
+        public Dictionary<UnitEntityNumericalTypeEnum, long> NumericalDatas 
         {
-            get => _CurrentBlood;
+            get => _NumericalDatas;
             set {
-                _CurrentBlood = value;
+                _NumericalDatas = value;
                 this.Dirty();
             }
         }
@@ -671,7 +672,7 @@ namespace ET
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
 
-            this._CurrentBlood = default;
+            this._NumericalDatas.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -2775,7 +2776,7 @@ namespace ET
         public const ushort UnitEntitySkillDataItem = 10010;
         public const ushort UnitEntityBuffData = 10011;
         public const ushort UnitEntityBuffDataItem = 10012;
-        public const ushort UnitEntityBloodData = 10013;
+        public const ushort UnitEntityCurrentNumericalData = 10013;
         public const ushort UnitEntityPlayerInfo = 10014;
         public const ushort UnitEntityCameraData = 10015;
         public const ushort UnitEntityBeDamageInstantStateData = 10016;

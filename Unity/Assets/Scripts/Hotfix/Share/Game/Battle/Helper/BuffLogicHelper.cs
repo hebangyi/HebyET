@@ -1,4 +1,6 @@
-﻿namespace ET
+﻿using System.Collections.Generic;
+
+namespace ET
 {
     public static class BuffLogicHelper
     {
@@ -9,17 +11,20 @@
         /// <param name="target">伤害的目标</param>
         public static void Damage(UnitEntity self, UnitEntity target)
         {
-            var unitEntityBloodData = target.GetUnitEntityElemData<UnitEntityBloodData>();
-            if (unitEntityBloodData == null)
+            var unitEntityBloodData = target.GetUnitEntityElemData<UnitEntityCurrentNumericalData>();
+            if (unitEntityBloodData == null || !unitEntityBloodData.NumericalDatas.ContainsKey(UnitEntityNumericalTypeEnum.Blood))
             {
                 return;
             }
-            
-            unitEntityBloodData.CurrentBlood -= 1;
-            if (unitEntityBloodData.CurrentBlood < 0)
+
+            var currentBlood = unitEntityBloodData.NumericalDatas.GetValueOrDefault(UnitEntityNumericalTypeEnum.Blood);
+            currentBlood -= 1;
+            if (currentBlood < 0)
             {
-                unitEntityBloodData.CurrentBlood = 0;
+                currentBlood = 0;
             }
+            
+            unitEntityBloodData.NumericalDatas[UnitEntityNumericalTypeEnum.Blood] = 0;
         }
     }
 }

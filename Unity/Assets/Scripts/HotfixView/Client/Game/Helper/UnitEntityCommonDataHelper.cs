@@ -17,7 +17,7 @@ namespace ET.Client
         
         public static bool HasBloodNumericalData(this ClientUnitEntity unitEntity)
         {
-            if (!unitEntity.HasUnitEntityElementData<UnitEntityCommonData>() || !unitEntity.HasUnitEntityElementData<UnitEntityBloodData>())
+            if (!unitEntity.HasUnitEntityElementData<UnitEntityCommonData>() || !unitEntity.HasUnitEntityElementData<UnitEntityCurrentNumericalData>())
             {
                 return false;
             }

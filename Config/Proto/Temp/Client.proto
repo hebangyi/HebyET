@@ -101,10 +101,11 @@ message UnitEntityBuffDataItem
 
 
 ////////////////////////// 数值
-// UnitEntity 血量数据
-message UnitEntityBloodData // IUnitEntityElemData
+
+// 当前数值数据
+message UnitEntityCurrentNumericalData // IUnitEntityElemData
 {
-    int64 CurrentBlood = 1;                 // 当前血量
+    map<UnitEntityNumericalTypeEnum, int64> NumericalDatas = 1;     // 数值
 }
 
 //// 玩家

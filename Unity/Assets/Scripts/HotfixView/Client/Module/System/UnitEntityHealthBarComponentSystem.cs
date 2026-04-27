@@ -48,10 +48,10 @@ namespace ET.Client
            var unitEntityCommonData = unitEntity.GetUnitEntityElemData<UnitEntityCommonData>();
            
            var totalBlood = unitEntityCommonData.NumericalDatas.GetValueOrDefault(UnitEntityNumericalTypeEnum.Blood);
-           var currentBlood = unitEntity.GetUnitEntityElemData<UnitEntityBloodData>().CurrentBlood;
-           self.FGUIHealthBar.Bar.value = currentBlood;
+           var numericalData = unitEntity.GetUnitEntityElemData<UnitEntityCurrentNumericalData>();
+           self.FGUIHealthBar.Bar.value = numericalData.NumericalDatas.GetValueOrDefault(UnitEntityNumericalTypeEnum.Blood);
            self.FGUIHealthBar.Bar.max = totalBlood;
-           self.FGUIHealthBar.Text.text = $"{currentBlood}/{totalBlood}";
+           self.FGUIHealthBar.Text.text = $"{numericalData.NumericalDatas.GetValueOrDefault(UnitEntityNumericalTypeEnum.Blood)}/{totalBlood}";
        }
    }
 }
