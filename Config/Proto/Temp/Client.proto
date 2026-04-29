@@ -96,9 +96,15 @@ message UnitEntityBuffData // IUnitEntityElemData
 message UnitEntityBuffDataItem
 {
     BuffStatus BuffStatus = 1;             // buff 状态
-    int64 StackCount = 2;                  // buff 堆叠层数
+    repeated UnitEntityBuffStackItem StackItems = 2; // 堆叠
+}
+
+// Buff 槽位
+// Buff StackItem
+message UnitEntityBuffStackItem
+{
     uint32 StartFrame = 3;                 // 开始的逻辑帧
-    uint32 EndFrame = 4;                   // 结束的逻辑帧 
+    uint32 EndFrame = 4;                   // 结束的逻辑帧
 }
 
 

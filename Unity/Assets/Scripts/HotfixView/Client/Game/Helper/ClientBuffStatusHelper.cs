@@ -20,9 +20,12 @@ namespace ET.Client
                 return false;
             }
 
-            if (unitEntity.ClientWorld().Frame < dataItem.EndFrame)
+            foreach (var stackItem in dataItem.StackItems)
             {
-                return true;
+                if (unitEntity.ClientWorld().Frame < stackItem.EndFrame)
+                {
+                    return true;
+                }    
             }
 
             return false;
