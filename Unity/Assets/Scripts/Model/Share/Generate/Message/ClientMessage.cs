@@ -566,15 +566,15 @@ namespace ET
         /// <summary>
         /// 数值
         /// </summary>
-        private Dictionary<long, UnitEntityBuffDataItem> _BuffId2BuffDataItems = new();
+        private Dictionary<BuffStatus, UnitEntityBuffDataItem> _BuffStatus2DataItems = new();
 
         [MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
         [MemoryPackOrder(3)]
-        public Dictionary<long, UnitEntityBuffDataItem> BuffId2BuffDataItems 
+        public Dictionary<BuffStatus, UnitEntityBuffDataItem> BuffStatus2DataItems 
         {
-            get => _BuffId2BuffDataItems;
+            get => _BuffStatus2DataItems;
             set {
-                _BuffId2BuffDataItems = value;
+                _BuffStatus2DataItems = value;
                 this.Dirty();
             }
         }
@@ -587,7 +587,7 @@ namespace ET
             this.m_DirtyHandler = null;
             this.m_InstanceId = default;
 
-            this._BuffId2BuffDataItems.Clear();
+            this._BuffStatus2DataItems.Clear();
 
             ObjectPool.Instance.Recycle(this);
         }
@@ -612,10 +612,28 @@ namespace ET
         }
 
         /// <summary>
-        /// buffID
+        /// buff 状态
         /// </summary>
         [MemoryPackOrder(0)]
-        public long BuffId { get; set; }
+        public BuffStatus BuffStatus { get; set; }
+
+        /// <summary>
+        /// buff 堆叠层数
+        /// </summary>
+        [MemoryPackOrder(1)]
+        public long StackCount { get; set; }
+
+        /// <summary>
+        /// 开始的逻辑帧
+        /// </summary>
+        [MemoryPackOrder(2)]
+        public uint StartFrame { get; set; }
+
+        /// <summary>
+        /// 结束的逻辑帧
+        /// </summary>
+        [MemoryPackOrder(3)]
+        public uint EndFrame { get; set; }
 
         public override void Dispose()
         {
@@ -623,7 +641,10 @@ namespace ET
             {
                 return;
             }
-            this.BuffId = default;
+            this.BuffStatus = default;
+            this.StackCount = default;
+            this.StartFrame = default;
+            this.EndFrame = default;
 
             ObjectPool.Instance.Recycle(this);
         }

@@ -52,6 +52,7 @@
         public const int ERR_KcpRouterConnectFail = 110404;
         public const int ERR_KcpRouterRouterSyncCountTooMuchTimes = 110405;
         public const int ERR_KcpRouterSyncCountTooMuchTimes = 110406;
+        public const int ERR_RPCReapted = 110407;
         
         // 110000 以上，避免跟SocketError冲突
 

@@ -58,13 +58,21 @@ namespace ET
 
 	public partial class TestClient: ProtoObject, IConfig
 	{
-		/// <summary>Id</summary>
+		/// <summary>
+		/// Id
+		/// </summary>
 		public long Id { get; set; }
-		/// <summary>章节名称</summary>
+		/// <summary>
+		/// 章节名称
+		/// </summary>
 		public string Name { get; set; }
-		/// <summary>地图类型</summary>
+		/// <summary>
+		/// 地图类型
+		/// </summary>
 		public int MapSceneType { get; set; }
-		/// <summary>资源路径</summary>
+		/// <summary>
+		/// 资源路径
+		/// </summary>
 		public string AssetPath { get; set; }
 
 	}

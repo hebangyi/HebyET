@@ -1,4 +1,6 @@
-﻿namespace ET
+﻿using System;
+
+namespace ET
 {
     public partial class SkillConfigCategory
     {
@@ -6,7 +8,9 @@
         {
             foreach (var skillConfig in this.dict.Values)
             {
-                Log.Info($"skillConfig , Id :{skillConfig.Id}, SkillAniTag : {skillConfig.SkillAniTag}, CD : {skillConfig.CDTime}");    
+                Log.Info($"skillConfig , Id :{skillConfig.Id}, SkillAniTag : {skillConfig.SkillAniTag}, CD : {skillConfig.CDTime}");
+                // BuffStack 排序
+                Array.Sort(skillConfig.BuffStacks, (a, b) => a.StartTime.CompareTo(b.StartTime));
             }
         }
     }

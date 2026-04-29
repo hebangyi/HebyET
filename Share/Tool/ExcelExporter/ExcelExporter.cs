@@ -466,7 +466,18 @@ namespace ET
                         continue;
                     }
 
-                    sb.Append($"\t\t/// <summary>{headInfo.FieldDesc}</summary>\n");
+
+                    sb.Append($"\t\t/// <summary>\n");
+                    if (!string.IsNullOrWhiteSpace(headInfo.FieldDesc))
+                    {
+                        var descArr = headInfo.FieldDesc.Split(new[] { "\r\n", "\r", "\n" },
+                            StringSplitOptions.None);
+                        foreach (var desc in descArr)
+                        {
+                            sb.Append($"\t\t/// {desc}\n");
+                        }
+                    }
+                    sb.Append($"\t\t/// </summary>\n");
                     string fieldType = headInfo.FieldType;
                     sb.Append($"\t\tpublic {fieldType} {headInfo.FieldName} {{ get; set; }}\n");
                 }

@@ -7,7 +7,7 @@ namespace ET
     {
         public override bool CanInput(UnitEntity unitEntity, UnitEntityPosition elementData)
         {
-            if (BuffHelper.IsRigidity(unitEntity))
+            if (BuffStatusHelper.IsRigidity(unitEntity))
             {
                 return false;
             }

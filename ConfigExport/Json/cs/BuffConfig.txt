@@ -1,4 +1,4 @@
 {"dict": [
-[10000, {"_t":"BuffConfig","_id":10000,"OffExecuteTime":0,"DurationType":0,"DurationTime":0,"BuffType":"Damage","BuffParam":""}],
-[20001, {"_t":"BuffConfig","_id":20001,"OffExecuteTime":0,"DurationType":2,"DurationTime":0,"BuffType":"Rigidity","BuffParam":"{\"DurationTime\":1000}"}],
+[10000, {"_t":"BuffConfig","_id":10000,"BuffGroupType":2,"BuffHandler":"Damage","BuffParam":""}],
+[20001, {"_t":"BuffConfig","_id":20001,"BuffGroupType":2,"BuffHandler":"Rigidity","BuffParam":"{\"DurationTime\":1000}"}],
 ]}

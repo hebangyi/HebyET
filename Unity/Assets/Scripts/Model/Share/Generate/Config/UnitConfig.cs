@@ -58,19 +58,33 @@ namespace ET
 
 	public partial class UnitConfig: ProtoObject, IConfig
 	{
-		/// <summary>Id</summary>
+		/// <summary>
+		/// Id
+		/// </summary>
 		public long Id { get; set; }
-		/// <summary>Type</summary>
+		/// <summary>
+		/// Type
+		/// </summary>
 		public int Type { get; set; }
-		/// <summary>名字</summary>
+		/// <summary>
+		/// 名字
+		/// </summary>
 		public string Name { get; set; }
-		/// <summary>描述</summary>
+		/// <summary>
+		/// 描述
+		/// </summary>
 		public string Desc { get; set; }
-		/// <summary>位置</summary>
+		/// <summary>
+		/// 位置
+		/// </summary>
 		public int Position { get; set; }
-		/// <summary>身高</summary>
+		/// <summary>
+		/// 身高
+		/// </summary>
 		public int Height { get; set; }
-		/// <summary>体重</summary>
+		/// <summary>
+		/// 体重
+		/// </summary>
 		public int Weight { get; set; }
 
 	}

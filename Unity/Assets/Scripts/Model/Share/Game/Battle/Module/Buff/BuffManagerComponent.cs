@@ -7,8 +7,7 @@ namespace ET
     {
         public static BuffManagerComponent Instance { get; set; }
 
-        public Dictionary<BuffTypeEnum, IBuffExecutor> BuffType2BuffConfigs = new();
-        public Dictionary<BuffTypeEnum, IBuffExecutorTick> Tick2BuffConfigs = new();
+        public Dictionary<BuffHandlerType, IBuffExecutor> BuffType2BuffConfigs = new();
     }
 
     public interface IBuffExecutor
@@ -18,22 +17,15 @@ namespace ET
         // 正常退出
         void Exit(UnitEntity unitEntity, BuffData buffData);
     }
-
-    public interface IBuffExecutorTick : IBuffExecutor
-    {
-        // 打断
-        void Interrupt(UnitEntity unitEntity, BuffData buffData);
-        // tick
-        void Tick(UnitEntity unitEntity, BuffData buffData);
-    }
+    
     
     public class BuffAttribute : BaseAttribute
     {
-        public BuffTypeEnum BuffTypeEnum;
+        public BuffHandlerType BuffHandlerType;
 
-        public BuffAttribute(BuffTypeEnum buffTypeEnum)
+        public BuffAttribute(BuffHandlerType buffHandlerType)
         {
-            this.BuffTypeEnum = buffTypeEnum;
+            this.BuffHandlerType = buffHandlerType;
         }
     }
 }

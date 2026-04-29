@@ -8,22 +8,22 @@ using System.ComponentModel;
 namespace ET
 {
     [Config]
-    public partial class BuffConfigCategory : BaseCategory<BuffConfigCategory>
+    public partial class GlobalAttributeCategory : BaseCategory<GlobalAttributeCategory>
     {
         [BsonElement]
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
-        private Dictionary<long, BuffConfig> dict = new();
+        private Dictionary<long, GlobalAttribute> dict = new();
 		
         public override void Merge(object o)
         {
-            BuffConfigCategory s = o as BuffConfigCategory;
+            GlobalAttributeCategory s = o as GlobalAttributeCategory;
             foreach (var kv in s.dict)
             {
                 this.dict.Add(kv.Key, kv.Value);
             }
         }
 		
-        public BuffConfig GetById(long id)
+        public GlobalAttribute GetById(long id)
         {
             return this.dict.GetValueOrDefault(id);
         }
@@ -33,12 +33,12 @@ namespace ET
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<long, BuffConfig> GetAll()
+        public Dictionary<long, GlobalAttribute> GetAll()
         {
             return this.dict;
         }
 
-        public BuffConfig GetOne()
+        public GlobalAttribute GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -56,24 +56,26 @@ namespace ET
         }
     }
 
-	public partial class BuffConfig: ProtoObject, IConfig
+	public partial class GlobalAttribute: ProtoObject, IConfig
 	{
 		/// <summary>
 		/// Id
 		/// </summary>
 		public long Id { get; set; }
 		/// <summary>
-		/// Buff类型
+		/// 属性编号
 		/// </summary>
-		public int BuffGroupType { get; set; }
+		public int AttrID { get; set; }
 		/// <summary>
-		/// buff执行类型
+		/// 属性类型
 		/// </summary>
-		public BuffHandlerType BuffHandler { get; set; }
+		public string AttrType { get; set; }
 		/// <summary>
-		/// 可变Json参数
+		/// 属性值类型
+		/// 1=数值
+		/// 2=万分比数值
 		/// </summary>
-		public string BuffParam { get; set; }
+		public int ValueType { get; set; }
 
 	}
 }

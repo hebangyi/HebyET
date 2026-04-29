@@ -1,6 +1,6 @@
-﻿namespace ET
+﻿/*namespace ET
 {
-    [Buff(BuffTypeEnum.Sing)]
+    [Buff(BuffHandlerType.Sing)]
     public class SingBuffExecutor : IBuffExecutorTick
     {
         public void Enter(UnitEntity unitEntity, BuffData buffData)
@@ -19,4 +19,4 @@
         {
         }
     }
-}
+}*/

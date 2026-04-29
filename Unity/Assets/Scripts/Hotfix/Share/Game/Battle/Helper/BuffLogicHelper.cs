@@ -24,7 +24,8 @@ namespace ET
                 currentBlood = 0;
             }
             
-            unitEntityBloodData.NumericalDatas[UnitEntityNumericalTypeEnum.Blood] = 0;
+            unitEntityBloodData.NumericalDatas[UnitEntityNumericalTypeEnum.Blood] = currentBlood;
+            unitEntityBloodData.Dirty();
         }
     }
 }

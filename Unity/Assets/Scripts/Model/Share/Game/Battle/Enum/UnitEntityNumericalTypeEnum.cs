@@ -15,7 +15,7 @@
         Skill,
         Rigidity, // 僵值状态
     }
-
+    
 
 
     public enum UnitEntityStringTypeEnum

@@ -16,6 +16,8 @@
             }
             
             unitEntityAnimation.AnimateState = animateState;
+            Log.Info($"动画状态 : {unitEntityAnimation.AnimateState}");
+            
             unitEntityAnimation.ActiveFrame = unitEntity.LogicWorld().Frame;
             return true;
         }
@@ -29,6 +31,9 @@
             }
             
             unitEntityAnimation.AnimateState = AnimateStateEnum.Skill;
+            
+            Log.Info($"动画状态 : {unitEntityAnimation.AnimateState}");
+            
             unitEntityAnimation.ActiveFrame = unitEntity.LogicWorld().Frame;
 
             var skillStateData = UnitEntityAnimationSkillStateData.Create();

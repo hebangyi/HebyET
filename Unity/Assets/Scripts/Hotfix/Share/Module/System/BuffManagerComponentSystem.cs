@@ -20,15 +20,8 @@ namespace ET
                if (obj is IBuffExecutor executor)
                {
                    var buffAttribute = type.GetCustomAttribute(typeof(BuffAttribute)) as BuffAttribute;
-                   self.BuffType2BuffConfigs[buffAttribute.BuffTypeEnum] = executor;
+                   self.BuffType2BuffConfigs[buffAttribute.BuffHandlerType] = executor;
                }
-               
-               if (obj is IBuffExecutorTick executorTick)
-               {
-                   var buffAttribute = type.GetCustomAttribute(typeof(BuffAttribute)) as BuffAttribute;
-                   self.Tick2BuffConfigs[buffAttribute.BuffTypeEnum] = executorTick;
-               } 
-              
            }
        }
    }

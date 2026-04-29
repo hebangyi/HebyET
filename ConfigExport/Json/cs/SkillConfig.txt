@@ -1,4 +1,4 @@
 {"dict": [
-[101, {"_t":"SkillConfig","_id":101,"CDTime":750,"IsSkillAnimation":1,"SkillAnimationSTime":10,"SkillAniTag":"skill_1","CanBeInterrupted":1,"InterruptSkillAniTag":"skill_11","BuffOffSetSTime":0,"BuffStacks":[{"BuffId": 10000}, {"BuffId": 20001}]}],
-[100001, {"_t":"SkillConfig","_id":100001,"CDTime":750,"IsSkillAnimation":1,"SkillAnimationSTime":10,"SkillAniTag":"skill_1","CanBeInterrupted":1,"InterruptSkillAniTag":"skill_11","BuffOffSetSTime":0,"BuffStacks":[]}],
+[101, {"_t":"SkillConfig","_id":101,"CDTime":750,"IsSkillAnimation":1,"SkillAnimationSTime":10,"SkillAniTag":"skill_1","CanBeInterrupted":1,"InterruptSkillAniTag":"skill_11","BuffStackStartTime":0,"BuffStacks":[{"BuffId": 10000 , "StartTime": 0}, {"BuffId": 20001, "StartTime": 0}]}],
+[100001, {"_t":"SkillConfig","_id":100001,"CDTime":750,"IsSkillAnimation":1,"SkillAnimationSTime":10,"SkillAniTag":"skill_1","CanBeInterrupted":1,"InterruptSkillAniTag":"skill_11","BuffStackStartTime":0,"BuffStacks":[]}],
 ]}

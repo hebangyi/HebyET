@@ -89,15 +89,17 @@ message UnitEntitySkillDataItem
 // Buff数据
 message UnitEntityBuffData // IUnitEntityElemData
 {
-    map<int64, UnitEntityBuffDataItem> BuffId2BuffDataItems = 4;     // 数值
+    map<BuffStatus, UnitEntityBuffDataItem> BuffStatus2DataItems = 4;     // 数值
 }
 
 // Buff DataItem
 message UnitEntityBuffDataItem
 {
-    int64 BuffId = 1;                      // buffID
+    BuffStatus BuffStatus = 1;             // buff 状态
+    int64 StackCount = 2;                  // buff 堆叠层数
+    uint32 StartFrame = 3;                 // 开始的逻辑帧
+    uint32 EndFrame = 4;                   // 结束的逻辑帧 
 }
-
 
 
 ////////////////////////// 数值

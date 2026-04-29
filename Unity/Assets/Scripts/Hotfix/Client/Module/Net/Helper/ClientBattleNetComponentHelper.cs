@@ -23,7 +23,7 @@ namespace ET.Client
             {
                 if (ClientBattleSenderComponent.Instance.Type2ClientMessage.ContainsKey(request.GetType()))
                 {
-                    var response = MessageHelper.CreateResponse(request.GetType(), 0, ErrorCore.ERR_NotFoundActor);
+                    var response = MessageHelper.CreateResponse(request.GetType(), 0, ErrorCore.ERR_RPCReapted);
                     responseTask.SetResult(response);
                     return responseTask;
                 }

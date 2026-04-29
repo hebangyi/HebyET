@@ -58,17 +58,28 @@ namespace ET
 
 	public partial class BattleMapConfig: ProtoObject, IConfig
 	{
-		/// <summary>Id</summary>
+		/// <summary>
+		/// Id
+		/// </summary>
 		public long Id { get; set; }
-		/// <summary></summary>
+		/// <summary>
+		/// </summary>
 		public string Name { get; set; }
-		/// <summary>地图边长</summary>
+		/// <summary>
+		/// 地图边长
+		/// </summary>
 		public int AreaSize { get; set; }
-		/// <summary>Cell中心点数量</summary>
+		/// <summary>
+		/// Cell中心点数量
+		/// </summary>
 		public int CellPointCount { get; set; }
-		/// <summary>Cell中心点最近距离</summary>
+		/// <summary>
+		/// Cell中心点最近距离
+		/// </summary>
 		public int CellPointMinDistance { get; set; }
-		/// <summary>生成Cell数量</summary>
+		/// <summary>
+		/// 生成Cell数量
+		/// </summary>
 		public int GenCellCount { get; set; }
 
 	}

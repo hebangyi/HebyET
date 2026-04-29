@@ -58,11 +58,16 @@ namespace ET
 
 	public partial class BattleSceneConfig: ProtoObject, IConfig
 	{
-		/// <summary>Id</summary>
+		/// <summary>
+		/// Id
+		/// </summary>
 		public long Id { get; set; }
-		/// <summary></summary>
+		/// <summary>
+		/// </summary>
 		public string Name { get; set; }
-		/// <summary>资源路径</summary>
+		/// <summary>
+		/// 资源路径
+		/// </summary>
 		public string AssetPath { get; set; }
 
 	}

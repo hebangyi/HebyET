@@ -21,7 +21,7 @@ namespace ET.Client
         public static void PlayerMove(this MyPlayerCacheDataComponent self, long deltaTime)
         {
             var unitEntity = self.GetParent<ClientUnitEntity>();
-            if (ClientBuffHelper.IsRigidity(unitEntity))
+            if (ClientBuffStatusHelper.IsRigidity(unitEntity))
             {
                 Log.Info("僵直中...");
                 return;

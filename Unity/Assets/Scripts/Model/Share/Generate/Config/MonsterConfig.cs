@@ -58,15 +58,25 @@ namespace ET
 
 	public partial class MonsterConfig: ProtoObject, IConfig
 	{
-		/// <summary>Id</summary>
+		/// <summary>
+		/// Id
+		/// </summary>
 		public long Id { get; set; }
-		/// <summary>Note说明</summary>
+		/// <summary>
+		/// Note说明
+		/// </summary>
 		public string Note { get; set; }
-		/// <summary>名称</summary>
+		/// <summary>
+		/// 名称
+		/// </summary>
 		public string Name { get; set; }
-		/// <summary>Asset资源名称</summary>
+		/// <summary>
+		/// Asset资源名称
+		/// </summary>
 		public string AssetName { get; set; }
-		/// <summary>普攻技能</summary>
+		/// <summary>
+		/// 普攻技能
+		/// </summary>
 		public int AttackSkill { get; set; }
 
 	}

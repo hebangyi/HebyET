@@ -25,9 +25,12 @@ namespace ET.Client
             {
                 UseSkillCacheCD(unitEntity, skillId);
             }
+            else if(response.Error == ErrorCore.ERR_RPCReapted)
+            {
+            }
             else
             {
-                Log.Info($"Skill Is Error : {response.Error}]");
+                Log.Error($"Use Skill Error : {response.Error}]");
             }
         }
         

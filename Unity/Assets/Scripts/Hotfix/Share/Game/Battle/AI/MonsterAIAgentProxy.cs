@@ -30,22 +30,22 @@ namespace ET
 
         public void DoChaseAction()
         {
-            this.UnitEntity.GetComponent<MonsterStateMachineComponent>().ChangeState(MachineStateEnum.Chase);
+            // this.UnitEntity.GetComponent<MonsterStateMachineComponent>().ChangeState(MachineStateEnum.Chase);
         }
 
         public void DoFightAction()
         {
-            this.UnitEntity.GetComponent<MonsterStateMachineComponent>().ChangeState(MachineStateEnum.Fight);
+            // this.UnitEntity.GetComponent<MonsterStateMachineComponent>().ChangeState(MachineStateEnum.Fight);
         }
 
         public void DoPatrolAction()
         {
-            this.UnitEntity.GetComponent<MonsterStateMachineComponent>().ChangeState(MachineStateEnum.Patrol);
+            // this.UnitEntity.GetComponent<MonsterStateMachineComponent>().ChangeState(MachineStateEnum.Patrol);
         }
 
         public void DoGoHomeAction()
         {
-            this.UnitEntity.GetComponent<MonsterStateMachineComponent>().ChangeState(MachineStateEnum.GoHome);
+            // this.UnitEntity.GetComponent<MonsterStateMachineComponent>().ChangeState(MachineStateEnum.GoHome);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ET
 {
-    [Buff(BuffTypeEnum.Damage)]
+    [Buff(BuffHandlerType.Damage)]
     public class DamageBuffExecutor: IBuffExecutor
     {
         public void Enter(UnitEntity unitEntity, BuffData buffData)

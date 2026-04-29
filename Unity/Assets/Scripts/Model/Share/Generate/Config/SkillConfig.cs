@@ -58,23 +58,41 @@ namespace ET
 
 	public partial class SkillConfig: ProtoObject, IConfig
 	{
-		/// <summary>Id</summary>
+		/// <summary>
+		/// Id
+		/// </summary>
 		public long Id { get; set; }
-		/// <summary>技能CD</summary>
+		/// <summary>
+		/// 技能CD
+		/// </summary>
 		public int CDTime { get; set; }
-		/// <summary>是否技能动画</summary>
+		/// <summary>
+		/// 是否技能动画
+		/// </summary>
 		public bool IsSkillAnimation { get; set; }
-		/// <summary>技能动画开始时间</summary>
+		/// <summary>
+		/// 技能动画开始时间
+		/// </summary>
 		public int SkillAnimationSTime { get; set; }
-		/// <summary>技能动画标签</summary>
+		/// <summary>
+		/// 技能动画标签
+		/// </summary>
 		public string SkillAniTag { get; set; }
-		/// <summary>能否被打断</summary>
+		/// <summary>
+		/// 能否被打断
+		/// </summary>
 		public bool CanBeInterrupted { get; set; }
-		/// <summary>打断动画</summary>
+		/// <summary>
+		/// 打断动画
+		/// </summary>
 		public string InterruptSkillAniTag { get; set; }
-		/// <summary>Buff开始偏移释放时间</summary>
-		public int BuffOffSetSTime { get; set; }
-		/// <summary>buff执行栈</summary>
+		/// <summary>
+		/// buff栈开始偏移释放时间
+		/// </summary>
+		public int BuffStackStartTime { get; set; }
+		/// <summary>
+		/// buff执行栈
+		/// </summary>
 		public BuffStack[] BuffStacks { get; set; }
 
 	}
