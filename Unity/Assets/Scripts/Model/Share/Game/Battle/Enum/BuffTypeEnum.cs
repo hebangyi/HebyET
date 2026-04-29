@@ -9,6 +9,6 @@
     // buff持续状态
     public enum BuffStatus
     {
-        Rigidity = 0, // 僵值
+        Rigidity = 0, // 僵直
     }
 }
