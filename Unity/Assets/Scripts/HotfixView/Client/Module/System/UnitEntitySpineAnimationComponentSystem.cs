@@ -53,16 +53,24 @@ namespace ET.Client
            }
 
            var startTime = Math.Min(time, animation.Duration);
-           self.SkeletonAnimation.state.SetAnimation(0, name, isLoop);
+           // self.SkeletonAnimation.state.SetAnimation(0, name, isLoop);
+           self.SkeletonAnimation.AnimationState.SetAnimation(0, name, isLoop);
+           
+           
            // 设置轨道
            TrackEntry currentTrack = self.SkeletonAnimation.AnimationState.GetCurrent(0);
            if (currentTrack != null)
            {
                currentTrack.TrackTime = startTime;
            }
+
+           if (!isLoop)
+           {
+               self.SkeletonAnimation.AnimationState.AddAnimation(0, "idle", true, 0f); 
+           }
        }
 
-       public static void SetAnimationTimeScla(this UnitEntitySpineAnimationComponent self, float timeScale)
+       public static void SetAnimationTimeScale(this UnitEntitySpineAnimationComponent self, float timeScale)
        {
            if (self.SkeletonAnimation == null)
            {

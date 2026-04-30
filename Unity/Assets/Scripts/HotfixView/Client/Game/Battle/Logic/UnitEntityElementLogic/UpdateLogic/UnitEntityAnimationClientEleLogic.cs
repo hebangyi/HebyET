@@ -1,4 +1,6 @@
-﻿namespace ET.Client
+﻿using System;
+
+namespace ET.Client
 {
     [UnitEntityViewLogic]
     public class UnitEntityAnimationClientEleLogic : BaseClientEleLogic<UnitEntityAnimationStateData>
